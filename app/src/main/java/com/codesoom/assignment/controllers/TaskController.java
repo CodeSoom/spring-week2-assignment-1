@@ -2,9 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,11 @@ public class TaskController {
     @GetMapping
     public List<Task> list() {
         return taskRepository.findAll();
+    }
+
+    @PostMapping
+    public Task create(@RequestBody Task task) {
+        return taskRepository.save(task);
     }
 
 }
