@@ -1,5 +1,6 @@
 package com.codesoom.assignment.task;
 
+import com.codesoom.assignment.exception.NoContentException;
 import com.codesoom.assignment.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,12 +42,20 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteTask(@PathVariable Long id){
-        Task deleteTask = findTaskById(id);
+    public ResponseEntity deleteTask(@PathVariable Long id) throws NoContentException {
+        Task deleteTask = findTaskByIdForDelete(id);
         tasks.remove(deleteTask);
         return new ResponseEntity<>(deleteTask, HttpStatus.OK);
     }
-    
+
+    private Task findTaskByIdForDelete(Long id) throws NoContentException {
+        for (Task task : tasks){
+            if (task.getId() == id)
+                return task;
+        }
+        throw new NoContentException("no task id : " + id);
+    }
+
     public Long plusId(){
         return id++;
     }
