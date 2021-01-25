@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/tasks")
 public class TaskController {
     @GetMapping
-    public String fetchTask() {
+    public String list() {
         return "List";
     }
 
     @GetMapping("/{id:[0-9]+}")
-    public String fetchList() {
+    public String detail() {
         return "Detail";
     }
 
