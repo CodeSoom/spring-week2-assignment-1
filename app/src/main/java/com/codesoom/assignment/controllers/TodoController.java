@@ -11,16 +11,16 @@ import java.util.Objects;
 
 @RestController
 public class TodoController {
+    private static final String TASKS_URL = "/tasks";
     private List<Task> tasks = new ArrayList<>();
     private Long lastId = 0L;
-    private static final String TASKS_URL = "/tasks";
 
     @GetMapping(TASKS_URL)
     public List<Task> getTaskList() {
         return tasks;
     }
 
-    @GetMapping(TASKS_URL+"/{id}")
+    @GetMapping(TASKS_URL + "/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Long id) {
         Task task = findTask(id);
         if (Objects.isNull(task)) {
@@ -36,18 +36,17 @@ public class TodoController {
         return ResponseEntity.created(URI.create("/tasks")).body(task);
     }
 
-    @PutMapping(TASKS_URL+"/{id}")
+    @PutMapping(TASKS_URL + "/{id}")
     public ResponseEntity<Task> putTask(@PathVariable Long id, @RequestBody Task inputTask) {
         Task task = findTask(id);
         if (Objects.isNull(task)) {
             return ResponseEntity.notFound().build();
         }
-
         task.setTitle(inputTask.getTitle());
         return ResponseEntity.ok(task);
     }
 
-    @PatchMapping(TASKS_URL+"/{id}")
+    @PatchMapping(TASKS_URL + "/{id}")
     public ResponseEntity<Task> patchTask(@PathVariable Long id, @RequestBody Task inputTask) {
         Task task = findTask(id);
         if (Objects.isNull(task)) {
@@ -57,7 +56,7 @@ public class TodoController {
         return ResponseEntity.ok(task);
     }
 
-    @DeleteMapping(TASKS_URL+"/{id}")
+    @DeleteMapping(TASKS_URL + "/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
         Task removeTask = findTask(id);
         if (tasks.contains(removeTask)) {
