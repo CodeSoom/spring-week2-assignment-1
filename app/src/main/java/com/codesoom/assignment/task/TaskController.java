@@ -1,10 +1,7 @@
 package com.codesoom.assignment.task;
 
 import com.codesoom.assignment.exception.ResourceNotFoundException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +10,8 @@ import java.util.List;
 @RestController
 public class TaskController {
 
-    private static List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
+    private Long id = 1L;
 
     @GetMapping
     public List<Task> getTasks(){
@@ -24,6 +22,17 @@ public class TaskController {
     public Task getTaskById(@PathVariable Long id) throws ResourceNotFoundException {
         Task task = findTaskById(id);
         return task;
+    }
+
+    @PostMapping
+    public Task createTask(@RequestBody Task task){
+        Task newTask = new Task(plusId(), task.getTitle());
+        tasks.add(newTask);
+        return newTask;
+    }
+
+    public Long plusId(){
+        return id++;
     }
 
     public Task findTaskById(Long id) throws ResourceNotFoundException {
