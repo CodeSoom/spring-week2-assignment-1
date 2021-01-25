@@ -1,6 +1,7 @@
 package com.codesoom.assignment.task;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,11 @@ public class TaskController {
     @GetMapping
     public List<Task> getTasks(){
         return tasks;
+    }
+
+    @GetMapping("/{id}")
+    public Task getTaskById(@PathVariable Long id){
+        return tasks.get((int) (id-1));
     }
 
 }
