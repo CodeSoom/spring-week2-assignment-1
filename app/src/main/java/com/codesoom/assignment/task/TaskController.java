@@ -1,6 +1,8 @@
 package com.codesoom.assignment.task;
 
 import com.codesoom.assignment.exception.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,38 +16,37 @@ public class TaskController {
     private Long id = 1L;
 
     @GetMapping
-    public List<Task> getTasks(){
-        return tasks;
+    public ResponseEntity getTasks(){
+        return new ResponseEntity<>(tasks, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Task getTaskById(@PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity getTaskById(@PathVariable Long id) throws ResourceNotFoundException {
         Task task = findTaskById(id);
-        return task;
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task){
+    public ResponseEntity createTask(@RequestBody Task task){
         Task newTask = new Task(plusId(), task.getTitle());
         tasks.add(newTask);
-        return newTask;
+        return new ResponseEntity<>(newTask, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Task updateTask(@RequestBody Task task, @PathVariable Long id){
+    public ResponseEntity updateTask(@RequestBody Task task, @PathVariable Long id){
         Task crtTask = findTaskById(id);
         crtTask.updateTitle(task.getTitle());
-        return crtTask;
+        return new ResponseEntity<>(crtTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public Task deleteTask(@PathVariable Long id){
+    public ResponseEntity deleteTask(@PathVariable Long id){
         Task deleteTask = findTaskById(id);
         tasks.remove(deleteTask);
-        return deleteTask;
+        return new ResponseEntity<>(deleteTask, HttpStatus.OK);
     }
-
-
+    
     public Long plusId(){
         return id++;
     }
