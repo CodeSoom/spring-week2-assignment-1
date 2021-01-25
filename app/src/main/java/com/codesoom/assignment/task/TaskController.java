@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RequestMapping("/tasks")
 @RestController
 public class TaskController {
@@ -42,7 +43,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteTask(@PathVariable Long id) throws NoContentException {
+    public ResponseEntity deleteTask(@PathVariable Long id) {
         Task deleteTask = findTaskById(id);
         tasks.remove(deleteTask);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
