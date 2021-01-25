@@ -37,7 +37,15 @@ public class TaskController {
         crtTask.updateTitle(task.getTitle());
         return crtTask;
     }
-    
+
+    @DeleteMapping("/{id}")
+    public Task deleteTask(@PathVariable Long id){
+        Task deleteTask = findTaskById(id);
+        tasks.remove(deleteTask);
+        return deleteTask;
+    }
+
+
     public Long plusId(){
         return id++;
     }
