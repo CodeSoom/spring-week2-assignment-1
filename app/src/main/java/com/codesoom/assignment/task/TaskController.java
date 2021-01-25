@@ -31,6 +31,13 @@ public class TaskController {
         return newTask;
     }
 
+    @PutMapping("/{id}")
+    public Task updateTask(@RequestBody Task task, @PathVariable Long id){
+        Task crtTask = findTaskById(id);
+        crtTask.updateTitle(task.getTitle());
+        return crtTask;
+    }
+    
     public Long plusId(){
         return id++;
     }
