@@ -3,7 +3,7 @@ import axios from 'axios'
 class {
   onCreate() {
     this.state = {
-      tasks: []
+      tasks: [],
     };
 
     this.loadTasks();
@@ -13,16 +13,32 @@ class {
     const { data } = await axios.get('http://localhost:8080/tasks');
     this.state.tasks = data;
   }
+
+  async addTask(){
+
+    const title = this.getEl('title').value;
+
+    await axios.post('http://localhost:8080/tasks', {
+      title,
+    });
+    await this.loadTasks();
+  }
+
 }
 
 <layout>
 <h1>ToDo</h1>
  <ol>
-    <for |task| of=state.tasks>
+    <for|task| of=state.tasks>
         <li>
-            ${tasks.title}
+            ${task.title}
         </li>
      </for>
  </ol>
+ <p>
+  <label for:scoped="title">할 일</label>
+  <input id:scoped="title" type="text" key="title" />
+  <button on-click("addTask") type="button">추가</button>
+ </p>
  </layout>
 
