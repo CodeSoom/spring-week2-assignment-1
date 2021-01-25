@@ -26,4 +26,20 @@ public class TaskController {
         tasks.put(task.getId(), task);
         return task;
     }
+
+    @PutMapping("/{id}")
+    public Task putTask(@PathVariable long id, @RequestBody Task newTask) {
+        return updateTask(id, newTask);
+    }
+
+    @PatchMapping("/{id}")
+    public Task patchTask(@PathVariable long id, @RequestBody Task newTask) {
+        return updateTask(id, newTask);
+    }
+
+    private Task updateTask(long id, Task newTask) {
+        Task task = tasks.get(id);
+        task.setTitle(newTask.getTitle());
+        return task;
+    }
 }
