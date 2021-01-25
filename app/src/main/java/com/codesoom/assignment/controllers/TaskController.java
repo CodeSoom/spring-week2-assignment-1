@@ -1,7 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.repositories.TaskRepository;
+import com.codesoom.assignment.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,20 +10,25 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
 
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
-    public TaskController(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping
     public List<Task> list() {
-        return taskRepository.findAll();
+        return taskService.getTasks();
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-        return taskRepository.save(task);
+        return taskService.addTask(task);
+    }
+
+    @GetMapping("/{id}")
+    public Task read(@PathVariable Long id) {
+        return taskService.getTask(id);
     }
 
 }
