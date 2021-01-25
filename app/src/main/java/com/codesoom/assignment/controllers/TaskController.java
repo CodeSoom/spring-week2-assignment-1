@@ -2,10 +2,7 @@ package com.codesoom.assignment.controllers;
 
 
 import com.codesoom.assignment.models.Task;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +12,26 @@ import java.util.List;
 public class TaskController {
 
     private List<Task> tasks = new ArrayList<>();
-
+    private Long newId = 0L;
 
     @GetMapping
-    public String list()
+    public List<Task> list()
     {
-        return "LIST";
+        return tasks;
     }
 
     @PostMapping
-    public String create()
+    public Task create(@RequestBody Task task)
     {
-        return "Created";
+        task.setId(generateId());
+        tasks.add(task);
+        return task;
     }
 
+    private Long generateId() {
+        newId++;
+        return newId;
+    }
 
 
 }
