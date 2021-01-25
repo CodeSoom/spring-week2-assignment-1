@@ -29,8 +29,11 @@ public class TaskRepository {
         return Optional.ofNullable(taskMap.get(id));
     }
 
+    public void delete(Long id) {
+        taskMap.remove(id);
+    }
+
     public void removeAll() {
         taskMap.clear();
     }
-
 }

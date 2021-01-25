@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TaskRepositoryTest {
 
@@ -72,6 +71,17 @@ class TaskRepositoryTest {
         Optional<Task> task = taskRepository.findOne(notExistedId);
 
         assertFalse(task.isPresent());
+    }
+
+    @Test
+    void removeTask() {
+        Task task1 = new Task(1L, "task1");
+
+        taskRepository.save(task1);
+        taskRepository.delete(task1.getId());
+        Optional<Task> task = taskRepository.findOne(task1.getId());
+
+        assertTrue(task.isEmpty());
     }
 
 }

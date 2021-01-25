@@ -41,9 +41,21 @@ public class TaskService {
 
     public Task updateTask(Long id, Task newTask) {
         Task task = getTask(id);
-        task.changeTitle(newTask.getTitle());
+        task.update(newTask);
 
         return taskRepository.save(task);
+    }
+
+    public void deleteTask(Long id) {
+        if (!isExist(id)) {
+            // TODO : 404 NOT FOUND
+        }
+
+        taskRepository.delete(id);
+    }
+
+    private boolean isExist(Long id) {
+        return taskRepository.findOne(id).isPresent();
     }
 
 }

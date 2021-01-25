@@ -15,8 +15,8 @@ public class Task {
         this.id = id;
     }
 
-    public void changeTitle(String title) {
-        this.title = title;
+    public void update(Task task) {
+        this.title = task.getTitle();
     }
 
     public Long getId() {
