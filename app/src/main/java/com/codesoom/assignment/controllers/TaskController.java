@@ -23,12 +23,21 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task add(@RequestBody Task task) {
+    public Task addTask(@RequestBody Task task) {
         task.setId(generateId());
         tasks.addTask(task);
         return task;
     }
 
+    @PutMapping("{id}")
+    public Task updateTask(@PathVariable("id") Long id, @RequestBody Task source) {
+        Task task = tasks.findTask(id).orElse(null);
+        if (task == null) {
+            return null;
+        }
+        task.setTitle(source.getTitle());
+        return task;
+    }
 
     private Long generateId() {
         return taskId++;
