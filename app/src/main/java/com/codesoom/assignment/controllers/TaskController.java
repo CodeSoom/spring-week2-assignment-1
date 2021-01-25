@@ -46,7 +46,7 @@ public class TaskController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+    public Task handleUpdate(@PathVariable Long id, @RequestBody Task task) {
         if (findTask(id) == null) {
             throw notFoundException;
         }
@@ -54,6 +54,16 @@ public class TaskController {
         return task;
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void handleDelete(@PathVariable Long id) {
+        if (findTask(id) == null) {
+            throw notFoundException;
+        }
+        Task task = findTask(id);
+        tasks.remove(task);
+    }
+    
     private Long generateId() {
         newId += 1;
         return newId;
@@ -67,4 +77,3 @@ public class TaskController {
     }
 
 }
-
