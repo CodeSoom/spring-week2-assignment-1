@@ -29,26 +29,51 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task createTask(@RequestBody Task task) {
+    public ResponseEntity createTask(@RequestBody Task task) {
         Task newTask = new Task();
         newTask.generateId(tasks.size());
         newTask.setTitle(task.getTitle());
 
         tasks.add(newTask);
 
-        return newTask;
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(newTask);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Task updateTask(
+    public ResponseEntity updateTask(
             @PathVariable long id,
             @RequestBody Task task) {
 
         Task sourceTask = findTaskById(id);
         sourceTask.setTitle(task.getTitle());
 
-        return sourceTask;
+        return ResponseEntity.ok(sourceTask);
+    }
+
+    @PatchMapping ("/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity updateTaskDetail(
+            @PathVariable long id,
+            @RequestBody Task task) {
+
+        Task sourceTask = findTaskById(id);
+        sourceTask.setTitle(task.getTitle());
+
+        return ResponseEntity.ok(sourceTask);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteTask(@PathVariable long id) {
+
+        Task task = findTaskById(id);
+        tasks.remove(task);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     private Task findTaskById(long id) {
