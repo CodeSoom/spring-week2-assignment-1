@@ -1,9 +1,9 @@
 package com.codesoom.assignment.controllers;
 
 // 1. Read Collection - GET /tasks ==> 완료
-// 2. Read Item - GET /tasks/{id}
+// 2. Read Item - GET /tasks/{id} ==> 완료
 // 3. Create - POST /tasks ==> 완료
-// 4. update - PUT/PATCH /tasks{id}
+// 4. update - PUT/PATCH /tasks{id} ==> 완료
 // 5. delete - DELETE /tasks{id}
 
 import com.codesoom.assignment.NotFoundException;
@@ -29,8 +29,8 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task getTaskById(@PathVariable Long id){
-        if(findTask(id) == null){
+    public Task getTaskById(@PathVariable Long id) {
+        if (findTask(id) == null) {
             throw notFoundException;
         }
         return findTask(id);
@@ -41,6 +41,16 @@ public class TaskController {
     public Task handleCreate(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
+        return task;
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+        if (findTask(id) == null) {
+            throw notFoundException;
+        }
+        findTask(id).setTitle(task.getTitle());
         return task;
     }
 
