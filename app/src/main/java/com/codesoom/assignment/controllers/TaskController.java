@@ -17,12 +17,18 @@ public class TaskController {
         return tasks.getTasks();
     }
 
+    @GetMapping("{id}")
+    public Task getTask(@PathVariable("id") Long id) {
+        return tasks.findTask(id).orElse(null);
+    }
+
     @PostMapping
     public Task add(@RequestBody Task task) {
         task.setId(generateId());
         tasks.addTask(task);
         return task;
     }
+
 
     private Long generateId() {
         return taskId++;
