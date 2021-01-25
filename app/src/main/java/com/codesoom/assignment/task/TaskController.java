@@ -45,10 +45,10 @@ public class TaskController {
     public ResponseEntity deleteTask(@PathVariable Long id) throws NoContentException {
         Task deleteTask = findTaskById(id);
         tasks.remove(deleteTask);
-        return new ResponseEntity<>(deleteTask, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    
+
     public Long plusId(){
         return id++;
     }
