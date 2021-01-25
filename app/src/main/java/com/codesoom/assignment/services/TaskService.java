@@ -1,6 +1,7 @@
 package com.codesoom.assignment.services;
 
-import com.codesoom.assignment.IdGenerator;
+import com.codesoom.assignment.utils.IdGenerator;
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class TaskService {
     public Task getTask(Long id) {
         Optional<Task> task = taskRepository.findOne(id);
         if (task.isEmpty()) {
-            // TODO : 404 NOT FOUND
+            throw new TaskNotFoundException();
         }
 
         return task.get();
@@ -48,7 +49,7 @@ public class TaskService {
 
     public void deleteTask(Long id) {
         if (!isExist(id)) {
-            // TODO : 404 NOT FOUND
+            throw new TaskNotFoundException();
         }
 
         taskRepository.delete(id);
