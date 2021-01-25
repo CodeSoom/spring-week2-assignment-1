@@ -43,19 +43,12 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteTask(@PathVariable Long id) throws NoContentException {
-        Task deleteTask = findTaskByIdForDelete(id);
+        Task deleteTask = findTaskById(id);
         tasks.remove(deleteTask);
-        return new ResponseEntity<>(deleteTask, HttpStatus.OK);
+        return new ResponseEntity<>(deleteTask, HttpStatus.NO_CONTENT);
     }
 
-    private Task findTaskByIdForDelete(Long id) throws NoContentException {
-        for (Task task : tasks){
-            if (task.getId() == id)
-                return task;
-        }
-        throw new NoContentException("no task id : " + id);
-    }
-
+    
     public Long plusId(){
         return id++;
     }
