@@ -36,6 +36,14 @@ public class TaskController {
         return task;
     }
 
+    @PutMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task newTask) throws IOException {
+        Task oldTask = findById(id);
+        oldTask.setTitle(newTask.getTitle());
+        return newTask;
+    }
+
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws IOException {
@@ -51,7 +59,10 @@ public class TaskController {
     private Task findById(Long id) throws IOException {
         Optional<Task> task = tasks.stream().filter(i -> i.getId().equals(id)).findFirst();
 
-        if (task.isEmpty()) throw new NotFoundException();
+        if (task.isEmpty()) {
+            throw new NotFoundException();
+        }
+
         return task.get();
     }
 }
