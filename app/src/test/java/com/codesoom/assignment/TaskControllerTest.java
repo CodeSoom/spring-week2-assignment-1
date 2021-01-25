@@ -3,6 +3,7 @@ package com.codesoom.assignment;
 import com.codesoom.assignment.controllers.TaskController;
 import com.codesoom.assignment.domain.Task;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.checkerframework.dataflow.qual.TerminatesExecution;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,21 @@ public class TaskControllerTest {
         Task updatedTask = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Task.class);
         assertEquals("id", createdTask.getId(), updatedTask.getId());
         assertEquals("title", "Do Work", updatedTask.getTitle());
+    }
+
+    @Test
+    public void testDeleteTask() throws Exception {
+        Task expectedTask = new Task(0, "Get Sleep");
+        Task createdTask = createTask(expectedTask.getTitle());
+
+        assertEquals("id", expectedTask.getId(), createdTask.getId());
+        assertEquals("title", expectedTask.getTitle(), createdTask.getTitle());
+
+        mockMvc.perform(delete("/tasks/" + createdTask.getId()))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/tasks/" + createdTask.getId()))
+                .andExpect(status().isNotFound());
     }
 
     private Task createTask(String title) throws Exception {

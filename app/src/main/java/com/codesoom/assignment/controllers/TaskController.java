@@ -1,7 +1,9 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domain.Task;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -17,7 +19,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public Task getTask(@PathVariable long id) {
-        return tasks.get(id);
+        return getTaskById(id);
     }
 
     @PostMapping
@@ -41,5 +43,19 @@ public class TaskController {
         Task task = tasks.get(id);
         task.setTitle(newTask.getTitle());
         return task;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable long id) {
+        Task task = getTask(id);
+        tasks.remove(task.getId());
+    }
+
+    private Task getTaskById(long id) throws IllegalArgumentException {
+        return findTaskById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found"));
+    }
+
+    private Optional<Task> findTaskById(long id) {
+        return Optional.ofNullable(tasks.get(id));
     }
 }
