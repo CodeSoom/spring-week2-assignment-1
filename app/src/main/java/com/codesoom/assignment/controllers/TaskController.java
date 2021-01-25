@@ -31,4 +31,9 @@ public class TaskController {
         return taskService.getTask(id);
     }
 
+    @PutMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task newTask) {
+        return taskService.updateTask(id, newTask);
+    }
+
 }

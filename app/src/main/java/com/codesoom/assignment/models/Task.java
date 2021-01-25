@@ -15,6 +15,10 @@ public class Task {
         this.id = id;
     }
 
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
     public Long getId() {
         return id;
     }
@@ -30,5 +34,4 @@ public class Task {
                 ", title='" + title + '\'' +
                 '}';
     }
-
 }

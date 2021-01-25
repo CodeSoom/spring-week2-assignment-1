@@ -2,6 +2,7 @@ package com.codesoom.assignment.repositories;
 
 import com.codesoom.assignment.IdGenerator;
 import com.codesoom.assignment.models.Task;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,12 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class TaskRepositoryTest {
 
     TaskRepository taskRepository;
-    IdGenerator idGenerator;
 
     @BeforeEach
     void setUp() {
-        idGenerator = new IdGenerator();
-        taskRepository = new TaskRepository(idGenerator);
+        taskRepository = new TaskRepository();
+    }
+
+    @AfterEach
+    void afterEach() {
+        taskRepository.removeAll();
     }
 
     @Test
@@ -31,8 +35,8 @@ class TaskRepositoryTest {
 
     @Test
     void getTasks() {
-        Task task1 = new Task(idGenerator.generateId(), "task1");
-        Task task2 = new Task(idGenerator.generateId(), "task2");
+        Task task1 = new Task(1L, "task1");
+        Task task2 = new Task(2L, "task2");
 
         taskRepository.save(task1);
         taskRepository.save(task2);
@@ -43,7 +47,7 @@ class TaskRepositoryTest {
 
     @Test
     void addTask() {
-        Task task1 = new Task(idGenerator.generateId(), "task1");
+        Task task1 = new Task(1L, "task1");
 
         taskRepository.save(task1);
         List<Task> tasks = taskRepository.findAll();
@@ -53,7 +57,7 @@ class TaskRepositoryTest {
 
     @Test
     void getTask() {
-        Task task1 = new Task(idGenerator.generateId(), "task1");
+        Task task1 = new Task(1L, "task1");
 
         taskRepository.save(task1);
         Optional<Task> task = taskRepository.findOne(task1.getId());

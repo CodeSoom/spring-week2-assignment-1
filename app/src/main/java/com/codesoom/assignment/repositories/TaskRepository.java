@@ -15,20 +15,11 @@ public class TaskRepository {
 
     private Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
-    private final IdGenerator idGenerator;
-
-    public TaskRepository(IdGenerator idGenerator) {
-        this.idGenerator = idGenerator;
-    }
-
     public List<Task> findAll() {
         return new ArrayList<>(taskMap.values());
     }
 
     public Task save(Task task) {
-        Long newId = idGenerator.generateId();
-        task.setId(newId);
-
         taskMap.put(task.getId(), task);
 
         return task;
@@ -37,4 +28,9 @@ public class TaskRepository {
     public Optional<Task> findOne(Long id) {
         return Optional.ofNullable(taskMap.get(id));
     }
+
+    public void removeAll() {
+        taskMap.clear();
+    }
+
 }
