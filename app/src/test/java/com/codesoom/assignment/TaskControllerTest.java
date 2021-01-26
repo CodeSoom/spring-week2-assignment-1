@@ -1,5 +1,9 @@
 package com.codesoom.assignment;
 
+import com.codesoom.assignment.application.TaskService;
+import com.codesoom.assignment.domain.Task;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -7,10 +11,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.io.File;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,6 +31,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TaskControllerTest {
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
+    @Autowired
+    TaskService taskService;
+
+    Task createTask(String title) throws Exception {
+        MvcResult mvcResult = mockMvc.perform(post("/tasks")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{\"title\":\"" + title + "\"}"))
+                .andReturn();
+        return objectMapper.readValue(mvcResult.getRequest().getContentAsString(), Task.class);
+    }
 
     @Nested
     @DisplayName("GET 메소드는")
@@ -39,7 +61,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("만약 없는 task id를 요청한다면")
+        @DisplayName("만약 존재하지 않 task id를 요청한다면")
         class Context_invalid_task_id {
             @Test
             @DisplayName("404 에러를 리턴한다")
@@ -48,5 +70,46 @@ class TaskControllerTest {
                         .andExpect(status().isNotFound());
             }
         }
+
+        @Nested
+        @DisplayName("만약 존재하는 task id를 요청한다면")
+        class Context_exist_id {
+            @Test
+            @DisplayName("task 객체를 리턴한다")
+            void it_returns_task_object() throws Exception {
+                Task createdTask = createTask("Get Sleep");
+                mockMvc.perform(get("/tasks/0"))
+                        .andExpect(status().isOk())
+                        .andExpect(content().json(objectMapper.writeValueAsString(createdTask)));
+                clear();
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("POST 메소드는")
+    class Describe_POST {
+        @Nested
+        @DisplayName("task를 생성한다면")
+        class Context_create_task {
+            @Test
+            @DisplayName("생성한 task를 리턴한다")
+            void it_return_created_task() throws Exception {
+                Task expectedTask = new Task(0, "Get Sleep");
+                mockMvc.perform(post("/tasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(expectedTask)))
+                        .andExpect(status().isCreated());
+                clear();
+            }
+        }
+    }
+
+    @After
+    public void clear() {
+        taskService.clearTasks();
     }
 }
+
+
