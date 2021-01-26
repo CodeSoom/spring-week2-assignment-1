@@ -1,6 +1,7 @@
 package com.codesoom.assignment.application;
 
 import com.codesoom.assignment.domain.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -11,8 +12,8 @@ import java.util.*;
 
 @Service
 public class TaskService {
-    private Map<Long, Task> tasks = new HashMap<>();
-    private int idCounter = 0;
+    private final Map<Long, Task> tasks = new HashMap<>();
+    private final IdGenerator idGenerator = new IdGenerator();
 
     public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
@@ -23,7 +24,7 @@ public class TaskService {
     }
 
     public Task createNewTask(String title) {
-        Task task = new Task(idCounter++, title);
+        Task task = new Task(idGenerator.generateNewTaskId(), title);
         tasks.put(task.getId(), task);
         System.out.println("Completed to create task - " + task.toString());
         return task;
@@ -41,7 +42,6 @@ public class TaskService {
         tasks.remove(task.getId());
     }
 
-
     private Task getTaskById(long id) throws IllegalArgumentException {
         return findTaskById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found"));
     }
@@ -52,6 +52,6 @@ public class TaskService {
 
     public void clearTasks() {
         tasks.clear();
-        idCounter = 0;
+        idGenerator.resetId();
     }
 }

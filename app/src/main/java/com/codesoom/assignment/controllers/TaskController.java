@@ -14,7 +14,7 @@ import java.util.*;
 public class TaskController {
 
     @Autowired
-    TaskService taskService = new TaskService();
+    TaskService taskService;
 
     @GetMapping
     public List<Task> getTasks() {
