@@ -10,17 +10,47 @@ class {
             tasks: [],
         };
         this.loadTasks();
+
     }
+
     async loadTasks() {
         const { data } = await axios.get('http://localhost:8080/tasks');
+        console.log("loadTasks() data : " + data);
         this.state.tasks = data;
     }
+
     async addTask() {
         const title = this.getEl('title').value;
         await axios.post('http://localhost:8080/tasks', {
             title,
         });
         await this.loadTasks();
+    }
+
+    async delete(taskId) {
+        await axios.delete('http://localhost:8080/tasks/' + taskId);
+        await this.loadTasks();
+    }
+
+    async modify(taskId) {
+        console.log(taskId);
+    }
+
+    async cancel(taskId) {
+        console.log(taskId);
+    }
+
+    async update(taskId) {
+        console.log(taskId);
+    }
+}
+
+style {
+    .show {
+        display: list-item;
+    }
+    .hide {
+        display: none;
     }
 }
 
@@ -29,6 +59,9 @@ class {
     <for|task| of=state.tasks>
         <li>
             ${task.title}
+            <button type="button" on-click("modify", task.id)> 수정 </button>
+
+            <button type="button" on-click("delete", task.id)> 삭제 </button>
         </li>
     </for>
 </ol>
@@ -37,7 +70,7 @@ class {
         할 일
     </label>
     <input type="text" id:scoped="title" key="title" />
-    <button type="button" on-click("addTask")>>
+    <button type="button" on-click("addTask")>
         추가
     </button>
 
