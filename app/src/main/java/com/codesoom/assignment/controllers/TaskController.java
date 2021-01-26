@@ -1,15 +1,9 @@
 package com.codesoom.assignment.controllers;
 
-// 1. Read Collection - GET /tasks ==> 완료
-// 2. Read Item - GET /tasks/{id} ==> 완료
-// 3. Create - POST /tasks ==> 완료
-// 4. update - PUT/PATCH /tasks{id} ==> 완료
-// 5. delete - DELETE /tasks{id}
-
 import com.codesoom.assignment.NotFoundException;
 import com.codesoom.assignment.models.Task;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +57,7 @@ public class TaskController {
         Task task = findTask(id);
         tasks.remove(task);
     }
-    
+
     private Long generateId() {
         newId += 1;
         return newId;
