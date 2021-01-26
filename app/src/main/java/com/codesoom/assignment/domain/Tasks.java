@@ -11,7 +11,7 @@ public class Tasks {
     }
 
     public void addTask(Task task) {
-        Long generateId= generateId();
+        Long generateId = generateId();
         task.setId(generateId);
         tasks.put(generateId, task);
     }

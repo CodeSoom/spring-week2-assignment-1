@@ -34,11 +34,11 @@ class TasksTest {
     void remove() {
         tasks.addTask(task);
 
-        tasks.remove(task);
+        tasks.remove(1L);
 
         Task task = tasks.findTask(1L)
                 .orElse(null);
         assertNull(task);
-        assertEquals(0,tasks.size());
+        assertEquals(0, tasks.size());
     }
 }
