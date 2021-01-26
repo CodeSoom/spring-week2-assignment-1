@@ -15,9 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class TaskController {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
+    private final static String NO_SEARCH_ID = "입력하신 ID는 존재하지 않습니다.";
 
     @GetMapping("/tasks")
     public List<Task> list() {
@@ -25,11 +27,12 @@ public class TaskController {
     }
 
     @GetMapping("/tasks/{id}")
-    public String findOne(@PathVariable int id) {
-        if (!findTaskId(id)) {
-            return "입력하신 ID는 존재하지 않습니다.";
+    public String findOne(@PathVariable Long id) {
+        Task source = findTask(id);
+        if(source == null){
+            return NO_SEARCH_ID;
         }
-        return tasks.get(id -1).toString();
+        return source.toString();
     }
 
     @PostMapping("/tasks")
@@ -40,33 +43,27 @@ public class TaskController {
     }
 
     @RequestMapping(path = "/tasks/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
-    public String modify(@PathVariable int id, @RequestBody Task task) {
-        if (!findTaskId(id)) {
-            return "입력하신 ID는 존재하지 않습니다.";
+    public String modify(@PathVariable Long id, @RequestBody Task task) {
+        Task source = findTask(id);
+        if(source == null){
+            return NO_SEARCH_ID;
         }
-        Task source = findTask((long) id);
         source.setTitle(task.getTitle());
         return source.toString();
     }
 
     @DeleteMapping("/tasks/{id}")
-    public String delete(@PathVariable int id) {
-        if (!findTaskId(id)) {
-            return "입력하신 ID는 존재하지 않습니다.";
+    public String delete(@PathVariable Long id) {
+        Task source = findTask(id);
+        if(source == null){
+            return NO_SEARCH_ID;
         }
-        tasks.remove(id -1);
-        return "";
+        tasks.remove(source);
+        return "DELETE Success";
     }
 
     private Long generateId() {
         return ++newId;
-    }
-
-    private boolean findTaskId(int id) {
-        if (id == 0 ||  tasks.size() <= id -1 ) {
-            return false;
-        }
-        return true;
     }
 
     private Task findTask(Long id) {
