@@ -12,5 +12,5 @@ public class TaskControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public void handlerEmailExisted() {}
+    public void handlerNotFound() {}
 }
