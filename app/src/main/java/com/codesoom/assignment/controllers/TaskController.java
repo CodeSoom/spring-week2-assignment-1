@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/tasks")
 public class TaskController {
 
