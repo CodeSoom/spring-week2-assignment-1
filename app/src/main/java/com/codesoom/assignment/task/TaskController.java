@@ -30,7 +30,7 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity createTask(@RequestBody Task task){
-        Task newTask = new Task(plusId(), task.getTitle());
+        Task newTask = new Task(nextId(), task.getTitle());
         tasks.add(newTask);
         return new ResponseEntity<>(newTask, HttpStatus.CREATED);
     }
@@ -50,7 +50,7 @@ public class TaskController {
     }
 
 
-    public Long plusId(){
+    public Long nextId(){
         return id++;
     }
 
