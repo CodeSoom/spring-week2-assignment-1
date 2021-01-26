@@ -1,23 +1,26 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.NotFoundException;
+import com.codesoom.assignment.TaskRepository;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
 
-    private static Map<Long, Task> taskStore = new HashMap<>();
-    private Long newId = 0L;
+    TaskRepository taskRepository = new TaskRepository();
     NotFoundException notFoundException = new NotFoundException();
 
     @GetMapping
     public List<Task> getTaskList() {
-        return new ArrayList<>(taskStore.values());
+        return new ArrayList<>(taskRepository.taskStore.values());
     }
 
     @GetMapping("/{id}")
@@ -32,8 +35,8 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task handleCreate(@RequestBody Task task) {
-        task.setId(generateId());
-        taskStore.put(task.getId(), task);
+        task.setId(taskRepository.generateId());
+        taskRepository.taskStore.put(task.getId(), task);
         return task;
     }
 
@@ -43,7 +46,7 @@ public class TaskController {
         if (findTask(id).isEmpty()) {
             throw notFoundException;
         }
-        taskStore.replace(task.getId(), task);
+        taskRepository.taskStore.replace(task.getId(), task);
         return task;
     }
 
@@ -54,16 +57,11 @@ public class TaskController {
             throw notFoundException;
         }
         Optional<Task> task = findTask(id);
-        taskStore.remove(id);
-    }
-
-    private Long generateId() {
-        newId += 1;
-        return newId;
+        taskRepository.taskStore.remove(id);
     }
 
     public Optional<Task> findTask(Long id) {
-        return Optional.ofNullable(taskStore.get(id));
+        return Optional.ofNullable(taskRepository.taskStore.get(id));
     }
 
 }
