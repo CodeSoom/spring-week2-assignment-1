@@ -4,6 +4,7 @@ import com.codesoom.assignment.application.JsonTask;
 import com.codesoom.assignment.application.TaskApplicationService;
 import com.codesoom.assignment.application.TaskJsonTransfer;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,18 +14,25 @@ public class TaskController {
     TaskJsonTransfer transfer = new TaskJsonTransfer();
 
     @GetMapping
-    public String getAllTasks(){
-         return transfer.taskListToJson(taskApplicationService.getAllTasks()).orElseThrow();
+    public String getAllTasks() {
+        return transfer.taskListToJson(taskApplicationService.getAllTasks()).orElseThrow();
     }
 
     @GetMapping("/{id}")
-    public String getSpecificTask(@PathVariable Long id){
-        return taskApplicationService.findTask(id).flatMap(it -> transfer.taskToJson(it)).orElseThrow();
+    public ResponseEntity<?> getSpecificTask(@PathVariable Long id) {
+        return taskApplicationService.findTask(id)
+            .flatMap(
+                it -> transfer.taskToJson(it)
+            ).map(
+                it -> new ResponseEntity<>(it, HttpStatus.OK)
+            ).orElse(
+                new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
+            );
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createTask(@RequestBody JsonTask jsonTask){
+    public String createTask(@RequestBody JsonTask jsonTask) {
         Long createdTaskId = taskApplicationService.createTask(jsonTask.title);
         return taskApplicationService.findTask(createdTaskId).flatMap(it -> transfer.taskToJson(it)).orElseThrow();
     }
