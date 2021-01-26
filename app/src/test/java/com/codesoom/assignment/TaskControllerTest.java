@@ -2,6 +2,7 @@ package com.codesoom.assignment;
 
 import com.codesoom.assignment.application.TaskService;
 import com.codesoom.assignment.domain.Task;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.jupiter.api.DisplayName;
@@ -18,8 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.File;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -105,6 +105,37 @@ class TaskControllerTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("PUT/PATCH 메소드는")
+    class Describe_PUT {
+        @Nested
+        @DisplayName("만약 존재하는 task id를 수정요청 한다면")
+        class Context_exist_id {
+            @Test
+            @DisplayName("수정된 task 객체를 리턴한다")
+            void it_returns_updated_task() throws Exception {
+                Task expectedTask = createTask("Get Sleep");
+                expectedTask.setTitle("Do Study");
+                mockMvc.perform(patch("/tasks/" + expectedTask.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(expectedTask)))
+                        .andExpect(status().isOk())
+                        .andExpect(content().json(objectMapper.writeValueAsString(expectedTask)));
+
+                expectedTask.setTitle("Earning Money..");
+                mockMvc.perform(put("/tasks/" + expectedTask.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(expectedTask)))
+                        .andExpect(status().isOk())
+                        .andExpect(content().json(objectMapper.writeValueAsString(expectedTask)));
+                clear();
+            }
+        }
+    }
+
 
     @After
     public void clear() {
