@@ -5,9 +5,8 @@ import com.codesoom.assignment.domain.Task;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,6 +42,11 @@ class TaskControllerTest {
                 .content("{\"title\":\"" + title + "\"}"))
                 .andReturn();
         return objectMapper.readValue(mvcResult.getRequest().getContentAsString(), Task.class);
+    }
+
+    @AfterEach
+    void clearData() {
+        taskService.clearTasks();
     }
 
     @Nested
@@ -81,7 +85,6 @@ class TaskControllerTest {
                 mockMvc.perform(get("/tasks/0"))
                         .andExpect(status().isOk())
                         .andExpect(content().json(objectMapper.writeValueAsString(createdTask)));
-                clear();
             }
         }
     }
@@ -101,7 +104,6 @@ class TaskControllerTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(expectedTask)))
                         .andExpect(status().isCreated());
-                clear();
             }
         }
     }
@@ -131,7 +133,6 @@ class TaskControllerTest {
                         .content(objectMapper.writeValueAsString(expectedTask)))
                         .andExpect(status().isOk())
                         .andExpect(content().json(objectMapper.writeValueAsString(expectedTask)));
-                clear();
             }
         }
 
@@ -163,7 +164,6 @@ class TaskControllerTest {
                 Task expectedTask = createTask("Get Sleep");
                 mockMvc.perform(delete("/tasks/" + expectedTask.getId()))
                         .andExpect(status().isNoContent());
-                clear();
             }
         }
 
@@ -178,12 +178,6 @@ class TaskControllerTest {
                         .andExpect(status().isNotFound());
             }
         }
-    }
-
-
-    @After
-    public void clear() {
-        taskService.clearTasks();
     }
 }
 
