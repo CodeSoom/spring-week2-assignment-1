@@ -17,6 +17,11 @@ public class TaskController {
          return transfer.taskListToJson(taskApplicationService.getAllTasks()).orElseThrow();
     }
 
+    @GetMapping("/{id}")
+    public String getSpecificTask(@PathVariable Long id){
+        return taskApplicationService.findTask(id).flatMap(it -> transfer.taskToJson(it)).orElseThrow();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String createTask(@RequestBody JsonTask jsonTask){
