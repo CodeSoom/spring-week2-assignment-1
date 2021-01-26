@@ -6,13 +6,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Managing task. Singleton class.
+ * @see Task
+ */
 public class TaskManager {
-    private static final TaskManager manager = new TaskManager();
+    private static final TaskManager instance = new TaskManager();
     private static final HashMap<Long, Task> tasks = new HashMap<>();
     private static long newID = 0;
 
+    /**
+     * Returns unique instance.
+     */
     public static TaskManager getInstance() {
-        return manager;
+        return instance;
     }
 
     private void increaseNewID() {
@@ -28,15 +35,27 @@ public class TaskManager {
         return task != null;
     }
 
+    /**
+     * Remove all tasks.
+     * Make 0 to {@code newID}.
+     */
     public void clear() {
         tasks.clear();
         initializationNewID();
     }
 
+    /**
+     * Returns all tasks list.
+     */
     public List<Task> findAll() {
         return new ArrayList<>(tasks.values());
     }
 
+    /**
+     * @param id is target id.
+     * @return task what task's id is target id.
+     * @throws NotFoundTaskIDException when not exists target id.
+     */
     public Task findOne(long id) throws NotFoundTaskIDException {
         Task task = tasks.get(id);
         if (task == null) {
@@ -45,6 +64,12 @@ public class TaskManager {
         return task;
     }
 
+    /**
+     * Insert new task.
+     *
+     * @param title is new task's title.
+     * @return inserted new task.
+     */
     public Task insertOne(String title) {
         Task task = new Task(newID, title);
         increaseNewID();
@@ -53,6 +78,14 @@ public class TaskManager {
         return task;
     }
 
+    /**
+     * Modify one task.
+     *
+     * @param id is target id.
+     * @param title is want to modify title.
+     * @return modified task.
+     * @throws NotFoundTaskIDException when not exists target id.
+     */
     public Task modifyOne(long id, String title) throws NotFoundTaskIDException {
         if (!isExistID(id)) {
             throw new NotFoundTaskIDException(id);
@@ -63,6 +96,13 @@ public class TaskManager {
         return task;
     }
 
+    /**
+     * Delete one task.
+     *
+     * @param id is target id.
+     * @return deleted task.
+     * @throws NotFoundTaskIDException when not exists target id.
+     */
     public Task deleteOne(long id) throws NotFoundTaskIDException {
         Task removedTask = tasks.remove(id);
         if (removedTask == null) {

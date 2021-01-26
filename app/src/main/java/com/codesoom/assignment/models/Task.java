@@ -8,6 +8,13 @@ public class Task {
     private final Long id;
     private final String title;
 
+    /**
+     * Constructor.
+     * Set all properties.
+     *
+     * @param id is task's id.
+     * @param title is task's title.
+     */
     @JsonCreator
     public Task(
             @JsonProperty("id") Long id,
@@ -17,11 +24,17 @@ public class Task {
         this.title = title;
     }
 
+    /**
+     * Returns task's id.
+     */
     @JsonGetter
     public Long id() {
         return id;
     }
 
+    /**
+     * Returns task's title.
+     */
     @JsonGetter
     public String title() {
         return title;
