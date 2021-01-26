@@ -57,12 +57,9 @@ public class TaskController {
     }
 
     private Task findById(Long id) throws IOException {
-        Optional<Task> task = tasks.stream().filter(i -> i.getId().equals(id)).findFirst();
-
-        if (task.isEmpty()) {
-            throw new NotFoundException();
-        }
-
-        return task.get();
+        return tasks.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .orElseThrow(NotFoundException::new);
     }
 }
