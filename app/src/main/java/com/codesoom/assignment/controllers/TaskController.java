@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.controllers.models.Task;
+import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -9,59 +10,41 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-    List<Task> tasks = new ArrayList<>();
-    Long id = 0L;
+
+    private final TaskService taskService;
+    public TaskController(TaskService taskService){
+        this.taskService = taskService;
+    }
 
     @GetMapping("")
     public List<Task> lists() {
-        return tasks;
+        return taskService.readTasks();
     }
 
     @GetMapping("/{id}")
     public Task list(@PathVariable Long id) {
-        return getTask(id);
+        return taskService.readTask(id);
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-        Task newTask = new Task();
-        newTask.setTitle(task.getTitle());
-        newTask.setId(generateId());
-        tasks.add(newTask);
-
-        return newTask;
+        return taskService.createTask(task);
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
-        Task task = getTask(id);
-        tasks.remove(task);
+        taskService.deleteTask(id);
 
         return "";
     }
 
     @PutMapping("/{id}")
     public Task putUpdate(@PathVariable Long id, @RequestBody Task task) {
-        Task updateTask = getTask(id);
-        updateTask.setTitle(task.getTitle());
-        return updateTask;
+        return taskService.putOrPatchTask(id, task);
     }
 
     @PatchMapping("/{id}")
-    public String patchUpdate(@PathVariable Long id, @RequestBody Task task) {
-        Task updateTask = getTask(id);
-        updateTask.setTitle(task.getTitle());
-        return "Updated";
-    }
-
-    public Task getTask(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst().orElse(null);
-    }
-
-    public Long generateId(){
-        id += 1;
-        return id;
+    public Task patchUpdate(@PathVariable Long id, @RequestBody Task task) {
+        return taskService.putOrPatchTask(id, task);
     }
 }

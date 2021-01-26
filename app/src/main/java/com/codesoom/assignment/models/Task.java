@@ -1,4 +1,4 @@
-package com.codesoom.assignment.controllers.models;
+package com.codesoom.assignment.models;
 
 public class Task {
     private Long id;
@@ -18,6 +18,9 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Task() {
     }
 
     @Override
