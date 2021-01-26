@@ -46,12 +46,12 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity updateTask(
             @PathVariable long id,
-            @RequestBody Task task) {
+            @RequestBody Task sourceTask) {
 
-        Task sourceTask = findTaskById(id);
-        sourceTask.setTitle(task.getTitle());
+        Task task = findTaskById(id);
+        task.setTitle(sourceTask.getTitle());
 
-        return ResponseEntity.ok(sourceTask);
+        return ResponseEntity.ok(task);
     }
 
     @DeleteMapping("/{id}")
