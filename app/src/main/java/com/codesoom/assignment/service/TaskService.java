@@ -1,25 +1,28 @@
 package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.entity.Task;
+import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class TaskService {
-    private List<Task> tasks = new ArrayList<>();
     private Long lastId = 0L;
+    private final TaskRepository taskRepository;
+
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     public List<Task> getTasks() {
-        return tasks;
+        return taskRepository.findAll();
     }
 
     public ResponseEntity<Task> getTask(Long id) {
-        Task task = findTask(id);
+        Task task = taskRepository.findById(id);
         if (Objects.isNull(task)) {
             return ResponseEntity.notFound().build();
         }
@@ -28,33 +31,24 @@ public class TaskService {
 
     public ResponseEntity<Task> addTask(Task task) {
         task.setId(increaseId());
-        tasks.add(task);
-        return ResponseEntity.created(URI.create("/tasks")).body(task);
+        return taskRepository.save(task);
     }
 
     public ResponseEntity<Task> updateTask(Long id, Task inputTask) {
-        Task task = findTask(id);
+        Task task = taskRepository.findById(id);
         if (Objects.isNull(task)) {
             return ResponseEntity.notFound().build();
         }
         task.setTitle(inputTask.getTitle());
-        return ResponseEntity.ok(task);
+        return taskRepository.save(task);
     }
 
     public ResponseEntity<Task> deleteTask(Long id) {
-        Task removeTask = findTask(id);
-        if (tasks.contains(removeTask)) {
-            tasks.remove(removeTask);
+        if (taskRepository.existsById(id)) {
+            taskRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
-    }
-
-    private Task findTask(Long id) {
-        return tasks.stream().
-                filter(task -> task.getId().equals(id)).
-                findFirst().
-                orElse(null);
     }
 
     private Long increaseId() {
