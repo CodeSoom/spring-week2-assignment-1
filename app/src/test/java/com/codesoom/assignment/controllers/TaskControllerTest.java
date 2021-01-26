@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,11 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TodoControllerTest {
+class TaskControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    TodoController todoController;
+    TaskController taskController;
 
     @BeforeAll
     public void init() {
@@ -33,8 +34,8 @@ class TodoControllerTest {
         Task task2 = new Task();
         task2.setId(2L);
         task2.setTitle("world");
-        todoController.postTask(task);
-        todoController.postTask(task2);
+        taskController.postTask(task);
+        taskController.postTask(task2);
     }
 
     @Test

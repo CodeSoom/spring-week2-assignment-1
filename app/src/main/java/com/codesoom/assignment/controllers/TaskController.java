@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-public class TodoController {
+public class TaskController {
     private static final String TASKS_URL = "/tasks";
     private List<Task> tasks = new ArrayList<>();
     private Long lastId = 0L;
@@ -27,6 +27,7 @@ public class TodoController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(task);
+
     }
 
     @PostMapping(TASKS_URL)
