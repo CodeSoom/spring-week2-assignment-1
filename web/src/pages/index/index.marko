@@ -5,26 +5,30 @@
 import axios from 'axios';
 
 class {
-    onCreate(){
+    onCreate() {
         this.state = {
             tasks: [],
         };
 
         this.loadTasks();
     }
-    async loadTasks(){
+    async loadTasks() {
         const { data } = await axios.get('http://localhost:8080/tasks');
         this.state.tasks = data;
     }
 
-    async addTask(){
+    async addTask() {
         const title = this.getEl('title').value;
         // 1. 추가
         await axios.post('http://localhost:8080/tasks', {
-            title,
+            title
         });
         // 2. 다시 로딩
         await this.loadTasks();
+    }
+
+    update() {
+        const item = this.getEl('')
     }
 }
 
@@ -33,7 +37,25 @@ class {
     <for|task| of=state.tasks>
     <li>
         ${task.title}
+        <button type="button" onclick="onDisplay()" on-click("update")>
+            수정
+        </button>
+
+        <button type="button">
+            완료
+        </button>
     </li>
+
+    <li>
+        <input type="text" value="수정하기 전 제목" />
+        <button type="button">
+            확인
+        </button>
+        <button type="button">
+            취소
+        </button>
+    </li>
+
     </for>
 </ol>
 
@@ -41,8 +63,13 @@ class {
     <label for:scoped="title">
         할 일
     </label>
+
     <input id:scoped="title" key="title" type="text" />
+
     <button type="button" on-click("addTask")>
         추가
     </button>
 </p>
+
+
+
