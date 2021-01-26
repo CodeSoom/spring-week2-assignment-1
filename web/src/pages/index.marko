@@ -24,6 +24,12 @@ class {
     await this.loadTasks();
   }
 
+  async deleteTask(tagInfo){
+    const id = tagInfo.srcElement.nextSibling.value;
+    await axios.delete('http://localhost:8080/tasks/' + id);
+    await this.loadTasks();
+  }
+
 }
 
 <layout>
@@ -31,9 +37,12 @@ class {
  <ol>
     <for|task| of=state.tasks>
           <li>
-            ${task.title} : ${task.id} 
-              <button on-click("update") type="button">수정</button>
-              <button  type="button">완료</button>
+              <span key=task.id>${task.title}</span>
+
+
+              <button on-click("update") type="button" >수정</button>
+              <button on-click("deleteTask") type="button" >완료</button>
+              <input type="text"  value=task.id hidden />
           </li>
      </for>
  </ol>
