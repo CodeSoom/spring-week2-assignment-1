@@ -1,38 +1,31 @@
 package com.codesoom.assignment.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Tasks {
-    private List<Task> tasks;
+    private Map<Long, Task> tasks;
     private Long taskId = 1L;
 
     public Tasks() {
-        this.tasks = new ArrayList<>();
-    }
-
-    public Tasks(List<Task> tasks) {
-        this.tasks = tasks;
+        this.tasks = new HashMap<>();
     }
 
     public void addTask(Task task) {
-        task.setId(generateId());
-        this.tasks.add(task);
+        Long generateId= generateId();
+        task.setId(generateId);
+        tasks.put(generateId, task);
     }
 
-    public void remove(Task task) {
-        this.tasks.remove(task);
+    public void remove(Long id) {
+        this.tasks.remove(id);
     }
 
     public Optional<Task> findTask(Long id) {
-        return tasks.stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst();
+        return Optional.ofNullable(tasks.get(id));
     }
 
     public List<Task> getTasks() {
-        return new ArrayList<>(tasks);
+        return new ArrayList<>(tasks.values());
     }
 
     public int size() {

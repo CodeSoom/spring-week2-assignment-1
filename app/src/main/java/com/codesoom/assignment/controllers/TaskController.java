@@ -14,7 +14,6 @@ import java.util.List;
 public class TaskController {
     private Tasks tasks = new Tasks();
 
-
     @GetMapping
     public List<Task> getTasks() {
         return tasks.getTasks();
@@ -43,9 +42,9 @@ public class TaskController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void Task(@PathVariable("id") Long id) {
-        Task task = tasks.findTask(id)
+        tasks.findTask(id)
                 .orElseThrow(NotFoundException::new);
-        tasks.remove(task);
+        tasks.remove(id);
     }
 
 }
