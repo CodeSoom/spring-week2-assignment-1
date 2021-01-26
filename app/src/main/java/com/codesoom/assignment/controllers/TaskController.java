@@ -1,7 +1,10 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.application.NotFoundException;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.domain.Tasks;
+import com.sun.net.httpserver.HttpExchange;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +13,7 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
     private Tasks tasks = new Tasks();
-    private Long taskId = 0L;
+    private Long taskId = 1L;
 
     @GetMapping
     public List<Task> getTasks() {
@@ -19,10 +22,11 @@ public class TaskController {
 
     @GetMapping("{id}")
     public Task getTask(@PathVariable("id") Long id) {
-        return tasks.findTask(id).orElse(null);
+        return tasks.findTask(id).orElseThrow(NotFoundException::new);
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Task addTask(@RequestBody Task task) {
         task.setId(generateId());
         tasks.addTask(task);
@@ -31,10 +35,7 @@ public class TaskController {
 
     @PutMapping("{id}")
     public Task updateTask(@PathVariable("id") Long id, @RequestBody Task source) {
-        Task task = tasks.findTask(id).orElse(null);
-        if (task == null) {
-            return null;
-        }
+        Task task = tasks.findTask(id).orElseThrow(NotFoundException::new);
         task.setTitle(source.getTitle());
         return task;
     }
