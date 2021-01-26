@@ -1,44 +1,38 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.entity.Task;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@RestController
-public class TaskController {
-    private static final String TASKS_URL = "/tasks";
+@Service
+public class TaskService {
     private List<Task> tasks = new ArrayList<>();
     private Long lastId = 0L;
 
-    @GetMapping(TASKS_URL)
-    public List<Task> getTaskList() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    @GetMapping(TASKS_URL + "/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable Long id) {
+    public ResponseEntity<Task> getTask(Long id) {
         Task task = findTask(id);
         if (Objects.isNull(task)) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(task);
-
     }
 
-    @PostMapping(TASKS_URL)
-    public ResponseEntity<Task> postTask(@RequestBody Task task) {
+    public ResponseEntity<Task> addTask(Task task) {
         task.setId(increaseId());
         tasks.add(task);
         return ResponseEntity.created(URI.create("/tasks")).body(task);
     }
 
-    @PutMapping(TASKS_URL + "/{id}")
-    public ResponseEntity<Task> putTask(@PathVariable Long id, @RequestBody Task inputTask) {
+    public ResponseEntity<Task> updateTask(Long id, Task inputTask) {
         Task task = findTask(id);
         if (Objects.isNull(task)) {
             return ResponseEntity.notFound().build();
@@ -47,18 +41,7 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
-    @PatchMapping(TASKS_URL + "/{id}")
-    public ResponseEntity<Task> patchTask(@PathVariable Long id, @RequestBody Task inputTask) {
-        Task task = findTask(id);
-        if (Objects.isNull(task)) {
-            return ResponseEntity.notFound().build();
-        }
-        task.setTitle(inputTask.getTitle());
-        return ResponseEntity.ok(task);
-    }
-
-    @DeleteMapping(TASKS_URL + "/{id}")
-    public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<Task> deleteTask(Long id) {
         Task removeTask = findTask(id);
         if (tasks.contains(removeTask)) {
             tasks.remove(removeTask);
@@ -66,7 +49,6 @@ public class TaskController {
         }
         return ResponseEntity.notFound().build();
     }
-
 
     private Task findTask(Long id) {
         return tasks.stream().
