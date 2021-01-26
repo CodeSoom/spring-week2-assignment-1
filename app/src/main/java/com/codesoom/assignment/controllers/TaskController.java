@@ -3,13 +3,13 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.application.NotFoundException;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.domain.Tasks;
-import com.sun.net.httpserver.HttpExchange;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/tasks")
 public class TaskController {
     private Tasks tasks = new Tasks();
