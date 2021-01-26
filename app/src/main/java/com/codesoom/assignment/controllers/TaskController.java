@@ -40,6 +40,13 @@ public class TaskController {
         return task;
     }
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void Task(@PathVariable("id") Long id) {
+        Task task = tasks.findTask(id).orElseThrow(NotFoundException::new);
+        tasks.remove(task);
+    }
+
     private Long generateId() {
         return taskId++;
     }
