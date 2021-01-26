@@ -2,49 +2,62 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.services.TaskService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
 
     private final TaskService taskService;
-    public TaskController(TaskService taskService){
+
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
     @GetMapping("")
-    public List<Task> lists() {
-        return taskService.readTasks();
+    public ResponseEntity<?> getAllTask() {
+        return new ResponseEntity<>(taskService.readTasks(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Task list(@PathVariable Long id) {
-        return taskService.readTask(id);
+    public ResponseEntity<?> getTask(@PathVariable Long id) {
+        if(taskService.ReadTaskIsNull(id)) {
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(taskService.readTask(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public Task create(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public ResponseEntity<?> createTask(@RequestBody Task task) {
+        return new ResponseEntity<>(taskService.createTask(task), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    public ResponseEntity<?> deleteTask(@PathVariable Long id) {
+        if(taskService.ReadTaskIsNull(id)) {
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+        }
 
-        return "";
+        return new ResponseEntity<>(taskService.deleteTask(id), HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public Task putUpdate(@PathVariable Long id, @RequestBody Task task) {
-        return taskService.putOrPatchTask(id, task);
+    public ResponseEntity<?> putUpdateTask(@PathVariable Long id, @RequestBody Task task) {
+        if(taskService.ReadTaskIsNull(id)) {
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(taskService.putUpdateTask(id, task), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public Task patchUpdate(@PathVariable Long id, @RequestBody Task task) {
-        return taskService.putOrPatchTask(id, task);
+    public ResponseEntity<?> patchUpdateTask(@PathVariable Long id, @RequestBody Task task) {
+        if(taskService.ReadTaskIsNull(id)) {
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(taskService.patchUpdateTask(id, task), HttpStatus.OK);
     }
 }

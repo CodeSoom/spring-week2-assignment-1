@@ -1,51 +1,48 @@
 package com.codesoom.assignment.services;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TaskService {
 
-    List<Task> tasks = new ArrayList<>();
-    Long id = 0L;
+    private final TaskRepository taskRepository;
+
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     public List<Task> readTasks() {
-        return tasks;
+        return taskRepository.findAll();
     }
 
     public Task readTask(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst().orElse(null);
+        return taskRepository.findById(id);
     }
 
     public Task createTask(Task task) {
-        Task newTask = new Task();
-        newTask.setTitle(task.getTitle());
-        newTask.setId(generateId());
-        tasks.add(newTask);
-        return newTask;
+        return taskRepository.create(task);
     }
 
-    public void deleteTask(Long id) {
-        Task task = readTask(id);
-        tasks.remove(task);
+    public Task putUpdateTask(@PathVariable Long id, @RequestBody Task task) {
+        return taskRepository.update(id, task);
     }
 
-    public Task putOrPatchTask(@PathVariable Long id, @RequestBody Task task) {
-        Task updateTask = readTask(id);
-        updateTask.setTitle(task.getTitle());
-        return updateTask;
+    public Task patchUpdateTask(@PathVariable Long id, @RequestBody Task task) {
+        return taskRepository.update(id, task);
     }
 
-    public Long generateId(){
-        id += 1;
-        return id;
+    public Task deleteTask(Long id) {
+        return taskRepository.delete(id);
+    }
+
+    public boolean ReadTaskIsNull(Long id){
+        return readTask(id) == null;
     }
 
 }
