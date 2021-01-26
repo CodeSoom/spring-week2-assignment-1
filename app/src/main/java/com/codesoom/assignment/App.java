@@ -3,12 +3,19 @@
  */
 package com.codesoom.assignment;
 
+<<<<<<< HEAD
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+=======
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+>>>>>>> e7cf222 (Spring Web)
 public class
 App {
     public String getGreeting() {
@@ -16,6 +23,7 @@ App {
     }
 
     public static void main(String[] args) {
+<<<<<<< HEAD
         System.out.println(new App().getGreeting());
 
         try {
@@ -28,5 +36,8 @@ App {
         } catch (IOException e) {
             e.printStackTrace();
         }
+=======
+        SpringApplication.run(App.class, args);
+>>>>>>> e7cf222 (Spring Web)
     }
 }
