@@ -37,9 +37,9 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateTask(@RequestBody Task task, @PathVariable Long id){
-        Task crtTask = findTaskById(id);
-        crtTask.updateTitle(task.getTitle());
-        return new ResponseEntity<>(crtTask, HttpStatus.OK);
+        Task currentTask = findTaskById(id);
+        currentTask.updateTitle(task.getTitle());
+        return new ResponseEntity<>(currentTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
