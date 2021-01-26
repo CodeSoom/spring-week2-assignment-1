@@ -1,9 +1,8 @@
 {
-  "name": "Web",
+  "name": "my-app",
   "description": "The default Marko starter app",
   "version": "1.0.0",
   "dependencies": {
-    "axios": "^0.21.1",
     "marko": "^5"
   },
   "devDependencies": {
