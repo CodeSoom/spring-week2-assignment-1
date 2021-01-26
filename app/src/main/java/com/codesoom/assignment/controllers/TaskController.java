@@ -35,7 +35,8 @@ public class TaskController {
 
     @PutMapping("{id}")
     public Task updateTask(@PathVariable("id") Long id, @RequestBody Task source) {
-        Task task = tasks.findTask(id).orElseThrow(NotFoundException::new);
+        Task task = tasks.findTask(id)
+                .orElseThrow(NotFoundException::new);
         task.setTitle(source.getTitle());
         return task;
     }
@@ -43,7 +44,8 @@ public class TaskController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void Task(@PathVariable("id") Long id) {
-        Task task = tasks.findTask(id).orElseThrow(NotFoundException::new);
+        Task task = tasks.findTask(id)
+                .orElseThrow(NotFoundException::new);
         tasks.remove(task);
     }
 
