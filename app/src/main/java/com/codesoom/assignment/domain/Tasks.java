@@ -6,6 +6,7 @@ import java.util.Optional;
 
 public class Tasks {
     private List<Task> tasks;
+    private Long taskId = 1L;
 
     public Tasks() {
         this.tasks = new ArrayList<>();
@@ -16,6 +17,7 @@ public class Tasks {
     }
 
     public void addTask(Task task) {
+        task.setId(generateId());
         this.tasks.add(task);
     }
 
@@ -35,5 +37,9 @@ public class Tasks {
 
     public int size() {
         return tasks.size();
+    }
+
+    private Long generateId() {
+        return taskId++;
     }
 }

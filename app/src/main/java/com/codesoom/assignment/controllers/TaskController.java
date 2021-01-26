@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
     private Tasks tasks = new Tasks();
-    private Long taskId = 1L;
+
 
     @GetMapping
     public List<Task> getTasks() {
@@ -28,7 +28,6 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task addTask(@RequestBody Task task) {
-        task.setId(generateId());
         tasks.addTask(task);
         return task;
     }
@@ -49,7 +48,4 @@ public class TaskController {
         tasks.remove(task);
     }
 
-    private Long generateId() {
-        return taskId++;
-    }
 }
