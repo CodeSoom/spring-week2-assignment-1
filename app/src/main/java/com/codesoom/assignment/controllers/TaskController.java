@@ -18,7 +18,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task create (@RequestBody Task task) {
+    public Task create(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
 
@@ -29,6 +29,4 @@ public class TaskController {
         newId += 1;
         return newId;
     }
-
-
 }
