@@ -134,6 +134,50 @@ class TaskControllerTest {
                 clear();
             }
         }
+
+        @Nested
+        @DisplayName("만약 존재하지 않는 task id를 수정요청 한다면")
+        class Context_not_exist_id {
+            @Test
+            @DisplayName("404 에러를 리턴한다")
+            void it_returns_404_error() throws Exception {
+                Task expectedTask = new Task(0, "Do Study");
+                mockMvc.perform(patch("/tasks/" + expectedTask.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(expectedTask)))
+                        .andExpect(status().isNotFound());
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("DELETE 메소드는")
+    class Describe_DELETE {
+        @Nested
+        @DisplayName("만약 존재하는 task id를 삭제요청을 한다면")
+        class Context_exist_id {
+            @Test
+            @DisplayName("201 코드를 리턴한다")
+            void it_returns_201_code() throws Exception {
+                Task expectedTask = createTask("Get Sleep");
+                mockMvc.perform(delete("/tasks/" + expectedTask.getId()))
+                        .andExpect(status().isNoContent());
+                clear();
+            }
+        }
+
+        @Nested
+        @DisplayName("만약 존재하지 않 task id를 삭제요청을 한다면")
+        class Context_not_exist_id {
+            @Test
+            @DisplayName("404 에러를 리턴한다")
+            void it_returns_404_error() throws Exception {
+                Task expectedTask = new Task(0, "Get Sleep");
+                mockMvc.perform(delete("/tasks/" + expectedTask.getId()))
+                        .andExpect(status().isNotFound());
+            }
+        }
     }
 
 
