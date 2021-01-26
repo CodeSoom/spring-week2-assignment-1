@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.exceptions.ResourceNotFoundException;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.TaskResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,9 +37,8 @@ public class TaskController {
         task.setId(generateId(taskId));
         tasks.add(task);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(task);
+        return TaskResponseEntity
+                .created(task);
     }
 
     @PutMapping("/{id}")
