@@ -14,13 +14,16 @@ import java.util.List;
 public class TaskController {
 
     private final List<Task> tasks = new ArrayList<>();
+    private int taskId = 0;
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Task> getTaskList() {
         return tasks;
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity getTask(@PathVariable long id) {
         Task task = findTaskById(id);
         return ResponseEntity
@@ -30,32 +33,18 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity createTask(@RequestBody Task task) {
-        Task newTask = new Task();
-        newTask.generateId(tasks.size());
-        newTask.setTitle(task.getTitle());
-
-        tasks.add(newTask);
+        task.setId(generateId(taskId));
+        tasks.add(task);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(newTask);
+                .body(task);
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity updateTask(
-            @PathVariable long id,
-            @RequestBody Task task) {
-
-        Task sourceTask = findTaskById(id);
-        sourceTask.setTitle(task.getTitle());
-
-        return ResponseEntity.ok(sourceTask);
-    }
-
-    @PatchMapping ("/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity updateTaskDetail(
             @PathVariable long id,
             @RequestBody Task task) {
 
@@ -81,5 +70,10 @@ public class TaskController {
                 .filter(i -> i.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
+    }
+
+    private long generateId(int id) {
+        taskId = id + 1;
+        return taskId;
     }
 }

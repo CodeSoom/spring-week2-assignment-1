@@ -22,13 +22,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                '}';
-    }
-
-    public void generateId(int size) {
-        id = (long) (size + 1);
+        return String.format("Task{ id = %d, title = '%s'}", id, title);
     }
 }
