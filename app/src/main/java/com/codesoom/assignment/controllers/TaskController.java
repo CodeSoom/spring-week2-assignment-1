@@ -19,7 +19,7 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createTask(JsonTask jsonTask){
+    public String createTask(@RequestBody JsonTask jsonTask){
         Long createdTaskId = taskApplicationService.createTask(jsonTask.title);
         return taskApplicationService.findTask(createdTaskId).flatMap(it -> transfer.taskToJson(it)).orElseThrow();
     }
