@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
 
     private final List<Task> tasks = new ArrayList<>();
