@@ -6,6 +6,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * Parse generic to json style string.
+ */
 public class JsonParser<T> {
     ObjectMapper objectMapper = new ObjectMapper();
 

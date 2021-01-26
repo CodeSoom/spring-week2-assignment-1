@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Task model collection to manage tasks.
+ * add, modify, delete task and fetch task or task list
+ */
 public class TaskList {
     private List<Task> taskList = new ArrayList<Task>();
 

@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+/**
+ * Handle requests about task.
+ */
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
