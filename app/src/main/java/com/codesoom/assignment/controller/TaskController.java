@@ -28,7 +28,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> postTask(@RequestBody Task task) {
+    public ResponseEntity<Task> addTask(@RequestBody Task task) {
         return taskService.addTask(task);
     }
 
