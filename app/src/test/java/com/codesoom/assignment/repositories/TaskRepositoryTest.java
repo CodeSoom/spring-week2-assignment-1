@@ -143,4 +143,29 @@ class TaskRepositoryTest {
         }
     }
 
+    @Nested
+    @DisplayName("removeAll 메소드는")
+    class Describe_removeAll {
+        @Nested
+        @DisplayName("tasks가 있다면")
+        class Context_with_tasks {
+            @BeforeEach
+            void prepareTasks() {
+                Task task1 = new Task(1L, "title1");
+                Task task2 = new Task(2L, "title2");
+                taskRepository.save(task1);
+                taskRepository.save(task2);
+            }
+
+            @Test
+            @DisplayName("tasks를 삭제한다")
+            void it_delete_tasks() {
+                taskRepository.removeAll();
+
+                List<Task> tasks = taskRepository.findAll();
+                assertEquals(0, tasks.size());
+            }
+        }
+    }
+
 }
