@@ -44,6 +44,6 @@ application {
 }
 
 tasks.named('test') {
-    // Use junit platform for unit tests.
+    // Use junit platform for unit atests.
     useJUnitPlatform()
 }

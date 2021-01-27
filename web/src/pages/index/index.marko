@@ -5,7 +5,6 @@ class {
         this.state = {
             tasks: [],
         };
-
         this.loadTasks();
     }
 
@@ -38,20 +37,22 @@ class {
            return;
        }
     }
-}
 
-static async function updateTaskTitle(id) {
-    const newTitle = this.getEl('newTitle').value;
-    await axios.put('http://localhost:8080/tasks/' + id, {
-        title: newTitle
+    async editTask(taskId){
+        const title = this.getEl("newTitle").value;
+        console.log(taskId);
+        await axios.put("http://localhost:8080/tasks/" + taskId, {
+            title,
         });
-    await this.loadTasks();
-    this.switchTaskDisplay();
-}
+        this.switchTaskDisplay();
+        await this.loadTasks();
+    }
 
-static async function deleteTask(id){
-    await axios.delete('http://localhost:8080/tasks/' + id);
-    await this.loadTasks();
+    async deleteTask(taskId){
+        await axios.delete('http://localhost:8080/tasks/' + taskId);
+        await this.loadTasks();
+    }
+
 }
 
 
@@ -62,12 +63,12 @@ static async function deleteTask(id){
         <div style="display:inline-block" key="existingTask">
             <span> ${task.title} </span>
             <button type="button" on-click("switchTaskDisplay") >수정</button>
-            <button type="button" on-click(deleteTask, task.id) >완료</button>
+            <button type="button" on-click("deleteTask", task.id) >완료</button>
         </div>
 
         <div style="display:none" key="updateTask">
             <input type="text" key="newTitle"/>
-            <button type="button" on-click(updateTaskTitle, task.id) >확인</button>
+             <button type="button" on-click("editTask", task.id)>확인</button>
             <button type="button" on-click("switchTaskDisplay") >취소</button>
         </div>
     </li>
