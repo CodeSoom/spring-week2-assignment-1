@@ -47,6 +47,8 @@ public class TaskController {
         if (findTask(id).isEmpty()) {
             throw notFoundException;
         }
+        Task updateTask = task;
+        updateTask.setId(id);
         taskRepository.taskStore.replace(task.getId(), task);
         return task;
     }

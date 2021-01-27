@@ -1,7 +1,3 @@
-// TODO
-// 1. GET /tasks -> 목록으로 표시
-// 2. 입력 -> POST /tasks (할 일 추가) -> GET /tasks (목록 갱신)
-
 import axios from 'axios';
 
 class {
@@ -12,6 +8,7 @@ class {
 
         this.loadTasks();
     }
+
     async loadTasks() {
         const { data } = await axios.get('http://localhost:8080/tasks');
         this.state.tasks = data;
@@ -19,57 +16,66 @@ class {
 
     async addTask() {
         const title = this.getEl('title').value;
-        // 1. 추가
         await axios.post('http://localhost:8080/tasks', {
             title
-        });
-        // 2. 다시 로딩
+         });
         await this.loadTasks();
     }
 
-    update() {
-        const item = this.getEl('')
+    async switchTaskDisplay() {
+       const updateTask = this.getEl('updateTask');
+       const existingTask = this.getEl('existingTask');
+
+       if (updateTask.style.display == 'none') {
+            updateTask.style.display = 'inline-block';
+            existingTask.style.display = 'none';
+            return;
+       }
+
+       if (updateTask.style.display != 'none') {
+           updateTask.style.display = 'none';
+           existingTask.style.display = 'inline-block';
+           return;
+       }
     }
 }
 
-<h1>ToDO</h1>
+static async function updateTaskTitle(id) {
+    const newTitle = this.getEl('newTitle').value;
+    await axios.put('http://localhost:8080/tasks/' + id, {
+        title: newTitle
+        });
+    await this.loadTasks();
+    this.switchTaskDisplay();
+}
+
+static async function deleteTask(id){
+    await axios.delete('http://localhost:8080/tasks/' + id);
+    await this.loadTasks();
+}
+
+
+<h1>ToDo</h1>
 <ol>
     <for|task| of=state.tasks>
     <li>
-        ${task.title}
-        <button type="button" onclick="onDisplay()" on-click("update")>
-            수정
-        </button>
+        <div style="display:inline-block" key="existingTask">
+            <span> ${task.title} </span>
+            <button type="button" on-click("switchTaskDisplay") >수정</button>
+            <button type="button" on-click(deleteTask, task.id) >완료</button>
+        </div>
 
-        <button type="button">
-            완료
-        </button>
+        <div style="display:none" key="updateTask">
+            <input type="text" key="newTitle"/>
+            <button type="button" on-click(updateTaskTitle, task.id) >확인</button>
+            <button type="button" on-click("switchTaskDisplay") >취소</button>
+        </div>
     </li>
-
-    <li>
-        <input type="text" value="수정하기 전 제목" />
-        <button type="button">
-            확인
-        </button>
-        <button type="button">
-            취소
-        </button>
-    </li>
-
     </for>
 </ol>
 
 <p>
-    <label for:scoped="title">
-        할 일
-    </label>
-
+    <label for:scoped="title">할 일</label>
     <input id:scoped="title" key="title" type="text" />
-
-    <button type="button" on-click("addTask")>
-        추가
-    </button>
+    <button type="button" on-click("addTask")>추가</button>
 </p>
-
-
-
