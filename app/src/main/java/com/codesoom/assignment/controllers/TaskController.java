@@ -1,7 +1,5 @@
 // TODO
-// 1. READ Collection - GET /tasks
 // 2. READ Item - Get / tasks/{id}
-// 3. Create - POST /tasks
 // 4. Update - PUT/PATCH /tasks/{id}
 // 5. DELETE /tasks/{id}
 
