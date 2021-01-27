@@ -38,7 +38,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
-
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         task.setId(generateId());
         tasks.add(task);
@@ -58,7 +58,7 @@ public class TaskController {
     @PutMapping("/{id}")
     public ResponseEntity<Task> modifyTask(@PathVariable("id") Long id, @RequestBody Task task) {
         Task source = findTask(id);
-        if (source == null) {
+        if (source == null || task.getTitle().isBlank()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         source.setTitle(task.getTitle());
