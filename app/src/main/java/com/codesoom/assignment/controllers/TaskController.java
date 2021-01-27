@@ -11,7 +11,7 @@ import java.util.List;
 public class TaskController {
 
     private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+    private Long Id = 0L;
 
     @GetMapping
     public List<Task> list() {
@@ -24,21 +24,24 @@ public class TaskController {
         tasks.add(task);
         return task;
     }
+    @PutMapping @PatchMapping
+    public Task update(@RequestBody Task task)
+    {
+        task.setTitle(task.getTitle());
+        return task;
+    }
 
-//    public Task update(@RequestBody Task task)
-//    {
-//        task.setTitle(task.getTitle());
-//        return task;
-//    }
-//    public Task delete(@RequestBody Task task)
-//    {
-//        tasks.remove(task);
-//        return task;
-//    }
+    @DeleteMapping
+    public Task delete(@RequestBody Task task)
+    {
+        task.getId();
+        tasks.remove(task);
+        return task;
+    }
 
     private Long generateId() {
-        newId++;
-        return newId;
+        Id++;
+        return Id;
     }
 
 
