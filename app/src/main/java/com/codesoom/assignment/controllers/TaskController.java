@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -45,27 +43,23 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTitle(@PathVariable Long id, @RequestBody JsonTask jsonTask) {
-        Optional<Object> result = taskApplicationService.updateTaskTitle(id, jsonTask.title);
-        if (result.isEmpty()) {
-            new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        return taskApplicationService.findTask(id)
-            .flatMap(
-                it -> transfer.taskToJson(it)
-            ).map(
-                it -> new ResponseEntity<>(it, HttpStatus.OK)
-            ).orElse(
-                new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
+    public String updateTitle(@PathVariable Long id, @RequestBody JsonTask jsonTask) throws NotFoundTaskException, UnknownException {
+        taskApplicationService.updateTaskTitle(id, jsonTask.title).orElseThrow(
+            () -> new NotFoundTaskException(id)
+        );
+        Task updatedTask = taskApplicationService.findTask(id)
+            .orElseThrow(
+                () -> new NotFoundTaskException(id)
             );
+        return transfer.taskToJson(updatedTask)
+                .orElseThrow(UnknownException::new);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTask(@PathVariable Long id) {
-        return taskApplicationService.deleteTask(id).map(
-            it -> new ResponseEntity<>(null, HttpStatus.NO_CONTENT)
-        ).orElse(
-            new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable Long id) throws NotFoundTaskException {
+        taskApplicationService.deleteTask(id).orElseThrow(
+            () -> new NotFoundTaskException(id)
         );
     }
 }
