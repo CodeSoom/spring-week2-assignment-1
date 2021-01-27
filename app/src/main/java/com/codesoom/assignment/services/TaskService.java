@@ -34,7 +34,7 @@ public class TaskService {
     public Task getTask(Long id) {
         Optional<Task> task = taskRepository.findOne(id);
         if (task.isEmpty()) {
-            throw new TaskNotFoundException("Not found Task with id = " + id);
+            throw new TaskNotFoundException("Not found task with id = " + id);
         }
 
         return task.get();
@@ -49,7 +49,7 @@ public class TaskService {
 
     public void deleteTask(Long id) {
         if (!isExist(id)) {
-            throw new TaskNotFoundException("Not found Task with id = " + id);
+            throw new TaskNotFoundException("Not found task with id = " + id);
         }
 
         taskRepository.delete(id);
