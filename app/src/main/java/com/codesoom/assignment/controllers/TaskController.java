@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,6 +63,16 @@ public class TaskController {
         }
         source.setTitle(task.getTitle());
         return new ResponseEntity<>(source, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Task> deleteTask(@PathVariable("id") Long id) {
+        Task task = findTask(id);
+        if (task == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        tasks.remove(task);
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     private Task findTask(Long id) {
