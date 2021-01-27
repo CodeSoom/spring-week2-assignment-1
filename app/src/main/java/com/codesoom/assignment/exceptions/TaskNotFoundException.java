@@ -1,9 +1,11 @@
 package com.codesoom.assignment.exceptions;
 
-public class TaskNotFoundException extends RuntimeException {
+public class TaskNotFoundException extends RuntimeException{
+
+    private final static String defaultMessage = "Not found Task";
 
     public TaskNotFoundException() {
-        super("Incorrect id");
+        super(defaultMessage);
     }
 
     public TaskNotFoundException(String message) {
