@@ -23,13 +23,19 @@ class {
   }
 }
 
+static async function completeTask(taskId, event) {
+  event.preventDefault();
+  await axios.delete(`http://localhost:8080/tasks/${taskId}`);
+  await this.loadTasks();
+}
+
 <section>
   <h1>ToDo</h1>
   <ol>
     <for|task| of=state.tasks>
       <li>
         ${task.title}<button>수정</button>
-        <button>완료</button>
+        <button type="button" on-click(completeTask, task.id)>완료</button>
       </li>
     </for>
   </ol>
