@@ -38,21 +38,23 @@ class {
            return;
        }
     }
+
+    async updateTaskTitle(id) {
+        const newTitle = this.getEl('newTitle').value;
+        await axios.put('http://localhost:8080/tasks/' + id, {
+            title: newTitle
+            });
+        await this.loadTasks();
+        this.switchTaskDisplay();
+    }
+
+    async deleteTask(id){
+        await axios.delete('http://localhost:8080/tasks/' + id);
+        await this.loadTasks();
+    }
+
 }
 
-static async function updateTaskTitle(id) {
-    const newTitle = this.getEl('newTitle').value;
-    await axios.put('http://localhost:8080/tasks/' + id, {
-        title: newTitle
-        });
-    await this.loadTasks();
-    this.switchTaskDisplay();
-}
-
-static async function deleteTask(id){
-    await axios.delete('http://localhost:8080/tasks/' + id);
-    await this.loadTasks();
-}
 
 
 <h1>ToDo</h1>
