@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,6 @@ public class TaskController {
         return tasks.stream()
                 .filter(task -> Objects.equals(task.getId(), id))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new TaskNotFoundException("There is no task with that id"));
     }
 }
