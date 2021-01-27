@@ -16,7 +16,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,10 +38,11 @@ class TaskControllerTest {
     TaskService taskService;
 
     Task createTask(String title) throws Exception {
+        Task task = new Task(0, title);
         MvcResult mvcResult = mockMvc.perform(post("/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content("{\"title\":\"" + title + "\"}"))
+                .content(objectMapper.writeValueAsString(task)))
                 .andReturn();
         return objectMapper.readValue(mvcResult.getRequest().getContentAsString(), Task.class);
     }
