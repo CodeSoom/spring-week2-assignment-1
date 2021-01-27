@@ -18,7 +18,7 @@ public class TaskRepository {
     public Task findById(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst().orElse(null);
+                .findFirst().orElseThrow();
     }
 
     public Task create(Task task) {

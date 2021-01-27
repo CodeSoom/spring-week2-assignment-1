@@ -29,11 +29,7 @@ public class TaskService {
         return taskRepository.create(task);
     }
 
-    public Task putUpdateTask(@PathVariable Long id, @RequestBody Task task) {
-        return taskRepository.update(id, task);
-    }
-
-    public Task patchUpdateTask(@PathVariable Long id, @RequestBody Task task) {
+    public Task updateTask(Long id, @RequestBody Task task) {
         return taskRepository.update(id, task);
     }
 
@@ -41,7 +37,7 @@ public class TaskService {
         return taskRepository.delete(id);
     }
 
-    public boolean ReadTaskIsNull(Long id){
+    public boolean readTaskIsNull(Long id){
         return readTask(id) == null;
     }
 
