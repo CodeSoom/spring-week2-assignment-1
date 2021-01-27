@@ -1,3 +1,5 @@
+
+
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
@@ -20,6 +22,7 @@ public class TaskController {
         return tasks;
     }
 
+
     @PostMapping
     public Task create(@RequestBody Task task) {
         task.setId(generatedId());
@@ -27,10 +30,24 @@ public class TaskController {
         return task;
     }
 
+    @DeleteMapping("/{id}")
+    public List<Task> delete(@PathVariable Long id) {
+
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getId().equals(id)) {
+                tasks.remove(i);
+            }
+        }
+        return tasks;
+    }
+
+
     private Long generatedId() {
+
         newId += 1;
         return newId;
-
     }
+
+
 
 }
