@@ -4,6 +4,9 @@ public class Task {
     private Long id;
     private String title;
 
+    public Task() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -18,9 +21,6 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Task() {
     }
 
     @Override

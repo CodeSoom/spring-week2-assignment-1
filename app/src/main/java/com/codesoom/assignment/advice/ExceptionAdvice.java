@@ -1,6 +1,5 @@
 package com.codesoom.assignment.advice;
 
-import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,5 +14,3 @@ public class ExceptionAdvice {
         return ex.getMessage();
     }
 }
-
-
