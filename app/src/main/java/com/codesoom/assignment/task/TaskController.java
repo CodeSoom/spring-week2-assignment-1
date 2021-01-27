@@ -18,8 +18,8 @@ public class TaskController {
     private Long id = 1L;
 
     @GetMapping
-    public ResponseEntity getTasks(){
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+    public List<Task> getTasks(){
+        return tasks;
     }
 
     @GetMapping("/{id}")
@@ -48,7 +48,6 @@ public class TaskController {
         tasks.remove(deleteTask);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 
     public Long nextId(){
         return id++;

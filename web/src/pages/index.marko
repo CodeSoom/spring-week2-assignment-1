@@ -4,6 +4,7 @@ class {
   onCreate() {
     this.state = {
       tasks: [],
+      flag : true,
     };
 
     this.loadTasks();
@@ -30,6 +31,25 @@ class {
     await this.loadTasks();
   }
 
+  changeFlag(){
+    this.state.flag = false;
+  }
+
+  flagCancel(){
+    this.state.flag = true;
+  }
+
+  async updateTask(tagInfo){
+    const title = this.getEl('updateTitle').value;
+    const id = tagInfo.srcElement.nextSibling.nextSibling.value;
+    await axios.put('http://localhost:8080/tasks/' + id, {
+      title,
+    });
+
+    this.state.flag = true;
+    await this.loadTasks();
+  }
+  
 }
 
 <layout>
@@ -37,12 +57,18 @@ class {
  <ol>
     <for|task| of=state.tasks>
           <li>
-              <span key=task.id>${task.title}</span>
-
-
-              <button on-click("update") type="button" >수정</button>
+            <if(state.flag)>
+              <span>${task.title}</span>
+              <button on-click("changeFlag") type="button" >수정</button>
               <button on-click("deleteTask") type="button" >완료</button>
               <input type="text"  value=task.id hidden />
+            </if>
+            <else>
+              <input id:scoped="updateTitle" type="text" key="updateTitle" value=task.title />
+              <button on-click("updateTask") type="button" >확인</button>
+              <button on-click("flagCancel") type="button" >취소</button>
+              <input type="text"  value=task.id hidden />
+            </else>
           </li>
      </for>
  </ol>
