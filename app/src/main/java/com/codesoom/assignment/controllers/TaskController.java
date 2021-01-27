@@ -3,8 +3,10 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.models.Task;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/tasks")
@@ -15,6 +17,12 @@ public class TaskController {
     @GetMapping
     public List<Task> list() {
         return tasks;
+    }
+
+    @GetMapping("/{id}")
+    public Task get(@PathVariable Long id) throws IOException {
+        Task task = findTask(id);
+        return task;
     }
 
     @PostMapping
@@ -28,5 +36,12 @@ public class TaskController {
     private Long generateId() {
         newId += 1;
         return newId;
+    }
+
+    private Task findTask(Long id) throws IOException {
+        return tasks.stream()
+                .filter(task -> Objects.equals(task.getId(), id))
+                .findFirst()
+                .orElse(null);
     }
 }
