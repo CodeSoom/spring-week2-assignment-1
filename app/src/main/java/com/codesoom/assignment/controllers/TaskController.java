@@ -41,6 +41,17 @@ public class TaskController {
         return tasks;
     }
 
+    @PutMapping("/{id}")
+    public String update(@PathVariable Long id, @RequestBody Task task) {
+
+        for (Task value : tasks) {
+            if (value.getId().equals(id)) {
+                value.setTitle(task.getTitle());
+            }
+        }
+        return "Update ok";
+    }
+
 
     private Long generatedId() {
 
