@@ -5,6 +5,8 @@ import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
 import com.codesoom.assignment.utils.IdGenerator;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@DisplayName("TestService 클래스")
 class TaskServiceTest {
 
     TaskService taskService;
@@ -23,83 +26,180 @@ class TaskServiceTest {
         taskService = new TaskService(taskRepository, idGenerator);
     }
 
-    @Test
-    void getEmptyTasks() {
-        List<Task> tasks = taskService.getTasks();
+    @Nested
+    @DisplayName("getTasks 메소드는")
+    class Describe_getTasks {
+        @Nested
+        @DisplayName("tasks가 있다면")
+        class Context_with_tasks {
+            @BeforeEach
+            void prepareTasks() {
+                Task task1 = new Task(1L, "task1");
+                Task task2 = new Task(2L, "task2");
+                taskService.addTask(task1);
+                taskService.addTask(task2);
+            }
 
-        assertEquals(0, tasks.size());
+            @Test
+            @DisplayName("task list를 리턴한다")
+            void it_returns_task_list() {
+                List<Task> tasks = taskService.getTasks();
+
+                assertEquals(2, tasks.size());
+            }
+        }
+
+        @Nested
+        @DisplayName("tasks가 없다면")
+        class Context_with_empty_tasks {
+            @Test
+            @DisplayName("empty task list를 리턴한다")
+            void it_returns_empty_task_list() {
+                List<Task> tasks = taskService.getTasks();
+
+                assertEquals(0, tasks.size());
+            }
+        }
     }
 
-    @Test
-    void getTasks() {
-        Task task1 = new Task(1L, "task1");
-        Task task2 = new Task(2L, "task2");
+    @Nested
+    @DisplayName("addTask 메소드는")
+    class Describe_addTask {
+        @Nested
+        @DisplayName("task가 있다면")
+        class Context_with_task {
+            String title = "task";
+            Task task = new Task(title);
 
-        taskService.addTask(task1);
-        taskService.addTask(task2);
-        List<Task> tasks = taskService.getTasks();
+            @Test
+            @DisplayName("저장한 task를 리턴한다")
+            void it_returns_task() {
+                Task task = taskService.addTask(this.task);
 
-        assertEquals(2, tasks.size());
+                assertEquals(title, task.getTitle());
+            }
+        }
     }
 
-    @Test
-    void addTask() {
-        Task task1 = new Task(1L, "task1");
+    @Nested
+    @DisplayName("getTask 메소드는")
+    class Describe_findOne {
+        @Nested
+        @DisplayName("task id가 유효하면")
+        class Context_with_valid_task_id {
+            Task task;
 
-        taskService.addTask(task1);
-        List<Task> tasks = taskService.getTasks();
+            @BeforeEach
+            void prepareTask() {
+                task = new Task("title");
+                taskService.addTask(task);
+            }
 
-        assertEquals(1, tasks.size());
+            @Test
+            @DisplayName("task를 리턴한다")
+            void it_returns_optional_task_with_value() {
+                Task foundTask = taskService.getTask(task.getId());
+
+                assertEquals(foundTask, task);
+            }
+        }
+
+        @Nested
+        @DisplayName("task id가 유효하지 않다면")
+        class Context_with_invalid_task_id {
+            Long notExistedId = -1L;
+
+            @Test
+            @DisplayName("TaskNotFoundException을 던진다")
+            void it_throws_task_not_found_exception() {
+                assertThrows(TaskNotFoundException.class,
+                        () -> taskService.getTask(notExistedId));
+            }
+        }
     }
 
+    @Nested
+    @DisplayName("updateTask 메소드는")
+    class Describe_updateTask {
+        @Nested
+        @DisplayName("수정하려는 task가 유효하면")
+        class Context_with_valid_task_id {
+            Task task;
+            Task taskForUpdate;
 
-    @Test
-    void getTask() {
-        Task task1 = new Task(1L, "task1");
+            @BeforeEach
+            void prepareTask() {
+                task = new Task("title");
+                taskService.addTask(task);
+                taskForUpdate = new Task("new title");
+            }
 
-        taskService.addTask(task1);
-        Task task = taskService.getTask(task1.getId());
+            @Test
+            @DisplayName("수정된 task를 리턴한다")
+            void it_returns_optional_task_with_value() {
+                Task updatedTask = taskService.updateTask(task.getId(), taskForUpdate);
 
-        assertEquals(task, task1);
+                assertEquals(taskForUpdate.getTitle(), updatedTask.getTitle());
+            }
+        }
+
+        @Nested
+        @DisplayName("task id가 유효하지 않다면")
+        class Context_with_invalid_task_id {
+            Long notExistedId = -1L;
+            Task taskForUpdate;
+
+            @BeforeEach
+            void prepareTask() {
+                taskForUpdate = new Task("new title");
+            }
+
+            @Test
+            @DisplayName("TaskNotFoundException을 던진다")
+            void it_throws_task_not_found_exception() {
+                assertThrows(TaskNotFoundException.class,
+                        () -> taskService.updateTask(notExistedId, taskForUpdate));
+            }
+        }
     }
 
-    @Test
-    void getNotExistedTask() {
-        Long notExistedId = 1L;
+    @Nested
+    @DisplayName("deleteTask 메소드는")
+    class Describe_deleteTask {
+        @Nested
+        @DisplayName("task id가 유효하면")
+        class Context_with_valid_task_id {
+            Task task;
 
-        assertThrows(TaskNotFoundException.class,
-                () -> taskService.getTask(notExistedId));
-    }
+            @BeforeEach
+            void prepareTask() {
+                task = new Task("title");
+                taskService.addTask(task);
+            }
 
-    @Test
-    void updateTask() {
-        Task task1 = new Task(1L, "task1");
-        Task newTask = new Task(1L, "newTask");
+            @Test
+            @DisplayName("task를 삭제한다")
+            void it_delete_a_task() {
+                taskService.deleteTask(task.getId());
 
-        taskService.addTask(task1);
-        taskService.updateTask(task1.getId(), newTask);
+                assertThrows(TaskNotFoundException.class,
+                        () -> taskService.getTask(task.getId()));
+            }
+        }
 
-        assertEquals(task1.getTitle(), newTask.getTitle());
-    }
+        @Nested
+        @DisplayName("task id가 유효하지 않다면")
+        class Context_with_invalid_task_id {
+            Long notExistedId = -1L;
 
-    @Test
-    void updateNotExistedTask() {
-        Task task1 = new Task(1L, "task1");
-        Long notExistedId = 1L;
 
-        assertThrows(TaskNotFoundException.class,
-                () -> taskService.updateTask(notExistedId, task1));
-    }
-
-    @Test
-    void deleteTask() {
-        Task task1 = new Task(1L, "task1");
-
-        taskService.addTask(task1);
-        taskService.deleteTask(task1.getId());
-
-        assertThrows(TaskNotFoundException.class,
-                () -> taskService.getTask(task1.getId()));
+            @Test
+            @DisplayName("TaskNotFoundException을 던진다")
+            void it_throws_task_not_found_exception() {
+                assertThrows(TaskNotFoundException.class,
+                        () -> taskService.deleteTask(notExistedId));
+            }
+        }
     }
 
 }

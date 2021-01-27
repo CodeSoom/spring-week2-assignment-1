@@ -51,7 +51,7 @@ class TaskRepositoryTest {
         class Context_with_empty_tasks {
             @Test
             @DisplayName("empty task list를 리턴한다")
-            void it_returns_task_list() {
+            void it_returns_empty_task_list() {
                 List<Task> tasks = taskRepository.findAll();
 
                 assertEquals(0, tasks.size());
