@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.application.JsonTask;
 import com.codesoom.assignment.application.TaskApplicationService;
 import com.codesoom.assignment.application.TaskJsonTransfer;
+import com.codesoom.assignment.domain.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,9 @@ public class TaskController {
     TaskJsonTransfer transfer = new TaskJsonTransfer();
 
     @GetMapping
-    public String getAllTasks() {
-        return transfer.taskListToJson(taskApplicationService.getAllTasks()).orElseThrow();
+    public String getAllTasks() throws UnknownException {
+        return transfer.taskListToJson(taskApplicationService.getAllTasks())
+            .orElseThrow(UnknownException::new);
     }
 
     @GetMapping("/{id}")
@@ -32,11 +34,14 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createTask(@RequestBody JsonTask jsonTask) {
+    public String createTask(@RequestBody JsonTask jsonTask) throws NotFoundTaskException, UnknownException {
         Long createdTaskId = taskApplicationService.createTask(jsonTask.title);
-        return taskApplicationService.findTask(createdTaskId)
-            .flatMap(transfer::taskToJson)
-            .orElseThrow();
+        Task createdTask = taskApplicationService.findTask(createdTaskId)
+            .orElseThrow(
+                () -> new NotFoundTaskException(createdTaskId)
+            );
+        return transfer.taskToJson(createdTask)
+            .orElseThrow(UnknownException::new);
     }
 
     @PutMapping("/{id}")

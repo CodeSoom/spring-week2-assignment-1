@@ -12,4 +12,10 @@ public class TaskControllerAdvice {
     public String notFoundTaskExceptionHandler(NotFoundTaskException e) {
         return e.getMessage();
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String unknownExceptionHandler(UnknownException e) {
+        return e.getMessage();
+    }
 }
