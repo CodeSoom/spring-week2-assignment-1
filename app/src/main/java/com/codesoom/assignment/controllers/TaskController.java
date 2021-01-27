@@ -35,14 +35,14 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task create(@RequestBody Task task) {
+    public ResponseEntity<Task> create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
-            // TODO: validation error....
+
         }
         task.setId(generateId());
         tasks.add(task);
 
-        return task;
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
