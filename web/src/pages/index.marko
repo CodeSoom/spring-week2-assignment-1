@@ -23,15 +23,64 @@ class {
     await axios.delete("http://localhost:8080/tasks/" + taskId);
     await this.loadTasks();
   }
+
+  showEditItem(taskId, event, el) {
+    this.switchItemVisible(taskId, true);
+  }
+
+  async updateTask(taskId, event, el) {
+    const title = this.getEl("modifyTitle" + taskId).value;
+    await axios.put("http://localhost:8080/tasks/" + taskId, {
+      title,
+    });
+    this.switchItemVisible(taskId, false);
+    await this.loadTasks();
+  }
+
+  cancelUpdate(taskId, event, el) {
+    this.switchItemVisible(taskId, false);
+    this.loadTasks();
+  }
+
+  switchItemVisible(taskId, status) {
+    const item = this.getEl("item" + taskId);
+    const itemEdit = this.getEl("itemEdit" + taskId);
+    if (status) {
+        item.classList.remove('show');
+        item.classList.add('hide');
+        itemEdit.classList.remove('hide');
+        itemEdit.classList.add('show');
+    } else {
+        itemEdit.classList.remove('show');
+        itemEdit.classList.add('hide');
+        item.classList.remove('hide');
+        item.classList.add('show'); 
+    }
+  }
+     
 }
+style {
+  .show {
+        display: inline;
+    }
+  .hide {
+      display: none;
+  }      
+} 
 
 <h1>ToDo</h1>
 <ol>
   <for|task| of=state.tasks>
     <li>
-      <p style="display: block;">
+      <p.show key="item${task.id}">
         <label>${task.title}</label>
-        <button type="button" on-click("deleteTask", '${task.id}')>완료</button>
+        <button type="button" on-click("showEditItem", "${task.id}")>수정</button>
+        <button type="button" on-click("deleteTask", "${task.id}")>완료</button>
+      </p>
+      <p.hide key="itemEdit${task.id}">
+        <input type="text" key="modifyTitle${task.id}" value="${task.title}">
+        <button type="button" on-click("updateTask", "${task.id}")>확인</button>
+        <button type="button" on-click("cancelUpdate", "${task.id}")>취소</button>
       </p>
     </li>
   </for>
