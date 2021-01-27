@@ -54,6 +54,15 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Task> modifyTask(@PathVariable("id") Long id, @RequestBody Task task) {
+        Task source = findTask(id);
+        if (source == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        source.setTitle(task.getTitle());
+        return new ResponseEntity<>(source, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+    }
 
     private Task findTask(Long id) {
         return tasks.stream()
