@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Managing task. Singleton class.
+ *
  * @see Task
  */
 public class TaskManager {
@@ -30,8 +31,14 @@ public class TaskManager {
         newID = 0;
     }
 
+    /**
+     * Check target id is exists.
+     *
+     * @param id is target id.
+     * @return true when target id is exist.
+     */
     private boolean isExistID(long id) {
-        Task task = tasks.remove(id);
+        Task task = tasks.get(id);
         return task != null;
     }
 
@@ -81,7 +88,7 @@ public class TaskManager {
     /**
      * Modify one task.
      *
-     * @param id is target id.
+     * @param id    is target id.
      * @param title is want to modify title.
      * @return modified task.
      * @throws NotFoundTaskIDException when not exists target id.
