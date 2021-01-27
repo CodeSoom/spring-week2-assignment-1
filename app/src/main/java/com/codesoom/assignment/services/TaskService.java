@@ -37,8 +37,4 @@ public class TaskService {
         return taskRepository.delete(id);
     }
 
-    public boolean readTaskIsNull(Long id){
-        return readTask(id) == null;
-    }
-
 }

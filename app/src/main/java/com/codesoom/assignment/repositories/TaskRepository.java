@@ -1,5 +1,6 @@
 package com.codesoom.assignment.repositories;
 
+import com.codesoom.assignment.advice.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ public class TaskRepository {
     public Task findById(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst().orElseThrow();
+                .findFirst().orElseThrow(() -> new TaskNotFoundException("Not found task"));
     }
 
     public Task create(Task task) {

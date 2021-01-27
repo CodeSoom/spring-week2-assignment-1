@@ -29,10 +29,6 @@ public class TaskController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task getTask(@PathVariable Long id) {
-        if(taskService.readTaskIsNull(id)) {
-            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
-        }
-
         return taskService.readTask(id);
     }
 
@@ -45,30 +41,18 @@ public class TaskController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Task deleteTask(@PathVariable Long id) {
-        if(taskService.readTaskIsNull(id)) {
-            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
-        }
-
         return taskService.deleteTask(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task putUpdateTask(@PathVariable Long id, @RequestBody Task task) {
-        if(taskService.readTaskIsNull(id)) {
-            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
-        }
-
         return taskService.updateTask(id, task);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task patchUpdateTask(@PathVariable Long id, @RequestBody Task task) {
-        if(taskService.readTaskIsNull(id)) {
-            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
-        }
-
         return taskService.updateTask(id, task);
     }
 }
