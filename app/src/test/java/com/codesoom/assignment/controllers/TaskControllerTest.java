@@ -41,7 +41,6 @@ class TaskControllerTest {
     @Nested
     @DisplayName("list 메소드는")
     class Describe_list {
-
         @Nested
         @DisplayName("tasks가 있다면")
         class Context_with_tasks {
@@ -105,7 +104,6 @@ class TaskControllerTest {
     @Nested
     @DisplayName("read 메소드는")
     class Describe_read {
-
         @Nested
         @DisplayName("task id가 유효하다면")
         class Context_with_valid_task_id {
@@ -150,7 +148,6 @@ class TaskControllerTest {
     @Nested
     @DisplayName("update 메소드는")
     class Describe_update {
-
         @Nested
         @DisplayName("task가 유효하다면")
         class Context_with_valid_task {
@@ -199,7 +196,6 @@ class TaskControllerTest {
     @Nested
     @DisplayName("delete 메소드는")
     class Describe_delete {
-
         @Nested
         @DisplayName("task id가 유효하다면")
         class Context_with_valid_task_id {
