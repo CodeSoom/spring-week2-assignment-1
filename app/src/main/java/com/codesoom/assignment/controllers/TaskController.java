@@ -21,14 +21,12 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSpecificTask(@PathVariable Long id) {
+    public String getSpecificTask(@PathVariable Long id) throws NotFoundTaskException {
         return taskApplicationService.findTask(id)
             .flatMap(
                 it -> transfer.taskToJson(it)
-            ).map(
-                it -> new ResponseEntity<>(it, HttpStatus.OK)
-            ).orElse(
-                new ResponseEntity<>(null, HttpStatus.NOT_FOUND)
+            ).orElseThrow(
+                () -> new NotFoundTaskException(id)
             );
     }
 
