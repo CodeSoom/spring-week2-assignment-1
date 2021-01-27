@@ -2,6 +2,7 @@ package com.codesoom.assignment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -15,22 +16,29 @@ public class TaskList {
         return taskList;
     }
 
-    public Task getTask(Long id) {
-        return taskList.stream().filter(task -> Objects.equals(id, task.getId())).findFirst().orElse(new Task());
+    public Task getTask(Long id) throws NoSuchElementException {
+        return taskList.stream().filter(task -> Objects.equals(id, task.getId()))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException());
     }
 
-    public Task add(String title) {
+    public Task add(String title) throws UnknownError {
         Long newId = Long.valueOf(taskList.size());
         Task task = new Task(newId, title);
-        return taskList.add(task) ? task : null;
+
+        if (taskList.add(task)) {
+            return task;
+        }
+
+        throw new UnknownError();
     }
 
-    public Task modify(Long id, String title) {
+    public Task modify(Long id, String title) throws NoSuchElementException {
         Task task = getTask(id);
         int index = taskList.indexOf(task);
 
         if (index < 0) {
-            return null;
+            throw new NoSuchElementException();
         }
 
         task.setTitle(title);

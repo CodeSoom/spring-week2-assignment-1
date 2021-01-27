@@ -17,7 +17,7 @@ public class TaskController {
 
     @GetMapping
     public String list() throws IOException {
-        return jsonParser.toJson(taskList);
+        return jsonParser.toJson(taskList.getTaskList());
     }
 
     @GetMapping("/{id:[0-9]+}")
