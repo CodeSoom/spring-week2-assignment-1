@@ -192,7 +192,6 @@ class TaskServiceTest {
         class Context_with_invalid_task_id {
             Long notExistedId = -1L;
 
-
             @Test
             @DisplayName("TaskNotFoundException을 던진다")
             void it_throws_task_not_found_exception() {
