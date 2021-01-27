@@ -29,7 +29,7 @@ public class TaskController {
     {
         Task updateVar = getTask(id);
         updateVar.setTitle(task.getTitle());
-        return task;
+        return updateVar;
     }
 
     private Task getTask(Long id) {
@@ -39,12 +39,12 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public Task delete(@PathVariable Long id, @RequestBody Task task)
+    public String delete(@PathVariable Long id, @RequestBody Task task)
     {
 
-        task.getId();
+        task = getTask(id);
         tasks.remove(task);
-        return task;
+        return "";
     }
 
     private Long generateId() {
