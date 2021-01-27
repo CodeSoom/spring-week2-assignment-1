@@ -51,7 +51,7 @@ class TaskControllerTest {
     @DisplayName("GET 메소드는")
     class Describe_GET {
         @Nested
-        @DisplayName("만약 tasks가 비어있다면")
+        @DisplayName("tasks가 비어있다면")
         class Context_empty_task {
             @Test
             @DisplayName("빈 배열을 리턴한다")
@@ -63,7 +63,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("만약 존재하지 않 task id를 요청한다면")
+        @DisplayName("존재하지 않는 task id를 요청한다면")
         class Context_invalid_task_id {
             @Test
             @DisplayName("404 에러를 리턴한다")
@@ -74,7 +74,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("만약 존재하는 task id를 요청한다면")
+        @DisplayName("존재하는 task id를 요청한다면")
         class Context_exist_id {
             @Test
             @DisplayName("task 객체를 리턴한다")
@@ -110,7 +110,7 @@ class TaskControllerTest {
     @DisplayName("PUT/PATCH 메소드는")
     class Describe_PUT {
         @Nested
-        @DisplayName("만약 존재하는 task id를 수정요청 한다면")
+        @DisplayName("존재하는 task id를 수정요청 한다면")
         class Context_exist_id {
             @Test
             @DisplayName("수정된 task 객체를 리턴한다")
@@ -135,7 +135,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("만약 존재하지 않는 task id를 수정요청 한다면")
+        @DisplayName("존재하지 않는 task id를 수정요청 한다면")
         class Context_not_exist_id {
             @Test
             @DisplayName("404 에러를 리턴한다")
@@ -154,7 +154,7 @@ class TaskControllerTest {
     @DisplayName("DELETE 메소드는")
     class Describe_DELETE {
         @Nested
-        @DisplayName("만약 존재하는 task id를 삭제요청을 한다면")
+        @DisplayName("존재하는 task id를 삭제요청을 한다면")
         class Context_exist_id {
             @Test
             @DisplayName("201 코드를 리턴한다")
@@ -166,7 +166,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("만약 존재하지 않 task id를 삭제요청을 한다면")
+        @DisplayName("존재하지 않는 task id를 삭제요청을 한다면")
         class Context_not_exist_id {
             @Test
             @DisplayName("404 에러를 리턴한다")
