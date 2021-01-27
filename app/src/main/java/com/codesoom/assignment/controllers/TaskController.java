@@ -24,16 +24,24 @@ public class TaskController {
         tasks.add(task);
         return task;
     }
-    @PutMapping @PatchMapping
-    public Task update(@RequestBody Task task)
+    @PutMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task task)
     {
-        task.setTitle(task.getTitle());
+        Task updateVar = getTask(id);
+        updateVar.setTitle(task.getTitle());
         return task;
     }
 
-    @DeleteMapping
-    public Task delete(@RequestBody Task task)
+    private Task getTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst().orElse(null);
+    }
+
+    @DeleteMapping("/{id}")
+    public Task delete(@PathVariable Long id, @RequestBody Task task)
     {
+
         task.getId();
         tasks.remove(task);
         return task;
