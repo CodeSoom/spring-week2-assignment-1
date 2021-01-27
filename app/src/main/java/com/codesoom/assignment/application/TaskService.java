@@ -1,15 +1,13 @@
 package com.codesoom.assignment.application;
 
 import com.codesoom.assignment.domain.Task;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
+import com.codesoom.assignment.domain.TaskNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
 
 
 @Service
@@ -45,7 +43,7 @@ public class TaskService {
     }
 
     private Task getTaskById(long id) throws IllegalArgumentException {
-        return findTaskById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found"));
+        return findTaskById(id).orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     private Optional<Task> findTaskById(long id) {
