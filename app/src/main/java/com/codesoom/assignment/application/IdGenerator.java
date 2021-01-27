@@ -11,6 +11,6 @@ public class IdGenerator {
     }
 
     public void resetId() {
-        idCounter.set(0);
+        idCounter.set(START_ID);
     }
 }
