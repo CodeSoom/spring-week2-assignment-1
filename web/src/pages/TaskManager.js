@@ -1,8 +1,8 @@
-const axios = require("axios");
+const axios = require('axios');
 
-class TaskManager {
+module.exports = class {
   async findAll() {
-    const { data } = await axios.get("http://localhost:8080/tasks");
+    const { data } = await axios.get('http://localhost:8080/tasks');
     return data;
   }
 
@@ -12,7 +12,7 @@ class TaskManager {
   }
 
   async insertOne(title) {
-    const { data } = await axios.post("http://localhost:8080/tasks", {
+    const { data } = await axios.post('http://localhost:8080/tasks', {
       title,
     });
     return data;
@@ -29,6 +29,4 @@ class TaskManager {
     const { data } = await axios.delete(`http://localhost:8080/tasks/${id}`);
     return data;
   }
-}
-
-module.exports = TaskManager;
+};

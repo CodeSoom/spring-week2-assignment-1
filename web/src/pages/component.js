@@ -20,6 +20,6 @@ module.exports = class {
   }
 
   setTasks(tasks) {
-    this.setState("tasks", tasks);
+    this.setState('tasks', tasks);
   }
 };
