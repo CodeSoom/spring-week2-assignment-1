@@ -1,5 +1,11 @@
 import axios from 'axios'
 
+style {
+  .hidden {
+    display: none;
+  }
+}
+
 class {
   onCreate() {
     this.state = {
@@ -34,21 +40,17 @@ class {
       task.style.display = "none";
     }
   }
-
-  update(taskTitle, event) {
-    this.getEl("edit").value = taskTitle;
-  }
 }
 
 static async function editTask(taskId, taskTitle, event) {
   event.preventDefault();
   this.toggle(taskId);
-  this.getEl("edit").value = taskTitle;
+  this.getEl(`editInput_${taskId}`).value = taskTitle;
 }
 
 static async function updateTask(taskId, event) {
   event.preventDefault();
-  const title = this.getEl("edit").value;
+  const title = this.getEl(`editInput_${taskId}`).value;
   await axios.put(`http://localhost:8080/tasks/${taskId}`, {
     title
   });
@@ -74,7 +76,7 @@ static async function completeTask(taskId, event) {
     <for|task| of=state.tasks>
       <li>
         <div class="hidden" key=`edit_${task.id}`>
-          <input id:scoped="edit" key="edit" type="text"/>
+          <input id:scoped="edit" key=`editInput_${task.id}` type="text"/>
           <button type="button" on-click(updateTask, task.id)>확인</button>
           <button type="button" on-click(cancelTask, task.id)>취소</button>
         </div>
