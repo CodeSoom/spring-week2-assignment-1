@@ -22,6 +22,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("<id: %s title: %s>", this.id, this.title);
+        return String.format("<Task: %s, id: %s title: %s>", this.id, this.title);
     }
 }
