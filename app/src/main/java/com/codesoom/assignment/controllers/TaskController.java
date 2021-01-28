@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
  */
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     TaskList taskList = new TaskList();
 
