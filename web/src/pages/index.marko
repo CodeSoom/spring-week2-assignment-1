@@ -1,3 +1,97 @@
-<layout>
-  <h1>ToDo</h1>
-</layout>
+import axios from "axios"
+
+class {
+  onCreate() {
+    this.state = {
+      tasks: [],
+      isEdit: false
+    };
+    this.loadTasks();
+  }
+
+  async loadTasks(){
+    const { data } = await axios.get('http://localhost:8080/tasks');
+    this.state.tasks = data;
+  }
+
+  async addTask() {
+    const title = this.getEl('title').value
+    await axios.post('http://localhost:8080/tasks', {
+      title: title
+    });
+    await this.loadTasks();
+  }
+
+  async updateTask(taskId) {
+    const title = this.getEl(taskId).value
+    await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+      title: title
+    });
+    this.cancelEdit();
+    await this.loadTasks();
+  }
+
+  async deleteTask(taskId) {
+    await axios.delete(`http://localhost:8080/tasks/${taskId}`);
+    this.cancelEdit();
+    await this.loadTasks();
+  }
+
+  changeEdit() {
+    this.state.isEdit = true;
+
+  }
+
+  cancelEdit() {
+    this.state.isEdit = false;
+  }
+}
+
+
+<style>
+  .btn_margin {
+    margin: 0 4px;
+  }
+  li {
+    margin: 10px 0 0 0;
+  }
+</style>
+<h1>ToDo</h1>
+
+<ol>
+  <for|task| of=state.tasks>
+  <li>
+    <if(!state.isEdit)>
+    <div>
+      <span>${task.title}</span>
+      <span>
+        <button class="btn_margin taskBtn" on-click("changeEdit")>수정</button>
+      </span>
+      <span>
+        <button class="btn_margin taskBtn" on-click("deleteTask", task.id)>완료</button>
+      </span>
+    </div>
+    </if>
+    <else>
+    <div>
+      <span><input type="text" key="${task.id}" value="${task.title}"></span>
+      <span>
+        <button class="btn_margin editBtn" on-click("updateTask", task.id)>확인</button>
+      </span>
+      <span>
+        <button class="btn_margin editBtn" on-click("cancelEdit")>취소</button>
+      </span>
+    </div>
+    </else>
+  </li>
+  </for>
+</ol>
+<p>
+  <label for:scoped="title">
+    할 일
+  </label>
+  <input id:scoped="title" key="title" type="text" />
+  <button id="addButton" type="button" on-click("addTask")>
+  추가
+  </button>
+</p>
