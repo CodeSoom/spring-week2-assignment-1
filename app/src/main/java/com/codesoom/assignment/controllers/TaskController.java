@@ -39,7 +39,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Task createdTask = this.taskService.createTaskService(task);
 
@@ -58,9 +58,14 @@ public class TaskController {
     @PutMapping("/{id}")
     public ResponseEntity<Task> modifyTask(@PathVariable("id") Long id, @RequestBody Task source) {
         Task ret = taskService.getTaskService(id);
-        if (ret == null || source.getTitle().isBlank()) {
+        if (ret == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        if (source.getTitle().isBlank()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         String title = source.getTitle();
         Task modifiedTask = taskService.modifyTaskService(id, title);
         return new ResponseEntity<>(modifiedTask, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
