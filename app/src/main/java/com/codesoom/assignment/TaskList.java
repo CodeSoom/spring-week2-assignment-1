@@ -49,6 +49,6 @@ public class TaskList {
     }
 
     private Long generateId() {
-        return taskList.stream().mapToLong(task -> task.getId()).max().orElse(0);
+        return taskList.stream().mapToLong(task -> task.getId()).max().orElse(0) + 1;
     }
 }
