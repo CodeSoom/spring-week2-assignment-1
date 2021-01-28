@@ -9,67 +9,40 @@ package com.codesoom.assignment.controllers;
 
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @CrossOrigin
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
-    private final static String NO_SEARCH_ID = "입력하신 ID는 존재하지 않습니다.zz";
+    @Autowired
+    TaskService taskService;
 
     @GetMapping("/tasks")
-    public List<Task> list() {
-        return tasks;
+    public List<Task> getTasks() {
+        return taskService.getTasks();
     }
 
     @GetMapping("/tasks/{id}")
-    public String findOne(@PathVariable Long id) {
-        Task source = findTask(id);
-        if(source == null){
-            return NO_SEARCH_ID;
-        }
-        return source.toString();
+    public String findOneTask(@PathVariable Long id) {
+        return taskService.findOneTask(id);
     }
 
     @PostMapping("/tasks")
-    public Task create(@RequestBody Task task) {
-        task.setId(generateId());
-        tasks.add(task);
-        return task;
+    public Task addTask(@RequestBody Task task) {
+        return taskService.addTask(task);
     }
 
     @RequestMapping(path = "/tasks/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
-    public String modify(@PathVariable Long id, @RequestBody Task task) {
-        Task source = findTask(id);
-        if(source == null){
-            return NO_SEARCH_ID;
-        }
-        source.setTitle(task.getTitle());
-        return source.toString();
+    public String taskModify(@PathVariable Long id, @RequestBody Task task) {
+        return taskService.taskModify(id, task);
     }
 
     @DeleteMapping("/tasks/{id}")
     public String delete(@PathVariable Long id) {
-        Task source = findTask(id);
-        if(source == null){
-            return NO_SEARCH_ID;
-        }
-        tasks.remove(source);
-        return "DELETE Success";
-    }
-
-    private Long generateId() {
-        return ++newId;
-    }
-
-    private Task findTask(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return taskService.deleteTask(id);
     }
 }
