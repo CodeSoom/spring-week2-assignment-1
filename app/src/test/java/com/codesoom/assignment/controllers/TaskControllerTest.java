@@ -100,6 +100,22 @@ class TaskControllerTest {
                         .andExpect(status().isCreated());
             }
         }
+
+        @Nested
+        @DisplayName("task가 유효하지 않다면")
+        class Context_with_in_valid_task {
+            TaskDto taskDto = new TaskDto("");
+
+            @Test
+            @DisplayName("400코드를 리턴한다")
+            void it_returns_400() throws Exception {
+                mockMvc.perform(post("/tasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .andExpect(status().isBadRequest());
+            }
+        }
     }
 
     @Nested
@@ -177,6 +193,30 @@ class TaskControllerTest {
 
         @Nested
         @DisplayName("task가 유효하지 않다면")
+        class Context_with_in_valid_task {
+            Task task;
+            TaskDto taskDto;
+
+            @BeforeEach
+            void prepareTask() {
+                task = new Task("title");
+                taskService.addTask(task);
+                taskDto = new TaskDto("");
+            }
+
+            @Test
+            @DisplayName("400코드를 리턴한다")
+            void it_returns_400() throws Exception {
+                mockMvc.perform(put("/tasks/{id}", task.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("task id가 유효하지 않다면")
         class Context_with_invalid_task {
             Long notExistedId = -1L;
             TaskDto taskDto = new TaskDto("newTitle");
