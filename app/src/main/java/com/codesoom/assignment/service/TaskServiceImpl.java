@@ -3,8 +3,11 @@ package com.codesoom.assignment.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.context.annotation.Configuration;
+
 import com.codesoom.assignment.model.Task;
 
+@Configuration
 public class TaskServiceImpl implements TaskService {
 
     private List<Task> tasks = new ArrayList<>();

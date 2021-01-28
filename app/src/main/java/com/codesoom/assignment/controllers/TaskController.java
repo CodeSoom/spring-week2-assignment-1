@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,7 +24,8 @@ import com.codesoom.assignment.service.TaskServiceImpl;
 @CrossOrigin
 public class TaskController {
 
-    TaskService taskService = new TaskServiceImpl();
+    @Autowired
+    private TaskService taskService;
 
     @GetMapping
     public List<Task> list() {
