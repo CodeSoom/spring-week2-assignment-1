@@ -1,10 +1,13 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.TaskDto;
 import com.codesoom.assignment.services.TaskService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -13,9 +16,11 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final ModelMapper modelMapper;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, ModelMapper modelMapper) {
         this.taskService = taskService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
@@ -25,7 +30,8 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) {
+    public Task create(@RequestBody @Valid TaskDto taskDto) {
+        Task task = modelMapper.map(taskDto, Task.class);
         return taskService.addTask(task);
     }
 
@@ -35,8 +41,11 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task update(@PathVariable Long id, @RequestBody Task newTask) {
-        return taskService.updateTask(id, newTask);
+    public Task update(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto) {
+        System.out.println(11111);
+        Task task = modelMapper.map(taskDto, Task.class);
+        System.out.println(task.toString());
+        return taskService.updateTask(id, task);
     }
 
     @DeleteMapping("/{id}")

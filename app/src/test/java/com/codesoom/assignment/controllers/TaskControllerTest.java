@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.TaskDto;
 import com.codesoom.assignment.repositories.TaskRepository;
 import com.codesoom.assignment.services.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,7 +88,7 @@ class TaskControllerTest {
         @Nested
         @DisplayName("task가 있다면")
         class Context_with_task {
-            Task task = new Task("title");
+            TaskDto taskDto = new TaskDto("title");
 
             @Test
             @DisplayName("201코드와 생성된 task를 리턴한다")
@@ -95,7 +96,7 @@ class TaskControllerTest {
                 mockMvc.perform(post("/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(task)))
+                        .content(objectMapper.writeValueAsString(taskDto)))
                         .andExpect(status().isCreated());
             }
         }
@@ -152,22 +153,22 @@ class TaskControllerTest {
         @DisplayName("task가 유효하다면")
         class Context_with_valid_task {
             Task task;
-            Task taskForUpdate;
+            TaskDto taskDto;
 
             @BeforeEach
             void prepareTask() {
                 task = new Task("title");
                 taskService.addTask(task);
-                taskForUpdate = new Task(task.getId(), "newTask");
+                taskDto = new TaskDto("newTask");
             }
 
             @Test
             @DisplayName("200코드와 수정된 task를 리턴한다")
             void it_returns_200_and_updated_task() throws Exception {
-                mockMvc.perform(put("/tasks/{id}", taskForUpdate.getId())
+                mockMvc.perform(put("/tasks/{id}", task.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskForUpdate)))
+                        .content(objectMapper.writeValueAsString(taskDto)))
                         .andExpect(jsonPath("id").exists())
                         .andExpect(jsonPath("title").exists())
                         .andExpect(status().isOk());
@@ -177,15 +178,16 @@ class TaskControllerTest {
         @Nested
         @DisplayName("task가 유효하지 않다면")
         class Context_with_invalid_task {
-            Task taskForUpdate = new Task(1L, "task");
+            Long notExistedId = -1L;
+            TaskDto taskDto = new TaskDto("newTitle");
 
             @Test
             @DisplayName("404코드를 리턴한다")
             void it_returns_404() throws Exception {
-                mockMvc.perform(put("/tasks/{id}", taskForUpdate.getId())
+                mockMvc.perform(put("/tasks/{id}", notExistedId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskForUpdate)))
+                        .content(objectMapper.writeValueAsString(taskDto)))
                         .andExpect(jsonPath("id").doesNotExist())
                         .andExpect(jsonPath("title").doesNotExist())
                         .andExpect(status().isNotFound());
