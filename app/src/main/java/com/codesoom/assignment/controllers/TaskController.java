@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,7 +16,6 @@ import java.util.NoSuchElementException;
 @RequestMapping("/tasks")
 public class TaskController {
     TaskList taskList = new TaskList();
-    JsonParser jsonParser = new JsonParser();
 
     @GetMapping
     public List<Task> list() {
