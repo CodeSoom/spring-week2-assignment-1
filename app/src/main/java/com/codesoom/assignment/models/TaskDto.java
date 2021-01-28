@@ -18,4 +18,9 @@ public class TaskDto {
         return title;
     }
 
+    @Override
+    public String toString() {
+        return String.format("{ title = %s }", title);
+    }
+
 }
