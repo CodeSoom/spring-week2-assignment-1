@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codesoom.assignment.model.Task;
 import com.codesoom.assignment.service.TaskService;
-import com.codesoom.assignment.service.TaskServiceImpl;
 
 @RestController
 @RequestMapping("/tasks")
