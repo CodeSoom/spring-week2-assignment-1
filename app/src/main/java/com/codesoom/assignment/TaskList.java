@@ -23,8 +23,7 @@ public class TaskList {
     }
 
     public Task add(String title) throws UnknownError {
-        Long newId = Long.valueOf(taskList.size());
-        Task task = new Task(newId, title);
+        Task task = new Task(generateId(), title);
 
         if (taskList.add(task)) {
             return task;
@@ -47,5 +46,9 @@ public class TaskList {
 
     public boolean remove(Long id) {
         return taskList.removeIf(task -> Objects.equals(id, task.getId()));
+    }
+
+    private Long generateId() {
+        return taskList.stream().mapToLong(task -> task.getId()).max().orElse(0);
     }
 }
