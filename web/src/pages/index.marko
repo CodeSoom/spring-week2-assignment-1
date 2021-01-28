@@ -21,6 +21,45 @@ class {
     });
     await this.loadTasks();
   }
+
+  toggle(taskId) {
+    const task = this.getEl("task_" + taskId);
+    const editTask = this.getEl("edit_" + taskId);
+
+    if (editTask.style.display == "block") {
+      editTask.style.display = "none";
+      task.style.display = "block";
+    } else {
+      editTask.style.display = "block";
+      task.style.display = "none";
+    }
+  }
+
+  update(taskTitle, event) {
+    this.getEl("edit").value = taskTitle;
+  }
+}
+
+static async function editTask(taskId, taskTitle, event) {
+  event.preventDefault();
+  this.toggle(taskId);
+  this.getEl("edit").value = taskTitle;
+}
+
+static async function updateTask(taskId, event) {
+  event.preventDefault();
+  const title = this.getEl("edit").value;
+  await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+    title
+  });
+  await this.loadTasks();
+  this.toggle(taskId);
+}
+
+static async function cancelTask(taskId, event) {
+  event.preventDefault();
+  this.toggle(taskId);
+  await this.loadTasks();
 }
 
 static async function completeTask(taskId, event) {
@@ -34,8 +73,15 @@ static async function completeTask(taskId, event) {
   <ol>
     <for|task| of=state.tasks>
       <li>
-        ${task.title}<button>수정</button>
-        <button type="button" on-click(completeTask, task.id)>완료</button>
+        <div class="hidden" key=`edit_${task.id}`>
+          <input id:scoped="edit" key="edit" type="text"/>
+          <button type="button" on-click(updateTask, task.id)>확인</button>
+          <button type="button" on-click(cancelTask, task.id)>취소</button>
+        </div>
+        <div key=`task_${task.id}`>
+          ${task.title}<button type="button" on-click(editTask, task.id, task.title)>수정</button>
+          <button type="button" on-click(completeTask, task.id)>완료</button>
+        </div>
       </li>
     </for>
   </ol>

@@ -7,7 +7,7 @@ public class Tasks {
     private Long taskId = 1L;
 
     public Tasks() {
-        this.tasks = new HashMap<>();
+        this.tasks = new LinkedHashMap<>();
     }
 
     public void addTask(Task task) {
