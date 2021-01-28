@@ -9,6 +9,8 @@ import java.util.List;
 
 /**
  * Task API.
+ *
+ * @see Task
  */
 @RestController
 @RequestMapping("/tasks")
