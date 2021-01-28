@@ -21,18 +21,19 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codesoom.assignment.model.Task;
+import com.codesoom.assignment.service.TaskService;
+import com.codesoom.assignment.service.TaskServiceImpl;
 
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
 
-    private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+    TaskService taskService = new TaskServiceImpl();
 
     @GetMapping
     public List<Task> list() {
-        return tasks;
+        return taskService.getTaskListService();
     }
 
     @PostMapping
@@ -40,15 +41,14 @@ public class TaskController {
         if (task.getTitle().isBlank()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        task.setId(generateId());
-        tasks.add(task);
+        Task createdTask = this.taskService.createTaskService(task);
 
-        return new ResponseEntity<>(task, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable("id") Long id) {
-        Task task = findTask(id);
+        Task task = taskService.getTaskService(id);
         if (task == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -56,34 +56,24 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> modifyTask(@PathVariable("id") Long id, @RequestBody Task task) {
-        Task source = findTask(id);
-        if (source == null || task.getTitle().isBlank()) {
+    public ResponseEntity<Task> modifyTask(@PathVariable("id") Long id, @RequestBody Task source) {
+        Task ret = taskService.getTaskService(id);
+        if (ret == null || source.getTitle().isBlank()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        source.setTitle(task.getTitle());
-        return new ResponseEntity<>(source, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        String title = source.getTitle();
+        Task modifiedTask = taskService.modifyTaskService(id, title);
+        return new ResponseEntity<>(modifiedTask, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable("id") Long id) {
-        Task task = findTask(id);
+        Task task = taskService.getTaskService(id);
         if (task == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        tasks.remove(task);
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        taskService.deleteTaskService(task);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private Task findTask(Long id) {
-        return tasks.stream()
-            .filter(task -> task.getId().equals(id))
-            .findFirst()
-            .orElse(null);
-    }
-
-    private Long generateId() {
-        newId += 1;
-        return newId;
-    }
 }
