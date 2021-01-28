@@ -19,4 +19,8 @@ public class Task {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public void update(Task task) {
+        this.title = task.getTitle();
+    }
 }

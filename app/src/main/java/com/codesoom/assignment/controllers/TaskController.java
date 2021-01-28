@@ -36,6 +36,14 @@ public class TaskController {
         return task;
     }
 
+    @PutMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task newTask) throws IOException {
+        Task task = findTask(id);
+        task.update(newTask);
+
+        return task;
+    }
+
     private Long generateId() {
         newId += 1;
         return newId;
@@ -47,4 +55,5 @@ public class TaskController {
                 .findFirst()
                 .orElseThrow(() -> new TaskNotFoundException("There is no task with that id"));
     }
+
 }
