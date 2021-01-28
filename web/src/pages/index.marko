@@ -6,7 +6,7 @@ class {
             tasks: [],
         };
 
-    this.loadTasks();
+        this.loadTasks();
     }
 
     async loadTasks() {
@@ -22,9 +22,23 @@ class {
         await this.loadTasks();
     }
 
-    edit() {
-        const item = this.getEl('item');
-        const editItem = this.getEl('editItem');
+    async updateTask(taskId) {
+        const newTitle = this.getEl('newTitle').value;
+        await axios.put('http://localhost:8080/tasks/' + taskId, {
+            title: newTitle
+        });
+        await this.loadTasks();
+        this.cancel(taskId);
+    }
+
+    async deleteTask(taskId) {
+        await axios.delete('http://localhost:8080/tasks/' + taskId);
+        await this.loadTasks();
+    }
+
+    edit(taskId) {
+        const item = this.getEl('item' + taskId);
+        const editItem = this.getEl('editItem' + taskId);
 
         item.classList.remove('show');
         item.classList.add("hide");
@@ -33,9 +47,9 @@ class {
         editItem.classList.add("show");
     }
 
-    cancel() {
-        const item = this.getEl('item');
-        const editItem = this.getEl('editItem');
+    cancel(taskId) {
+        const item = this.getEl('item' + taskId);
+        const editItem = this.getEl('editItem' + taskId);
 
         item.classList.remove('hide');
         item.classList.add("show");
@@ -44,21 +58,6 @@ class {
         editItem.classList.add("hide");
     }
 }
-
-static async function updateTask(taskId) {
-    const newTitle = this.getEl('newTitle').value;
-    await axios.put('http://localhost:8080/tasks/' + taskId, {
-        title: newTitle
-    });
-    await this.loadTasks();
-    this.cancel();
-}
-
-static async function deleteTask(taskId) {
-    await axios.delete('http://localhost:8080/tasks/' + taskId);
-    await this.loadTasks();
-}
-
 
 style {
     .show {
@@ -73,22 +72,22 @@ style {
   <h1>ToDo</h1>
   <ol>
     <for|task| of=state.tasks>
-      <li.show key="item">
+      <li.show key="item${task.id}">
         <span> ${task.title}</span>
-        <button type="button" on-click("edit")>
+        <button type="button" on-click("edit", "${task.id}")>
           수정
         </button>
-        <button.primary type="button" on-click(deleteTask, task.id)>
+        <button.primary type="button" on-click("deleteTask", "${task.id}")>
           완료
         </button>
       </li>
-      <li.hide key="editItem">
-      <input key="newTitle" type="text" value="${task.title}" />
-      <button type="button" on-click(updateTask, task.id)>
-      확인
-      </button>
-        <button type="button" on-click("cancel")>
-            취소
+      <li.hide key="editItem${task.id}">
+        <input key="newTitle" type="text" value="${task.title}" />
+        <button type="button" on-click("updateTask", "${task.id}")>
+          확인
+        </button>
+        <button type="button" on-click("cancel", "${task.id}")>
+          취소
          </button>
        </li>
      </for>
