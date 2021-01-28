@@ -22,8 +22,8 @@ public class TaskList {
                 .orElseThrow(() -> new NoSuchElementException());
     }
 
-    public Task add(String title) throws UnknownError {
-        Task task = new Task(generateId(), title);
+    public Task add(Task task) throws UnknownError {
+        task.setId(generateId());
 
         if (taskList.add(task)) {
             return task;

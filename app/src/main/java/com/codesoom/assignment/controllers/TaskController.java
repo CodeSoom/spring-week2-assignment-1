@@ -36,9 +36,9 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody String title) {
+    public Task create(@RequestBody Task task) {
         try {
-            return taskList.add(title);
+            return taskList.add(task);
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR, "Unknown error"
