@@ -3,7 +3,7 @@ package com.codesoom.assignment.models;
 import com.codesoom.assignment.errors.NotFoundTaskIDException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class TaskManager {
     private static final TaskManager instance = new TaskManager();
-    private static final HashMap<Long, Task> tasks = new HashMap<>();
+    private static final LinkedHashMap<Long, Task> tasks = new LinkedHashMap<>();
     private static long newID = 0;
 
     /**
