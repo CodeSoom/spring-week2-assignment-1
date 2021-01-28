@@ -1,56 +1,8 @@
-import axios from 'axios';
-
-class {
-  async onCreate() {
-    this.initializeState();
-    this.taskManager = this.TaskManager();
-
-    const tasks = await this.taskManager.findAll();
-    this.setTasks(tasks);
-  }
-
-  initializeState() {
-    this.state = {
-      tasks: [],
-    };
-  }
-
-  setState(key, value) {
-    this.state[key] = value;
-  }
-
-  setTasks(tasks) {
-    this.setState("tasks", tasks);
-  }
-
-  TaskManager() {
-    return {
-      findAll: async () => {
-        const { data } = await axios.get('http://localhost:8080/tasks');
-        return data;
-      },
-      findOne: async (id) => {
-        const { data } = await axios.get(`http://localhost:8080/tasks/${id}`);
-        return data;
-      },
-      insertOne: async (title) => {
-        const { data } = await axios.post('http://localhost:8080/tasks', { title });
-        return data;
-      },
-      modifyOne: async (id, title) => {
-        const { data } = await axios.put(`http://localhost:8080/tasks/${id}`, { title });
-        return data;
-      },
-      deleteOne: async (id) => {
-        const { data } = await axios.delete(`http://localhost:8080/tasks/${id}`);
-        return data;
-      },
-    }
-  }
-}
-
 <layout>
   <h1>ToDo</h1>
+
+  <label for="task">할 일</label>
+  <input type="text" id="task" />
   
   <ol>
     <for|task| of=state.tasks>
