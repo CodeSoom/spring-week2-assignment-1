@@ -2,22 +2,25 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.repositories.TaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
+    @Autowired
+    private TaskRepository taskRepository;
+
     private Long newId = 0L;
 
     @GetMapping
     public List<Task> list() {
-        return tasks;
+        return taskRepository.getTasks();
     }
 
     @GetMapping("/{id}")
@@ -28,7 +31,7 @@ public class TaskController {
     @PostMapping
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
-        tasks.add(task);
+        taskRepository.getTasks().add(task);
 
         return task;
     }
@@ -39,7 +42,7 @@ public class TaskController {
     }
 
     private Task findTask(Long id) throws IOException {
-        return tasks.stream()
+        return taskRepository.getTasks().stream()
                 .filter(task -> Objects.equals(task.getId(), id))
                 .findFirst()
                 .orElseThrow(() -> new TaskNotFoundException("There is no task with that id"));
