@@ -3,6 +3,7 @@ import axios from 'axios';
 class {
     onCreate() {
         this.state = {
+            id : 1,
             tasks: [],
         };
 
@@ -16,10 +17,16 @@ class {
 
     async addTask() {
         const title = this.getEl('title').value;
-        await axios.get('http://localhost:8080/tasks', {
-            title,
+
+        await axios.post('http://localhost:8080/tasks', {
+           id : this.state.id++,
+           title : title
         });
         await this.loadTasks();
+    }
+
+    async clickUpdateBtn() {
+        alert(this.getEl('title').value);
     }
 }
 
@@ -28,15 +35,21 @@ class {
     <for|task| of=state.tasks>
         <li>
             ${task.title}
+            <button type="button" on-click("clickBtn")>
+                수정
+            </button>
+            <button type="button" on-click("deleteBtn")>
+                삭제
+            </button>
         </li>
     </for>
 </ol>
 <p>
     <label for:scoped="title">
-        할 일
+        To do
     </label>
     <input id:scoped="title" key="title" type="text" />
     <button type="button" on-click("addTask")>
-        추가
+        add
     </button>
 </p>
