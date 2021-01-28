@@ -33,11 +33,8 @@ public class TaskService {
 
     public Task getTask(Long id) {
         Optional<Task> task = taskRepository.findOne(id);
-        if (task.isEmpty()) {
-            throw new TaskNotFoundException("Not found task with id = " + id);
-        }
 
-        return task.get();
+        return task.orElseThrow(()-> new TaskNotFoundException("Not found task with id = " + id));
     }
 
     public Task updateTask(Long id, Task newTask) {
