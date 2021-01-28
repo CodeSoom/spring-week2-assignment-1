@@ -7,10 +7,6 @@ public class Task {
 
     private String title;
 
-    public Task() {
-        this(null, null);
-    }
-
     public Task(Long id, String title) {
         this.id = id;
         this.title = title;

@@ -14,7 +14,7 @@ class TasksTest {
     @BeforeEach
     void setUp() {
         tasks = new Tasks();
-        task = new Task();
+        task = new Task(1L, "homework");
     }
 
     @DisplayName("객체를 추가했을때 컬렉션에 값이 저장된다")

@@ -10,9 +10,7 @@ class TaskTest {
     @DisplayName("task 객체를 생성할 수 있다")
     @Test
     void canCreate() {
-        Task task = new Task();
-        task.setId(1L);
-        task.setTitle("homework");
+        Task task = new Task(1L, "homework");
 
         assertEquals(task.getId(), 1L);
         assertEquals(task.getTitle(), "homework");
