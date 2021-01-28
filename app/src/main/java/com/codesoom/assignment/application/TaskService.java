@@ -3,16 +3,15 @@ package com.codesoom.assignment.application;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.domain.TaskNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class TaskService {
-    private final Map<Long, Task> tasks = new HashMap<>();
+    private final Map<Long, Task> tasks = new LinkedHashMap<>();
     private final IdGenerator idGenerator = new IdGenerator();
 
     public List<Task> getTasks() {
