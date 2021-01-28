@@ -5,14 +5,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class TaskRepository {
-    private Map<Long, Task> tasks = new HashMap<>();
+    private Map<Long, Task> tasks = new LinkedHashMap<>();
 
     public List<Task> findAll() {
         return new ArrayList<>(tasks.values());
@@ -22,12 +19,9 @@ public class TaskRepository {
         return tasks.get(id);
     }
 
-    public ResponseEntity<Task> save(Task task) {
-        if (tasks.containsValue(task)) {
-            return ResponseEntity.ok(task);
-        }
+    public Task save(Task task) {
         tasks.put(task.getId(), task);
-        return ResponseEntity.created(URI.create("/tasks")).body(task);
+        return task;
     }
 
     public boolean existsById(Long id) {

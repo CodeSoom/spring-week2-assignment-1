@@ -5,6 +5,7 @@ import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,7 +32,8 @@ public class TaskService {
 
     public ResponseEntity<Task> addTask(Task task) {
         task.setId(increaseId());
-        return taskRepository.save(task);
+        taskRepository.save(task);
+        return ResponseEntity.created(URI.create("/tasks")).body(task);
     }
 
     public ResponseEntity<Task> updateTask(Long id, Task inputTask) {
@@ -40,7 +42,8 @@ public class TaskService {
             return ResponseEntity.notFound().build();
         }
         task.setTitle(inputTask.getTitle());
-        return taskRepository.save(task);
+        taskRepository.save(task);
+        return ResponseEntity.ok(task);
     }
 
     public ResponseEntity<Task> deleteTask(Long id) {
