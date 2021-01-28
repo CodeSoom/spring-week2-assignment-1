@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskManager;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class TasksController {
     }
 
     @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
     public Task insertOne(@RequestBody Task task) {
         return taskManager.insertOne(task.title());
     }
@@ -36,6 +38,7 @@ public class TasksController {
     }
 
     @DeleteMapping("{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Task deleteOne(@PathVariable long id) {
         return taskManager.deleteOne(id);
     }
