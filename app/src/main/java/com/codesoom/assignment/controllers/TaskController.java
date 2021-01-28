@@ -22,8 +22,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public Task get(@PathVariable Long id) throws IOException {
-        Task task = findTask(id);
-        return task;
+        return findTask(id);
     }
 
     @PostMapping
