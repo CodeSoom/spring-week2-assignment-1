@@ -53,6 +53,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public String create(@RequestBody String title) {
         try {
             Task task = taskList.add(title);
@@ -72,14 +73,10 @@ public class TaskController {
     public String update(@PathVariable Long id, @RequestBody String title) {
         try {
             Task task = taskList.modify(id, title);
-            return jsonParser.toJson(task);
+            return task.getTitle();
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Not found task"
-            );
-        } catch (IOException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Parsing error"
             );
         } catch (Exception e) {
             throw new ResponseStatusException(
@@ -89,12 +86,13 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id:[0-9]+}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public String delete(@PathVariable Long id) {
         if (taskList.remove(id)) {
             return "Deleted";
         } else {
             throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Fail Deleted"
+                    HttpStatus.NOT_FOUND, "Fail Deleted"
             );
         }
     }
