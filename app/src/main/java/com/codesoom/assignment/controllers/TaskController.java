@@ -20,6 +20,16 @@ class TaskController {
         return tasks;
     }
 
+    @GetMapping("{taskId}")
+    public Task getTask(@PathVariable long taskId) {
+        for(Task storedTask : tasks){
+            if(storedTask.getId() == taskId){
+                return storedTask;
+            }
+        }
+        return null;
+    }
+
     @PostMapping()
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
