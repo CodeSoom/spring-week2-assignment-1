@@ -29,14 +29,14 @@ class TaskController {
     }
 
     @PutMapping("/{taskId}")
-    public Task update(@PathVariable long taskId, @RequestBody Task task) {
+    public ResponseEntity<Long> update(@PathVariable long taskId, @RequestBody Task task) {
         for(Task storedTask : tasks){
             if(storedTask.getId() == taskId){
                 storedTask.setTitle(task.getTitle());
-                return storedTask;
+                return new ResponseEntity<>(HttpStatus.OK);
             }
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{taskId}")
