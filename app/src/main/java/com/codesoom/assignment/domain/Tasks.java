@@ -3,7 +3,7 @@ package com.codesoom.assignment.domain;
 import java.util.*;
 
 /**
- * {@code Tasks} is the manager of task
+ * 할 일들을 관리하는 클래스.
  *
  * @author etff
  * @version 1.0.0 21/01/29
@@ -18,9 +18,9 @@ public class Tasks {
     }
 
     /**
-     * Add task to tasks
+     * 할 일을 등록합니다.
      *
-     * @param task item of task
+     * @param task 등록하고자하는 할 일
      */
     public void addTask(Task task) {
         Long generateId = generateId();
@@ -29,46 +29,46 @@ public class Tasks {
     }
 
     /**
-     * Remove task
+     * 주어진 아이디에 해당되는 할 일을 찾아 삭제합니다.
      *
-     * @param id target id of task
+     * @param id 삭제 하고자 하는 할 일의 아이디
      */
     public void remove(Long id) {
         this.tasks.remove(id);
     }
 
     /**
-     * Find target task
+     * 주어진 아이디에 해당되는 할 일을 찾아 리턴합니다.
      *
-     * @param id target task id
-     * @return targeted task
+     * @param id 찾고자 하는 할 일의 아이디
+     * @return
      */
     public Optional<Task> findTask(Long id) {
         return Optional.ofNullable(tasks.get(id));
     }
 
     /**
-     * Find all saved tasks
+     * 등록된 모든 할 일들을 리턴합니다.
      *
-     * @return all saved tasks
+     * @return 등록된 모든 할 일들
      */
     public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
     }
 
     /**
-     * Find size of collection
+     * 등록된 할 일들의 숫자를 리턴합니다.
      *
-     * @return size of saved task
+     * @return 등록된 할 일들의 수
      */
     public int size() {
         return tasks.size();
     }
 
     /**
-     * Generate auto increase task id
+     * 아이디를 생성해 리턴합니다.
      *
-     * @return task id
+     * @return 생성된 id
      */
     private Long generateId() {
         return taskId++;

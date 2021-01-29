@@ -33,7 +33,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task - title: " + title;
+        return String.format("{ id = %s, title = %s }", id, title);
     }
 
     @Override
