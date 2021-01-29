@@ -34,6 +34,11 @@ class {
     await this.loadTasks();
   }
 
+  async deleteTask(id) {
+    await axios.delete(`http://localhost:8080/tasks/${id}`);
+    await this.loadTasks();
+  }
+
   tryModifying(id) {
     this.state.modifyingId = id;
   }
@@ -63,7 +68,7 @@ class {
         <button type="button" on-click("tryModifying", task.id)>
           수정
         </button>
-        <button type="button">
+        <button type="button" on-click("deleteTask", task.id)>
           완료
         </button>
       </li>
