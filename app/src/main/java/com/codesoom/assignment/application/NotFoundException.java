@@ -5,7 +5,7 @@ package com.codesoom.assignment.application;
  * exceptions that can be thrown during the task class not found
  *
  * @author etff
- * @version 1.0.0 21/02/29
+ * @version 1.0.0 21/01/29
  */
 public class NotFoundException extends RuntimeException {
 
