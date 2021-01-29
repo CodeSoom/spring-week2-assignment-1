@@ -16,7 +16,7 @@ class TaskController {
     private Long newId = 0L;
 
     @GetMapping()
-    public List<Task> list() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
@@ -31,33 +31,33 @@ class TaskController {
     }
 
     @PostMapping()
-    public Task create(@RequestBody Task task) {
+    public ResponseEntity create(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
 
-        return task;
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping("/{taskId}")
-    public ResponseEntity<Long> update(@PathVariable long taskId, @RequestBody Task task) {
+    public ResponseEntity update(@PathVariable long taskId, @RequestBody Task task) {
         for(Task storedTask : tasks){
             if(storedTask.getId() == taskId){
                 storedTask.setTitle(task.getTitle());
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity(HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<Long> delete(@PathVariable long taskId) {
+    public ResponseEntity delete(@PathVariable long taskId) {
         for(Task storedTask : tasks){
             if(storedTask.getId() == taskId){
                 tasks.remove(storedTask);
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity(HttpStatus.NO_CONTENT);
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
 
     }
 
