@@ -33,13 +33,13 @@ class {
     <title>Demo</title>
 </head>
 <body>
-    <h1>Las TODO </h1>
+    <h1>ToDo</h1>
     <ol>
         <for|task| of=state.tasks>
         <li>
             <div>
                 <span> ${task.title} </span>
-                <button type="button" on-click("deleteTask", task.id) >Complete</button>
+                <button type="button" on-click("deleteTask", task.id) >수정</button>
             </div>
         </li>
         </for>
