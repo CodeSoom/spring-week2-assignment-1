@@ -4,6 +4,7 @@ class {
   onCreate() {
     this.state = {
       tasks: [],
+      modifyingId: 1,
     };
 
     this.loadTasks();
@@ -26,9 +27,28 @@ class {
 <h1>ToDo</h1>
 <ol>
   <for|task| of=state.tasks>
-    <li>
-      ${task.title}
-    </li>
+    <if(state.modifyingId === task.id)>
+      <li>
+        <input key="${task.id}" value="${task.title}" type="text" />
+        <button type="button">
+          확인
+        </button>
+        <button type="button">
+          취소
+        </button>
+      </li>
+    </if>
+    <else>
+      <li>
+        ${task.title}
+        <button type="button">
+          수정
+        </button>
+        <button type="button">
+          완료
+        </button>
+      </li>
+    </else>
   </for>
 </ol>
 <p>
