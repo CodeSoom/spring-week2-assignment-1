@@ -13,4 +13,8 @@ public class TaskRepository {
     public List<Task> getTasks() {
         return tasks;
     }
+
+    public void removeTask(Task task) {
+        tasks.remove(task);
+    }
 }

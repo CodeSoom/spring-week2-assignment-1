@@ -44,6 +44,12 @@ public class TaskController {
         return task;
     }
 
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) throws IOException {
+        Task task = findTask(id);
+        taskRepository.removeTask(task);
+    }
+
     private Long generateId() {
         newId += 1;
         return newId;
