@@ -1,6 +1,6 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.NotFoundException;
+import com.codesoom.assignment.NotFoundTaskIdException;
 import com.codesoom.assignment.TaskRepository;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -17,7 +16,6 @@ import java.util.Optional;
 public class TaskController {
 
     TaskRepository taskRepository = new TaskRepository();
-    NotFoundException notFoundException = new NotFoundException();
 
     @GetMapping
     public List<Task> getTaskList() {
@@ -26,10 +24,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Task> getTaskById(@PathVariable Long id) {
-        if (findTask(id).isEmpty()) {
-            throw notFoundException;
-        }
+    public Task getTaskById(@PathVariable Long id) {
         return findTask(id);
     }
 
@@ -44,9 +39,7 @@ public class TaskController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task handleUpdate(@PathVariable Long id, @RequestBody Task task) {
-        if (findTask(id).isEmpty()) {
-            throw notFoundException;
-        }
+        findTask(id);
         Task updateTask = task;
         updateTask.setId(id);
         taskRepository.taskStore.replace(task.getId(), task);
@@ -56,15 +49,16 @@ public class TaskController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void handleDelete(@PathVariable Long id) {
-        if (findTask(id).isEmpty()) {
-            throw notFoundException;
-        }
-        Optional<Task> task = findTask(id);
+        findTask(id);
+        Task task = findTask(id);
         taskRepository.taskStore.remove(id);
     }
 
-    public Optional<Task> findTask(Long id) {
-        return Optional.ofNullable(taskRepository.taskStore.get(id));
+    public Task findTask(Long id) {
+        if (taskRepository.taskStore.get(id) == null) {
+            throw new NotFoundTaskIdException();
+        }
+        return taskRepository.taskStore.get(id);
     }
 
 }
