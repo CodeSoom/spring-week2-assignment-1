@@ -12,8 +12,11 @@ import java.util.List;
 @RestController
 public class TaskController {
 
-    private List<Task> tasks = new ArrayList<>();
-    private Long id = 1L;
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
     public List<Task> getTasks(){
