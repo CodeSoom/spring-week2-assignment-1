@@ -1,6 +1,10 @@
 package com.codesoom.assignment.domain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 할 일들을 관리하는 클래스.
