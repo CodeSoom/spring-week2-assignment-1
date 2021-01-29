@@ -1,21 +1,54 @@
+import axios from 'axios'
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+        };
+        this.loadTasks();
+    }
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data;
+    }
+    async addTask() {
+        const title = this.getEl('title').value;
+        await axios.post("http://localhost:8080/tasks", {
+            title
+         });
+        await this.loadTasks();
+    }
+    async deleteTask(taskId) {
+        await axios.delete("http://localhost:8080/tasks/" + taskId);
+        await this.loadTasks();
+    }
+}
+
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A basic Marko app.">
-  <title>Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A basic Marko app.">
+    <title>Demo</title>
 </head>
 <body>
-  <${input.renderBody}/>
+    <h1>Las TODO </h1>
+    <ol>
+        <for|task| of=state.tasks>
+        <li>
+            <div>
+                <span> ${task.title} </span>
+                <button type="button" on-click("deleteTask", task.id) >Complete</button>
+            </div>
+        </li>
+        </for>
+    </ol>
+
+    <p>
+        <label for:scoped="title">할 일</label>
+        <input id:scoped="title" key="title" type="text" />
+        <button type="button" on-click("addTask")>추가</button>
+    </p>
 </body>
 </html>
-
-style {
-  body {
-    margin: 0;
-    padding: 0;
-    background: #FFF;
-    color: #000;
-  }
-}
