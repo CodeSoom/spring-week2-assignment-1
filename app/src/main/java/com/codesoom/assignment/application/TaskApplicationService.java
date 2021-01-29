@@ -10,7 +10,9 @@ public class TaskApplicationService {
     private Long lastId = 1L;
 
     public List<Task> getAllTasks() {
-        return new ArrayList<>(taskMap.values());
+        ArrayList<Task> allTasks = new ArrayList<>(taskMap.values());
+        orderTaskById(allTasks);
+        return allTasks;
     }
 
     public Long createTask(String title) {
@@ -58,5 +60,9 @@ public class TaskApplicationService {
         Task targetTask = task.get();
         taskMap.remove(targetTask.getId());
         return Optional.of(Empty.empty);
+    }
+
+    private void orderTaskById(List<Task> tasks) {
+        tasks.sort(Comparator.comparing(Task::getId));
     }
 }
