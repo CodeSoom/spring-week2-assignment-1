@@ -16,18 +16,24 @@ import java.util.Date;
 public class TaskAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity<Object> handleNotFound(TaskNotFoundException exception, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND.value(), new Date(),
-                exception.getMessage(), request.getDescription(false));
+    public ResponseEntity<ErrorResponse> handleNotFound(TaskNotFoundException exception, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                new Date(),
+                exception.getMessage(),
+                request.getDescription(false));
 
-        return new ResponseEntity(errorResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), new Date(), ex.getMessage(),
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                exception.getMessage(),
                 request.getDescription(false));
 
         return new ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST);
