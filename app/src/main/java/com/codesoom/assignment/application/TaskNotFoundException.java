@@ -1,8 +1,7 @@
 package com.codesoom.assignment.application;
 
 /**
- * custom exception class check exceptions
- * that can be thrown during the task not found
+ * 할 일을 찾을 수 없는 예외가 발생할 때 예외를 처리하는 클래스.
  *
  * @author etff
  * @version 1.0.0 21/01/29
@@ -10,27 +9,25 @@ package com.codesoom.assignment.application;
 public class TaskNotFoundException extends RuntimeException {
 
     /**
-     * Constructs a new task not found class exception with {@code null} as its
-     * detail message.
+     * 인자가 {@code null} 인 할 일을 찾을 수 없을 때의 생성자.
      */
     public TaskNotFoundException() {
-        super("Task를 찾을 수 없습니다.");
+        super("할 일을 찾을 수 없습니다.");
     }
 
     /**
-     * Constructs a new task not found class exception with the specified detail message.
+     * 예외 메시지를 인자로 받는 할 일을 찾을 수 없을 때의 생성자.
      *
-     * @param message the detail message.
+     * @param message 예외 사유를 담은 메시지
      */
     public TaskNotFoundException(String message) {
         super(message);
     }
 
     /**
-     * Constructs a new task not found class exception with the specified cause and a
-     * detail message
+     * 예외처리 클래스를 인자로 받는 할 일을 찾을 수 없을 수 없을 때의 생성자.
      *
-     * @param cause all errors and exceptions
+     * @param cause 발생한 모든 예외처리 클래스
      */
     public TaskNotFoundException(Throwable cause) {
         super(cause);
