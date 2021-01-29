@@ -1,6 +1,6 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.application.NotFoundException;
+import com.codesoom.assignment.application.TaskNotFoundException;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.domain.Tasks;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,6 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/tasks")
 public class TaskController {
-    private static final String TASK_NOT_FOUND = "task를 찾을 수 없습니다";
     private Tasks tasks = new Tasks();
 
     @GetMapping
@@ -22,8 +21,8 @@ public class TaskController {
 
     @GetMapping("{id}")
     public Task getTask(@PathVariable("id") Long id) {
-        return tasks.findTask(id)
-                .orElseThrow(() -> new NotFoundException(TASK_NOT_FOUND));
+        return tasks.findTask(id).orElseThrow(
+                () -> new TaskNotFoundException("존재 하지 않는 task id로 task를 찾을 수 없습니다. 존재하지 않는 id:"  + id));
     }
 
     @PostMapping
@@ -35,8 +34,8 @@ public class TaskController {
 
     @PutMapping("{id}")
     public Task updateTask(@PathVariable("id") Long id, @RequestBody Task source) {
-        Task task = tasks.findTask(id)
-                .orElseThrow(() -> new NotFoundException(TASK_NOT_FOUND));
+        Task task = tasks.findTask(id).orElseThrow(
+                () -> new TaskNotFoundException("존재 하지 않는 task id로 task를 갱신할 수 없습니다. 존재하지 않는 id: " + id));
         task.setTitle(source.getTitle());
         return task;
     }
@@ -44,8 +43,8 @@ public class TaskController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void Task(@PathVariable("id") Long id) {
-        tasks.findTask(id)
-                .orElseThrow(() -> new NotFoundException(TASK_NOT_FOUND));
+        tasks.findTask(id).orElseThrow(
+                () -> new TaskNotFoundException("존재 하지 않는 task id로 task를 삭제할 수 없습니다. 존재하지 않는 id: " + id));
         tasks.remove(id);
     }
 

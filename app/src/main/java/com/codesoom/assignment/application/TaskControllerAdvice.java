@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * {@code TaskControllerAdvice} is handling exception to http response
+ * handling exception to http response
  *
  * @author etff
  * @version 1.0.0 21/01/29
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class TaskControllerAdvice {
 
     /**
-     * Response http not found error when catching NotFoundException.class
+     * Response http not found error when catching TaskNotFoundException
      */
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(TaskNotFoundException.class)
     public void handlerNotFound() {
     }
 }
