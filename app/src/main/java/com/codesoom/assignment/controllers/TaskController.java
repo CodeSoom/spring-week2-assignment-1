@@ -12,7 +12,7 @@ import java.util.List;
 public class TaskController {
 
     private List<Task> tasks = new ArrayList<>();
-    private Long Id = 0L;
+    private Long id = 0L;
 
     @GetMapping
     public List<Task> list() {
@@ -50,8 +50,8 @@ public class TaskController {
     }
 
     private Long generateId() {
-        Id++;
-        return Id;
+        id++;
+        return id;
     }
 
 }
