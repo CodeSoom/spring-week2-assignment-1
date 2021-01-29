@@ -19,7 +19,7 @@ public class TaskController {
 
     @GetMapping
     public List<Task> getTaskList() {
-        return new ArrayList<>(taskRepository.taskStore.values());
+        return new ArrayList<>(taskRepository.getTasks());
     }
 
     @GetMapping("/{id}")
