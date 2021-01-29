@@ -1,9 +1,9 @@
 package com.codesoom.assignment.services;
 
-import com.codesoom.assignment.utils.IdGenerator;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
+import com.codesoom.assignment.utils.IdGenerator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,11 +34,14 @@ public class TaskService {
     public Task getTask(Long id) {
         Optional<Task> task = taskRepository.findOne(id);
 
-        return task.orElseThrow(()-> new TaskNotFoundException("Not found task with id = " + id));
+        return task.orElseThrow(() ->
+                new TaskNotFoundException("존재하지 않는 task id가 주어졌으므로 task를 찾을 수 없습니다. 문제의 id = " + id));
     }
 
     public Task updateTask(Long id, Task newTask) {
-        Task task = getTask(id);
+        Task task = taskRepository.findOne(id).orElseThrow(() ->
+                new TaskNotFoundException("존재하지 않는 task id가 주어졌으므로 task를 수정할 수 없습니다. 문제의 id = " + id));
+
         task.update(newTask);
 
         return taskRepository.save(task);
@@ -46,7 +49,7 @@ public class TaskService {
 
     public void deleteTask(Long id) {
         if (!isExist(id)) {
-            throw new TaskNotFoundException("Not found task with id = " + id);
+            throw new TaskNotFoundException("존재하지 않는 task id가 주어졌으므로 task를 삭제할 수 없습니다. 문제의 id = " + id);
         }
 
         taskRepository.delete(id);
