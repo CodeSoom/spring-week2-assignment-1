@@ -18,8 +18,8 @@ public class Task {
         this.id = id;
     }
 
-    public void update(Task task) {
-        this.title = task.getTitle();
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Long getId() {
@@ -29,4 +29,6 @@ public class Task {
     public String getTitle() {
         return title;
     }
+
+
 }

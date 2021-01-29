@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,12 +25,13 @@ public class TaskController {
         tasks.add(task);
         return task;
     }
+
     @PutMapping("/{id}")
-    public Task update(@PathVariable Long id, @RequestBody Task task)
+    public Task update(@PathVariable Long id, @RequestBody Task source)
     {
-        Task updateVar = getTask(id);
-        updateVar.setTitle(task.getTitle());
-        return updateVar;
+        Task task = getTask(id);
+        task.setTitle(source.getTitle());
+        return task;
     }
 
     private Task getTask(Long id) {
@@ -51,6 +53,5 @@ public class TaskController {
         Id++;
         return Id;
     }
-
 
 }
