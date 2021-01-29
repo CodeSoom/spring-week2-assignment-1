@@ -23,30 +23,31 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getTaskById(@PathVariable Long id) throws ResourceNotFoundException {
+    public Task getTaskById(@PathVariable Long id) throws ResourceNotFoundException {
         Task task = findTaskById(id);
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        return task;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity createTask(@RequestBody Task task){
+    public Task createTask(@RequestBody Task task){
         Task newTask = new Task(nextId(), task.getTitle());
         tasks.add(newTask);
-        return new ResponseEntity<>(newTask, HttpStatus.CREATED);
+        return newTask;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateTask(@RequestBody Task task, @PathVariable Long id){
+    public Task updateTask(@RequestBody Task task, @PathVariable Long id){
         Task currentTask = findTaskById(id);
         currentTask.updateTitle(task.getTitle());
-        return new ResponseEntity<>(currentTask, HttpStatus.OK);
+        return currentTask;
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteTask(@PathVariable Long id) {
+    public void deleteTask(@PathVariable Long id) {
         Task deleteTask = findTaskById(id);
         tasks.remove(deleteTask);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public Long nextId(){
