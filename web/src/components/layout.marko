@@ -4,6 +4,7 @@ class {
     onCreate() {
         this.state = {
             tasks: [],
+            targetTask: 0,
         };
         this.loadTasks();
     }
@@ -21,6 +22,27 @@ class {
     async deleteTask(taskId) {
         await axios.delete("http://localhost:8080/tasks/" + taskId);
         await this.loadTasks();
+    }
+    async updateTask() {
+        const title = this.getEl("update-title").value;
+        const taskId = this.state.targetTask;
+        await axios.put("http://localhost:8080/tasks/" + taskId, {
+            title
+        });
+        await this.loadTasks();
+        await this.closeUpdateForm();
+    }
+    async showUpdateForm() {
+        const updateForm = this.getEl("update-form");
+        updateForm.style.display = "inline-block"
+    }
+    async closeUpdateForm() {
+        const updateForm = this.getEl("update-form");
+        updateForm.style.display = "none"
+    }
+    async showUpdateFormBySpecificTask(taskId) {
+        this.state.targetTask = taskId;
+        await this.showUpdateForm();
     }
 }
 
@@ -40,7 +62,7 @@ class {
             <div>
                 <span> ${task.title} </span>
                 <button type="button" on-click("deleteTask", task.id)>완료</button>
-                <button type="button">수정</button>
+                <button type="button" on-click("showUpdateFormBySpecificTask", task.id)>수정</button>
             </div>
         </li>
         </for>
@@ -50,6 +72,12 @@ class {
         <label for:scoped="title">할 일</label>
         <input id:scoped="title" key="title" type="text"/>
         <button type="button" on-click("addTask")>추가</button>
+    </p>
+    <p key="update-form" style="display:none">
+        <label for:scoped="update-title">수정하기</label>
+        <input id:scoped="update-title" key="update-title" type="text"/>
+        <button type="button" on-click("updateTask")>확인</button>
+        <button type="button" on-click("closeUpdateForm")>취소</button>
     </p>
 </body>
 </html>
