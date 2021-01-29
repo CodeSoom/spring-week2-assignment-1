@@ -42,9 +42,7 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public Task update(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto) {
-        System.out.println(11111);
         Task task = modelMapper.map(taskDto, Task.class);
-        System.out.println(task.toString());
         return taskService.updateTask(id, task);
     }
 
