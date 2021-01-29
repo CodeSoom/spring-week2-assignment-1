@@ -2,7 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.controller.TaskController;
 import com.codesoom.assignment.dto.TaskDto;
-import com.codesoom.assignment.entity.Task;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,11 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -27,6 +26,9 @@ class TaskControllerTest {
     private MockMvc mockMvc;
     @Autowired
     TaskController taskController;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @BeforeAll
     public void init() {
@@ -69,5 +71,61 @@ class TaskControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @DisplayName("POST - /tasks title 정상입력")
+    public void postTask() throws Exception {
+        TaskDto taskDto = new TaskDto();
+        taskDto.setId(3L);
+        taskDto.setTitle("friends");
+
+        mockMvc.perform(post("/tasks")
+                .content(objectMapper.writeValueAsString(taskDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("title").value("friends"));
+    }
+
+    @Test
+    @DisplayName("PUT - /tasks id title 정상입력")
+    public void putTask() throws Exception {
+        TaskDto taskDto = new TaskDto();
+        taskDto.setTitle("new world");
+
+        mockMvc.perform(put("/tasks/1")
+                .content(objectMapper.writeValueAsString(taskDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("title").value("new world"));
+    }
+
+    @Test
+    @DisplayName("PUT - /tasks 없는 아이디 수정요청")
+    public void putTaskNoID() throws Exception {
+        TaskDto taskDto = new TaskDto();
+        taskDto.setTitle("new world");
+
+        mockMvc.perform(put("/tasks/666")
+                .content(objectMapper.writeValueAsString(taskDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("DELETE - /tasks 정상 삭제")
+    public void deleteTask() throws Exception {
+        mockMvc.perform(delete("/tasks/1")
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        //TODO 실제로 삭제됬는지 검증코드 추가해야함
+    }
+
 
 }
