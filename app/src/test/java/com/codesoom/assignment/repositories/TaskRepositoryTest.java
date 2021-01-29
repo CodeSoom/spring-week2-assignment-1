@@ -63,7 +63,7 @@ class TaskRepositoryTest {
     @DisplayName("save 메소드는")
     class Describe_save {
         @Nested
-        @DisplayName("입력받은 task가 있다면")
+        @DisplayName("저장하려는 task가 있다면")
         class Context_with_task {
             Long id = 1L;
             String title = "task";
@@ -84,7 +84,7 @@ class TaskRepositoryTest {
     @DisplayName("findOne 메소드는")
     class Describe_findOne {
         @Nested
-        @DisplayName("입력받은 task id가 유효하면")
+        @DisplayName("존재하는 task id로 요청한다면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -104,7 +104,7 @@ class TaskRepositoryTest {
         }
 
         @Nested
-        @DisplayName("입력받은 task id가 유효하지 않다면")
+        @DisplayName("존재하지 않는 task id로 요청한다면")
         class Context_with_invalid_task_id {
             Long notExistedId = -1L;
 
@@ -122,7 +122,7 @@ class TaskRepositoryTest {
     @DisplayName("delete 메소드는")
     class Describe_delete {
         @Nested
-        @DisplayName("입력받은 task id가 유효하면")
+        @DisplayName("존재하는 task id로 삭제한다면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -133,7 +133,7 @@ class TaskRepositoryTest {
             }
 
             @Test
-            @DisplayName("입력받은 task id의 task를 삭제한다")
+            @DisplayName("task를 삭제한다")
             void it_delete_task_of_valid_task_id() {
                 taskRepository.delete(task.getId());
                 Optional<Task> deletedTask = taskRepository.findOne(task.getId());
