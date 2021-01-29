@@ -47,10 +47,9 @@ public class TaskController {
     }
 
     @RequestMapping(path = "/{id:[0-9]+}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public String update(@PathVariable Long id, @RequestBody Task task) {
+    public Task update(@PathVariable Long id, @RequestBody Task task) {
         try {
-            taskList.modify(id, task.getTitle());
-            return task.getTitle();
+            return taskList.modify(id, task.getTitle());
         } catch (NoSuchElementException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Not found task"
