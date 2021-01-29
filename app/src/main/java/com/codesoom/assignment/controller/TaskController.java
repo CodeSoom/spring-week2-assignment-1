@@ -2,12 +2,13 @@ package com.codesoom.assignment.controller;
 
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.entity.Task;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.repository.TaskRepository;
 import com.codesoom.assignment.service.TaskService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,48 +30,42 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskDto> getTask(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public TaskDto getTask(@PathVariable Long id) {
         Task task = taskService.getTask(id);
-        if (Objects.isNull(task)) {
-            return ResponseEntity.notFound().build();
-        }
-        TaskDto taskDto = new TaskDto(task);
-        return ResponseEntity.ok(taskDto);
+        return new TaskDto(task);
     }
 
     @PostMapping
-    public ResponseEntity<TaskDto> addTask(@RequestBody TaskDto taskDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public TaskDto addTask(@RequestBody TaskDto taskDto) {
         Task addTask = taskService.addTask(taskDto);
-        TaskDto responseDto = new TaskDto(addTask);
-        return ResponseEntity.created(URI.create("/tasks")).body(responseDto);
+        return new TaskDto(addTask);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskDto> putTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public TaskDto putTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
         Task task = taskService.updateTask(id, taskDto);
-        if (Objects.isNull(task)) {
-            return ResponseEntity.notFound().build();
-        }
-        TaskDto outputTaskDto = new TaskDto(task);
-        return ResponseEntity.ok(outputTaskDto);
+        return new TaskDto(task);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TaskDto> patchTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
+    @ResponseStatus(HttpStatus.OK)
+    public TaskDto patchTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
         Task task = taskService.updateTask(id, taskDto);
-        if (Objects.isNull(task)) {
-            return ResponseEntity.notFound().build();
-        }
-        TaskDto outputTaskDto = new TaskDto(task);
-        return ResponseEntity.ok(outputTaskDto);
+        return new TaskDto(task);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TaskDto> deleteTask(@PathVariable Long id) {
-        if (taskRepository.existsById(id)) {
-            taskService.deleteTask(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = TaskNotFoundException.class)
+    public String taskNotFoundExceptionHandler(TaskNotFoundException exception){
+        return exception.getMessage();
     }
 }

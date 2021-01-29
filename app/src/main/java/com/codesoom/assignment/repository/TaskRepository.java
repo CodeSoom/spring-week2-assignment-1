@@ -3,10 +3,7 @@ package com.codesoom.assignment.repository;
 import com.codesoom.assignment.entity.Task;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class TaskRepository {
@@ -16,8 +13,8 @@ public class TaskRepository {
         return new ArrayList<>(tasks.values());
     }
 
-    public Task findById(Long id) {
-        return tasks.get(id);
+    public Optional<Task> findById(Long id) {
+        return Optional.ofNullable(tasks.get(id));
     }
 
     public Task save(Task task) {

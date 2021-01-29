@@ -2,11 +2,14 @@ package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.entity.Task;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.repository.TaskRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -22,7 +25,11 @@ public class TaskService {
     }
 
     public Task getTask(Long id) {
-        return taskRepository.findById(id);
+        Task task = taskRepository.findById(id).orElse(null);
+        if (Objects.isNull(task)) {
+            throw new TaskNotFoundException("id에 해당하는 Task가 없습니다.");
+        }
+        return task;
     }
 
     public Task addTask(TaskDto taskDto) {
@@ -35,9 +42,9 @@ public class TaskService {
     }
 
     public Task updateTask(Long id, TaskDto inputTaskDto) {
-        Task task = taskRepository.findById(id);
+        Task task = taskRepository.findById(id).orElse(null);
         if (Objects.isNull(task)) {
-            return null;
+            throw new TaskNotFoundException("수정할 Task가 없습니다.");
         }
         task.setTitle(inputTaskDto.getTitle());
         Task save = taskRepository.save(task);
@@ -45,6 +52,9 @@ public class TaskService {
     }
 
     public void deleteTask(Long id) {
+        if(!taskRepository.existsById(id)) {
+            throw new TaskNotFoundException("삭제할 Task가 없습니다.");
+        }
         taskRepository.deleteById(id);
     }
 
