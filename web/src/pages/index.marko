@@ -4,7 +4,7 @@ class {
   onCreate() {
     this.state = {
       tasks: [],
-      modifyingId: 1,
+      modifyingId: -1,
     };
 
     this.loadTasks();
@@ -12,7 +12,7 @@ class {
 
   async loadTasks() {
     const { data } = await axios.get('http://localhost:8080/tasks');
-    this.state.tasks = data
+    this.state.tasks = data;
   }
 
   async addTask() {
@@ -21,6 +21,10 @@ class {
       title,
     });
     await this.loadTasks();
+  }
+
+  tryModifying(id) {
+    this.state.modifyingId = id;
   }
 }
 
@@ -41,7 +45,7 @@ class {
     <else>
       <li>
         ${task.title}
-        <button type="button">
+        <button type="button" on-click("tryModifying", task.id)>
           수정
         </button>
         <button type="button">
