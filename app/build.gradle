@@ -22,8 +22,6 @@ configurations{
     }
 }
 
-
-
 repositories {
     // Use JCenter for resolving dependencies.
     jcenter()
@@ -45,7 +43,6 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
 
     //Spring Dev Tools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
