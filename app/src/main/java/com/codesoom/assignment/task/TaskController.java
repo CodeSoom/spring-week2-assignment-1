@@ -20,13 +20,12 @@ public class TaskController {
 
     @GetMapping
     public List<Task> getTasks(){
-        return tasks;
+        return taskService.getTasks();
     }
 
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable Long id) throws ResourceNotFoundException {
-        Task task = findTaskById(id);
-        return task;
+        return taskService.getTaskById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,16 +50,6 @@ public class TaskController {
         tasks.remove(deleteTask);
     }
 
-    public Long nextId(){
-        return id++;
-    }
 
-    public Task findTaskById(Long id) throws ResourceNotFoundException {
-        for (Task task : tasks){
-            if (task.getId() == id)
-                return task;
-        }
-        throw new ResourceNotFoundException("no task id : " + id);
-    }
 
 }
