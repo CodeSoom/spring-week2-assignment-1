@@ -83,7 +83,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("입력받은 task id가 유효하다면")
+        @DisplayName("존재하는 task id를 요청한다면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -106,7 +106,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("입력받은 task id가 유효하지 않다면")
+        @DisplayName("존재하지 않는 task id를 요청한다면")
         class Context_with_invalid_task_id {
             Long notExistId = -1L;
 
@@ -131,7 +131,7 @@ class TaskControllerTest {
     @DisplayName("POST 메서드 요청은")
     class Describe_POST {
         @Nested
-        @DisplayName("입력받은 task가 유효하다면")
+        @DisplayName("생성하려는 task가 유효하다면")
         class Context_with_valid_task {
             TaskDto taskDto = new TaskDto("title");
 
@@ -147,7 +147,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("입력받은 task가 유효하지 않다면")
+        @DisplayName("생성하려는 task가 유효하지 않다면")
         class Context_with_in_valid_task {
             TaskDto taskDto = new TaskDto("");
 
@@ -171,7 +171,7 @@ class TaskControllerTest {
     @DisplayName("PUT 매서드 요청은")
     class Describe_PUT {
         @Nested
-        @DisplayName("입력받은 task, task id가 유효하다면")
+        @DisplayName("수정하려는 task, task id가 유효하다면")
         class Context_with_valid_task_and_task_id {
             Task task;
             TaskDto taskDto;
@@ -197,7 +197,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("입력받은 task가 유효하지 않다면")
+        @DisplayName("수정하려는 task가 유효하지 않다면")
         class Context_with_in_valid_task {
             Task task;
             TaskDto taskDto;
@@ -225,7 +225,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("입력받은 task id가 유효하지 않다면")
+        @DisplayName("존재하지 않는 task id로 수정한다면")
         class Context_with_invalid_task {
             Long notExistedId = -1L;
             TaskDto taskDto = new TaskDto("newTitle");
@@ -252,7 +252,7 @@ class TaskControllerTest {
     @DisplayName("DELETE 메서드 요청은")
     class Describe_DELETE {
         @Nested
-        @DisplayName("입력받은 task id가 유효하다면")
+        @DisplayName("존재하는 task id로 삭제한다면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -275,7 +275,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("입력받은 task id가 유효하지 않다면")
+        @DisplayName("존재하지 않는 task id로 삭제한다면")
         class Context_with_invalid_task_id {
             Long notExistId = -1L;
 
