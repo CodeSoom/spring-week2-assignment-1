@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.controller.TaskController;
 import com.codesoom.assignment.entity.Task;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -34,8 +35,8 @@ class TaskControllerTest {
         Task task2 = new Task();
         task2.setId(2L);
         task2.setTitle("world");
-        taskController.postTask(task);
-        taskController.postTask(task2);
+        taskController.addTask(task);
+        taskController.addTask(task2);
     }
 
     @Test
@@ -44,7 +45,8 @@ class TaskControllerTest {
         mockMvc.perform(get("/tasks")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().string("[{\"id\":1,\"title\":\"hello\"},{\"id\":2,\"title\":\"world\"}]"));
+                .andExpect(jsonPath("$.[0].title").value("hello"))
+                .andExpect(jsonPath("$.[1].title").value("world"));
     }
 
     @Test
@@ -54,7 +56,8 @@ class TaskControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"id\":1,\"title\":\"hello\"}"));
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("title").value("hello"));
     }
 
     @Test
@@ -65,5 +68,5 @@ class TaskControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
-
+    
 }
