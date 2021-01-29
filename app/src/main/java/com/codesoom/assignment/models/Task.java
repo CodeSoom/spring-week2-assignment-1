@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Task {
-    private final Long id;
+    private final Integer id;
     private final String title;
 
     /**
@@ -17,7 +17,7 @@ public class Task {
      */
     @JsonCreator
     public Task(
-            @JsonProperty("id") Long id,
+            @JsonProperty("id") Integer id,
             @JsonProperty("title") String title
     ) {
         this.id = id;
@@ -28,7 +28,7 @@ public class Task {
      * Returns task's id.
      */
     @JsonGetter
-    public Long id() {
+    public Integer id() {
         return id;
     }
 

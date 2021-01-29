@@ -34,7 +34,7 @@ public class TasksController {
      * @return target task.
      */
     @GetMapping("{id}")
-    public Task findOne(@PathVariable long id) {
+    public Task findOne(@PathVariable int id) {
         return taskManager.findOne(id);
     }
 
@@ -61,7 +61,7 @@ public class TasksController {
             value = "{id}",
             method = {RequestMethod.PUT, RequestMethod.PATCH}
     )
-    public Task modifyOne(@PathVariable long id, @RequestBody Task task) {
+    public Task modifyOne(@PathVariable int id, @RequestBody Task task) {
         return taskManager.modifyOne(id, task.title());
     }
 
@@ -73,7 +73,7 @@ public class TasksController {
      */
     @DeleteMapping("{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public Task deleteOne(@PathVariable long id) {
+    public Task deleteOne(@PathVariable int id) {
         return taskManager.deleteOne(id);
     }
 }

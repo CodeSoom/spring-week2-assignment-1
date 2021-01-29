@@ -3,8 +3,9 @@ package com.codesoom.assignment.models;
 import com.codesoom.assignment.errors.NotFoundTaskIDException;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Managing task. Singleton class.
@@ -13,8 +14,7 @@ import java.util.List;
  */
 public class TaskManager {
     private static final TaskManager instance = new TaskManager();
-    private static final LinkedHashMap<Long, Task> tasks = new LinkedHashMap<>();
-    private static long newID = 0;
+    private static final List<Task> tasks = new ArrayList<>();
 
     /**
      * Returns unique instance.
@@ -23,23 +23,23 @@ public class TaskManager {
         return instance;
     }
 
-    private void increaseNewID() {
-        newID += 1;
-    }
-
-    private void initializationNewID() {
-        newID = 0;
-    }
-
     /**
      * Check target id is exists.
      *
      * @param id is target id.
      * @return true when target id is exist.
      */
-    private boolean isExistID(long id) {
+    private boolean isExistID(int id) {
+        if (tasks.size() <= id) {
+            return true;
+        }
+
         Task task = tasks.get(id);
-        return task != null;
+        return task == null;
+    }
+
+    private int generateID() {
+        return tasks.size();
     }
 
     /**
@@ -48,14 +48,16 @@ public class TaskManager {
      */
     public void clear() {
         tasks.clear();
-        initializationNewID();
     }
 
     /**
      * Returns all tasks list.
      */
     public List<Task> findAll() {
-        return new ArrayList<>(tasks.values());
+        return tasks
+                .stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -63,12 +65,12 @@ public class TaskManager {
      * @return task what task's id is target id.
      * @throws NotFoundTaskIDException when not exists target id.
      */
-    public Task findOne(long id) throws NotFoundTaskIDException {
-        Task task = tasks.get(id);
-        if (task == null) {
+    public Task findOne(int id) throws NotFoundTaskIDException {
+        if (isExistID(id)) {
             throw new NotFoundTaskIDException(id);
         }
-        return task;
+
+        return tasks.get(id);
     }
 
     /**
@@ -78,10 +80,10 @@ public class TaskManager {
      * @return inserted new task.
      */
     public Task insertOne(String title) {
-        Task task = new Task(newID, title);
-        increaseNewID();
+        int id = generateID();
+        Task task = new Task(id, title);
 
-        tasks.put(task.id(), task);
+        tasks.add(task);
         return task;
     }
 
@@ -93,13 +95,13 @@ public class TaskManager {
      * @return modified task.
      * @throws NotFoundTaskIDException when not exists target id.
      */
-    public Task modifyOne(long id, String title) throws NotFoundTaskIDException {
-        if (!isExistID(id)) {
+    public Task modifyOne(int id, String title) throws NotFoundTaskIDException {
+        if (isExistID(id)) {
             throw new NotFoundTaskIDException(id);
         }
 
         Task task = new Task(id, title);
-        tasks.replace(id, task);
+        tasks.set(id, task);
         return task;
     }
 
@@ -110,11 +112,13 @@ public class TaskManager {
      * @return deleted task.
      * @throws NotFoundTaskIDException when not exists target id.
      */
-    public Task deleteOne(long id) throws NotFoundTaskIDException {
-        Task removedTask = tasks.remove(id);
-        if (removedTask == null) {
+    public Task deleteOne(int id) throws NotFoundTaskIDException {
+        if (isExistID(id)) {
             throw new NotFoundTaskIDException(id);
         }
+
+        Task removedTask = tasks.get(id);
+        tasks.set(id, null);
         return removedTask;
     }
 }

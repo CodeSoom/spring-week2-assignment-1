@@ -52,7 +52,7 @@ public class TaskManagerTest {
         @Nested
         @DisplayName("Task 가 있을 때")
         class Context_when_task_is_exists {
-            long givenID = 0L;
+            int givenID = 0;
             String givenTitle = "sample";
             Task givenTask = new Task(givenID, givenTitle);
             List<Task> expectTasks = new ArrayList<>(Collections.singletonList(givenTask));
@@ -76,7 +76,7 @@ public class TaskManagerTest {
         @Nested
         @DisplayName("찾으려는 id가 없을 때")
         class Context_when_find_id_is_not_exists {
-            long givenID = 0;
+            int givenID = 0;
 
             @Test
             @DisplayName("NotFoundTaskIDException 을 던진다.")
@@ -88,7 +88,7 @@ public class TaskManagerTest {
         @Nested
         @DisplayName("찾으려는 id가 있을 때")
         class Context_when_find_id_is_exists {
-            long givenID = 0;
+            int givenID = 0;
             String givenTitle = "sample";
 
             @Test
@@ -106,7 +106,7 @@ public class TaskManagerTest {
     @Nested
     @DisplayName("insertOne 메소드는")
     class Describe_insertOne {
-        long givenID = 0;
+        int givenID = 0;
         String givenTitle = "sample";
 
         @Test
@@ -122,7 +122,7 @@ public class TaskManagerTest {
     @Nested
     @DisplayName("modifyOne 메소드는")
     class Describe_modifyOne {
-        long givenID = 0;
+        int givenID = 0;
         String givenTitle = "sample";
         String givenModifyTitle = "modified sample";
 
@@ -156,7 +156,7 @@ public class TaskManagerTest {
     @Nested
     @DisplayName("deleteOne 메소드는")
     class Describe_deleteOne {
-        long givenID = 0;
+        int givenID = 0;
         String givenTitle = "sample";
 
         @Nested

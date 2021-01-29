@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 
 @DisplayName("Task 클래스")
 public class TaskTest {
-    Long givenID = 1L;
+    Integer givenID = 1;
     String givenTitle = "sample";
     Task givenTask = new Task(givenID, givenTitle);
 
