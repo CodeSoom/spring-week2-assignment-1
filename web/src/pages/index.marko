@@ -26,6 +26,10 @@ class {
   tryModifying(id) {
     this.state.modifyingId = id;
   }
+
+  cancelModifying() {
+    this.state.modifyingId = -1;
+  }
 }
 
 <h1>ToDo</h1>
@@ -37,7 +41,7 @@ class {
         <button type="button">
           확인
         </button>
-        <button type="button">
+        <button type="button" on-click("cancelModifying")>
           취소
         </button>
       </li>
