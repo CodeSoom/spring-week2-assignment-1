@@ -31,26 +31,26 @@ class TaskController {
     }
 
     @PostMapping()
-    public ResponseEntity create(@RequestBody Task task) {
+    public ResponseEntity createTask(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(task, HttpStatus.CREATED);
     }
 
     @PutMapping("/{taskId}")
-    public ResponseEntity update(@PathVariable long taskId, @RequestBody Task task) {
+    public ResponseEntity updateTask(@PathVariable long taskId, @RequestBody Task task) {
         for(Task storedTask : tasks){
             if(storedTask.getId() == taskId){
                 storedTask.setTitle(task.getTitle());
-                return new ResponseEntity(HttpStatus.OK);
+                return new ResponseEntity(storedTask, HttpStatus.OK);
             }
         }
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity delete(@PathVariable long taskId) {
+    public ResponseEntity deleteTask(@PathVariable long taskId) {
         for(Task storedTask : tasks){
             if(storedTask.getId() == taskId){
                 tasks.remove(storedTask);
