@@ -5,11 +5,11 @@ import com.codesoom.assignment.application.TaskApplicationService;
 import com.codesoom.assignment.application.TaskJsonTransfer;
 import com.codesoom.assignment.domain.Task;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     TaskApplicationService taskApplicationService = new TaskApplicationService();
     TaskJsonTransfer transfer = new TaskJsonTransfer();
