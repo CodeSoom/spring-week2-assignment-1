@@ -30,7 +30,7 @@ class TaskServiceTest {
     @DisplayName("getTasks 메소드는")
     class Describe_getTasks {
         @Nested
-        @DisplayName("tasks가 있다면")
+        @DisplayName("저장된 task가 있다면")
         class Context_with_tasks {
             @BeforeEach
             void prepareTasks() {
@@ -50,7 +50,7 @@ class TaskServiceTest {
         }
 
         @Nested
-        @DisplayName("tasks가 없다면")
+        @DisplayName("저장된 task가 없다면")
         class Context_with_empty_tasks {
             @Test
             @DisplayName("empty task list를 리턴한다")
@@ -66,14 +66,14 @@ class TaskServiceTest {
     @DisplayName("addTask 메소드는")
     class Describe_addTask {
         @Nested
-        @DisplayName("task가 있다면")
+        @DisplayName("생성하려는 task가 유효하다면")
         class Context_with_task {
             String title = "task";
             Task task = new Task(title);
 
             @Test
-            @DisplayName("저장한 task를 리턴한다")
-            void it_returns_task() {
+            @DisplayName("생성된 task를 리턴한다")
+            void it_returns_created_task() {
                 Task task = taskService.addTask(this.task);
 
                 assertEquals(title, task.getTitle());
@@ -85,7 +85,7 @@ class TaskServiceTest {
     @DisplayName("getTask 메소드는")
     class Describe_findOne {
         @Nested
-        @DisplayName("task id가 유효하면")
+        @DisplayName("존재하는 task id로 요청한다면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -105,7 +105,7 @@ class TaskServiceTest {
         }
 
         @Nested
-        @DisplayName("task id가 유효하지 않다면")
+        @DisplayName("존재하지 않는 task id로 요청한다면")
         class Context_with_invalid_task_id {
             Long notExistedId = -1L;
 
@@ -122,7 +122,7 @@ class TaskServiceTest {
     @DisplayName("updateTask 메소드는")
     class Describe_updateTask {
         @Nested
-        @DisplayName("수정하려는 task가 유효하면")
+        @DisplayName("존재하는 task id로 수정 한다면")
         class Context_with_valid_task_id {
             Task task;
             Task taskForUpdate;
@@ -144,7 +144,7 @@ class TaskServiceTest {
         }
 
         @Nested
-        @DisplayName("task id가 유효하지 않다면")
+        @DisplayName("존재하는 않은 task id로 수정 한다면")
         class Context_with_invalid_task_id {
             Long notExistedId = -1L;
             Task taskForUpdate;
@@ -167,7 +167,7 @@ class TaskServiceTest {
     @DisplayName("deleteTask 메소드는")
     class Describe_deleteTask {
         @Nested
-        @DisplayName("task id가 유효하면")
+        @DisplayName("존재하는 task id로 삭제한다면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -188,7 +188,7 @@ class TaskServiceTest {
         }
 
         @Nested
-        @DisplayName("task id가 유효하지 않다면")
+        @DisplayName("존재하지 않는 task id로 삭제한다면")
         class Context_with_invalid_task_id {
             Long notExistedId = -1L;
 
