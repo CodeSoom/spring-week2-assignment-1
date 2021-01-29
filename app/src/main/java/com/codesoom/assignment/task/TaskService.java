@@ -12,9 +12,7 @@ public class TaskService {
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
-
-
-
+    
     public List<Task> getTasks() {
         return taskRepository.tasks;
     }
@@ -28,4 +26,16 @@ public class TaskService {
         taskRepository.tasks.add(newTask);
         return newTask;
     }
+
+    public Task updateTask(Task task, Long id) {
+        Task currentTask = taskRepository.findTaskById(id);
+        currentTask.updateTitle(task.getTitle());
+        return currentTask;
+    }
+
+    public void deleteTask(Long id) {
+        Task deleteTask = taskRepository.findTaskById(id);
+        taskRepository.tasks.remove(deleteTask);
+    }
+
 }

@@ -4,7 +4,6 @@ import com.codesoom.assignment.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -36,18 +35,13 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public Task updateTask(@RequestBody Task task, @PathVariable Long id){
-        Task currentTask = findTaskById(id);
-        currentTask.updateTitle(task.getTitle());
-        return currentTask;
+        return taskService.updateTask(task, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
-        Task deleteTask = findTaskById(id);
-        tasks.remove(deleteTask);
+        taskService.deleteTask(id);
     }
-
-
 
 }
