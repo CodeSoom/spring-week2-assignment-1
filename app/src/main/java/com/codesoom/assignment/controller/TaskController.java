@@ -6,11 +6,9 @@ import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.repository.TaskRepository;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/tasks")
@@ -65,7 +63,7 @@ public class TaskController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = TaskNotFoundException.class)
-    public String taskNotFoundExceptionHandler(TaskNotFoundException exception){
+    public String taskNotFoundExceptionHandler(TaskNotFoundException exception) {
         return exception.getMessage();
     }
 }
