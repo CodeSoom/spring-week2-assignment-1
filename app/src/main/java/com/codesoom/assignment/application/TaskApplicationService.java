@@ -15,7 +15,7 @@ public class TaskApplicationService {
     private Long lastId = 1L;
 
     public List<Task> getAllTasks() {
-        ArrayList<Task> allTasks = new ArrayList<>(taskMap.values());
+        List<Task> allTasks = new ArrayList<>(taskMap.values());
         orderTaskById(allTasks);
         return allTasks;
     }
