@@ -21,13 +21,13 @@ class TaskController {
     }
 
     @GetMapping("{taskId}")
-    public Task getTask(@PathVariable long taskId) {
+    public ResponseEntity getTask(@PathVariable long taskId) {
         for(Task storedTask : tasks){
             if(storedTask.getId() == taskId){
-                return storedTask;
+                return new ResponseEntity(storedTask, HttpStatus.OK);
             }
         }
-        return null;
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping()
