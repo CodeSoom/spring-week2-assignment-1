@@ -24,6 +24,7 @@ public class Task {
 
     /**
      * 할 일의 아이디를 돌려준다.
+     *
      * @return 할 일의 아이디
      */
     public Long getId() {
@@ -32,6 +33,7 @@ public class Task {
 
     /**
      * 할 일의 아이디 값을 지정한다.
+     *
      * @param id 할일의 해당하는 아이디
      */
     public void setId(Long id) {
@@ -40,6 +42,7 @@ public class Task {
 
     /**
      * 어떤 할 일인지 돌려준다.
+     *
      * @return 해야할 할 일 명칭
      */
     public String getTitle() {
@@ -48,6 +51,7 @@ public class Task {
 
     /**
      * 해야할 할 일을 지정한다.
+     *
      * @param title 해야할 할 일 명칭
      */
     public void setTitle(String title) {

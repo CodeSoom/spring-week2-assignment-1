@@ -22,7 +22,7 @@ public class TaskController {
     @GetMapping("{id}")
     public Task getTask(@PathVariable("id") Long id) {
         return tasks.findTask(id).orElseThrow(
-                () -> new TaskNotFoundException("존재 하지 않는 task id로 task를 찾을 수 없습니다. 존재하지 않는 id:"  + id));
+                () -> new TaskNotFoundException("존재 하지 않는 task id로 task를 찾을 수 없습니다. 존재하지 않는 id:" + id));
     }
 
     @PostMapping
