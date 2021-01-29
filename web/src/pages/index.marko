@@ -23,6 +23,17 @@ class {
     await this.loadTasks();
   }
 
+  async modifyTask() {
+    const id = this.state.modifyingId;
+    const title = this.getEl(id).value;
+    await axios.put(`http://localhost:8080/tasks/${id}`, {
+      title,
+    });
+
+    this.state.modifyingId = -1;
+    await this.loadTasks();
+  }
+
   tryModifying(id) {
     this.state.modifyingId = id;
   }
@@ -37,8 +48,8 @@ class {
   <for|task| of=state.tasks>
     <if(state.modifyingId === task.id)>
       <li>
-        <input key="${task.id}" value="${task.title}" type="text" />
-        <button type="button">
+        <input key=`${task.id}` value=`${task.title}` type="text" />
+        <button type="button" on-click("modifyTask")>
           확인
         </button>
         <button type="button" on-click("cancelModifying")>
