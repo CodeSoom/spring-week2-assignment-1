@@ -1,5 +1,12 @@
 package com.codesoom.assignment.models;
 
+/**
+ * id와 할 일을 저장하는 클래스
+ *
+ * @author developerOlive
+ * @version 1.0.0 21/01/30
+ */
+
 public class Task {
     private Long id;
     private  String title;
@@ -20,6 +27,7 @@ public class Task {
         this.title = title;
     }
 
+    @Override
     public String toString(){
         return "Task - title : " + title;
     }

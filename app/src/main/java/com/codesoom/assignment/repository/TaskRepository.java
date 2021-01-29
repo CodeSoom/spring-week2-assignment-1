@@ -1,4 +1,4 @@
-package com.codesoom.assignment;
+package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
 
@@ -6,6 +6,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+
+/**
+ * 할 일을 Map 형태로 저장하고, 그 저장소에 접근하는 코드를 모아둔 클래스
+ *
+ * @author developerOlive
+ * @version 1.0.0 21/01/30
+ */
 
 public class TaskRepository {
 
@@ -32,7 +39,7 @@ public class TaskRepository {
         return taskStore.replace(task.getId(), task);
     }
 
-    public void deleteTask(Long id){
+    public void deleteTask(Long id) {
         taskStore.remove(id);
     }
 }

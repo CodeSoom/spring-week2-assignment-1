@@ -1,8 +1,8 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.NotFoundTaskIdException;
-import com.codesoom.assignment.TaskRepository;
+import com.codesoom.assignment.TaskIdNotFoundException;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,7 +56,7 @@ public class TaskController {
 
     public Task findTask(Long id) {
         if (taskRepository.findTaskWithIdInTasks(id) == null) {
-            throw new NotFoundTaskIdException();
+            throw new TaskIdNotFoundException();
         }
         return taskRepository.findTaskWithIdInTasks(id);
     }
