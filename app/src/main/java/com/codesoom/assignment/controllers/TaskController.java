@@ -32,7 +32,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.CREATED)
     public Task handleCreate(@RequestBody Task task) {
         task.setId(taskRepository.generateId());
-        taskRepository.taskStore.put(task.getId(), task);
+        taskRepository.createTask(task.getId(), task);
         return task;
     }
 
@@ -40,9 +40,9 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public Task handleUpdate(@PathVariable Long id, @RequestBody Task task) {
         findTask(id);
-        Task updateTask = task;
-        updateTask.setId(id);
-        taskRepository.taskStore.replace(task.getId(), task);
+        Task editTask = task;
+        editTask.setId(id);
+        taskRepository.updateTask(task.getId(), editTask);
         return task;
     }
 
@@ -51,14 +51,14 @@ public class TaskController {
     public void handleDelete(@PathVariable Long id) {
         findTask(id);
         Task task = findTask(id);
-        taskRepository.taskStore.remove(id);
+        taskRepository.deleteTask(id);
     }
 
     public Task findTask(Long id) {
-        if (taskRepository.taskStore.get(id) == null) {
+        if (taskRepository.findTaskWithIdInTasks(id) == null) {
             throw new NotFoundTaskIdException();
         }
-        return taskRepository.taskStore.get(id);
+        return taskRepository.findTaskWithIdInTasks(id);
     }
 
 }
