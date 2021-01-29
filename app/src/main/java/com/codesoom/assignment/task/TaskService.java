@@ -13,11 +13,19 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
+
+
     public List<Task> getTasks() {
         return taskRepository.tasks;
     }
 
     public Task getTaskById(Long id) {
         return taskRepository.findTaskById(id);
+    }
+
+    public Task createTask(Task task) {
+        Task newTask = new Task(taskRepository.nextId(), task.getTitle());
+        taskRepository.tasks.add(newTask);
+        return newTask;
     }
 }

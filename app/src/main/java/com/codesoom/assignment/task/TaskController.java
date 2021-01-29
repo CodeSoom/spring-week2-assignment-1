@@ -31,9 +31,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Task createTask(@RequestBody Task task){
-        Task newTask = new Task(nextId(), task.getTitle());
-        tasks.add(newTask);
-        return newTask;
+        return taskService.createTask(task);
     }
 
     @PutMapping("/{id}")
