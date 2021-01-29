@@ -53,7 +53,7 @@ class TaskControllerTest {
     }
 
     @Nested
-    @DisplayName("GET 메소드는")
+    @DisplayName("GET 메소드 리퀘스트는")
     class Describe_GET {
         @Nested
         @DisplayName("tasks가 비어있다면")
@@ -93,7 +93,7 @@ class TaskControllerTest {
     }
 
     @Nested
-    @DisplayName("POST 메소드는")
+    @DisplayName("POST 메소드 레퀘스트")
     class Describe_POST {
         @Nested
         @DisplayName("task를 생성한다면")
@@ -112,7 +112,7 @@ class TaskControllerTest {
     }
 
     @Nested
-    @DisplayName("PUT/PATCH 메소드는")
+    @DisplayName("PUT/PATCH 메소드 리퀘스트")
     class Describe_PUT {
         @Nested
         @DisplayName("존재하는 task id를 수정요청 한다면")
@@ -156,7 +156,7 @@ class TaskControllerTest {
     }
 
     @Nested
-    @DisplayName("DELETE 메소드는")
+    @DisplayName("DELETE 리퀘스트 메소드는")
     class Describe_DELETE {
         @Nested
         @DisplayName("존재하는 task id를 삭제요청을 한다면")
