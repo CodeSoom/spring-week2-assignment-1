@@ -3,10 +3,8 @@ package com.codesoom.assignment.service;
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.entity.Task;
 import com.codesoom.assignment.repository.TaskRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,7 +45,7 @@ public class TaskService {
     }
 
     public void deleteTask(Long id) {
-            taskRepository.deleteById(id);
+        taskRepository.deleteById(id);
     }
 
     private Long increaseId() {

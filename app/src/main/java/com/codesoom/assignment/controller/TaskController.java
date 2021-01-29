@@ -42,7 +42,8 @@ public class TaskController {
     public ResponseEntity<TaskDto> addTask(@RequestBody TaskDto taskDto) {
         Task addTask = taskService.addTask(taskDto);
         TaskDto responseDto = new TaskDto(addTask);
-        return ResponseEntity.created(URI.create("/tasks")).body(responseDto);    }
+        return ResponseEntity.created(URI.create("/tasks")).body(responseDto);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<TaskDto> putTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
