@@ -23,41 +23,31 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public ResponseEntity<TaskDto> getTask(Long id) {
-        Task task = taskRepository.findById(id);
-        if (Objects.isNull(task)) {
-            return ResponseEntity.notFound().build();
-        }
-        TaskDto taskDto = new TaskDto(task);
-        return ResponseEntity.ok(taskDto);
+    public Task getTask(Long id) {
+        return taskRepository.findById(id);
     }
 
-    public ResponseEntity<TaskDto> addTask(TaskDto taskDto) {
+    public Task addTask(TaskDto taskDto) {
         taskDto.setId(increaseId());
         Task task = new Task();
         task.setId(taskDto.getId());
         task.setTitle(taskDto.getTitle());
-        taskRepository.save(task);
-        return ResponseEntity.created(URI.create("/tasks")).body(taskDto);
+        Task savedTask = taskRepository.save(task);
+        return savedTask;
     }
 
-    public ResponseEntity<TaskDto> updateTask(Long id, TaskDto inputTaskDto) {
+    public Task updateTask(Long id, TaskDto inputTaskDto) {
         Task task = taskRepository.findById(id);
         if (Objects.isNull(task)) {
-            return ResponseEntity.notFound().build();
+            return null;
         }
         task.setTitle(inputTaskDto.getTitle());
-        taskRepository.save(task);
-        TaskDto outputTaskDto = new TaskDto(task);
-        return ResponseEntity.ok(outputTaskDto);
+        Task save = taskRepository.save(task);
+        return save;
     }
 
-    public ResponseEntity<TaskDto> deleteTask(Long id) {
-        if (taskRepository.existsById(id)) {
+    public void deleteTask(Long id) {
             taskRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
     }
 
     private Long increaseId() {
