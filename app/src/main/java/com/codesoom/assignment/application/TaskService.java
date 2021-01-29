@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskService {
     private final Map<Long, Task> tasks = new LinkedHashMap<>();
-    private final IdGenerator idGenerator = new IdGenerator();
+    private final IdGenerable taskIdGenerator;
+
+    private TaskService(IdGenerable taskIdGenerator) {
+        this.taskIdGenerator = taskIdGenerator;
+    }
 
     public List<Task> getTasks() {
         return new ArrayList<>(tasks.values());
@@ -23,7 +27,7 @@ public class TaskService {
     }
 
     public Task createNewTask(String title) {
-        Task task = new Task(idGenerator.generateNewTaskId(), title);
+        Task task = new Task(taskIdGenerator.generateNewTaskId(), title);
         tasks.put(task.getId(), task);
         System.out.println("Completed to create task - " + task.toString());
         return task;
@@ -51,6 +55,6 @@ public class TaskService {
 
     public void clearTasks() {
         tasks.clear();
-        idGenerator.resetId();
+        taskIdGenerator.resetId();
     }
 }
