@@ -17,7 +17,7 @@ class TasksTest {
         task = new Task(1L, "homework");
     }
 
-    @DisplayName("객체를 추가했을때 컬렉션에 값이 저장된다")
+    @DisplayName("Tasks 객체에 Task를 추가하면 값이 저장되고 해당하는 값을 찾을 수 있다")
     @Test
     void addTask() {
         tasks.addTask(task);
@@ -29,7 +29,7 @@ class TasksTest {
         assertEquals(1L, task.getId());
     }
 
-    @DisplayName("객체를 제거했을때 컬렉션에 값이 없어진다.")
+    @DisplayName("Tasks 객체에 Task를 제거하면 값이 사라지고 해당하는 값을 찾을 수 없다")
     @Test
     void remove() {
         tasks.addTask(task);
