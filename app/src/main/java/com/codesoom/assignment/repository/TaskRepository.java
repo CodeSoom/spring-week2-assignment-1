@@ -1,15 +1,16 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.entity.Task;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
-import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class TaskRepository {
-    private Map<Long, Task> tasks = new LinkedHashMap<>();
+    private final Map<Long, Task> tasks = new LinkedHashMap<>();
 
     public List<Task> findAll() {
         return new ArrayList<>(tasks.values());
