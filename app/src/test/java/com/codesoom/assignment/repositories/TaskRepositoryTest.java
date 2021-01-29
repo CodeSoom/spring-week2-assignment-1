@@ -27,7 +27,7 @@ class TaskRepositoryTest {
     @DisplayName("findAll 메소드는")
     class Describe_findAll {
         @Nested
-        @DisplayName("tasks가 있다면")
+        @DisplayName("저장된 task가 있다면")
         class Context_with_tasks {
             @BeforeEach
             void prepareTasks() {
@@ -47,7 +47,7 @@ class TaskRepositoryTest {
         }
 
         @Nested
-        @DisplayName("tasks가 없다면")
+        @DisplayName("저장된 task가 없다면")
         class Context_with_empty_tasks {
             @Test
             @DisplayName("empty task list를 리턴한다")
@@ -63,7 +63,7 @@ class TaskRepositoryTest {
     @DisplayName("save 메소드는")
     class Describe_save {
         @Nested
-        @DisplayName("task가 있다면")
+        @DisplayName("입력받은 task가 있다면")
         class Context_with_task {
             Long id = 1L;
             String title = "task";
@@ -84,7 +84,7 @@ class TaskRepositoryTest {
     @DisplayName("findOne 메소드는")
     class Describe_findOne {
         @Nested
-        @DisplayName("task id가 유효하면")
+        @DisplayName("입력받은 task id가 유효하면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -104,7 +104,7 @@ class TaskRepositoryTest {
         }
 
         @Nested
-        @DisplayName("task id가 유효하지 않다면")
+        @DisplayName("입력받은 task id가 유효하지 않다면")
         class Context_with_invalid_task_id {
             Long notExistedId = -1L;
 
@@ -122,7 +122,7 @@ class TaskRepositoryTest {
     @DisplayName("delete 메소드는")
     class Describe_delete {
         @Nested
-        @DisplayName("task id가 유효하면")
+        @DisplayName("입력받은 task id가 유효하면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -133,7 +133,7 @@ class TaskRepositoryTest {
             }
 
             @Test
-            @DisplayName("유효한 task id의 task를 삭제한다")
+            @DisplayName("입력받은 task id의 task를 삭제한다")
             void it_delete_task_of_valid_task_id() {
                 taskRepository.delete(task.getId());
                 Optional<Task> deletedTask = taskRepository.findOne(task.getId());
@@ -147,7 +147,7 @@ class TaskRepositoryTest {
     @DisplayName("removeAll 메소드는")
     class Describe_removeAll {
         @Nested
-        @DisplayName("tasks가 있다면")
+        @DisplayName("저장된 task가 있다면")
         class Context_with_tasks {
             @BeforeEach
             void prepareTasks() {
@@ -158,7 +158,7 @@ class TaskRepositoryTest {
             }
 
             @Test
-            @DisplayName("tasks를 삭제한다")
+            @DisplayName("저장된 task를 전부 삭제한다")
             void it_delete_tasks() {
                 taskRepository.removeAll();
 
