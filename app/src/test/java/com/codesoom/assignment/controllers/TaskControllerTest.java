@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -40,10 +41,10 @@ class TaskControllerTest {
     }
 
     @Nested
-    @DisplayName("list 메소드는")
-    class Describe_list {
+    @DisplayName("GET 메서드 요청은")
+    class Describe_GET {
         @Nested
-        @DisplayName("tasks가 있다면")
+        @DisplayName("저장된 task가 여러 개 있다면")
         class Context_with_tasks {
             List<Task> tasks;
 
@@ -57,7 +58,7 @@ class TaskControllerTest {
             }
 
             @Test
-            @DisplayName("200코드와 tasks를 리턴한다")
+            @DisplayName("200코드와 저장된 task들을 리턴한다")
             void it_returns_200_and_tasks() throws Exception {
                 mockMvc.perform(get("/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,8 +69,8 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("tasks가 없다면")
-        class Context_with_empty_tasks {
+        @DisplayName("저장된 task가 없다면")
+        class Context_with_empty_task {
             @Test
             @DisplayName("200코드와 빈 배열을 리턴한다")
             void it_returns_200_and_empty_tasks() throws Exception {
@@ -80,49 +81,9 @@ class TaskControllerTest {
                         .andExpect(content().string("[]"));
             }
         }
-    }
-
-    @Nested
-    @DisplayName("create 메소드는")
-    class Describe_create {
-        @Nested
-        @DisplayName("task가 있다면")
-        class Context_with_task {
-            TaskDto taskDto = new TaskDto("title");
-
-            @Test
-            @DisplayName("201코드와 생성된 task를 리턴한다")
-            void it_returns_201_and_task() throws Exception {
-                mockMvc.perform(post("/tasks")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
-                        .andExpect(status().isCreated());
-            }
-        }
 
         @Nested
-        @DisplayName("task가 유효하지 않다면")
-        class Context_with_in_valid_task {
-            TaskDto taskDto = new TaskDto("");
-
-            @Test
-            @DisplayName("400코드를 리턴한다")
-            void it_returns_400() throws Exception {
-                mockMvc.perform(post("/tasks")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
-                        .andExpect(status().isBadRequest());
-            }
-        }
-    }
-
-    @Nested
-    @DisplayName("read 메소드는")
-    class Describe_read {
-        @Nested
-        @DisplayName("task id가 유효하다면")
+        @DisplayName("입력받은 task id가 유효하다면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -145,29 +106,73 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("task id가 유효하지 않다면")
+        @DisplayName("입력받은 task id가 유효하지 않다면")
         class Context_with_invalid_task_id {
             Long notExistId = -1L;
 
             @Test
-            @DisplayName("404코드를 리턴한다")
-            void it_returns_404() throws Exception {
+            @DisplayName("404코드와 에러정보를 리턴한다")
+            void it_returns_404_and_error_info() throws Exception {
                 mockMvc.perform(get("/tasks/{id}", notExistId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("id").doesNotExist())
                         .andExpect(jsonPath("title").doesNotExist())
+                        .andExpect(jsonPath("statusCode").exists())
+                        .andExpect(jsonPath("timestamp").exists())
+                        .andExpect(jsonPath("message").exists())
+                        .andExpect(jsonPath("description").exists())
                         .andExpect(status().isNotFound());
             }
         }
     }
 
     @Nested
-    @DisplayName("update 메소드는")
-    class Describe_update {
+    @DisplayName("POST 메서드 요청은")
+    class Describe_POST {
         @Nested
-        @DisplayName("task가 유효하다면")
+        @DisplayName("입력받은 task가 유효하다면")
         class Context_with_valid_task {
+            TaskDto taskDto = new TaskDto("title");
+
+            @Test
+            @DisplayName("201코드와 생성된 task를 리턴한다")
+            void it_returns_201_and_created_task() throws Exception {
+                mockMvc.perform(post("/tasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .andExpect(status().isCreated());
+            }
+        }
+
+        @Nested
+        @DisplayName("입력받은 task가 유효하지 않다면")
+        class Context_with_in_valid_task {
+            TaskDto taskDto = new TaskDto("");
+
+            @Test
+            @DisplayName("400코드를 에러 정보를 리턴한다")
+            void it_returns_400() throws Exception {
+                mockMvc.perform(post("/tasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .andExpect(jsonPath("statusCode").exists())
+                        .andExpect(jsonPath("timestamp").exists())
+                        .andExpect(jsonPath("message").exists())
+                        .andExpect(jsonPath("description").exists())
+                        .andExpect(status().isBadRequest());
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("PUT 매서드 요청은")
+    class Describe_PUT {
+        @Nested
+        @DisplayName("입력받은 task, task id가 유효하다면")
+        class Context_with_valid_task_and_task_id {
             Task task;
             TaskDto taskDto;
 
@@ -192,7 +197,7 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("task가 유효하지 않다면")
+        @DisplayName("입력받은 task가 유효하지 않다면")
         class Context_with_in_valid_task {
             Task task;
             TaskDto taskDto;
@@ -205,24 +210,28 @@ class TaskControllerTest {
             }
 
             @Test
-            @DisplayName("400코드를 리턴한다")
+            @DisplayName("400코드와 에러정보를 리턴한다")
             void it_returns_400() throws Exception {
                 mockMvc.perform(put("/tasks/{id}", task.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(taskDto)))
+                        .andExpect(jsonPath("statusCode").exists())
+                        .andExpect(jsonPath("timestamp").exists())
+                        .andExpect(jsonPath("message").exists())
+                        .andExpect(jsonPath("description").exists())
                         .andExpect(status().isBadRequest());
             }
         }
 
         @Nested
-        @DisplayName("task id가 유효하지 않다면")
+        @DisplayName("입력받은 task id가 유효하지 않다면")
         class Context_with_invalid_task {
             Long notExistedId = -1L;
             TaskDto taskDto = new TaskDto("newTitle");
 
             @Test
-            @DisplayName("404코드를 리턴한다")
+            @DisplayName("404코드와 에러정보를 리턴한다")
             void it_returns_404() throws Exception {
                 mockMvc.perform(put("/tasks/{id}", notExistedId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -230,16 +239,20 @@ class TaskControllerTest {
                         .content(objectMapper.writeValueAsString(taskDto)))
                         .andExpect(jsonPath("id").doesNotExist())
                         .andExpect(jsonPath("title").doesNotExist())
+                        .andExpect(jsonPath("statusCode").exists())
+                        .andExpect(jsonPath("timestamp").exists())
+                        .andExpect(jsonPath("message").exists())
+                        .andExpect(jsonPath("description").exists())
                         .andExpect(status().isNotFound());
             }
         }
     }
 
     @Nested
-    @DisplayName("delete 메소드는")
-    class Describe_delete {
+    @DisplayName("DELETE 메서드 요청은")
+    class Describe_DELETE {
         @Nested
-        @DisplayName("task id가 유효하다면")
+        @DisplayName("입력받은 task id가 유효하다면")
         class Context_with_valid_task_id {
             Task task;
 
@@ -262,18 +275,22 @@ class TaskControllerTest {
         }
 
         @Nested
-        @DisplayName("task id가 유효하지 않다면")
+        @DisplayName("입력받은 task id가 유효하지 않다면")
         class Context_with_invalid_task_id {
             Long notExistId = -1L;
 
             @Test
-            @DisplayName("404코드를 리턴한다")
+            @DisplayName("404코드와 에러정보를 리턴한다")
             void it_returns_404() throws Exception {
                 mockMvc.perform(delete("/tasks/{id}", notExistId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("id").doesNotExist())
                         .andExpect(jsonPath("title").doesNotExist())
+                        .andExpect(jsonPath("statusCode").exists())
+                        .andExpect(jsonPath("timestamp").exists())
+                        .andExpect(jsonPath("message").exists())
+                        .andExpect(jsonPath("description").exists())
                         .andExpect(status().isNotFound());
             }
         }
