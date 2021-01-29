@@ -1,9 +1,7 @@
 package com.codesoom.assignment.task;
 
-import com.codesoom.assignment.exception.NoContentException;
 import com.codesoom.assignment.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
