@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controller;
 
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.entity.Task;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.ResponseEntity;
@@ -23,27 +24,27 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable Long id) {
+    public ResponseEntity<TaskDto> getTask(@PathVariable Long id) {
         return taskService.getTask(id);
     }
 
     @PostMapping
-    public ResponseEntity<Task> addTask(@RequestBody Task task) {
-        return taskService.addTask(task);
+    public ResponseEntity<TaskDto> addTask(@RequestBody TaskDto taskDto) {
+        return taskService.addTask(taskDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> putTask(@PathVariable Long id, @RequestBody Task inputTask) {
-        return taskService.updateTask(id, inputTask);
+    public ResponseEntity<TaskDto> putTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
+        return taskService.updateTask(id, taskDto);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Task> patchTask(@PathVariable Long id, @RequestBody Task inputTask) {
-        return taskService.updateTask(id, inputTask);
+    public ResponseEntity<TaskDto> patchTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
+        return taskService.updateTask(id, taskDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<TaskDto> deleteTask(@PathVariable Long id) {
         return taskService.deleteTask(id);
     }
 }

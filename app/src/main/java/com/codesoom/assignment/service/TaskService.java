@@ -1,5 +1,6 @@
 package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.entity.Task;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.http.ResponseEntity;
@@ -22,31 +23,36 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public ResponseEntity<Task> getTask(Long id) {
+    public ResponseEntity<TaskDto> getTask(Long id) {
         Task task = taskRepository.findById(id);
         if (Objects.isNull(task)) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(task);
+        TaskDto taskDto = new TaskDto(task);
+        return ResponseEntity.ok(taskDto);
     }
 
-    public ResponseEntity<Task> addTask(Task task) {
-        task.setId(increaseId());
+    public ResponseEntity<TaskDto> addTask(TaskDto taskDto) {
+        taskDto.setId(increaseId());
+        Task task = new Task();
+        task.setId(taskDto.getId());
+        task.setTitle(taskDto.getTitle());
         taskRepository.save(task);
-        return ResponseEntity.created(URI.create("/tasks")).body(task);
+        return ResponseEntity.created(URI.create("/tasks")).body(taskDto);
     }
 
-    public ResponseEntity<Task> updateTask(Long id, Task inputTask) {
+    public ResponseEntity<TaskDto> updateTask(Long id, TaskDto inputTaskDto) {
         Task task = taskRepository.findById(id);
         if (Objects.isNull(task)) {
             return ResponseEntity.notFound().build();
         }
-        task.setTitle(inputTask.getTitle());
+        task.setTitle(inputTaskDto.getTitle());
         taskRepository.save(task);
-        return ResponseEntity.ok(task);
+        TaskDto outputTaskDto = new TaskDto(task);
+        return ResponseEntity.ok(outputTaskDto);
     }
 
-    public ResponseEntity<Task> deleteTask(Long id) {
+    public ResponseEntity<TaskDto> deleteTask(Long id) {
         if (taskRepository.existsById(id)) {
             taskRepository.deleteById(id);
             return ResponseEntity.noContent().build();

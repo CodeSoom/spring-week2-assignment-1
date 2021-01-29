@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.controller.TaskController;
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.entity.Task;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -29,14 +30,14 @@ class TaskControllerTest {
 
     @BeforeAll
     public void init() {
-        Task task = new Task();
-        task.setId(1L);
-        task.setTitle("hello");
-        Task task2 = new Task();
-        task2.setId(2L);
-        task2.setTitle("world");
-        taskController.addTask(task);
-        taskController.addTask(task2);
+        TaskDto taskDto = new TaskDto();
+        taskDto.setId(1L);
+        taskDto.setTitle("hello");
+        TaskDto taskDto2 = new TaskDto();
+        taskDto2.setId(2L);
+        taskDto2.setTitle("world");
+        taskController.addTask(taskDto);
+        taskController.addTask(taskDto2);
     }
 
     @Test
@@ -68,5 +69,5 @@ class TaskControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
-    
+
 }
