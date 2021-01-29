@@ -12,6 +12,7 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/tasks")
 public class TaskController {
+    private static final String TASK_NOT_FOUND = "task를 찾을 수 없습니다";
     private Tasks tasks = new Tasks();
 
     @GetMapping
@@ -22,7 +23,7 @@ public class TaskController {
     @GetMapping("{id}")
     public Task getTask(@PathVariable("id") Long id) {
         return tasks.findTask(id)
-                .orElseThrow(() -> new NotFoundException("task를 찾을 수 없습니다"));
+                .orElseThrow(() -> new NotFoundException(TASK_NOT_FOUND));
     }
 
     @PostMapping
@@ -35,7 +36,7 @@ public class TaskController {
     @PutMapping("{id}")
     public Task updateTask(@PathVariable("id") Long id, @RequestBody Task source) {
         Task task = tasks.findTask(id)
-                .orElseThrow(() -> new NotFoundException("task를 찾을 수 없습니다"));
+                .orElseThrow(() -> new NotFoundException(TASK_NOT_FOUND));
         task.setTitle(source.getTitle());
         return task;
     }
@@ -44,7 +45,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void Task(@PathVariable("id") Long id) {
         tasks.findTask(id)
-                .orElseThrow(() -> new NotFoundException("task를 찾을 수 없습니다"));
+                .orElseThrow(() -> new NotFoundException(TASK_NOT_FOUND));
         tasks.remove(id);
     }
 
