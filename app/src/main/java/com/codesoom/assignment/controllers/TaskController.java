@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,37 +48,33 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable("id") Long id) {
-        Task task = taskService.getTask(id);
-        if (task == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        Optional<Task> task = taskService.getTask(id);
+        return ResponseEntity.of(task);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> modifyTask(@PathVariable("id") Long id, @RequestBody Task source) {
-        Task ret = taskService.getTask(id);
-        if (ret == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<Task> entity = taskService.getTask(id);
+
+        if (entity.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
 
-        if (source.getTitle().isBlank()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        String title = source.getTitle();
-        Task modifiedTask = taskService.modifyTask(id, title);
-        return new ResponseEntity<>(modifiedTask, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
+        taskService.modifyTask(entity.get(), source.getTitle());
+        return ResponseEntity.of(entity);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable("id") Long id) {
-        Task task = taskService.getTask(id);
-        if (task == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<Task> task = taskService.getTask(id);
+
+        if (task.isEmpty()) {
+           return ResponseEntity.notFound().build();
         }
-        taskService.deleteTask(task);
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        taskService.deleteTask(task.get());
+
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.codesoom.assignment.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.codesoom.assignment.model.Task;
 
@@ -13,10 +14,10 @@ public interface TaskService {
     Task createTask(Task task);
 
 
-    Task getTask(Long id);
+    Optional<Task> getTask(Long id);
 
 
-    Task modifyTask(Long id, String title);
+    Task modifyTask(Task task, String title);
 
 
     void deleteTask(Task task);

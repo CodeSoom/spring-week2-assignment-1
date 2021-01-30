@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -25,14 +26,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task getTask(Long id) {
-        Task task = findTask(id);
+    public Optional<Task> getTask(Long id) {
+        Optional<Task> task = findTask(id);
         return task;
     }
 
     @Override
-    public Task modifyTask(Long id, String title) {
-        Task task = findTask(id);
+    public Task modifyTask(Task task, String title) {
         task.setTitle(title);
         return task;
     }
@@ -42,11 +42,10 @@ public class TaskServiceImpl implements TaskService {
         tasks.remove(task);
     }
 
-    private Task findTask(Long id) {
+    private Optional<Task> findTask(Long id) {
         return tasks.stream()
             .filter(task -> task.getId().equals(id))
-            .findFirst()
-            .orElse(null);
+            .findFirst();
     }
 
     private Long generateId() {
