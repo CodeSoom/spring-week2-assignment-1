@@ -8,17 +8,18 @@ module.exports = class {
     await this.refreshTasks();
   }
 
-  handleChangeTitle() {
-    const titleSelector = this.getTitleSelector();
-    const title = titleSelector.value;
-    this.setTitle(title);
+  handleChangeTitle(event) {
+    this.setTitle(event.target.value);
   }
 
   async handleClickAddTask() {
-    const titleSelector = this.getTitleSelector();
-    const title = titleSelector.value;
+    await this.taskManager.insertOne(this.state.title);
+    await this.refreshTasks();
+    this.clearTitle();
+  }
 
-    await this.taskManager.insertOne(title);
+  async handleClickDeleteTask(id) {
+    await this.taskManager.deleteOne(id);
     await this.refreshTasks();
   }
 
@@ -39,6 +40,10 @@ module.exports = class {
 
   setTitle(title) {
     this.setState('title', title);
+  }
+
+  clearTitle() {
+    this.setState('title', '');
   }
 
   setTasks(tasks) {
