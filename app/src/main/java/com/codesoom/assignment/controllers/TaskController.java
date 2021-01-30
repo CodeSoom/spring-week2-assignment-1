@@ -47,34 +47,21 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable("id") Long id) {
-        Optional<Task> task = taskService.getTask(id);
-        return ResponseEntity.of(task);
+    public Task getTask(@PathVariable("id") Long id) {
+        return taskService.getTask(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> modifyTask(@PathVariable("id") Long id, @RequestBody Task source) {
-        Optional<Task> entity = taskService.getTask(id);
-
-        if (entity.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        taskService.modifyTask(entity.get(), source.getTitle());
-        return ResponseEntity.of(entity);
+    public Task modifyTask(@PathVariable("id") Long id, @RequestBody Task source) {
+        Task task = taskService.getTask(id);
+        taskService.modifyTask(task, source.getTitle());
+        return task;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Task> deleteTask(@PathVariable("id") Long id) {
-        Optional<Task> task = taskService.getTask(id);
-
-        if (task.isEmpty()) {
-           return ResponseEntity.notFound().build();
-        }
-
-        taskService.deleteTask(task.get());
-
-        return ResponseEntity.noContent().build();
+    public void deleteTask(@PathVariable("id") Long id) {
+        Task task = taskService.getTask(id);
+        taskService.deleteTask(task);
     }
 
 }

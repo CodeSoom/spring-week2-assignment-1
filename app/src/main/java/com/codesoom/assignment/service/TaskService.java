@@ -14,7 +14,7 @@ public interface TaskService {
     Task createTask(Task task);
 
 
-    Optional<Task> getTask(Long id);
+    Task getTask(Long id);
 
 
     Task modifyTask(Task task, String title);

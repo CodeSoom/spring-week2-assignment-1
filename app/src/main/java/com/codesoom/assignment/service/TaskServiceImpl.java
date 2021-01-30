@@ -1,11 +1,11 @@
 package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -26,8 +26,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> getTask(Long id) {
-        Optional<Task> task = findTask(id);
+    public Task getTask(Long id) {
+        Task task = findTask(id);
         return task;
     }
 
@@ -42,10 +42,11 @@ public class TaskServiceImpl implements TaskService {
         tasks.remove(task);
     }
 
-    private Optional<Task> findTask(Long id) {
+    private Task findTask(Long id) {
         return tasks.stream()
-            .filter(task -> task.getId().equals(id))
-            .findFirst();
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     private Long generateId() {
