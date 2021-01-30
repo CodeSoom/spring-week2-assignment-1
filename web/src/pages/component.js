@@ -5,8 +5,7 @@ module.exports = class {
     this.initializeState();
     this.taskManager = new TaskManager();
 
-    const tasks = await this.taskManager.findAll();
-    this.setTasks(tasks);
+    await this.refreshTasks();
   }
 
   handleChangeTitle() {
@@ -15,8 +14,12 @@ module.exports = class {
     this.setTitle(title);
   }
 
-  handleClickAddButton() {
+  async handleClickAddTask() {
+    const titleSelector = this.getTitleSelector();
+    const title = titleSelector.value;
 
+    await this.taskManager.insertOne(title);
+    await this.refreshTasks();
   }
 
   initializeState() {
@@ -40,5 +43,10 @@ module.exports = class {
 
   setTasks(tasks) {
     this.setState('tasks', tasks);
+  }
+
+  async refreshTasks() {
+    const tasks = await this.taskManager.findAll();
+    this.setTasks(tasks);
   }
 };
