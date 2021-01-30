@@ -25,13 +25,7 @@ public class TaskController {
 
     @GetMapping("/{id:[0-9]+}")
     public Task detail(@PathVariable Long id) {
-        try {
-            return taskList.getTask(id);
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Not found task"
-            );
-        }
+        return taskList.getTask(id);
     }
 
     @PostMapping
@@ -48,17 +42,7 @@ public class TaskController {
 
     @RequestMapping(path = "/{id:[0-9]+}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task update(@PathVariable Long id, @RequestBody Task task) {
-        try {
-            return taskList.modify(id, task.getTitle());
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Not found task"
-            );
-        } catch (Exception e) {
-            throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR, "Unknown error"
-            );
-        }
+        return taskList.modify(id, task.getTitle());
     }
 
     @DeleteMapping("/{id:[0-9]+}")
@@ -66,10 +50,10 @@ public class TaskController {
     public String delete(@PathVariable Long id) {
         if (taskList.remove(id)) {
             return "Deleted";
-        } else {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Fail Deleted"
-            );
         }
+
+        throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "Fail Deleted"
+        );
     }
 }
