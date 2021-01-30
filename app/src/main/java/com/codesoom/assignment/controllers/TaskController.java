@@ -2,9 +2,9 @@ package com.codesoom.assignment.controllers;
 
 import java.util.List;
 
+import com.codesoom.assignment.dto.DeleteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.codesoom.assignment.model.Task;
@@ -28,6 +28,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task task) {
         return taskService.createTask(task);
     }
@@ -47,9 +48,11 @@ public class TaskController {
         return taskService.modifyTask(source, id);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable("id") Long id) {
+    public DeleteResponse deleteTask(@PathVariable("id") Long id) {
         taskService.deleteTask(id);
+        return new DeleteResponse("delete successfully");
     }
 
 }
