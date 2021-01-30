@@ -2,6 +2,8 @@ package com.codesoom.assignment.dto;
 
 import com.codesoom.assignment.entity.Task;
 
+import java.util.Objects;
+
 public class TaskDto {
     private Long id;
     private String title;
@@ -31,12 +33,25 @@ public class TaskDto {
     }
 
     @Override
-    public String toString() {
-        return super.toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskDto taskDto = (TaskDto) o;
+        return Objects.equals(getId(), taskDto.getId()) &&
+                Objects.equals(getTitle(), taskDto.getTitle());
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(getId(), getTitle());
     }
+
+    @Override
+    public String toString() {
+        return "TaskDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
 }
