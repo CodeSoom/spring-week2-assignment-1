@@ -32,13 +32,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task modifyTask(Task task, String title) {
-        task.setTitle(title);
+    public Task modifyTask(Task source, Long id) {
+        Task task = findTask(id);
+        task.setTitle(source.getTitle());
         return task;
     }
 
     @Override
-    public void deleteTask(Task task) {
+    public void deleteTask(Long id) {
+        Task task = findTask(id);
         tasks.remove(task);
     }
 
