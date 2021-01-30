@@ -1,20 +1,22 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
 
     private Long id = 0L;
     private TaskRepository taskRepository = new TaskRepository();
+
 
 
     @GetMapping
@@ -42,7 +44,8 @@ public class TaskController {
     private Task getTask(Long id) {
         return taskRepository.getTasks().stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst().orElse(null);
+                .findFirst()
+                .orElseThrow(() -> new TaskNotFoundException());
     }
 
 
@@ -51,7 +54,6 @@ public class TaskController {
     public void delete(@PathVariable Long id) throws IOException {
         Task task = getTask(id);
         taskRepository.deleteTask(task);
-
     }
 
 
