@@ -2,7 +2,8 @@
   <h1>ToDo</h1>
 
   <label for="task">할 일</label>
-  <input type="text" id="task" />
+  <input type="text" id="task" on-change("handleChangeTitle") value=state.title />
+  <button type="button">추가</button>
   
   <ol>
     <for|task| of=state.tasks>
