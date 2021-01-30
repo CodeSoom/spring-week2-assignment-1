@@ -30,11 +30,10 @@ public class TaskService {
     }
 
     public Task addTask(TaskDto taskDto) {
-        taskDto.setId(taskRepository.increaseId());
         Task task = new Task();
         task.setId(taskDto.getId());
         task.setTitle(taskDto.getTitle());
-        return taskRepository.save(task);
+        return taskRepository.addTask(task);
     }
 
     public Task updateTask(Long id, TaskDto inputTaskDto) {

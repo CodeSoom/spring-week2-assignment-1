@@ -3,7 +3,12 @@ package com.codesoom.assignment.repository;
 import com.codesoom.assignment.entity.Task;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ArrayList;
+import java.util.Optional;
+
 
 @Repository
 public class TaskRepository {
@@ -32,7 +37,13 @@ public class TaskRepository {
         tasks.remove(id);
     }
 
-    public Long increaseId() {
+    public Task addTask(Task task) {
+        task.setId(increaseId());
+        save(task);
+        return task;
+    }
+
+    private Long increaseId() {
         lastId += 1;
         return lastId;
     }
