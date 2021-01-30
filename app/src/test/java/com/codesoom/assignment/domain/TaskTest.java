@@ -23,7 +23,7 @@ class TaskTest {
     class Describe_id {
 
         @Nested
-        @DisplayName("만약 Long 타입 정수값이 id로 생성자에 주어지면")
+        @DisplayName("만약 Long 타입 값이 id로 생성자에 주어지면")
         class Context_with_long_id {
             Long givenId = 1L;
             Task task = new Task(givenId, null);

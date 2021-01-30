@@ -128,7 +128,7 @@ class TasksTest {
                 tasks.addTask(givenTask2);
                 tasks.addTask(givenTask3);
 
-                assertEquals(tasks.getTasks(), Arrays.asList(givenTask, givenTask2, givenTask3));
+                assertEquals(Arrays.asList(givenTask, givenTask2, givenTask3), tasks.getTasks());
             }
         }
 
@@ -138,7 +138,7 @@ class TasksTest {
             @Test
             @DisplayName("비어있는 할 일 목록을 리턴한다.")
             void It_return_empty_tasks() {
-                assertEquals(tasks.getTasks(), new ArrayList<>());
+                assertEquals(new ArrayList<>(), tasks.getTasks());
             }
         }
     }
