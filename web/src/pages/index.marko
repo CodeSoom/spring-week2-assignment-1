@@ -29,6 +29,14 @@ class {
     } : task);
   }
 
+  async updateTask(id) {
+    const newTitle = this.getEl(`task-${id}`).value;
+    await axios.put(`http://localhost:8080/tasks/${id}`, {
+      title: newTitle,
+    });
+    await this.loadTasks();
+  }
+
   async deleteTask(id) {
     await axios.delete(`http://localhost:8080/tasks/${id}`)
     await this.loadTasks();
@@ -50,7 +58,10 @@ class {
     <for|task| of=state.tasks>
     <li>
       <if(task.editing)>
-        <input type="text"/>
+        <input key=`task-${task.id}` type="text"/>
+        <button type="button" on-click("updateTask", task.id)>
+          저장
+        </button>
       </if>
       <else>
         ${task.title} 
