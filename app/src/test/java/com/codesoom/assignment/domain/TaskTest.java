@@ -24,7 +24,7 @@ class TaskTest {
 
         @Nested
         @DisplayName("만약 Long 타입 정수값이 id로 생성자에 주어지면")
-        class Context_with_real {
+        class Context_with_long_id {
             Long givenId = 1L;
             Task task = new Task(givenId, null);
             @Test
@@ -41,7 +41,7 @@ class TaskTest {
 
         @Nested
         @DisplayName("만약 할 일이 담긴 title이 생성자에 주어지면")
-        class Context_with_real {
+        class Context_with_string_title {
             String givenTitle = "공부하기";
             Task task = new Task(null, givenTitle);
             @Test
