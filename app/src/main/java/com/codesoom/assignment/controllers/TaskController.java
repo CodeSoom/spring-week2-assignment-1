@@ -59,7 +59,7 @@ public class TaskController {
         return newId;
     }
 
-    private Task findTask(Long id) throws IOException {
+    private Task findTask(Long id) {
         return taskRepository.getTasks().stream()
                 .filter(task -> Objects.equals(task.getId(), id))
                 .findFirst()
