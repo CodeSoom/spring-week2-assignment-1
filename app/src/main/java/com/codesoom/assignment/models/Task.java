@@ -39,6 +39,17 @@ public class Task {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int hashCode = 1;
+
+        hashCode = (prime * hashCode) + ((id == null) ? 0 : id.hashCode());
+        hashCode = (prime * hashCode) + ((title == null) ? 0 : title.hashCode());
+
+        return hashCode;
+    }
+
+    @Override
     public String toString() {
         return String.format("{ id = %s, title = %s }", id, title);
     }
