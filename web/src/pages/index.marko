@@ -21,6 +21,18 @@ class {
     });
     await this.loadTasks();
   }
+
+  editTask(id) {
+    this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+      ...task,
+      editing: true,
+    } : task);
+  }
+
+  async deleteTask(id) {
+    await axios.delete(`http://localhost:8080/tasks/${id}`)
+    await this.loadTasks();
+  }
 }
 
 <layout>
@@ -37,7 +49,18 @@ class {
   <ol>
     <for|task| of=state.tasks>
     <li>
-      ${task.title}
+      <if(task.editing)>
+        <input type="text"/>
+      </if>
+      <else>
+        ${task.title} 
+        <button type="button" on-click("editTask", task.id)>
+          수정 
+        </button>  
+        <button type="button" on-click("deleteTask", task.id)>
+          완료
+        </button>
+      </else>
     </li>
     </for>
   </ol>
