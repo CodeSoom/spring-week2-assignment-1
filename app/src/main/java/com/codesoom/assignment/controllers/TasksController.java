@@ -1,7 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.models.TaskManager;
+import com.codesoom.assignment.models.TaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +16,14 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TasksController {
-    TaskManager taskManager = TaskManager.getInstance();
+    TaskRepository taskRepository = TaskRepository.getInstance();
 
     /**
      * Returns all tasks.
      */
     @GetMapping
     public List<Task> findAll() {
-        return taskManager.findAll();
+        return taskRepository.findAll();
     }
 
     /**
@@ -35,7 +35,7 @@ public class TasksController {
      */
     @GetMapping("{id}")
     public Task findOne(@PathVariable int id) {
-        return taskManager.findOne(id);
+        return taskRepository.findOne(id);
     }
 
     /**
@@ -47,7 +47,7 @@ public class TasksController {
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public Task insertOne(@RequestBody Task task) {
-        return taskManager.insertOne(task.title());
+        return taskRepository.insertOne(task.title());
     }
 
     /**
@@ -62,7 +62,7 @@ public class TasksController {
             method = {RequestMethod.PUT, RequestMethod.PATCH}
     )
     public Task modifyOne(@PathVariable int id, @RequestBody Task task) {
-        return taskManager.modifyOne(id, task.title());
+        return taskRepository.modifyOne(id, task.title());
     }
 
     /**
@@ -74,6 +74,6 @@ public class TasksController {
     @DeleteMapping("{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public Task deleteOne(@PathVariable int id) {
-        return taskManager.deleteOne(id);
+        return taskRepository.deleteOne(id);
     }
 }

@@ -8,18 +8,18 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Managing task. Singleton class.
+ * Repository of task. Singleton class.
  *
  * @see Task
  */
-public class TaskManager {
-    private static final TaskManager instance = new TaskManager();
+public class TaskRepository {
+    private static final TaskRepository instance = new TaskRepository();
     private static final List<Task> tasks = new ArrayList<>();
 
     /**
      * Returns unique instance.
      */
-    public static TaskManager getInstance() {
+    public static TaskRepository getInstance() {
         return instance;
     }
 

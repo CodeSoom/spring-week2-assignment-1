@@ -8,12 +8,12 @@ import java.util.Collections;
 import java.util.List;
 
 @DisplayName("TaskManager 클래스")
-public class TaskManagerTest {
-    TaskManager taskManager = TaskManager.getInstance();
+public class TaskRepositoryTest {
+    TaskRepository taskRepository = TaskRepository.getInstance();
 
     @BeforeEach
     void BeforeEach() {
-        taskManager.clear();
+        taskRepository.clear();
     }
 
     @Nested
@@ -24,9 +24,9 @@ public class TaskManagerTest {
         @Test
         @DisplayName("아무것도 리턴하지 않는다. clear 후에 findAll 을 하면 빈 Task 리스트를 리턴한다.")
         void It_returns_nothing_and_find_all_returns_empty_task_list() {
-            taskManager.clear();
+            taskRepository.clear();
 
-            List<Task> tasks = taskManager.findAll();
+            List<Task> tasks = taskRepository.findAll();
             Assertions.assertArrayEquals(expectTasks.toArray(), tasks.toArray());
         }
     }
@@ -43,7 +43,7 @@ public class TaskManagerTest {
             @Test
             @DisplayName("빈 Task 리스트를 리턴한다.")
             void It_returns_empty_task_list() {
-                List<Task> tasks = taskManager.findAll();
+                List<Task> tasks = taskRepository.findAll();
 
                 Assertions.assertArrayEquals(expectTasks.toArray(), tasks.toArray());
             }
@@ -60,8 +60,8 @@ public class TaskManagerTest {
             @Test
             @DisplayName("Task 리스트를 리턴한다.")
             void It_returns_task_list() {
-                taskManager.insertOne(givenTitle);
-                List<Task> tasks = taskManager.findAll();
+                taskRepository.insertOne(givenTitle);
+                List<Task> tasks = taskRepository.findAll();
 
                 Assertions.assertEquals(expectTasks.toArray().length, tasks.toArray().length);
                 Assertions.assertEquals(expectTasks.get(0).id(), tasks.get(0).id());
@@ -81,7 +81,7 @@ public class TaskManagerTest {
             @Test
             @DisplayName("NotFoundTaskIDException 을 던진다.")
             void It_throws_not_found_task_id_exception() {
-                Assertions.assertThrows(NotFoundTaskIDException.class, () -> taskManager.findOne(givenID));
+                Assertions.assertThrows(NotFoundTaskIDException.class, () -> taskRepository.findOne(givenID));
             }
         }
 
@@ -94,9 +94,9 @@ public class TaskManagerTest {
             @Test
             @DisplayName("Task 를 리턴한다.")
             void It_returns_task() {
-                taskManager.insertOne(givenTitle);
+                taskRepository.insertOne(givenTitle);
 
-                Task task = taskManager.findOne(givenID);
+                Task task = taskRepository.findOne(givenID);
 
                 Assertions.assertEquals(givenTitle, task.title());
             }
@@ -112,7 +112,7 @@ public class TaskManagerTest {
         @Test
         @DisplayName("생성된 Task 를 리턴한다.")
         void It_returns_inserted_task() {
-            Task task = taskManager.insertOne(givenTitle);
+            Task task = taskRepository.insertOne(givenTitle);
 
             Assertions.assertEquals(givenID, task.id());
             Assertions.assertEquals(givenTitle, task.title());
@@ -133,7 +133,7 @@ public class TaskManagerTest {
             @Test
             @DisplayName("NotFoundTaskIDException 을 던진다.")
             void It_throws_not_found_task_id_exception() {
-                Assertions.assertThrows(NotFoundTaskIDException.class, () -> taskManager.modifyOne(givenID, givenModifyTitle));
+                Assertions.assertThrows(NotFoundTaskIDException.class, () -> taskRepository.modifyOne(givenID, givenModifyTitle));
             }
         }
 
@@ -144,8 +144,8 @@ public class TaskManagerTest {
             @Test
             @DisplayName("수정된 Task 를 리턴한다.")
             void It_returns_modified_task() {
-                taskManager.insertOne(givenTitle);
-                Task task = taskManager.modifyOne(givenID, givenModifyTitle);
+                taskRepository.insertOne(givenTitle);
+                Task task = taskRepository.modifyOne(givenID, givenModifyTitle);
 
                 Assertions.assertEquals(givenID, task.id());
                 Assertions.assertEquals(givenModifyTitle, task.title());
@@ -166,7 +166,7 @@ public class TaskManagerTest {
             @Test
             @DisplayName("NotFoundTaskIDException 을 던진다.")
             void It_throws_not_found_task_id_exception() {
-                Assertions.assertThrows(NotFoundTaskIDException.class, () -> taskManager.deleteOne(givenID));
+                Assertions.assertThrows(NotFoundTaskIDException.class, () -> taskRepository.deleteOne(givenID));
             }
         }
 
@@ -177,12 +177,12 @@ public class TaskManagerTest {
             @Test
             @DisplayName("삭제된 Task 를 리턴한다. 식제한 Task 를 찾으려 하면 NotFoundTaskIDException 을 던진다.")
             void It_returns_deleted_task_and_find_id_throws_not_found_task_id_exception() {
-                taskManager.insertOne(givenTitle);
-                Task task = taskManager.deleteOne(givenID);
+                taskRepository.insertOne(givenTitle);
+                Task task = taskRepository.deleteOne(givenID);
 
                 Assertions.assertEquals(givenID, task.id());
                 Assertions.assertEquals(givenTitle, task.title());
-                Assertions.assertThrows(NotFoundTaskIDException.class, () -> taskManager.findOne(givenID));
+                Assertions.assertThrows(NotFoundTaskIDException.class, () -> taskRepository.findOne(givenID));
             }
         }
     }
