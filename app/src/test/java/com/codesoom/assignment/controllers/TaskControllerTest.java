@@ -2,6 +2,8 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.controller.TaskController;
 import com.codesoom.assignment.dto.TaskDto;
+import com.codesoom.assignment.entity.Task;
+import com.codesoom.assignment.repository.TaskRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,6 +31,8 @@ class TaskControllerTest {
     @Autowired
     TaskController taskController;
 
+    @Autowired
+    TaskRepository taskRepository;
     @Autowired
     ObjectMapper objectMapper;
 
@@ -77,7 +83,8 @@ class TaskControllerTest {
     public void postTask() throws Exception {
         TaskDto taskDto = new TaskDto();
         taskDto.setId(3L);
-        taskDto.setTitle("friends");
+        String newTitle = "friends";
+        taskDto.setTitle(newTitle);
 
         mockMvc.perform(post("/tasks")
                 .content(objectMapper.writeValueAsString(taskDto))
@@ -85,14 +92,19 @@ class TaskControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("title").value("friends"));
+                .andExpect(jsonPath("title").value(newTitle));
+
+        Task task = taskRepository.findById(3L).orElse(null);
+        assertEquals(task.getId(), 3L);
+        assertEquals(task.getTitle(), newTitle);
     }
 
     @Test
     @DisplayName("PUT - /tasks id title 정상입력")
     public void putTask() throws Exception {
         TaskDto taskDto = new TaskDto();
-        taskDto.setTitle("new world");
+        String newTitle = "new world";
+        taskDto.setTitle(newTitle);
 
         mockMvc.perform(put("/tasks/1")
                 .content(objectMapper.writeValueAsString(taskDto))
@@ -100,7 +112,10 @@ class TaskControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("title").value("new world"));
+                .andExpect(jsonPath("title").value(newTitle));
+
+        assertEquals(taskRepository.findById(1L).get().getTitle(), newTitle);
+
     }
 
     @Test
@@ -124,7 +139,9 @@ class TaskControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        //TODO 실제로 삭제됬는지 검증코드 추가해야함
+        Task removedTask = taskRepository.findById(1L).orElse(null);
+        assertNull(removedTask);
+        assertEquals(taskRepository.existsById(1L), false);
     }
 
 
