@@ -7,6 +7,8 @@ import java.util.*;
 
 @Repository
 public class TaskRepository {
+
+    private Long lastId = 0L;
     private final Map<Long, Task> tasks = new LinkedHashMap<>();
 
     public List<Task> findAll() {
@@ -28,5 +30,10 @@ public class TaskRepository {
 
     public void deleteById(Long id) {
         tasks.remove(id);
+    }
+
+    public Long increaseId() {
+        lastId += 1;
+        return lastId;
     }
 }
