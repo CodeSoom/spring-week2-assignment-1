@@ -19,7 +19,8 @@ public class TaskRepository {
     public Task findById(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst().orElseThrow(() -> new TaskNotFoundException("Not found task"));
+                .findFirst()
+                .orElseThrow(() -> new TaskNotFoundException("Not found task"));
     }
 
     public Task create(Task task) {
@@ -42,7 +43,7 @@ public class TaskRepository {
         return task;
     }
 
-    public Long generateId() {
+    private Long generateId() {
         id += 1;
         return id;
     }
