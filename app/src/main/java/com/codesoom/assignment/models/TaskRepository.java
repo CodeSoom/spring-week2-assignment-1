@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Repository of task. Singleton class.
+ * Task repository. Singleton class.
  *
  * @see Task
  */
