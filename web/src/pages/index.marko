@@ -36,6 +36,12 @@ class {
     }: task) 
   }
 
+  cancelEditTask(id) {
+    this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+      ...task,
+      editing: false,
+    }: task) 
+  }
 }
 
 
@@ -47,7 +53,9 @@ class {
       <if(task.editing)>
         <input key=`title-${task.id}` type="text" value = task.title />
         <span></span>
-       
+        <button type="button" on-click('cancelEditTask', task.id)>
+          취소
+        </button>
       </if>
       <else>
         ${task.title} 
