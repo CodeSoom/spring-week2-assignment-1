@@ -23,8 +23,12 @@ import com.codesoom.assignment.service.TaskService;
 @CrossOrigin
 public class TaskController {
 
+    private final TaskService taskService;
+
     @Autowired
-    private TaskService taskService;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
     public List<Task> list() {
