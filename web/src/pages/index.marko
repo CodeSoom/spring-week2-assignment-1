@@ -37,6 +37,13 @@ class {
     await this.loadTasks();
   }
 
+  cancelEditTask(id) {
+    this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+      ...task,
+      editing: false,
+    } : task);
+  }
+
   async deleteTask(id) {
     await axios.delete(`http://localhost:8080/tasks/${id}`)
     await this.loadTasks();
@@ -61,6 +68,9 @@ class {
         <input key=`task-${task.id}` type="text"/>
         <button type="button" on-click("updateTask", task.id)>
           저장
+        </button>
+        <button type="button" on-click("cancelEditTask", task.id)>
+          취소
         </button>
       </if>
       <else>
