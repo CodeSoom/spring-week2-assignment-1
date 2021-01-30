@@ -30,9 +30,9 @@ public class TaskRepository {
     }
 
     /**
-     * 주어진 할 일을 저장한 뒤, 저장된 할 일을 리턴 니다.
+     * 주어진 할 일을 저장한 뒤, 저장된 할 일을 리턴합니다.
      *
-     * @param task 저장 하고자 하는 할 일
+     * @param task - 저장 하고자 하는 할 일
      * @return 저장 된 할 일
      */
     public Task save(Task task) {
@@ -44,7 +44,7 @@ public class TaskRepository {
     /**
      * 주어진 id에 해당하는 할 일을 찾아 리턴하거나 찾지 못한다면 null을 리턴합니다.
      *
-     * @param id 찾고자 하는 할 일의 id
+     * @param id - 찾고자 하는 할 일의 id
      * @return 주어진 id에 해당하는 할 일 또는 할 일이 존재하지 않는다면 Optional.empty()
      */
     public Optional<Task> findOne(Long id) {
@@ -52,9 +52,9 @@ public class TaskRepository {
     }
 
     /**
-     * 주어진 id에 해당하는 할 일을 찾아 삭제 합니다.
+     * 주어진 id에 해당하는 할 일을 찾아 삭제합니다.
      *
-     * @param id 삭제 하고자 하는 할 일의 id
+     * @param id - 삭제 하고자 하는 할 일의 id
      */
     public void delete(Long id) {
         taskMap.remove(id);
