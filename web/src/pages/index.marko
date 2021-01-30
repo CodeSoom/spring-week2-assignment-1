@@ -31,32 +31,82 @@ class {
         }, (error) => {
             console.log(error);
         });
+
         await this.loadTasks();
     }
 
-    async deleteTask() {
-        await axios.delete('http://localhost:8080/tasks', {
+    async deleteTask(id) {
+        await axios.delete('http://localhost:8080/tasks/' + id, {
             data : {
-                id: 1
+                id: id
             }
         });
+
+        await this.loadTasks();
     }
 
-    async clickBtn() {
-        alert(this.key);
+    async updateTask(id,title) {
+        await axios.put('http://localhost:8080/tasks/' + id, {
+            data : {
+                title: title
+            }
+        });
+
+        await this.loadTasks();
+    }
+
+    static function updateBtn(id, title) {
+        //li Component 불러오기
+        //li에 있는 text 제거
+        //input tag 넣고 title을 넣어주기
+        const liObj = this.getEl("li"+id);
+        const changeBtn = this.getEl("change"+id);
+        const finishBtn = this.getEl("finish"+id);
+
+        if(changeBtn.innerHTML == '수정'){ //변경으로 진입
+            changeBtn.innerHTML = '확인';
+            finishBtn.innerHTML = '취소';
+            liObj.firstChild.innerHTML='';
+
+            const input = document.createElement('input');
+            input.type="text";
+            input.value = title;
+            liObj.prepend(input);
+
+        } else { //변경 끝
+            changeBtn.innerHTML = '수정';
+            finishBtn.innerHTML = '완료';
+            const newTitle = liObj.firstChild.value;
+            alert(id);
+            alert(newTitle);
+            updateTask(id, newTitle);
+        }
+    }
+
+    async deleteBtn(id) {
+        const liObj = this.getEl("li"+id);
+        const changeBtn = this.getEl("change"+id);
+        const finishBtn = this.getEl("finish"+id);
+
+        if(finishBtn.innerHTML == '완료'){ //제거
+            deleteTask(id);
+        } else { //되돌리기
+            changeBtn.innerHTML = '수정';
+            finishBtn.innerHTML = '완료';
+        }
     }
 }
 
 <h1>ToDo</h1>
 <ol>
     <for|task| of=state.tasks>
-        <li key=task.id>
-            ${task.title}
-            <button type="button" on-click("clickBtn")>
+        <li key="li"+task.id>
+            <span>${task.title}</span>
+            <button type="button" key="change"+task.id on-click("updateBtn", task.id, task.title)>
                 수정
             </button>
-            <button type="button" on-click("deleteBtn")>
-                삭제
+            <button type="button" key="finish"+task.id on-click("deleteBtn", task.id)>
+                완료
             </button>
         </li>
     </for>
