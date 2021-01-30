@@ -1,10 +1,9 @@
 import axios from 'axios'
 
-
 class {
   onCreate() {
     this.state = {
-      tasks: [],
+      tasks: []
     }
 
     this.loadTasks();
@@ -23,27 +22,69 @@ class {
 
     await this.loadTasks();
   }
+
+  async editTask(taskId, taskTitle, event) {
+    this.toggleTask(taskId);
+    this.getEl(`editInput_${taskId}`).value = taskTitle;
+  }
+
+  toggleTask(taskId) {
+    const task = this.getEl("task_" + taskId);
+    const editTask = this.getEl("edit_" + taskId);
+
+    if (editTask.style.display == "block") {
+      this.toggleDisplay(editTask, "none", task, "block");
+    } else {
+      this.toggleDisplay(editTask, "block", task, "none");
+    }
+  }
+
+  toggleDisplay(editTask, editDisplay, task, taskDisplay) {
+    editTask.style.display = editDisplay;
+    task.style.display = taskDisplay;
+  }
+
+  async updateTask(taskId, event) {
+    const title = this.getEl(`editInput_${taskId}`).value;
+    await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+      title
+    });
+    await this.loadTasks();
+    this.toggleTask(taskId);
+  }
+
+  async cancelTask(taskId, event) {
+    this.toggleTask(taskId);
+    await this.loadTasks();
+  }
+
+  async completeTask(taskId, event) {
+    await axios.delete(`http://localhost:8080/tasks/${taskId}`);
+    await this.loadTasks();
+  }
 }
 
-
-<layout>
+<div>
   <h1>ToDo</h1>
   <ol>
     <for|task| of=state.tasks>
       <li>
-        ${task.title}
+        <div style="display:none" key=`edit_${task.id}`>
+          <input id:scoped="edit" key=`editInput_${task.id}` type="text"/>
+          <button type="button" on-click("updateTask", task.id)>확인</button>
+          <button type="button" on-click("cancelTask", task.id)>취소</button>
+        </div>
+        <div key=`task_${task.id}`>
+          ${task.title}
+          <button type="button" on-click("editTask", task.id, task.title)>수정</button>
+          <button type="button" on-click("completeTask", task.id)>완료</button>
+        </div>
       </li>
     </for>
   </ol>
   <p>
-    <label for:scoped="title">
-      할 일
-    </label>
-    <input key="title" id:scoped="title" type ="text" />
-    <button type ="button" on-click("addTask")>
-      추가
-    </button>
+    <label for:scoped="title">할 일</label>
+    <input id:scoped="title" key="title" type="text"/>
+    <button type="button" on-click("addTask")>추가</button>
   </p>
-
-
-</layout>
+</div>
