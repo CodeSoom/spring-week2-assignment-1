@@ -10,10 +10,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * 할 일을 Map 형태로 저장하고, 그 저장소에 접근하는 코드를 모아둔 클래스
- *
- * @author developerOlive
- * @version 1.0.0 21/01/30
+ * 할 일을 Map 형태로 저장하고, 그 저장소에 접근하는 코드입니다.
  */
 
 @Repository

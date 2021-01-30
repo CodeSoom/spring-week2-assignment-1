@@ -1,10 +1,7 @@
 package com.codesoom.assignment.models;
 
 /**
- * id와 할 일을 저장하는 클래스
- *
- * @author developerOlive
- * @version 1.0.0 21/01/30
+ * id와 할 일을 저장합니다.
  */
 
 public class Task {
