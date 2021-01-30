@@ -9,7 +9,7 @@ import java.util.List;
 
 @DisplayName("TaskManager 클래스")
 public class TaskRepositoryTest {
-    TaskRepository taskRepository = TaskRepository.getInstance();
+    TaskRepository taskRepository = TaskRepository.instance();
 
     @BeforeEach
     void BeforeEach() {

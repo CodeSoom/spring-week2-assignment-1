@@ -19,7 +19,7 @@ public class TaskRepository {
     /**
      * Returns unique instance.
      */
-    public static TaskRepository getInstance() {
+    public static TaskRepository instance() {
         return instance;
     }
 

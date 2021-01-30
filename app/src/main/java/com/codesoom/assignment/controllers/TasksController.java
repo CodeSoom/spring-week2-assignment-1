@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TasksController {
-    TaskRepository taskRepository = TaskRepository.getInstance();
+    TaskRepository taskRepository = TaskRepository.instance();
 
     /**
      * Returns all tasks.
