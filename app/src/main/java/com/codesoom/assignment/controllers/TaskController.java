@@ -1,12 +1,11 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.exceptions.ResourceNotFoundException;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.services.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -14,19 +13,22 @@ import java.util.List;
 @CrossOrigin
 public class TaskController {
 
-    private final List<Task> tasks = new ArrayList<>();
-    private int taskId = 0;
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Task> getTaskList() {
-        return tasks;
+        return taskService.getTaskList();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity getTask(@PathVariable long id) {
-        Task task = findTaskById(id);
+        Task task = taskService.getTask(id);
         return ResponseEntity
                 .ok(task);
     }
@@ -34,10 +36,7 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
-        task.setId(generateId(taskId));
-        tasks.add(task);
-
-        return task;
+        return taskService.createTask(task);
     }
 
     @PutMapping("/{id}")
@@ -46,33 +45,21 @@ public class TaskController {
     public ResponseEntity updateTask(
             @PathVariable long id,
             @RequestBody Task sourceTask) {
-
-        Task task = findTaskById(id);
-        task.setTitle(sourceTask.getTitle());
-
+        Task task = taskService.updateTask(id, sourceTask);
         return ResponseEntity.ok(task);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteTask(@PathVariable long id) {
 
-        Task task = findTaskById(id);
-        tasks.remove(task);
-
+        boolean deleted = taskService.deleteTask(id);
+        if (!deleted) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        }
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();
-    }
-
-    private Task findTaskById(long id) {
-        return tasks.stream()
-                .filter(i -> i.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Not Found"));
-    }
-
-    private long generateId(int id) {
-        taskId = id + 1;
-        return taskId;
     }
 }
