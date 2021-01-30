@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.NoSuchElementException;
 
+/**
+ * handle exceptions thrown by controller that handle requests about task.
+ */
 @RestControllerAdvice
 public class TaskControllerExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)

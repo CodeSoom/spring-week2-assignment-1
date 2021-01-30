@@ -22,14 +22,10 @@ public class TaskList {
                 .orElseThrow(() -> new NoSuchElementException());
     }
 
-    public Task add(Task task) throws UnknownError {
+    public Task add(Task task) {
         task.setId(generateId());
-
-        if (taskList.add(task)) {
-            return task;
-        }
-
-        throw new UnknownError();
+        taskList.add(task);
+        return task;
     }
 
     public Task modify(Long id, String title) throws NoSuchElementException {
