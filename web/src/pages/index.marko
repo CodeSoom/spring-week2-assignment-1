@@ -55,7 +55,7 @@ class {
         await this.loadTasks();
     }
 
-    static function updateBtn(id, title) {
+    async updateBtn(id, title) {
         //li Component 불러오기
         //li에 있는 text 제거
         //input tag 넣고 title을 넣어주기
@@ -77,9 +77,15 @@ class {
             changeBtn.innerHTML = '수정';
             finishBtn.innerHTML = '완료';
             const newTitle = liObj.firstChild.value;
-            alert(id);
             alert(newTitle);
-            updateTask(id, newTitle);
+            //updateTask(id, newTitle);
+            await axios.patch('http://localhost:8080/tasks/' + id, {
+                title: newTitle
+            });
+            liObj.firstChild.remove();
+            liObj.firstChild.innerHTML=newTitle;
+
+            await this.loadTasks();
         }
     }
 
@@ -89,10 +95,20 @@ class {
         const finishBtn = this.getEl("finish"+id);
 
         if(finishBtn.innerHTML == '완료'){ //제거
-            deleteTask(id);
+            //deleteTask(id);
+            await axios.delete('http://localhost:8080/tasks/' + id, {
+                data : {
+                    id: id
+                }
+            });
+
+            await this.loadTasks();
         } else { //되돌리기
             changeBtn.innerHTML = '수정';
             finishBtn.innerHTML = '완료';
+            const text = liObj.firstChild.value;
+            liObj.firstChild.remove();
+            liObj.firstChild.innerHTML=text;
         }
     }
 }
