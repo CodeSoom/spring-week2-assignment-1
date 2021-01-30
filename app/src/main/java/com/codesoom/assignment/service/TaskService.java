@@ -7,17 +7,17 @@ import com.codesoom.assignment.model.Task;
 public interface TaskService {
 
 
-    List<Task> getTaskListService();
+    List<Task> getTaskList();
 
 
-    Task createTaskService(Task task);
+    Task createTask(Task task);
 
 
-    Task getTaskService(Long id);
+    Task getTask(Long id);
 
 
-    Task modifyTaskService(Long id, String title);
+    Task modifyTask(Long id, String title);
 
 
-    void deleteTaskService(Task task);
+    void deleteTask(Task task);
 }

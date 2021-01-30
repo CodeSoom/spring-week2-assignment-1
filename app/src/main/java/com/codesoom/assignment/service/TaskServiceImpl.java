@@ -13,32 +13,32 @@ public class TaskServiceImpl implements TaskService {
     private Long newId = 0L;
 
     @Override
-    public List<Task> getTaskListService() {
+    public List<Task> getTaskList() {
         return tasks;
     }
 
     @Override
-    public Task createTaskService(Task task) {
+    public Task createTask(Task task) {
         task.setId(generateId());
         tasks.add(task);
         return task;
     }
 
     @Override
-    public Task getTaskService(Long id) {
+    public Task getTask(Long id) {
         Task task = findTask(id);
         return task;
     }
 
     @Override
-    public Task modifyTaskService(Long id, String title) {
+    public Task modifyTask(Long id, String title) {
         Task task = findTask(id);
         task.setTitle(title);
         return task;
     }
 
     @Override
-    public void deleteTaskService(Task task) {
+    public void deleteTask(Task task) {
         tasks.remove(task);
     }
 
