@@ -57,6 +57,7 @@ class {
       할 일
     </label>
     <input id:scoped="title" key="title" type="text" />
+    <span> </span>
     <button type="button" on-click("addTask")>
       추가
     </button>
@@ -66,18 +67,22 @@ class {
     <li>
       <if(task.editing)>
         <input key=`task-${task.id}` type="text" value=`${task.title}`/>
+        <span> </span>
         <button type="button" on-click("updateTask", task.id)>
           확인
         </button>
+        <span> </span>
         <button type="button" on-click("cancelEditTask", task.id)>
           취소
         </button>
       </if>
       <else>
-        ${task.title} 
+        ${task.title}
+        <span> </span>
         <button type="button" on-click("editTask", task.id)>
-          수정 
-        </button>  
+          수정
+        </button>
+        <span> </span>
         <button type="button" on-click("deleteTask", task.id)>
           완료
         </button>
