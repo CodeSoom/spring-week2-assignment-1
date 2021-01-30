@@ -3,7 +3,6 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +14,11 @@ import java.util.Objects;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    @Autowired
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
+
+    public TaskController(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     private Long newId = 0L;
 
