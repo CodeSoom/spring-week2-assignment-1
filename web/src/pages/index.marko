@@ -1,3 +1,29 @@
+import axios from 'axios';
+
+class {
+  onCreate() {
+    this.state = {
+      tasks: [],
+    };
+     this.loadTasks();
+  }
+
+ 
+
+  async loadTasks() {
+    const { data } = await axios.get('http://localhost:8080/tasks')
+    this.state.tasks = data;
+  }
+}
+
+
 <layout>
   <h1>ToDo</h1>
+  <ol>
+    <for|task| of=state.tasks>
+    <li>
+      ${task.title}
+    </li>
+    </for>
+  </ol>
 </layout>
