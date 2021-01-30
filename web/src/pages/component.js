@@ -1,15 +1,15 @@
-const TaskManager = require('./TaskManager');
+const TaskFactory = require('./TaskFactory');
 
 module.exports = class {
   async onCreate() {
     this.initializeState();
-    this.taskManager = new TaskManager();
+    this.taskFactory = new TaskFactory();
 
     await this.refreshTasks();
   }
 
   async refreshTasks() {
-    const tasks = await this.taskManager.findAll();
+    const tasks = await this.taskFactory.findAll();
     this.setTasks(tasks);
   }
 
@@ -22,7 +22,7 @@ module.exports = class {
   }
 
   async handleClickAddTask() {
-    await this.taskManager.insertOne(this.state.title);
+    await this.taskFactory.insertOne(this.state.title);
     await this.refreshTasks();
     this.clearTitle();
   }
@@ -33,7 +33,7 @@ module.exports = class {
   }
 
   async handleClickDeleteTask(id) {
-    await this.taskManager.deleteOne(id);
+    await this.taskFactory.deleteOne(id);
     await this.refreshTasks();
   }
 
@@ -42,7 +42,7 @@ module.exports = class {
   }
 
   async handleClickConfirmModifyTask() {
-    await this.taskManager.modifyOne(this.state.modifyID, this.state.modifyTitle);
+    await this.taskFactory.modifyOne(this.state.modifyID, this.state.modifyTitle);
     await this.refreshTasks();
     this.clearModifyID();
   }
