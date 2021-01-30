@@ -8,6 +8,11 @@ module.exports = class {
     await this.refreshTasks();
   }
 
+  async refreshTasks() {
+    const tasks = await this.taskManager.findAll();
+    this.setTasks(tasks);
+  }
+
   handleChangeTitle(event) {
     this.setTitle(event.target.value);
   }
@@ -51,10 +56,6 @@ module.exports = class {
     };
   }
 
-  getTitleSelector() {
-    return document.getElementById("task")
-  }
-
   setState(key, value) {
     this.state[key] = value;
   }
@@ -81,10 +82,5 @@ module.exports = class {
 
   setTasks(tasks) {
     this.setState('tasks', tasks);
-  }
-
-  async refreshTasks() {
-    const tasks = await this.taskManager.findAll();
-    this.setTasks(tasks);
   }
 };
