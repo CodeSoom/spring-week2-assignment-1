@@ -2,11 +2,8 @@ package com.codesoom.assignment.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.codesoom.assignment.model.Task;
 
-@Service
 public interface TaskService {
 
 

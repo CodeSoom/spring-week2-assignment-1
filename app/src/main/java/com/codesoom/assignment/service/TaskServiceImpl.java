@@ -1,13 +1,12 @@
 package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.model.Task;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.annotation.Configuration;
-
-import com.codesoom.assignment.model.Task;
-
-@Configuration
+@Service
 public class TaskServiceImpl implements TaskService {
 
     private List<Task> tasks = new ArrayList<>();
