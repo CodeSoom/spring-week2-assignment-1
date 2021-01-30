@@ -32,4 +32,10 @@ public class ErrorResponse {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return String.format("{ statusCode = %s, timestamp = %s, message = %s, description = %s }",
+                statusCode, timestamp, message, description);
+    }
+
 }
