@@ -45,4 +45,8 @@ public class TaskRepository {
     public void deleteTask(Long id) {
         taskStore.remove(id);
     }
+
+    public void clearTaskStore() {
+        taskStore.clear();
+    }
 }

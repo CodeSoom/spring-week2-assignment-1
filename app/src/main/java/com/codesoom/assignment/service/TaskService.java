@@ -1,5 +1,6 @@
-package com.codesoom.assignment;
+package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.TaskIdNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -47,4 +48,3 @@ public class TaskService {
         taskRepository.deleteTask(id);
     }
 }
-
