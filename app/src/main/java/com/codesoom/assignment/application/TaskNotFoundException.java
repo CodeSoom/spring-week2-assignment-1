@@ -1,10 +1,7 @@
 package com.codesoom.assignment.application;
 
 /**
- * 할 일을 찾을 수 없는 예외가 발생할 때 예외를 처리하는 클래스.
- *
- * @author etff
- * @version 1.0.0 21/01/29
+ * 할 일을 찾을 수 없는 예외가 발생할 때 예외를 처리합니다.
  */
 public class TaskNotFoundException extends RuntimeException {
 

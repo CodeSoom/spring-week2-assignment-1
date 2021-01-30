@@ -3,10 +3,8 @@ package com.codesoom.assignment.domain;
 import java.util.Objects;
 
 /**
- * 할 일을 나타내는 클래스.
+ * 할 일을 나타냅니다.
  *
- * @author etff
- * @version 1.0.0 21/01/30
  * @see com.codesoom.assignment.domain.Task
  */
 public class Task {

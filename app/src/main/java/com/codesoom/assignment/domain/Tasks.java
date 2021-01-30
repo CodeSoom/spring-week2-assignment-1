@@ -7,10 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * 할 일들을 관리하는 클래스.
+ * 할 일들을 관리합니다.
  *
- * @author etff
- * @version 1.0.0 21/01/29
  * @see com.codesoom.assignment.domain.Task
  */
 public class Tasks {
@@ -63,7 +61,6 @@ public class Tasks {
     /**
      * 등록된 할 일들의 숫자를 리턴합니다.
      *
-     * @return 등록된 할 일들의 수
      */
     public int size() {
         return tasks.size();
@@ -72,7 +69,6 @@ public class Tasks {
     /**
      * 아이디를 생성해 리턴합니다.
      *
-     * @return 생성된 id
      */
     private Long generateId() {
         return taskId++;
