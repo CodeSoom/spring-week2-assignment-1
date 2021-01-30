@@ -1,9 +1,11 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -14,9 +16,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * @version 1.0.0 21/01/30
  */
 
+@Repository
 public class TaskRepository {
 
-    public Map<Long, Task> taskStore = new HashMap<>();
+    public Map<Long, Task> taskStore = Collections.synchronizedMap(new LinkedHashMap<>());
     AtomicLong idCounter = new AtomicLong(0);
 
     public Long generateId() {
