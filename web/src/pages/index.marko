@@ -19,10 +19,23 @@ class {
   async addTask() {
     const title = this.getEl('title').value;
     await axios.post('http://localhost:8080/tasks', {
-      title: title,
+      title,
     });
     await this.loadTasks();
   }
+  
+  async deleteTask(id) {
+    await axios.delete(`http://localhost:8080/tasks/${id}`)
+    await this.loadTasks();
+  }
+
+  editTask(id) {
+    this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+      ...task,
+      editing: true,
+    }: task) 
+  }
+
 }
 
 
@@ -31,8 +44,23 @@ class {
   <ol>
     <for|task| of=state.tasks>
     <li>
-      ${task.title}
-    </li>
+      <if(task.editing)>
+        <input key=`title-${task.id}` type="text" value = task.title />
+        <span></span>
+       
+      </if>
+      <else>
+        ${task.title} 
+        <span></span>
+        <button type="button" on-click("editTask", task.id)>    
+          수정
+        </button>
+        <button type="button" on-click("deleteTask", task.id)>
+         삭제
+        </button>
+      </else> 
+  </li>
+  
     </for>
   </ol>
 
