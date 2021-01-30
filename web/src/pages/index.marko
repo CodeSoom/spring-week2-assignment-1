@@ -65,7 +65,7 @@ class {
     <for|task| of=state.tasks>
     <li>
       <if(task.editing)>
-        <input key=`task-${task.id}` type="text"/>
+        <input key=`task-${task.id}` type="text" value=`${task.title}`/>
         <button type="button" on-click("updateTask", task.id)>
           저장
         </button>
