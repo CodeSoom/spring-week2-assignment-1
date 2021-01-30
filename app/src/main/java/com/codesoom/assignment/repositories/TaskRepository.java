@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * 할 일들을 저장하기 위한 클래스
+ * 할 일들을 저장하기 위한 클래스.
  *
  * @see Task
  */

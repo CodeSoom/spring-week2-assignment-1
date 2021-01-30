@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 /**
- * 할 일들과 관련된 비즈니스 로직을 처리하는 클래스
+ * 할 일들과 관련된 비즈니스 로직을 처리하는 클래스.
  *
  * @see TaskRepository
  * @see IdGenerator
