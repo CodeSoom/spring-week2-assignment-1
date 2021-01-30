@@ -5,10 +5,7 @@ import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.entity.Task;
 import com.codesoom.assignment.repository.TaskRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,12 +22,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TaskControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     TaskController taskController;
-
     @Autowired
     TaskRepository taskRepository;
     @Autowired
@@ -49,6 +46,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @Order(1)
     @DisplayName("GET - /tasks 파라미터 없이")
     public void getTaskList() throws Exception {
         mockMvc.perform(get("/tasks")
@@ -59,6 +57,7 @@ class TaskControllerTest {
     }
 
     @Test
+    @Order(2)
     @DisplayName("GET - /tasks/{id} id 존재")
     public void getTaskOk() throws Exception {
         mockMvc.perform(get("/tasks/1")
@@ -143,6 +142,5 @@ class TaskControllerTest {
         assertNull(removedTask);
         assertEquals(taskRepository.existsById(1L), false);
     }
-
 
 }
