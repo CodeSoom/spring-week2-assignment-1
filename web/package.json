@@ -6,7 +6,7 @@
     "dev": "marko-serve ./src/pages",
     "build": "marko-build ./src/pages",
     "start": "cross-env NODE_ENV=production node ./build/index.js",
-    "com" : "npm run build && npm run start"
+    "com": "npm run build && npm run start"
   },
   "private": true,
   "dependencies": {

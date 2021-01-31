@@ -1,0 +1,21 @@
+{
+  "name": "my-web",
+  "description": "The default Marko starter app",
+  "version": "1.0.0",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "get-hrefs": "^2.0.0",
+    "marko": "^5",
+    "yargs-parser": "^20.2.4"
+  },
+  "devDependencies": {
+    "@marko/build": "^2.0.1",
+    "@marko/serve": "^2.0.1"
+  },
+  "private": true,
+  "scripts": {
+    "build": "marko-build ./src/pages",
+    "dev": "marko-serve ./src/pages",
+    "start": "cross-env NODE_ENV=production node ./build/index.js"
+  }
+}
