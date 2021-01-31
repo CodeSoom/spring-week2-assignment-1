@@ -1,15 +1,13 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/tasks")
@@ -25,7 +23,6 @@ public class TaskController {
 
     @GetMapping
     public List<Task> list() {
-
         return taskRepository.getTasks();
     }
 
@@ -36,6 +33,7 @@ public class TaskController {
 
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task task) {
         return taskRepository.createTask(task);
     }
