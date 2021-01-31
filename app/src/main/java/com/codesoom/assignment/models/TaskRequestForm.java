@@ -2,15 +2,15 @@ package com.codesoom.assignment.models;
 
 import javax.validation.constraints.NotEmpty;
 
-public class TaskDto {
+public class TaskRequestForm {
 
     @NotEmpty
     private String title;
 
-    public TaskDto() {
+    public TaskRequestForm() {
     }
 
-    public TaskDto(String title) {
+    public TaskRequestForm(String title) {
         this.title = title;
     }
 

@@ -1,7 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.models.TaskDto;
+import com.codesoom.assignment.models.TaskRequestForm;
 import com.codesoom.assignment.repositories.TaskRepository;
 import com.codesoom.assignment.services.TaskService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -141,7 +141,7 @@ class TaskControllerTest {
         @Nested
         @DisplayName("생성하려는 task가 유효하다면")
         class Context_with_valid_task {
-            TaskDto taskDto = new TaskDto("title");
+            TaskRequestForm taskRequestForm = new TaskRequestForm("title");
 
             @Test
             @DisplayName("201코드와 생성된 task를 리턴한다")
@@ -149,7 +149,7 @@ class TaskControllerTest {
                 mockMvc.perform(post("/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .content(objectMapper.writeValueAsString(taskRequestForm)))
                         .andExpect(status().isCreated());
             }
         }
@@ -157,7 +157,7 @@ class TaskControllerTest {
         @Nested
         @DisplayName("생성하려는 task가 유효하지 않다면")
         class Context_with_in_valid_task {
-            TaskDto taskDto = new TaskDto("");
+            TaskRequestForm taskRequestForm = new TaskRequestForm("");
 
             @Test
             @DisplayName("400코드를 에러 정보를 리턴한다")
@@ -165,7 +165,7 @@ class TaskControllerTest {
                 mockMvc.perform(post("/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .content(objectMapper.writeValueAsString(taskRequestForm)))
                         .andExpect(jsonPath("statusCode").exists())
                         .andExpect(jsonPath("timestamp").exists())
                         .andExpect(jsonPath("message").exists())
@@ -182,13 +182,13 @@ class TaskControllerTest {
         @DisplayName("수정하려는 task, task id가 유효하다면")
         class Context_with_valid_task_and_task_id {
             Task task;
-            TaskDto taskDto;
+            TaskRequestForm taskRequestForm;
 
             @BeforeEach
             void prepareTask() {
                 task = new Task("title");
                 taskService.addTask(task);
-                taskDto = new TaskDto("newTask");
+                taskRequestForm = new TaskRequestForm("newTask");
             }
 
             @Test
@@ -197,7 +197,7 @@ class TaskControllerTest {
                 mockMvc.perform(put("/tasks/{id}", task.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .content(objectMapper.writeValueAsString(taskRequestForm)))
                         .andExpect(jsonPath("id").exists())
                         .andExpect(jsonPath("title").exists())
                         .andExpect(status().isOk());
@@ -208,13 +208,13 @@ class TaskControllerTest {
         @DisplayName("수정하려는 task가 유효하지 않다면")
         class Context_with_in_valid_task {
             Task task;
-            TaskDto taskDto;
+            TaskRequestForm taskRequestForm;
 
             @BeforeEach
             void prepareTask() {
                 task = new Task("title");
                 taskService.addTask(task);
-                taskDto = new TaskDto("");
+                taskRequestForm = new TaskRequestForm("");
             }
 
             @Test
@@ -223,7 +223,7 @@ class TaskControllerTest {
                 mockMvc.perform(put("/tasks/{id}", task.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .content(objectMapper.writeValueAsString(taskRequestForm)))
                         .andExpect(jsonPath("statusCode").exists())
                         .andExpect(jsonPath("timestamp").exists())
                         .andExpect(jsonPath("message").exists())
@@ -236,7 +236,7 @@ class TaskControllerTest {
         @DisplayName("존재하지 않는 task id로 수정한다면")
         class Context_with_invalid_task {
             Long notExistedId = -1L;
-            TaskDto taskDto = new TaskDto("newTitle");
+            TaskRequestForm taskRequestForm = new TaskRequestForm("newTitle");
 
             @Test
             @DisplayName("404코드와 에러정보를 리턴한다")
@@ -244,7 +244,7 @@ class TaskControllerTest {
                 mockMvc.perform(put("/tasks/{id}", notExistedId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(taskDto)))
+                        .content(objectMapper.writeValueAsString(taskRequestForm)))
                         .andExpect(jsonPath("id").doesNotExist())
                         .andExpect(jsonPath("title").doesNotExist())
                         .andExpect(jsonPath("statusCode").exists())

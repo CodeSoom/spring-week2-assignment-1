@@ -1,7 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.models.TaskDto;
+import com.codesoom.assignment.models.TaskRequestForm;
 import com.codesoom.assignment.services.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -48,13 +48,13 @@ public class TaskController {
     /**
      * 주어진 할 일을 저장한 뒤, 저장된 할 일을 리턴합니다.
      * 
-     * @param taskDto 저장하고자 하는 할 일
+     * @param taskRequestForm 저장하고자 하는 할 일
      * @return 저장된 할 일
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody @Valid TaskDto taskDto) {
-        Task task = modelMapper.map(taskDto, Task.class);
+    public Task create(@RequestBody @Valid TaskRequestForm taskRequestForm) {
+        Task task = modelMapper.map(taskRequestForm, Task.class);
         return taskService.addTask(task);
     }
     
@@ -73,12 +73,12 @@ public class TaskController {
      * 주어진 id에 해당하는 할 일을 찾아 수정하고 수정된 할 일을 리턴합니다.
      *
      * @param id 수정하고자 하는 할 일의 id
-     * @param taskDto 수정하고자 하는 할 일
+     * @param taskRequestForm 수정하고자 하는 할 일
      * @return 수정된 할 일
      */
     @PutMapping("/{id}")
-    public Task update(@PathVariable Long id, @RequestBody @Valid TaskDto taskDto) {
-        Task task = modelMapper.map(taskDto, Task.class);
+    public Task update(@PathVariable Long id, @RequestBody @Valid TaskRequestForm taskRequestForm) {
+        Task task = modelMapper.map(taskRequestForm, Task.class);
         return taskService.updateTask(id, task);
     }
 
