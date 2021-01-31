@@ -16,8 +16,8 @@ import java.util.Optional;
 @CrossOrigin
 public class TaskController {
 
-    private Long id = 0L;
     private TaskRepository taskRepository;
+
 
     public TaskController() {
         taskRepository = new TaskRepository();
@@ -37,17 +37,13 @@ public class TaskController {
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-        task.setId(generateId());
-        taskRepository.getTasks().add(task);
-        return task;
+        return taskRepository.createTask(task);
     }
 
 
     @PatchMapping("{id}")
     public Task update(@PathVariable Long id, @RequestBody Task source) {
-        Task task = taskRepository.getTask(id);
-        task.setTitle(source.getTitle());
-        return task;
+        return taskRepository.updateTask(id, source);
     }
 
 
@@ -62,9 +58,6 @@ public class TaskController {
     }
 
 
-    private Long generateId() {
-        id++;
-        return id;
-    }
+
 
 }

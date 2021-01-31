@@ -8,6 +8,7 @@ import java.util.List;
 
 public class TaskRepository {
     private List<Task> tasks = new ArrayList<>();
+    private Long id = 0L;
 
     public List<Task> getTasks() {
         return tasks;
@@ -28,4 +29,24 @@ public class TaskRepository {
                 .findFirst()
                 .orElseThrow(() -> new TaskNotFoundException(id));
     }
+
+    public Task createTask(Task task) {
+        task.setId(generateId());
+        tasks.add(task);
+
+        return task;
+    }
+
+    public Task updateTask(Long id, Task source) {
+        Task task = getTask(id);
+        task.setTitle(source.getTitle());
+        return task;
+    }
+
+    private Long generateId() {
+        id++;
+        return id;
+    }
+
+
 }
