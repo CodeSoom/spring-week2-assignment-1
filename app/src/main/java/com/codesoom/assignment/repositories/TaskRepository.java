@@ -15,7 +15,7 @@ public class TaskRepository {
 
     public void deleteTask(Task task) {
         if(!tasks.contains(task)) {
-            throw new TaskNotFoundException();
+          //  throw new TaskNotFoundException();
         }
         tasks.remove(task);
     }
