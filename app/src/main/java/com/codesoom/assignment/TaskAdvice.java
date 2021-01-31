@@ -11,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.Date;
 
 /**
- * 할 일들의 예외처리를 위한 클래스
+ * 할 일들의 예외처리를 담당합니다.
  *
  * @see TaskNotFoundException
  * @see MethodArgumentNotValidException
@@ -21,10 +21,10 @@ import java.util.Date;
 public class TaskAdvice {
 
     /**
-     * TaskNotFoundException 이 발생하면 404코드와 에러정보를 리턴한다.
+     * 할 일을 찾을 수 없는 경우의 예외를 처리합니다.
      *
-     * @param exception - 할 일이 존재하지 않을때 발생하는 예외
-     * @param request - 요청 정보
+     * @param exception 할 일이 존재하지 않을 때 발생하는 예외
+     * @param request 요청 정보
      * @return 404코드와 에러정보
      */
     @ExceptionHandler(TaskNotFoundException.class)
@@ -39,10 +39,10 @@ public class TaskAdvice {
     }
 
     /**
-     * MethodArgumentNotValidException 이 발생하면 400코드와 에러정보를 리턴한다.
+     * 인수가 유효하지 않는 경우의 예외를 처리합니다.
      *
-     * @param exception - 인수가 유효하지 않을때 발생하는 예외
-     * @param request - 요청 정보
+     * @param exception 인수가 유효하지 않을 때 발생하는 예외
+     * @param request 요청 정보
      * @return 400코드와 에러정보
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
