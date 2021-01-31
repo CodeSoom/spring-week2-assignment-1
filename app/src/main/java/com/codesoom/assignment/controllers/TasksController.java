@@ -45,7 +45,7 @@ public class TasksController {
      * @return inserted task.
      */
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CREATED)
     public Task insertOne(@RequestBody Task task) {
         return taskRepository.insertOne(task.title());
     }
@@ -72,7 +72,7 @@ public class TasksController {
      * @return deleted task.
      */
     @DeleteMapping("{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Task deleteOne(@PathVariable int id) {
         return taskRepository.deleteOne(id);
     }
