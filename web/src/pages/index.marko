@@ -54,14 +54,16 @@ class {
 
 
 <layout>
-  <h1>ToDo</h1>
+  <h1>To  Do</h1>
+  <span></span>
+  <span></span>
   <ol>
     <for|task| of=state.tasks>
     <li>
       <if(task.editing)>
         <input key=`title-${task.id}` type="text" value = task.title />
         <span></span>
-         <button type="button" on-click('updateTask', task.id)>
+        <button type="button" on-click('updateTask', task.id)>
           확인
         </button>
         <button type="button" on-click('cancelEditTask', task.id)>
@@ -84,7 +86,7 @@ class {
   </ol>
 
 <p>
- <label for:scoped="title">
+  <label for:scoped="title">
   할 일
   </label>
 
