@@ -1,0 +1,88 @@
+import axios from "axios"
+
+class {
+  onCreate() {
+    this.state = {
+      tasks: []
+    };
+    this.loadTasks();
+  }
+  async loadTasks() {
+    const { data } = await axios.get("http://localhost:8080/tasks");
+    this.state.tasks = data;
+  }
+  async addTask() {
+    const title = this.getEl("inputTitle").value;
+    await axios.post("http://localhost:8080/tasks", {
+      title
+    });
+    await this.loadTasks();
+  }
+
+  editTitleOpen(taskId) {
+    const task = this.getEl("taskList" + taskId);
+    const edit = this.getEl("editList" + taskId);
+    task.classList.remove("show");
+    task.classList.add("hide");
+    edit.classList.remove("hide");
+    edit.classList.add("show");
+  }
+  editTitleCancle(taskId) {
+    const task = this.getEl("taskList" + taskId);
+    const edit = this.getEl("editList" + taskId);
+    task.classList.remove("hide");
+    task.classList.add("show");
+    edit.classList.remove("show");
+    edit.classList.add("hide");
+  }
+  addInputKeyDown(event) {
+    if (event.keyCode === 13) {
+      this.addTask();
+    }
+  }
+}
+
+static async function deleteTask(taskId) {
+  await axios.delete("http://localhost:8080/tasks/" + taskId);
+  await this.loadTasks();
+}
+
+static async function updateTask(taskId) {
+  const newTasktitle = this.getEl("editTitle").value;
+  await axios.put("http://localhost:8080/tasks/" + taskId, {
+    title: newTasktitle
+  });
+  this.editTitleCancle(taskId);
+  await this.loadTasks();
+}
+
+static function editTitle(taskId) {
+  const title = this.getEl(taskId);
+  title.classList.remove("show");
+  title.classList.add("hide");
+}
+
+<h1>ToDo</h1>
+<ol>
+  <for|task| of=state.tasks>
+    <li.show key=`taskList${task.id}`>
+      <span key=`${task.id}`>${task.title}</span>
+      <button type="button" on-click("editTitleOpen", task.id)>수정</button> 
+      <button type="button" on-click(deleteTask, task.id)>완료</button>
+    </li>
+    <li.hide key=`editList${task.id}`>
+      <input key="editTitle" type="text" value=`${task.title}`/> 
+      <button type="button" on-click(updateTask, task.id)>확인</button> 
+      <button type="button" on-click("editTitleCancle", task.id)>취소</button>
+    </li>
+  </for>
+</ol>
+<p>
+  <label for:scoped="inputTitle">할 일</label>
+  <input
+    id:scoped="inputTitle"
+    key="inputTitle"
+    type="text"
+    on-keydown("addInputKeyDown")/>
+  <button type="button" on-click("addTask")>추가</button>
+</p>

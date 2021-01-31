@@ -27,6 +27,10 @@ dependencies {
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
 
@@ -36,6 +40,9 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Dev Tools
+    compileOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 application {
