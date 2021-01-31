@@ -1,3 +1,104 @@
-<layout>
+import axios from 'axios';
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+        };
+
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data;
+    }
+
+    async addTask() {
+        const title = this.getEl('title').value;
+        await axios.post('http://localhost:8080/tasks', {
+            title
+        });
+        await this.loadTasks();
+    }
+
+    async updateTask(taskId) {
+        const newTitle = this.getEl('newTitle').value;
+        await axios.put('http://localhost:8080/tasks/' + taskId, {
+            title: newTitle
+        });
+        await this.loadTasks();
+        this.cancel(taskId);
+    }
+
+    async deleteTask(taskId) {
+        await axios.delete('http://localhost:8080/tasks/' + taskId);
+        await this.loadTasks();
+    }
+
+    edit(taskId) {
+        const item = this.getEl('item' + taskId);
+        const editItem = this.getEl('editItem' + taskId);
+
+        item.classList.remove('show');
+        item.classList.add("hide");
+
+        editItem.classList.remove('hide');
+        editItem.classList.add("show");
+    }
+
+    cancel(taskId) {
+        const item = this.getEl('item' + taskId);
+        const editItem = this.getEl('editItem' + taskId);
+
+        item.classList.remove('hide');
+        item.classList.add("show");
+
+        item.classList.remove('show');
+        editItem.classList.add("hide");
+    }
+}
+
+style {
+    .show {
+        display: list-item;
+    }
+    .hide {
+        display: none;
+    }
+}
+
+<section>
   <h1>ToDo</h1>
-</layout>
+  <ol>
+    <for|task| of=state.tasks>
+      <li.show key="item${task.id}">
+        <span> ${task.title}</span>
+        <button type="button" on-click("edit", "${task.id}")>
+          수정
+        </button>
+        <button.primary type="button" on-click("deleteTask", "${task.id}")>
+          완료
+        </button>
+      </li>
+      <li.hide key="editItem${task.id}">
+        <input key="newTitle" type="text" value="${task.title}" />
+        <button type="button" on-click("updateTask", "${task.id}")>
+          확인
+        </button>
+        <button type="button" on-click("cancel", "${task.id}")>
+          취소
+         </button>
+       </li>
+     </for>
+  </ol>
+  <p>
+    <label for:scoped="title">
+      할 일
+    </label>
+    <input id:scoped="title" key="title" type="text" />
+    <button type="button" on-click("addTask")>
+      추가
+    </button>
+  </p>
+</section>
