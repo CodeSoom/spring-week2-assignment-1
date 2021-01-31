@@ -1,13 +1,14 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -25,11 +26,15 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public Task detail(@PathVariable Long id) {
+    public ResponseEntity<Task> detail(@PathVariable Long id) {
+        Optional<Task> task = findTask(id);
+        return ResponseEntity.of(task);
+    }
+
+    private Optional<Task> findTask(Long id) {
         return taskRepository.getTasks().stream()
                 .filter(task -> task.getId() == id)
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     @PostMapping
@@ -42,24 +47,17 @@ public class TaskController {
 
     @PatchMapping("{id}")
     public Task update(@PathVariable Long id, @RequestBody Task source) {
-        Task task = getTask(id);
+        Task task = findTask(id);
         task.setTitle(source.getTitle());
         return task;
     }
 
 
-    private Task getTask(Long id) {
-        return taskRepository.getTasks().stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new TaskNotFoundException());
-    }
-
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws IOException {
-        Task task = getTask(id);
+        Task task = findTask((id);
         taskRepository.deleteTask(task);
     }
 
