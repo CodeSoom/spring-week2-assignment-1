@@ -41,12 +41,12 @@ public class TaskController {
     @DeleteMapping("/{id:[0-9]+}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String delete(@PathVariable Long id) {
-        if (taskList.remove(id)) {
-            return "Deleted";
+        if (!taskList.remove(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Fail Deleted"
+            );
         }
 
-        throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Fail Deleted"
-        );
+        return "Deleted";
     }
 }
