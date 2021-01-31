@@ -7,6 +7,8 @@ import com.codesoom.assignment.domain.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
@@ -15,13 +17,13 @@ public class TaskController {
     TaskJsonTransfer transfer = new TaskJsonTransfer();
 
     @GetMapping
-    public String getAllTasks() throws UnknownException {
+    public List<JsonTask> getAllTasks() throws UnknownException {
         return transfer.taskListToJson(taskApplicationService.getAllTasks())
             .orElseThrow(UnknownException::new);
     }
 
     @GetMapping("/{id}")
-    public String getSpecificTask(@PathVariable Long id) throws NotFoundTaskException {
+    public JsonTask getSpecificTask(@PathVariable Long id) throws NotFoundTaskException {
         return taskApplicationService.findTask(id)
             .flatMap(
                 it -> transfer.taskToJson(it)
@@ -32,7 +34,7 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createTask(@RequestBody JsonTask jsonTask) throws NotFoundTaskException, UnknownException {
+    public JsonTask createTask(@RequestBody JsonTask jsonTask) throws NotFoundTaskException, UnknownException {
         Long createdTaskId = taskApplicationService.createTask(jsonTask.title);
         Task createdTask = taskApplicationService.findTask(createdTaskId)
             .orElseThrow(
@@ -43,7 +45,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public String updateTitle(@PathVariable Long id, @RequestBody JsonTask jsonTask) throws NotFoundTaskException, UnknownException {
+    public JsonTask updateTitle(@PathVariable Long id, @RequestBody JsonTask jsonTask) throws NotFoundTaskException, UnknownException {
         taskApplicationService.updateTaskTitle(id, jsonTask.title).orElseThrow(
             () -> new NotFoundTaskException(id)
         );

@@ -20,24 +20,16 @@ public class TaskJsonTransfer {
         }
     }
 
-    public Optional<String> taskToJson(Task task) {
-        try {
-            JsonTask jsonTask = new JsonTask(task.getId(), task.getTitle());
-            return Optional.ofNullable(objectMapper.writeValueAsString(jsonTask));
-        } catch (JsonProcessingException e) {
-            return Optional.empty();
-        }
+    public Optional<JsonTask> taskToJson(Task task) {
+        JsonTask jsonTask = new JsonTask(task.getId(), task.getTitle());
+        return Optional.of(jsonTask);
     }
 
-    public Optional<String> taskListToJson(List<Task> tasks) {
-        try {
-            List<JsonTask> jsonTaskList = tasks
-                .stream()
-                .map(it -> new JsonTask(it.getId(), it.getTitle()))
-                .collect(Collectors.toList());
-            return Optional.ofNullable(objectMapper.writeValueAsString(jsonTaskList));
-        } catch (JsonProcessingException e) {
-            return Optional.empty();
-        }
+    public Optional<List<JsonTask>> taskListToJson(List<Task> tasks) {
+        List<JsonTask> jsonTaskList = tasks
+            .stream()
+            .map(it -> new JsonTask(it.getId(), it.getTitle()))
+            .collect(Collectors.toList());
+        return Optional.of(jsonTaskList);
     }
 }
