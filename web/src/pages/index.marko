@@ -1,3 +1,30 @@
+style {
+  div.hidden {
+    display: "none";
+  }
+}
+
 <layout>
   <h1>ToDo</h1>
+
+  <ol>
+    <for|task| of=state.tasks>
+      <li key=task.id>
+        <if(state.modifyID === task.id)>
+          <input type=`${state.modifyID === task.id ? "text" : "hidden"}` value=`${state.modifyTitle}` on-change("handleChangeModifyTitle") />
+          <button type="button" on-click("handleClickConfirmModifyTask")>확인</button>
+          <button type="button" on-click("handleClickCancelModifyTask")>취소</button>
+        </if>
+        <else>
+          ${task.title}
+          <button type="button" on-click("handleClickModifyTask", task.id, task.title)>수정</button>
+          <button type="button" on-click("handleClickDeleteTask", task.id)>완료</button>
+        </else>
+      </li>
+    </for>
+  </ol>
+
+  <label for="task">할 일</label>
+  <input type="text" id="task" on-change("handleChangeTitle") value=state.title />
+  <button type="button" on-click("handleClickAddTask")>추가</button>
 </layout>
