@@ -10,7 +10,7 @@ public class TaskRepository {
 
     public Optional<Empty> save(Task task) {
         taskMap.put(task.getId(), task);
-        return Optional.ofNullable(Empty.empty);
+        return Optional.ofNullable(Empty.EMPTY);
     }
 
     public Long nextId() {
@@ -27,6 +27,6 @@ public class TaskRepository {
 
     public Optional<Empty> delete(Task task) {
         taskMap.remove(task.getId());
-        return Optional.ofNullable(Empty.empty);
+        return Optional.ofNullable(Empty.EMPTY);
     }
 }

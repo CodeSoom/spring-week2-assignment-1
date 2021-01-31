@@ -2,5 +2,5 @@ package com.codesoom.assignment.optional;
 
 
 public class Empty {
-    public static Empty empty = new Empty();
+    public final static Empty EMPTY = new Empty();
 }

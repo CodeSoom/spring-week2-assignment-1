@@ -37,7 +37,7 @@ public class TaskApplicationService {
             taskRepository::save
         );
         return targetTask.map(
-            task -> Empty.empty
+            task -> Empty.EMPTY
         );
     }
 
@@ -47,7 +47,7 @@ public class TaskApplicationService {
             taskRepository::delete
         );
         return targetTask.map(
-            task -> Empty.empty
+            task -> Empty.EMPTY
         );
     }
 
