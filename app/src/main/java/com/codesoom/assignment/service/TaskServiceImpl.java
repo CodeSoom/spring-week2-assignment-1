@@ -1,27 +1,31 @@
 package com.codesoom.assignment.service;
 
-import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private List<Task> tasks = new ArrayList<>();
+    private HashMap<Long, Task> tasks = new HashMap();
     private Long newId = 0L;
 
     @Override
     public List<Task> getTaskList() {
-        return tasks;
+        return tasks
+                .values()
+                .stream()
+                .collect(Collectors.toList());
     }
 
     @Override
     public Task createTask(Task task) {
-        task.setId(generateId());
-        tasks.add(task);
+        Long id = generateId();
+        task.setId(id);
+        tasks.put(id, task);
         return task;
     }
 
@@ -45,10 +49,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private Task findTask(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new TaskNotFoundException(id));
+        return tasks.get(id);
     }
 
     private Long generateId() {
