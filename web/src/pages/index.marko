@@ -18,7 +18,7 @@ class {
         const title = this.getEl('title').value;
         await axios.post('http://localhost:8080/tasks', {
             title,
-        })
+        });
         await this.loadTasks();
     }
 
@@ -27,8 +27,26 @@ class {
         await this.loadTasks();
     }
 
-    async updateTask(id) {
+    editTask(id) {
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+            ...task,
+            editing: true,
+        } : task);
+    }
 
+    cancelEditTask(id) {
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+            ...task,
+            editing: false,
+        } : task);
+    }
+
+    async updateTask(id) {
+        const title = this.getEl(`title-${id}`).value;
+        await axios.patch(`http://localhost:8080/tasks/${id}`, {
+            title,
+        });
+        await this.loadTasks();
     }
 }
 
@@ -37,14 +55,29 @@ class {
   <ol>
     <for|task| of=state.tasks>
         <li>
-            ${task.title}
+            <if(task.editing)>
+                <input key=`title-${task.id}` type="text" value=task.title />
+                <span> </span>
+                <button type="button" on-click("updateTask", task.id)>
+                    확인
+                </button>
+                <span> </span>
+                <button type="button" on-click("cancelEditTask", task.id)>
+                    취소
+                </button>
+            </if>
+            <else>
+                ${task.title}
+                <span> </span>
+                <button type="button" on-click("editTask", task.id)>
+                    수정
+                </button>
+                <span> </span>
+                <button type="button" on-click("deleteTask", task.id)>
+                    완료
+                </button>
+            </else>
         </li>
-        <button type="button" on-click("updateTask", task.id)>
-            수정
-        </button>
-        <button type="button" on-click("deleteTask", task.id)>
-            완료
-        </button>
     </for>
   </ol>
   <p>
