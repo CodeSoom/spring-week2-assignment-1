@@ -57,12 +57,16 @@ public class TaskController {
 
 
 //
-//    @DeleteMapping("/{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public ResponseEntity <Task> delete(@PathVariable Long id) throws IOException {
-//        Optional<Task> task = findTask(id);
-//        taskRepository.deleteTask(task);
-//    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity <Task> delete(@PathVariable Long id) throws IOException {
+        Optional<Task> task = findTask(id);
+        if(task.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        taskRepository.deleteTask(task.get());
+        return ResponseEntity.noContent().build();
+    }
 
 
     private Long generateId() {
