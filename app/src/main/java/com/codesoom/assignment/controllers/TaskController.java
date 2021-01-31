@@ -24,6 +24,13 @@ public class TaskController {
         return taskRepository.getTasks();
     }
 
+    @GetMapping("{id}")
+    public Task detail(@PathVariable Long id) {
+        return taskRepository.getTasks().stream()
+                .filter(task -> task.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
