@@ -1,3 +1,95 @@
-<layout>
+import axios from 'axios'
+
+style {
+  .hidden {
+    display: none;
+  }
+}
+
+class {
+  onCreate() {
+    this.state = {
+      tasks: []
+    };
+
+    this.loadTasks();
+  }
+
+  async loadTasks() {
+    const { data } = await axios.get("http://localhost:8080/tasks");
+    this.state.tasks = data;
+  }
+
+  async addTask() {
+    const title = this.getEl("title").value;
+    await axios.post("http://localhost:8080/tasks", {
+      title
+    });
+    await this.loadTasks();
+  }
+
+  toggle(taskId) {
+    const task = this.getEl("task_" + taskId);
+    const editTask = this.getEl("edit_" + taskId);
+
+    if (editTask.style.display == "block") {
+      editTask.style.display = "none";
+      task.style.display = "block";
+    } else {
+      editTask.style.display = "block";
+      task.style.display = "none";
+    }
+  }
+}
+
+static async function editTask(taskId, taskTitle, event) {
+  event.preventDefault();
+  this.toggle(taskId);
+  this.getEl(`editInput_${taskId}`).value = taskTitle;
+}
+
+static async function updateTask(taskId, event) {
+  event.preventDefault();
+  const title = this.getEl(`editInput_${taskId}`).value;
+  await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+    title
+  });
+  await this.loadTasks();
+  this.toggle(taskId);
+}
+
+static async function cancelTask(taskId, event) {
+  event.preventDefault();
+  this.toggle(taskId);
+  await this.loadTasks();
+}
+
+static async function completeTask(taskId, event) {
+  event.preventDefault();
+  await axios.delete(`http://localhost:8080/tasks/${taskId}`);
+  await this.loadTasks();
+}
+
+<section>
   <h1>ToDo</h1>
-</layout>
+  <ol>
+    <for|task| of=state.tasks>
+      <li>
+        <div class="hidden" key=`edit_${task.id}`>
+          <input id:scoped="edit" key=`editInput_${task.id}` type="text"/>
+          <button type="button" on-click(updateTask, task.id)>확인</button>
+          <button type="button" on-click(cancelTask, task.id)>취소</button>
+        </div>
+        <div key=`task_${task.id}`>
+          ${task.title}<button type="button" on-click(editTask, task.id, task.title)>수정</button>
+          <button type="button" on-click(completeTask, task.id)>완료</button>
+        </div>
+      </li>
+    </for>
+  </ol>
+  <p>
+    <label for:scoped="title">할 일</label>
+    <input id:scoped="title" key="title" type="text"/>
+    <button type="button" on-click("addTask")>추가</button>
+  </p>
+</section>
