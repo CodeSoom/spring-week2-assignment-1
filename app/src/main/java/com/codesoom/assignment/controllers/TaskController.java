@@ -27,10 +27,8 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity getTask(@PathVariable long id) {
-        Task task = taskService.getTask(id);
-        return ResponseEntity
-                .ok(task);
+    public Task getTask(@PathVariable long id) {
+        return taskService.getTask(id);
     }
 
     @PostMapping
@@ -42,11 +40,10 @@ public class TaskController {
     @PutMapping("/{id}")
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity updateTask(
+    public Task updateTask(
             @PathVariable long id,
             @RequestBody Task sourceTask) {
-        Task task = taskService.updateTask(id, sourceTask);
-        return ResponseEntity.ok(task);
+        return taskService.updateTask(id, sourceTask);
     }
 
     @DeleteMapping("/{id}")
