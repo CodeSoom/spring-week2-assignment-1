@@ -27,8 +27,7 @@ public class TaskController {
 
     @GetMapping("{id}")
     public ResponseEntity<Task> detail(@PathVariable Long id) {
-        Optional<Task> task = findTask(id);
-        return ResponseEntity.of(task);
+        return ResponseEntity.of(findTask(id));
     }
 
     private Optional<Task> findTask(Long id) {
@@ -46,20 +45,24 @@ public class TaskController {
 
 
     @PatchMapping("{id}")
-    public Task update(@PathVariable Long id, @RequestBody Task source) {
-        Task task = findTask(id);
-        task.setTitle(source.getTitle());
-        return task;
+    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task source) {
+        Optional<Task> entity = findTask(id);
+
+        if(entity.isPresent()) {
+           Task task = entity.get();
+           task.setTitle(source.getTitle());
+        }
+        return ResponseEntity.of(entity);
     }
 
 
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws IOException {
-        Task task = findTask((id);
-        taskRepository.deleteTask(task);
-    }
+//
+//    @DeleteMapping("/{id}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public ResponseEntity <Task> delete(@PathVariable Long id) throws IOException {
+//        Optional<Task> task = findTask(id);
+//        taskRepository.deleteTask(task);
+//    }
 
 
     private Long generateId() {
