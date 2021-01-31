@@ -8,41 +8,48 @@
 package com.codesoom.assignment.controllers;
 
 
+import com.codesoom.assignment.application.TaskService;
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    @Autowired
-    TaskService taskService;
 
-    @GetMapping("/tasks")
+    private TaskService taskService;
+    public TaskController() {
+        taskService = new TaskService();
+    }
+
+    @GetMapping()
     public List<Task> getTasks() {
         return taskService.getTasks();
     }
 
-    @GetMapping("/tasks/{id}")
-    public String findOneTask(@PathVariable Long id) {
-        return taskService.findOneTask(id);
+    @GetMapping("{id}")
+    public Task getTask(@PathVariable Long id) {
+        return taskService.getTask(id);
     }
 
-    @PostMapping("/tasks")
-    public Task addTask(@RequestBody Task task) {
-        return taskService.addTask(task);
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task createTask(@RequestBody Task task) {
+        return taskService.createTask(task);
     }
 
-    @RequestMapping(path = "/tasks/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
-    public String taskModify(@PathVariable Long id, @RequestBody Task task) {
-        return taskService.taskModify(id, task);
+    @RequestMapping(path = "{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
+    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+        return taskService.updateTask(id, task);
     }
 
-    @DeleteMapping("/tasks/{id}")
-    public String delete(@PathVariable Long id) {
-        return taskService.deleteTask(id);
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        // Todo : Create a successful deletion message
+        taskService.deleteTask(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.codesoom.assignment.repository;
 
+import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +11,6 @@ import java.util.List;
 public class TaskRepository {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
-    private final static String NO_SEARCH_ID = "ID Error empty";
 
     // Task all
     public List<Task> getTasks() {
@@ -18,39 +18,28 @@ public class TaskRepository {
     }
 
     // Task one
-    public String findOneTask(Long id) {
-        Task task = findTask(id);
-        if (task == null) {
-            return NO_SEARCH_ID;
-        }
-        return task.toString();
+    public Task getTask(Long id) {
+        return findTask(id);
     }
 
     // Task Insert
-    public Task addTask(Task task) {
+    public Task createTask(Task task) {
         task.setId(generatedId());
         tasks.add(task);
         return task;
     }
 
     // Task Update
-    public String taskModify(Long id, Task task) {
-        Task source = findTask(id);
-        if (source == null) {
-            return NO_SEARCH_ID;
-        }
-        source.setTitle(task.getTitle());
-        return source.toString();
+    public Task updateTask(Long id, Task task) {
+        Task entity = findTask(id);
+        entity.setTitle(task.getTitle());
+        return entity;
     }
 
     // Task Delete
-    public String taskDelete(Long id) {
-        Task task = findTask(id);
-        if (task == null) {
-            return NO_SEARCH_ID;
-        }
-        tasks.remove(task);
-        return "";
+    public void deleteTask(Long id) {
+        Task entity = findTask(id);
+        tasks.remove(entity);
     }
 
     private Long generatedId() {
@@ -60,8 +49,8 @@ public class TaskRepository {
 
     private Task findTask(Long id) {
         return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+                    .filter(task -> task.getId().equals(id))
+                    .findFirst()
+                    .orElseThrow(() -> new TaskNotFoundException(id));
     }
 }
