@@ -16,7 +16,7 @@ public class TaskService {
         return tasks;
     }
 
-    public Task getTask(long id) {
+    public Task getTask(Long id) {
         return findTaskById(id);
     }
 
@@ -26,20 +26,20 @@ public class TaskService {
         return task;
     }
 
-    public Task updateTask(long id, Task sourceTask) {
+    public Task updateTask(Long id, Task sourceTask) {
         Task task = findTaskById(id);
         task.setTitle(sourceTask.getTitle());
         return task;
     }
 
-    public boolean deleteTask(long id) {
+    public boolean deleteTask(Long id) {
         Task task = findTaskById(id);
         return tasks.remove(task);
     }
 
-    private Task findTaskById(long id) {
+    private Task findTaskById(Long id) {
         return tasks.stream()
-                .filter(i -> i.getId() == id)
+                .filter(i -> id.equals(i.getId()))
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found with Id " + id));
     }
