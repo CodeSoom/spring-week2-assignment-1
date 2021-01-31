@@ -23,35 +23,35 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public JsonTask getSpecificTask(@PathVariable Long id) throws NotFoundTaskException {
+    public JsonTask getSpecificTask(@PathVariable Long id) throws TaskNotFoundException {
         return taskApplicationService.findTask(id)
             .flatMap(
                 it -> transfer.taskToJson(it)
             ).orElseThrow(
-                () -> new NotFoundTaskException(id)
+                () -> new TaskNotFoundException(id)
             );
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public JsonTask createTask(@RequestBody JsonTask jsonTask) throws NotFoundTaskException, UnknownException {
+    public JsonTask createTask(@RequestBody JsonTask jsonTask) throws TaskNotFoundException, UnknownException {
         Long createdTaskId = taskApplicationService.createTask(jsonTask.title);
         Task createdTask = taskApplicationService.findTask(createdTaskId)
             .orElseThrow(
-                () -> new NotFoundTaskException(createdTaskId)
+                () -> new TaskNotFoundException(createdTaskId)
             );
         return transfer.taskToJson(createdTask)
             .orElseThrow(UnknownException::new);
     }
 
     @PutMapping("/{id}")
-    public JsonTask updateTitle(@PathVariable Long id, @RequestBody JsonTask jsonTask) throws NotFoundTaskException, UnknownException {
+    public JsonTask updateTitle(@PathVariable Long id, @RequestBody JsonTask jsonTask) throws TaskNotFoundException, UnknownException {
         taskApplicationService.updateTaskTitle(id, jsonTask.title).orElseThrow(
-            () -> new NotFoundTaskException(id)
+            () -> new TaskNotFoundException(id)
         );
         Task updatedTask = taskApplicationService.findTask(id)
             .orElseThrow(
-                () -> new NotFoundTaskException(id)
+                () -> new TaskNotFoundException(id)
             );
         return transfer.taskToJson(updatedTask)
                 .orElseThrow(UnknownException::new);
@@ -59,9 +59,9 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTask(@PathVariable Long id) throws NotFoundTaskException {
+    public void deleteTask(@PathVariable Long id) throws TaskNotFoundException {
         taskApplicationService.deleteTask(id).orElseThrow(
-            () -> new NotFoundTaskException(id)
+            () -> new TaskNotFoundException(id)
         );
     }
 }

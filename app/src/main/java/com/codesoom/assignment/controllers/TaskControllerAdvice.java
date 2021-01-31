@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class TaskControllerAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String notFoundTaskExceptionHandler(NotFoundTaskException e) {
+    public String notFoundTaskExceptionHandler(TaskNotFoundException e) {
         return e.getMessage();
     }
 
