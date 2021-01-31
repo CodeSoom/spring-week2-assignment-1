@@ -1,21 +1,83 @@
+import axios from 'axios'
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+            targetTask: 0,
+        };
+        this.loadTasks();
+    }
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data;
+    }
+    async addTask() {
+        const title = this.getEl('title').value;
+        await axios.post("http://localhost:8080/tasks", {
+            title
+         });
+        await this.loadTasks();
+    }
+    async deleteTask(taskId) {
+        await axios.delete("http://localhost:8080/tasks/" + taskId);
+        await this.loadTasks();
+    }
+    async updateTask() {
+        const title = this.getEl("update-title").value;
+        const taskId = this.state.targetTask;
+        await axios.put("http://localhost:8080/tasks/" + taskId, {
+            title
+        });
+        await this.loadTasks();
+        await this.closeUpdateForm();
+    }
+    async showUpdateForm() {
+        const updateForm = this.getEl("update-form");
+        updateForm.style.display = "inline-block"
+    }
+    async closeUpdateForm() {
+        const updateForm = this.getEl("update-form");
+        updateForm.style.display = "none"
+    }
+    async showUpdateFormBySpecificTask(taskId) {
+        this.state.targetTask = taskId;
+        await this.showUpdateForm();
+    }
+}
+
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A basic Marko app.">
-  <title>Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A basic Marko app.">
+    <title>Demo</title>
 </head>
 <body>
-  <${input.renderBody}/>
+    <h1>ToDo</h1>
+    <ol>
+        <for|task| of=state.tasks>
+        <li>
+            <div>
+                <span> ${task.title} </span>
+                <button type="button" on-click("deleteTask", task.id)>완료</button>
+                <button type="button" on-click("showUpdateFormBySpecificTask", task.id)>수정</button>
+            </div>
+        </li>
+        </for>
+    </ol>
+
+    <p>
+        <label for:scoped="title">할 일</label>
+        <input id:scoped="title" key="title" type="text"/>
+        <button type="button" on-click("addTask")>추가</button>
+    </p>
+    <p key="update-form" style="display:none">
+        <label for:scoped="update-title">수정하기</label>
+        <input id:scoped="update-title" key="update-title" name="input" type="text"/>
+        <button type="button" on-click("updateTask")>확인</button>
+        <button type="button" on-click("closeUpdateForm")>취소</button>
+    </p>
 </body>
 </html>
-
-style {
-  body {
-    margin: 0;
-    padding: 0;
-    background: #FFF;
-    color: #000;
-  }
-}
