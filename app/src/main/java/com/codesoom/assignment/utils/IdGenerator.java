@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * id를 생성하기 위한 클래스.
+ * id 생성기
  */
 @Component
 public class IdGenerator {
