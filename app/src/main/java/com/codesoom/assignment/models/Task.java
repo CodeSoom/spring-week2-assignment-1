@@ -21,6 +21,7 @@ public class Task {
         this.title = title;
     }
 
+    @Override
     public String toString() {
         return "Task - title: " + title;
     }

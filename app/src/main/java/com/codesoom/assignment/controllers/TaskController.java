@@ -1,55 +1,58 @@
-// TODO
-// 1. Read Collection - GET /tasks
-// 2. Read Item - GET /tasks/{id}
-// 3. Create - POST /tasks
-// 4. Update - PUT/PATCH /tasks/{id}
-// 5. Delete - DELETE /tasks/{id}
-
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.application.TaskService;
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
+// TODO
+// 1. Read Collection 목록 얻기 - GET /tasks
+// 2. Read Item 조회하기 - GET /tasks/{id}
+// 3. Create 생성하기 - POST /tasks
+// 4. Update 제목 수정하기 - PUT/PATCH /tasks/{id}
+// 5. Delete 삭제하기 - DELETE /tasks/{id}
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+    private TaskService taskService;
+
+    public TaskController() {
+        taskService = new TaskService();
+    }
 
     @GetMapping
     public List<Task> list() {
-        return tasks;
+        return taskService.getTasks();
+    }
+
+    @GetMapping("/{id}")
+    public Task detail(@PathVariable Long id) {
+        return taskService.getTask(id);
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-        task.setId(generateId());
-        tasks.add(task);
-
-        return task;
+        return taskService.createTask(task);
     }
 
-    @PutMapping
-    @PatchMapping
-    public Task update(Task task) {
-        Task source = new Task();
-        task.setTitle(source.getTitle());
-
-        return source;
+    @PutMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task source) {
+        return taskService.updateTask(id, source);
     }
 
-    @DeleteMapping
-    public void delete(Task task) {
-        tasks.remove(task);
-        }
+    @PatchMapping("/{id}")
+    public Task patch(@PathVariable Long id, @RequestBody Task source) {
+        return taskService.updateTask(id, source);
+    }
 
-    private Long generateId() {
-        newId += 1;
-        return newId;
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        taskService.deleteTask(id);
     }
 }
 
