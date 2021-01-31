@@ -13,6 +13,7 @@ public class TaskRepository {
         return tasks;
     }
 
+
     public void deleteTask(Task task) {
         if(!tasks.contains(task)) {
           //  throw new TaskNotFoundException();
@@ -21,4 +22,10 @@ public class TaskRepository {
     }
 
 
+    public Task getTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new TaskNotFoundException(id));
+    }
 }

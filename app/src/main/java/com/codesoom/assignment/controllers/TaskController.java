@@ -17,26 +17,23 @@ import java.util.Optional;
 public class TaskController {
 
     private Long id = 0L;
-    private TaskRepository taskRepository = new TaskRepository();
+    private TaskRepository taskRepository;
 
-
+    public TaskController() {
+        taskRepository = new TaskRepository();
+    }
 
     @GetMapping
     public List<Task> list() {
+
         return taskRepository.getTasks();
     }
 
     @GetMapping("{id}")
     public Task detail(@PathVariable Long id) {
-        return findTask(id);
+        return taskRepository.getTask(id);
     }
 
-    private Task findTask(Long id) {
-        return taskRepository.getTasks().stream()
-                .filter(task -> task.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new TaskNotFoundException(id));
-    }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
@@ -48,7 +45,7 @@ public class TaskController {
 
     @PatchMapping("{id}")
     public Task update(@PathVariable Long id, @RequestBody Task source) {
-        Task task = findTask(id);
+        Task task = taskRepository.getTask(id);
         task.setTitle(source.getTitle());
         return task;
     }
@@ -58,7 +55,7 @@ public class TaskController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity <Task> delete(@PathVariable Long id) throws IOException {
-        Task task = findTask(id);
+        Task task = taskRepository.getTask(id);
         taskRepository.deleteTask(task);
 
         return ResponseEntity.noContent().build();

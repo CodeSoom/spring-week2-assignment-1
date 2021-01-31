@@ -13,7 +13,7 @@ public class TaskErrorAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(TaskNotFoundException.class)
-    public ErrorResponse handleNOtFound() {
+    public ErrorResponse handleNotFound() {
         return new ErrorResponse("Can't find task that same as input");
 
     }
