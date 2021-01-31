@@ -42,22 +42,21 @@ public class TaskController {
 
 
     @PatchMapping("{id}")
+    public Task patch(@PathVariable Long id, @RequestBody Task source) {
+        return taskRepository.updateTask(id, source);
+    }
+
+
+    @PutMapping("{id}")
     public Task update(@PathVariable Long id, @RequestBody Task source) {
         return taskRepository.updateTask(id, source);
     }
 
 
-//
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity <Task> delete(@PathVariable Long id) throws IOException {
-        Task task = taskRepository.getTask(id);
-        taskRepository.deleteTask(task);
-
-        return ResponseEntity.noContent().build();
+    public void delete(@PathVariable Long id) throws IOException {
+        taskRepository.deleteTask(id);
     }
-
-
-
 
 }

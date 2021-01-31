@@ -15,10 +15,8 @@ public class TaskRepository {
     }
 
 
-    public void deleteTask(Task task) {
-        if(!tasks.contains(task)) {
-          //  throw new TaskNotFoundException();
-        }
+    public void deleteTask(Long id) {
+        Task task = getTask(id);
         tasks.remove(task);
     }
 
