@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exceptions.ResourceNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.services.TaskService;
 import org.springframework.http.HttpStatus;
@@ -51,9 +52,7 @@ public class TaskController {
 
         boolean deleted = taskService.deleteTask(id);
         if (!deleted) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .build();
+            throw new ResourceNotFoundException(String.format("Task Id = %d has not been found", id));
         }
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
