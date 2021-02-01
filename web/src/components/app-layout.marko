@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A basic Marko app.">
-  <title>Demo</title>
+  <title>${input.title}</title>
 </head>
 <body>
   <${input.renderBody}/>
@@ -12,10 +12,15 @@
 </html>
 
 style {
-  body {
-    margin: 0;
+  html, body {
+    font-family: system-ui;
     padding: 0;
-    background: #FFF;
-    color: #000;
+    margin: 0;
+  }
+  code {
+    color: #fc0;
+  }
+  a {
+    color: #09c;
   }
 }

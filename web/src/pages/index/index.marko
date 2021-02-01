@@ -1,0 +1,79 @@
+// TODO
+// 1. GET /tasks -> 목록으로 표시
+// 2. 입력 -> POST /tasks (할 일 추가) -> GET /tasks (목록 갱신)
+// 3. 완료 -> 삭제 -> DELETE /tasks/{id} -> GET /tasks (목록 갱신)
+// 4. 수정 -> 입력을 다시 -> PATCH /tasks/{id} -> GET /tasks (목록 갱신)
+
+import axios from 'axios';
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+            editing: false,
+        };
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data;
+    }
+
+    async addTask() {
+        let title = this.getEl('title').value;
+        await axios.post('http://localhost:8080/tasks', {
+            title: title,
+        });
+        await this.loadTasks();
+    }
+
+    async deleteTask(id) {
+        await axios.delete(`http://localhost:8080/tasks/` + id);
+        await this.loadTasks();
+    }
+
+    async editTask(id) {
+        const task = this.state.tasks.find(i => i.id === id);
+        task.editing = true;
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+            ...task,
+            editing: true,
+        } : task);
+    }
+
+}
+
+<h1>ToDo</h1>
+<ol>
+    <for|task| of=state.tasks>
+        <li>
+            <if(task.editing)>
+                <input />
+                <span> </span>
+                <button type="button" on-click('updateTask', task.id)>
+                    확인
+                </button>
+                <button type="button" on-click('updateTask', task.id)>
+                    취소
+                </button>
+            </if>
+            <else>
+                ${task.title}
+                <button type="button" on-click('editTask', task.id)>
+                    수정
+                </button>
+                <button type="button" on-click('deleteTask', task.id)>
+                    완료
+                </button>
+            </else>
+        </li>
+    </for>
+</ol>
+<p>
+    <label for:scoped="title">
+        할 일
+    </label>
+    <input id:scoped="title" key="title" type="text" />
+    <button on-click('addTask')>추가</button>
+</p>
