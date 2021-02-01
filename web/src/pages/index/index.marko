@@ -1,0 +1,82 @@
+import axios from 'axios';
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+        };
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data;
+    }
+
+    async addTask() {
+        const title = this.getEl('title').value;
+        await axios.post('http://localhost:8080/tasks', {
+            title
+         });
+        await this.loadTasks();
+    }
+
+    async switchTaskDisplay() {
+       const updateTask = this.getEl('updateTask');
+       const existingTask = this.getEl('existingTask');
+
+       if (updateTask.style.display == 'none') {
+            updateTask.style.display = 'inline-block';
+            existingTask.style.display = 'none';
+            return;
+       }
+
+       if (updateTask.style.display != 'none') {
+           updateTask.style.display = 'none';
+           existingTask.style.display = 'inline-block';
+           return;
+       }
+    }
+
+    async editTask(taskId){
+        const title = this.getEl("newTitle").value;
+        console.log(taskId);
+        await axios.put("http://localhost:8080/tasks/" + taskId, {
+            title,
+        });
+        this.switchTaskDisplay();
+        await this.loadTasks();
+    }
+
+    async deleteTask(taskId){
+        await axios.delete('http://localhost:8080/tasks/' + taskId);
+        await this.loadTasks();
+    }
+
+}
+
+
+<h1>ToDo</h1>
+<ol>
+    <for|task| of=state.tasks>
+    <li>
+        <div style="display:inline-block" key="existingTask">
+            <span> ${task.title} </span>
+            <button type="button" on-click("switchTaskDisplay") >수정</button>
+            <button type="button" on-click("deleteTask", task.id) >완료</button>
+        </div>
+
+        <div style="display:none" key="updateTask">
+            <input type="text" key="newTitle"/>
+             <button type="button" on-click("editTask", task.id)>확인</button>
+            <button type="button" on-click("switchTaskDisplay") >취소</button>
+        </div>
+    </li>
+    </for>
+</ol>
+
+<p>
+    <label for:scoped="title">할 일</label>
+    <input id:scoped="title" key="title" type="text" />
+    <button type="button" on-click("addTask")>추가</button>
+</p>
