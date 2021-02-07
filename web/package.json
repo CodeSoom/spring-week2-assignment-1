@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "marko-serve ./src/pages",
     "build": "marko-build ./src/pages",
-    "start": "NODE_ENV=production node ./build/index.js"
+    "start": "cross-env NODE_ENV=production node ./build/index.js",
+    "com": "npm run build && npm run start"
   },
   "private": true,
   "dependencies": {
@@ -13,7 +14,8 @@
     "marko": "^4.22.5"
   },
   "devDependencies": {
-    "@marko/build": "^2.2.2",
-    "@marko/serve": "^2.2.2"
+    "@marko/build": "^2.0.1",
+    "@marko/serve": "^2.0.1",
+    "cross-env": "^7.0.3"
   }
 }

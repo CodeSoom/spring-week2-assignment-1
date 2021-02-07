@@ -77,6 +77,7 @@ class {
             changeBtn.innerHTML = '수정';
             finishBtn.innerHTML = '완료';
             const newTitle = liObj.firstChild.value;
+            alert(newTitle);
             //updateTask(id, newTitle);
             await axios.patch('http://localhost:8080/tasks/' + id, {
                 title: newTitle
@@ -128,10 +129,10 @@ class {
 </ol>
 <p>
     <label for:scoped="title">
-        할 일
+        To do
     </label>
     <input id:scoped="title" key="title" type="text" />
     <button type="button" on-click("addTask")>
-        추가
+        add
     </button>
 </p>
