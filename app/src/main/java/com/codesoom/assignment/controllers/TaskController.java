@@ -1,9 +1,13 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.dto.Task;
+import com.codesoom.assignment.exceptions.DoesNotExistException;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -25,9 +29,15 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
         task.setId(generateId());
         return this.taskRepository.addTask(task);
+    }
+
+    @GetMapping(path = "/{id}")
+    public Task getTask(@PathVariable Long id) {
+        return this.taskRepository.getOneTask(id);
     }
 
     private Long generateId() {

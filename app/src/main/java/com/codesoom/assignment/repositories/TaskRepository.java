@@ -1,6 +1,7 @@
 package com.codesoom.assignment.repositories;
 
 import com.codesoom.assignment.dto.Task;
+import com.codesoom.assignment.exceptions.DoesNotExistException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -22,5 +23,12 @@ public class TaskRepository {
     public Task addTask(Task task) {
         this.tasks.add(task);
         return task;
+    }
+
+    public Task getOneTask(Long id) {
+        return this.tasks.stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst()
+                .orElseThrow(DoesNotExistException::new);
     }
 }
