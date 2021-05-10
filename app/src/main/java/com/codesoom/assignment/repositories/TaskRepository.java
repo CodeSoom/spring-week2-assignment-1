@@ -40,4 +40,13 @@ public class TaskRepository {
             throw new DoesNotExistException();
         }
     }
+
+    public Task updateOneTask(Task task) throws DoesNotExistException {
+        if (this.tasks.removeIf(item -> item.getId().equals(task.getId()))) {
+            this.tasks.add(task);
+            return task;
+        } else {
+            throw new DoesNotExistException();
+        }
+    }
 }

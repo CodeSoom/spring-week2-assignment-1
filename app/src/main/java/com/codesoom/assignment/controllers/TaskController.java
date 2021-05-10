@@ -46,6 +46,12 @@ public class TaskController {
         return this.taskRepository.setOneTask(task);
     }
 
+    @PatchMapping(path = "/{id}")
+    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+        task.setId(id);
+        return this.taskRepository.updateOneTask(task);
+    }
+
     private Long generateId() {
         this.newId += 1;
         return this.newId;
