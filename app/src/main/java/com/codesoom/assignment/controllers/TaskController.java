@@ -52,6 +52,12 @@ public class TaskController {
         return this.taskRepository.updateOneTask(task);
     }
 
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeTask(@PathVariable Long id) {
+        this.taskRepository.removeOneTask(id);
+    }
+
     private Long generateId() {
         this.newId += 1;
         return this.newId;

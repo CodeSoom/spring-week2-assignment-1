@@ -49,4 +49,10 @@ public class TaskRepository {
             throw new DoesNotExistException();
         }
     }
+
+    public void removeOneTask(Long id) throws DoesNotExistException {
+        if (!this.tasks.removeIf(item -> item.getId().equals(id))) {
+            throw new DoesNotExistException();
+        }
+    }
 }
