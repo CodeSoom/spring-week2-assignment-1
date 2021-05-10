@@ -1,8 +1,8 @@
 package com.codesoom.assignment.controllers;
 // 1. READ Collection - GET / tasks => 완료
-// 2. READ Item - GET / tasks/{id}
-// 3. CREATE POST/tasks => 완
-// 4. UPDATE PUT/PATCH/tasks/{id}
+// 2. READ Item - GET / tasks/{id} => 완료
+// 3. CREATE POST/tasks => 완료
+// 4. UPDATE PUT/PATCH/tasks/{id} =>
 // 5. DELETE DELETE/tasks/{id}
 
 import com.codesoom.assignment.models.Task;
@@ -23,11 +23,8 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public int getTask(@PathVariable(value = "id") int id) {
-        for (Task task : tasks) {
-            System.out.println(task);
-        }
-        return id;
+    public Task getTask(@PathVariable(value = "id") Long id) {
+        return tasks.stream().filter(task -> task.getId().equals(id)).findFirst().orElse(null);
     }
 
     @PostMapping
@@ -35,6 +32,16 @@ public class TaskController {
         task.setId(generateId());
         tasks.add(task);
         return task;
+    }
+
+    @PutMapping("/{id}")
+    public Task update(@PathVariable(value = "id") Long id, @RequestBody Task task) {
+        Task originTask = tasks.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);
+        if (originTask != null) {
+            originTask.setTitle(task.getTitle());
+            return originTask;
+        }
+        return null;
     }
 
     private Long generateId(){
