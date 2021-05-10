@@ -12,6 +12,7 @@ import java.util.List;
 public class TaskController {
 
     private final TaskRepository taskRepository;
+    private Long newId = 0L;
 
     @Autowired
     public TaskController(TaskRepository taskRepository) {
@@ -21,5 +22,16 @@ public class TaskController {
     @GetMapping
     public List<Task> getAllTasks() {
         return this.taskRepository.findAll();
+    }
+
+    @PostMapping
+    public Task createTask(@RequestBody Task task) {
+        task.setId(generateId());
+        return this.taskRepository.addTask(task);
+    }
+
+    private Long generateId() {
+        this.newId += 1;
+        return this.newId;
     }
 }
