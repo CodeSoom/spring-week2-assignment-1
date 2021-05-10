@@ -40,6 +40,12 @@ public class TaskController {
         return this.taskRepository.getOneTask(id);
     }
 
+    @PutMapping(path = "/{id}")
+    public Task setTask(@PathVariable Long id, @RequestBody Task task) {
+        task.setId(id);
+        return this.taskRepository.setOneTask(task);
+    }
+
     private Long generateId() {
         this.newId += 1;
         return this.newId;
