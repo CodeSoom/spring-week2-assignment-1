@@ -36,6 +36,10 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // devtools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools:2.3.5.RELEASE'
+
 }
 
 application {
