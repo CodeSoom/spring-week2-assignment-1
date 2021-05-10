@@ -17,25 +17,26 @@ public class TaskController {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
-    // @RequestMapping(path = "", method = RequestMethod.GET) // 이거 대신 @GetMapping 으로 써준다.
     @GetMapping
     public List<Task> list() {
         return tasks;
     }
 
-    @GetMapping(path="/tasks/")
-    public Task getTask(@RequestParam("id") int taskId) {
-        System.out.println(taskId);
-        return tasks.get(taskId);
+    @GetMapping("/{id}")
+    public int getTask(@PathVariable(value = "id") int id) {
+        for (Task task : tasks) {
+            System.out.println(task);
+        }
+        return id;
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-
         task.setId(generateId());
         tasks.add(task);
         return task;
     }
+
     private Long generateId(){
         newId += 1;
         return newId;
