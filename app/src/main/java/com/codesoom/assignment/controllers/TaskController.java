@@ -19,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
+    private final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private Map<Long, Task> tasks = new HashMap();
     private Long newTaskId = 1L;
 
@@ -31,6 +32,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
+            logger.debug("task: {}", task);
             return ResponseEntity.badRequest().build();
         }
         task.setId(newTaskId++);

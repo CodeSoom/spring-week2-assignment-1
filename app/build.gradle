@@ -47,3 +47,7 @@ tasks.named('test') {
     // Use junit platform for unit tests.
     useJUnitPlatform()
 }
+
+tasks.named('bootRun') {
+    systemProperty "logging.level.com.codesoom", "debug"
+}
