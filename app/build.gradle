@@ -37,7 +37,8 @@ dependencies {
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // devtools
+    // To apply changes with only build instead of restarting server
+    // https://docs.spring.io/spring-boot/docs/current/reference/html/using-spring-boot.html#using-boot-devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.3.5.RELEASE'
 
 }
