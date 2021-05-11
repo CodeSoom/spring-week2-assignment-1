@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
@@ -23,6 +24,12 @@ public class TaskController {
         return tasks;
     }
 
+    @GetMapping("/{id}")
+    public Task details(@PathVariable String id){
+        Task task = tasks.get(Integer.parseInt(id) - 1);
+        return task;
+    }
+
     @PostMapping
     public Task created(@RequestBody Task task) {
         task.setId(generatedId());
@@ -30,6 +37,19 @@ public class TaskController {
         tasks.add(task);
 
         return task;
+    }
+
+    @PutMapping("/{id}")
+    public Task update(@PathVariable String id, @RequestBody Task old_task) {
+        tasks.get(Integer.parseInt(id) - 1).setTitle(old_task.getTitle());
+        Task updated_task = tasks.get(Integer.parseInt(id) - 1);
+        return updated_task;
+    }
+
+    @DeleteMapping
+    public List<Task> delete(@PathVariable String id, @RequestBody Task old_task) {
+        tasks.remove(Integer.parseInt(id) - 1);
+        return tasks;
     }
 
     private Long generatedId() {

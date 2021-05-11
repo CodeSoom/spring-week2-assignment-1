@@ -10,7 +10,8 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.0",
-    "marko": "^4.22.5"
+    "marko": "^4.22.5",
+    "next-redux-wrapper": "^6.0.2"
   },
   "devDependencies": {
     "@marko/build": "^2.2.2",
