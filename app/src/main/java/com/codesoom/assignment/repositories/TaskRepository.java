@@ -1,7 +1,7 @@
 package com.codesoom.assignment.repositories;
 
 import com.codesoom.assignment.dto.Task;
-import com.codesoom.assignment.exceptions.DoesNotExistException;
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -29,30 +29,30 @@ public class TaskRepository {
         return this.tasks.stream()
                 .filter(item -> item.getId().equals(id))
                 .findFirst()
-                .orElseThrow(DoesNotExistException::new);
+                .orElseThrow(TaskNotFoundException::new);
     }
 
-    public Task setOneTask(Task task) throws DoesNotExistException {
+    public Task setOneTask(Task task) throws TaskNotFoundException {
         if (this.tasks.removeIf(item -> item.getId().equals(task.getId()))) {
             this.tasks.add(task);
             return task;
         } else {
-            throw new DoesNotExistException();
+            throw new TaskNotFoundException();
         }
     }
 
-    public Task updateOneTask(Task task) throws DoesNotExistException {
+    public Task updateOneTask(Task task) throws TaskNotFoundException {
         if (this.tasks.removeIf(item -> item.getId().equals(task.getId()))) {
             this.tasks.add(task);
             return task;
         } else {
-            throw new DoesNotExistException();
+            throw new TaskNotFoundException();
         }
     }
 
-    public void removeOneTask(Long id) throws DoesNotExistException {
+    public void removeOneTask(Long id) throws TaskNotFoundException {
         if (!this.tasks.removeIf(item -> item.getId().equals(id))) {
-            throw new DoesNotExistException();
+            throw new TaskNotFoundException();
         }
     }
 }
