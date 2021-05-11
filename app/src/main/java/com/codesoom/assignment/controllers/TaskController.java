@@ -7,12 +7,18 @@ package com.codesoom.assignment.controllers;
 // 5. Delete - DELETE /tasks/{id}
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.system.ErrorCreate;
+import com.codesoom.assignment.system.ErrorResponse;
+import com.codesoom.assignment.system.InvalidRequestException;
+import com.codesoom.assignment.system.DataNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/tasks")
@@ -20,8 +26,7 @@ public class TaskController {
 
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
-
-
+    private Throwable HttpMessageNotReadableException;
 
 //    @RequestMapping(path = "", method = RequestMethod.GET)
 //    public String list() {
@@ -40,7 +45,7 @@ public class TaskController {
     public Task create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
             // TODO: validation error...
-
+            throw new InvalidRequestException();
         }
 
         task.setId(generateID());
@@ -52,39 +57,79 @@ public class TaskController {
     // GET /tasks/{id}
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Task get(@PathVariable("id") int id) {
-
-        Task task = tasks.stream().filter(t -> t.getId() == id)
-                .findFirst().orElse(null);
-
-        if(task == null) {
-            throw new ErrorCreate("존재하지 않는 INDEX입니다.");
+    public Task get(@PathVariable("id") long id) {
+        if(emptyCheck(id)) {
+            throw new DataNotFoundException();
+        } else {
+            return tasks.stream().filter(t -> t.getId() == id)
+                    .findFirst().get();
         }
-
-        return task;
     }
+
+
 
     // PUT/PATCH /tasks/{id}
     @RequestMapping(path = "/{id}", method = RequestMethod.PATCH)
     @ResponseStatus(HttpStatus.OK)
-    public Task patchTask(@PathVariable("id") int id, @RequestBody Task newTask) {
+    public Task patchTask(@PathVariable("id") long id, @RequestBody Task newTask) {
 
-        Task task = tasks.stream().filter(t -> t.getId() == id)
-                .findFirst().orElse(null);
+        if(emptyCheck(id)) {
+            throw new DataNotFoundException();
+        } else {
+            Task task = tasks.stream()
+                    .filter(t -> t.getId() == id)
+                    .findFirst()
+                    .get();
 
-        if(task == null) {
-            throw new ErrorCreate("존재하지 않는 INDEX입니다.");
+            task.setTitle(newTask.getTitle());
+            return task;
         }
-
-        task.setTitle(newTask.getTitle());
-
-        return task;
     }
 
+    // DELETE /tasks{id}
+    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteTask(@PathVariable("id") long id) {
+        if(emptyCheck(id)) {
+            throw new DataNotFoundException();
+        } else {
+            Task task = tasks.stream()
+                    .filter(t -> t.getId() == id)
+                    .findFirst()
+                    .get();
+
+            tasks.remove(task);
+        }
+    }
+
+
+    // Exception 테스트
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "ttt")
+    public void handleException(Exception e) {
+
+    }
 
     private long generateID() {
         newId += 1;
         return newId;
     }
+
+    private <Task> Stream<Task> collectionToStream(List<Task> tasks) {
+        return Optional
+                .ofNullable(tasks)
+                .map(List::stream)
+                .orElseGet(Stream::empty);
+    }
+
+    private boolean emptyCheck(long id) {
+        return collectionToStream(tasks)
+                .filter(t -> t.getId() == id)
+                .findFirst()
+                .isEmpty();
+    }
+
+
+
 
 }
