@@ -5,6 +5,10 @@ public class Task {
     private String title;
     private Long id = 0L;
 
+    // For serialize or deserialize by jackson library
+    public Task() {
+    }
+
     public String getTitle() {
         return title;
     }
