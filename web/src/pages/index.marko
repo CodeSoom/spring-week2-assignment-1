@@ -21,11 +21,11 @@ class {
     await this.loadTasks();
   }
 
-  async completeTask({}, output) {
-    const taskId = output.parentElement.id;
+  async completeTask(taskId) {
     await axios.delete(`http://localhost:8080/tasks/${taskId}`);
     await this.loadTasks();
   }
+
 
 }
 
@@ -33,9 +33,9 @@ class {
   <h1>ToDo</h1>
   <ul>
     <for|task| of=state.tasks>
-      <li id=(task.id)>
+      <li>
         ${task.title}
-        <button on-click("completeTask")>완료</button>
+        <button on-click("completeTask", task.id)>완료</button>
       </li>
     </for>
   </ul>
