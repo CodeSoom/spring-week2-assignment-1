@@ -1,3 +1,63 @@
+
+import axios from 'axios'
+class {
+  onCreate(){
+    this.state = { 
+      tasks: [],      
+      isModify : true,
+      isComplete : true,
+      isConfirm : false,
+      isCancel : false, 
+    };
+
+    this.loadTasks();
+  };
+  async loadTasks(){
+    const { data } = await axios.get("http://localhost:8080/tasks");
+    this.state.tasks = data;
+  }
+  async addTask(){
+    const title = this.getEl('title').value;
+    await axios.post("http://localhost:8080/tasks",{
+      title:title,
+    });
+    await this.loadTasks();
+    console.log(title);
+  }
+  modfiyTask(task,event,el){
+    console.log(task);
+    console.log(event);
+    console.log(el);
+    console.log("-----------------");
+    console.log(this.getEl(task.id).value);
+    console.log(this.state.tasks);
+    console.log(this.state.tasks[task.id]);
+    let taska = this.state.tasks[task.id];
+    console.log(taska);
+  }
+  finishTask(){
+
+  }
+}
+
 <layout>
   <h1>ToDo</h1>
 </layout>
+<ol>
+  <for|task| of = state.tasks>
+    <li key=task.id for:scoped ="list"+task.id>
+        ${task.title}
+        <button type="button" on-click("modfiyTask",task) id:scoped=task.id >수정</button>
+        <button type="button" on-click("finishTask")>완료</button>
+        <button type="button" on-click("finishTask")>완료</button>
+        <button type="button" on-click("finishTask")>완료</button>
+
+    </li>
+  </for>
+</ol>
+
+<label for:scoped="title">할일</label>
+<input type="text" id:scoped="name" key="title"/>
+<button type="button" on-click("addTask")>
+  추가
+</button>
