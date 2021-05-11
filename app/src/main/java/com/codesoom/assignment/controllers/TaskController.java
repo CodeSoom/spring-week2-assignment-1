@@ -96,7 +96,7 @@ public class TaskController {
         this.taskRepository.removeOneTask(id);
     }
 
-    private Long generateId() {
+    private synchronized Long generateId() {
         this.newId += 1;
         return this.newId;
     }
