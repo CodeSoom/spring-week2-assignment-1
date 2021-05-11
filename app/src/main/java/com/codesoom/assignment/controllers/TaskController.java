@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,48 +30,52 @@ public class TaskController {
     @GetMapping
     public ResponseEntity<List<Task>> list() {
         final var tasksList = new ArrayList<>(tasks.values());
-        return ResponseEntity.ok(tasksList);
+        return new ResponseEntity<>(tasksList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> get(@PathVariable("id") final Long id) {
         final var task = tasks.get(id);
         if (task == null) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(task);
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
             logger.debug("task: {}", task);
-            return ResponseEntity.badRequest().build();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         task.setId(newTaskId++);
         tasks.put(task.getId(), task);
-        return ResponseEntity.status(HttpStatus.CREATED).body(task);
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> update(@PathVariable("id") final Long id, @RequestBody final Task newTask) {
         if (id == null || newTask.getTitle().isBlank()) {
             logger.debug("id={}, task={}", id, newTask);
-            return ResponseEntity.badRequest().build();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        var oldTask = tasks.get(id);
-        oldTask.setTitle(newTask.getTitle());
-        return ResponseEntity.ok().build();
-    }
 
-//    @PatchMapping("/{id}")
+        var oldTask = tasks.get(id);
+        if (oldTask == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        oldTask.setTitle(newTask.getTitle());
+        return new ResponseEntity<>(oldTask, HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
         final var deletedTask = tasks.remove(id);
         if (deletedTask == null) {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
