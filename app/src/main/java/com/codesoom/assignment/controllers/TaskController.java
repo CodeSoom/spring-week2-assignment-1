@@ -24,12 +24,9 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task created() {
-        String title = "test";
-
-        Task task = new Task();
+    public Task created(@RequestBody Task task) {
         task.setId(generatedId());
-        task.setTitle(title);
+        task.setTitle(task.getTitle());
         tasks.add(task);
 
         return task;
