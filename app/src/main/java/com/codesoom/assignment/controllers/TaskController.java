@@ -18,7 +18,7 @@ import java.util.List;
 public class TaskController {
 
     private final TaskRepository taskRepository;
-    private Long newId = 0L;
+    private Long currentTaskIdx = 0L;
 
     @Autowired
     public TaskController(TaskRepository taskRepository) {
@@ -97,7 +97,7 @@ public class TaskController {
     }
 
     private synchronized Long generateId() {
-        this.newId += 1;
-        return this.newId;
+        this.currentTaskIdx += 1;
+        return this.currentTaskIdx;
     }
 }
