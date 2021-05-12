@@ -20,7 +20,7 @@ class {
   }
 
   async addTask() {
-    const title = this.getEl('title').value;
+    const title = this.getEl('newTaskTitle').value;
     await axios.post('http://localhost:8080/tasks', {
       title: title,
     })
@@ -46,7 +46,7 @@ class {
     await this.loadTasks();
   }
 
-  async deleteTask(taskId) {
+  async completeTask(taskId) {
     await axios.delete(`http://localhost:8080/tasks/${taskId}`);
     await this.loadTasks();
   }
@@ -71,18 +71,18 @@ class {
           ${task.title}
         </label>
       </else>
-      <button type="delete-button" on-click("deleteTask", task.id)>
-        삭제
+      <button type="complete-button" on-click("completeTask", task.id)>
+        완료
       </button>
     </li>
   </for>
 </ol>
 
 <p>
-  <label for:scoped="title">
+  <label for:scoped="newTaskTitle">
     할 일
   </label>
-  <input id:scoped="title" key="title" type="text" />
+  <input id:scoped="newTaskTitle" key="newTaskTitle" type="text" />
   <button type="add-button" on-click("addTask")>
     추가
   </button>
