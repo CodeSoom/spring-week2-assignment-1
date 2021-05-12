@@ -1,6 +1,5 @@
 <!-- TODO  -->
 <!-- 1. PATCH /tasks/:id 할일 수정하기-->
-<!-- 2. DELETE /tasks/:id 할일 삭제하기-->
 
 import axios from 'axios';
 
@@ -8,6 +7,8 @@ class {
   onCreate() {
     this.state = {
       tasks: [],
+      isEditing: false,
+      editingTaskId: -1
     }
 
     this.loadTasks();
@@ -26,6 +27,25 @@ class {
     await this.loadTasks();
   }
 
+  handleLabelDoubleClick(taskId) {
+    this.state.isEditing = true;
+    this.state.editingTaskId = taskId;
+  }
+
+  handleUpdateButtonClick(taskId) {
+    this.updateTask(taskId);
+    this.state.isEditing = false;
+    this.state.editingTaskId = -1;
+  }
+
+  async updateTask(taskId) {
+    const newTitle = this.getEl(`newTitle${taskId}`).value;
+    await axios.patch(`http://localhost:8080/tasks/${taskId}`, {
+      title: newTitle
+    });
+    await this.loadTasks();
+  }
+
   async deleteTask(taskId) {
     await axios.delete(`http://localhost:8080/tasks/${taskId}`);
     await this.loadTasks();
@@ -33,14 +53,24 @@ class {
 }
 
 
-<p>
-Hello world!
-</p>
 <h1>Todo</h1>
+<p>
+  Please double-click task's title to edit :)
+</p>
 <ol>
   <for|task| of=state.tasks>
-    <li>
-      ${task.title}
+    <li key=task.id>
+      <if(state.isEditing && state.editingTaskId == task.id)>
+        <input.edit type="text" key=`newTitle${task.id}` value=task.title/>
+        <button type="update-button" on-click("handleUpdateButtonClick", task.id)>
+          수정
+        </button>
+      </if>
+      <else>
+        <label on-dblclick("handleLabelDoubleClick", task.id)>
+          ${task.title}
+        </label>
+      </else>
       <button type="delete-button" on-click("deleteTask", task.id)>
         삭제
       </button>
