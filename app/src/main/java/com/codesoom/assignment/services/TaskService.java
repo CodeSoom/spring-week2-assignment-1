@@ -1,7 +1,6 @@
 package com.codesoom.assignment.services;
 
-import com.codesoom.assignment.common.exceptions.NotFoundTaskException;
-import com.codesoom.assignment.controllers.TaskController;
+import com.codesoom.assignment.common.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +48,7 @@ public class TaskService {
         Task findTask = tasksMap.get(taskId);
 
         if( findTask == null ) {
-            throw new NotFoundTaskException(taskId);
+            throw new TaskNotFoundException(taskId);
         }
 
         return findTask;
@@ -86,7 +85,7 @@ public class TaskService {
 
         // 해당하는 Task가 없을 경우 예외 발생
         if(findTask == null){
-            throw new NotFoundTaskException(taskId);
+            throw new TaskNotFoundException(taskId);
         }
 
         findTask.setTitle(newTitle);
@@ -108,7 +107,7 @@ public class TaskService {
 
         // 해당하는 Task가 없을 경우 예외 발생
         if(findTask == null){
-            throw new NotFoundTaskException(taskId);
+            throw new TaskNotFoundException(taskId);
         }
 
         tasksMap.remove(taskId);

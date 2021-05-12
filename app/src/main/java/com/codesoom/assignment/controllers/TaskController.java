@@ -12,6 +12,8 @@ import com.codesoom.assignment.services.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -33,14 +35,14 @@ public class TaskController {
      * @return 할 일 리스트
      */
     @GetMapping
-    public List<Task> list() {
+    public ResponseEntity<List<Task>> list() {
 
         log.info(">>>>>>>>>>> Access Controller 할 일 목록 조회");
         List<Task> taskList = this.taskService.getTaskList();
 
         log.info(">>>>>>>>>>> Response : " + taskList.toString());
 
-        return taskList;
+        return new ResponseEntity<List<Task>>(taskList, HttpStatus.OK);
 
     }
 
@@ -50,7 +52,7 @@ public class TaskController {
      * @return 조회한 할 일
      */
     @GetMapping("{taskId}")
-    public Task detail(@PathVariable("taskId") Long taskId) {
+    public ResponseEntity<Task> detail(@PathVariable("taskId") Long taskId) {
 
         log.info(">>> Access Controller 할 일 상세조회");
         log.info("==== Req Param ====");
@@ -61,7 +63,7 @@ public class TaskController {
 
         log.info(">>>>>>>>>>> Response : " + findTask.toString());
         
-        return findTask;
+        return new ResponseEntity<Task>(findTask, HttpStatus.OK);
     }
 
     /**
@@ -70,7 +72,7 @@ public class TaskController {
      * @return 새로 등록한 할 일
      */
     @PostMapping
-    public Task create(@RequestBody Task newTask) {
+    public ResponseEntity<Task> create(@RequestBody Task newTask) {
 
         log.info(">>>>>>>>>>> Access Controller 할 일 등록");
         log.info("==== Req Param ====");
@@ -80,7 +82,7 @@ public class TaskController {
 
         log.info(">>>>>>>>>>>> Response : " + createdTask.toString());
 
-        return createdTask;
+        return new ResponseEntity<Task>(createdTask, HttpStatus.CREATED);
 
     }
 
@@ -92,7 +94,7 @@ public class TaskController {
      */
     @PutMapping("{taskId}")
     @PatchMapping("{taskId}")
-    public Task update(@PathVariable("taskId") Long taskId, @RequestBody Task task) {
+    public ResponseEntity<Task>  update(@PathVariable("taskId") Long taskId, @RequestBody Task task) {
 
         log.info(">>>>>>>>>>> Access Controller 할 일 수정");
         log.info("==== Req Param ====");
@@ -104,7 +106,7 @@ public class TaskController {
 
         log.info(">>>>>>>>>>> Response : " + updatedTask.toString());
 
-        return updatedTask;
+        return new ResponseEntity<Task>(updatedTask, HttpStatus.OK);
     }
 
     /**
@@ -113,7 +115,7 @@ public class TaskController {
      * @return 삭제한 할 일
      */
     @DeleteMapping("{taskId}")
-    public Task delete(@PathVariable("taskId") Long taskId) {
+    public ResponseEntity<Task> delete(@PathVariable("taskId") Long taskId) {
 
         log.info(">>>>>>>>>>> Access Controller 할 일 삭제");
         log.info("==== Req Param ====");
@@ -123,7 +125,7 @@ public class TaskController {
 
         log.info(">>>>>>>>>>> Response : " + deletedTask.toString());
 
-        return deletedTask;
+        return new ResponseEntity<Task>(deletedTask, HttpStatus.NO_CONTENT);
 
     }
 
