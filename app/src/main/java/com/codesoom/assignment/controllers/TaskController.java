@@ -7,12 +7,9 @@ package com.codesoom.assignment.controllers;
 // 5. Delete - DELETE /tasks/{id}
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.system.ErrorResponse;
 import com.codesoom.assignment.system.InvalidRequestException;
 import com.codesoom.assignment.system.DataNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,12 +23,6 @@ public class TaskController {
 
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
-    private Throwable HttpMessageNotReadableException;
-
-//    @RequestMapping(path = "", method = RequestMethod.GET)
-//    public String list() {
-//        return "LIST";
-//    }
 
     // GET /tasks
     @GetMapping
@@ -59,7 +50,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public Task get(@PathVariable("id") long id) {
         if(emptyCheck(id)) {
-            throw new DataNotFoundException();
+            throw new DataNotFoundException("id");
         } else {
             return tasks.stream().filter(t -> t.getId() == id)
                     .findFirst().get();
@@ -74,7 +65,7 @@ public class TaskController {
     public Task patchTask(@PathVariable("id") long id, @RequestBody Task newTask) {
 
         if(emptyCheck(id)) {
-            throw new DataNotFoundException();
+            throw new DataNotFoundException("id");
         } else {
             Task task = tasks.stream()
                     .filter(t -> t.getId() == id)
@@ -91,7 +82,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteTask(@PathVariable("id") long id) {
         if(emptyCheck(id)) {
-            throw new DataNotFoundException();
+            throw new DataNotFoundException("id");
         } else {
             Task task = tasks.stream()
                     .filter(t -> t.getId() == id)
@@ -100,14 +91,6 @@ public class TaskController {
 
             tasks.remove(task);
         }
-    }
-
-
-    // Exception 테스트
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "ttt")
-    public void handleException(Exception e) {
-
     }
 
     private long generateID() {
@@ -128,8 +111,4 @@ public class TaskController {
                 .findFirst()
                 .isEmpty();
     }
-
-
-
-
 }

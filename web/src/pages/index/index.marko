@@ -1,7 +1,30 @@
-// TODO
-// 1. GET /tasks -> 목록 표시
-// 2. 입력 -> POST /tasks (할 일 추가) -> GET /tasks (목록 갱신)
+<app-layout title="Welcome to Marko">
+  <mouse-mask.container>
+    <header>
+      <img.logo src="./logo.svg" alt="Marko"/>
+    </header>
+    <main>
+      <p>Edit <code>./pages/index.marko</code> and save to reload.</p>
+      <a href="https://markojs.com/docs/getting-started">
+        Learn Marko
+      </a>
+    </main>
+  </mouse-mask>
+</app-layout>
 
-<p>
-    Hello, World!
-</p>
+style {
+  .container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size:2em; 
+    color: #fff;
+    background: #111;
+    height:100%;
+    width:100%;
+  }
+  img.logo {
+    width:400px;
+  }
+}
