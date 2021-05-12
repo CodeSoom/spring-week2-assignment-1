@@ -1,8 +1,10 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,19 +31,19 @@ import java.util.Map;
 public class TaskController {
     private final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final Map<Long, Task> tasks = new HashMap<>();
-    private Long newTaskId = 1L;
+    private Long newTaskId = 0L;
 
     @GetMapping
-    public ResponseEntity<List<Task>> list() {
-        final var tasksList = new ArrayList<>(tasks.values());
-        return new ResponseEntity<>(tasksList, HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public List<Task> list() {
+        return new ArrayList<>(tasks.values());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> get(@PathVariable("id") final Long id) {
+    public ResponseEntity get(@PathVariable("id") final Long id) {
         final var task = tasks.get(id);
         if (task == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw HttpClientErrorException.create(HttpStatus.NOT_FOUND, "Task Not Found", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
         }
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
@@ -46,24 +51,24 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
-            logger.debug("task: {}", task);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw HttpClientErrorException.create(HttpStatus.BAD_REQUEST, "Task's title must not be blank", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
         }
-        task.setId(newTaskId++);
+        newTaskId += 1;
+        task.setId(newTaskId);
         tasks.put(task.getId(), task);
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> update(@PathVariable("id") final Long id, @RequestBody final Task newTask) {
-        if (id == null || newTask.getTitle().isBlank()) {
-            logger.debug("id={}, task={}", id, newTask);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (newTask.getTitle().isBlank()) {
+            logger.debug("task={}", newTask.getTitle());
+            throw HttpClientErrorException.create(HttpStatus.BAD_REQUEST, "Task's title must not be blank", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
         }
 
         var oldTask = tasks.get(id);
         if (oldTask == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw HttpClientErrorException.create(HttpStatus.NOT_FOUND, "Task Not Found", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
         }
 
         oldTask.setTitle(newTask.getTitle());
@@ -74,7 +79,7 @@ public class TaskController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
         final var deletedTask = tasks.remove(id);
         if (deletedTask == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw HttpClientErrorException.create(HttpStatus.NOT_FOUND, "Task Not Found", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
