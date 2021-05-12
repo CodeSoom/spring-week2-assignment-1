@@ -1,25 +1,26 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
+import com.codesoom.assignment.exceptions.TaskTitleEmptyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 @RestControllerAdvice
 public class ExceptionController {
     private final Logger logger = LoggerFactory.getLogger(ExceptionController.class);
 
-    @ExceptionHandler({HttpClientErrorException.BadRequest.class})
+    @ExceptionHandler({TaskTitleEmptyException.class})
     public ResponseEntity<String> taskTitleMustNotBeBlank(final RuntimeException ex) {
         logger.warn("error", ex);
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({HttpClientErrorException.NotFound.class})
+    @ExceptionHandler({TaskNotFoundException.class})
     public ResponseEntity<String> taskNotFound(final RuntimeException ex) {
         logger.warn("error", ex);
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);

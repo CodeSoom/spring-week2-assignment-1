@@ -1,5 +1,7 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
+import com.codesoom.assignment.exceptions.TaskTitleEmptyException;
 import com.codesoom.assignment.models.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +44,7 @@ public class TaskController {
     public ResponseEntity get(@PathVariable("id") final Long id) {
         final var task = tasks.get(id);
         if (task == null) {
-            throw HttpClientErrorException.create(HttpStatus.NOT_FOUND, "Task Not Found", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
+            throw new TaskNotFoundException();
         }
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
@@ -50,7 +52,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
-            throw HttpClientErrorException.create(HttpStatus.BAD_REQUEST, "Task's title must not be blank", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
+            throw new TaskTitleEmptyException();
         }
         newTaskId += 1;
         task.setId(newTaskId);
@@ -62,12 +64,12 @@ public class TaskController {
     public ResponseEntity<Task> update(@PathVariable("id") final Long id, @RequestBody final Task newTask) {
         if (newTask.getTitle().isBlank()) {
             logger.debug("task={}", newTask.getTitle());
-            throw HttpClientErrorException.create(HttpStatus.BAD_REQUEST, "Task's title must not be blank", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
+            throw new TaskTitleEmptyException();
         }
 
         var oldTask = tasks.get(id);
         if (oldTask == null) {
-            throw HttpClientErrorException.create(HttpStatus.NOT_FOUND, "Task Not Found", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
+            throw new TaskNotFoundException();
         }
 
         oldTask.setTitle(newTask.getTitle());
@@ -78,7 +80,7 @@ public class TaskController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
         final var deletedTask = tasks.remove(id);
         if (deletedTask == null) {
-            throw HttpClientErrorException.create(HttpStatus.NOT_FOUND, "Task Not Found", HttpHeaders.EMPTY, null, StandardCharsets.UTF_8);
+            throw new TaskNotFoundException();
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
