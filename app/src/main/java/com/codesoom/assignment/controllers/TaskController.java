@@ -70,7 +70,8 @@ public class TaskController {
     }
 
     private synchronized long generateId() {
-        return this.currentTaskId += 1;
+        this.currentTaskId += 1;
+        return this.currentTaskId;
     }
 
     private Task findTask(long id) {
