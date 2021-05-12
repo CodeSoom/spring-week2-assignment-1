@@ -10,8 +10,6 @@ import java.util.List;
 
 /**
  * It provides to map requests to proper method of TaskRepository
- *
- * @author joowankim
  */
 @RestController
 @RequestMapping(path = "/tasks")
