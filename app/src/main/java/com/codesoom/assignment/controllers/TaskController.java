@@ -5,7 +5,6 @@ import com.codesoom.assignment.exceptions.TaskTitleEmptyException;
 import com.codesoom.assignment.models.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,13 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -41,11 +39,10 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") final Long id) {
+    public ResponseEntity<Task> get(@PathVariable("id") final Long id) {
         final var task = tasks.get(id);
-        if (task == null) {
-            throw new TaskNotFoundException();
-        }
+        Optional.ofNullable(task)
+                .orElseThrow(TaskNotFoundException::new);
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
@@ -68,9 +65,8 @@ public class TaskController {
         }
 
         var oldTask = tasks.get(id);
-        if (oldTask == null) {
-            throw new TaskNotFoundException();
-        }
+        Optional.ofNullable(oldTask)
+                .orElseThrow(TaskNotFoundException::new);
 
         oldTask.setTitle(newTask.getTitle());
         return new ResponseEntity<>(oldTask, HttpStatus.OK);
@@ -79,9 +75,8 @@ public class TaskController {
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
         final var deletedTask = tasks.remove(id);
-        if (deletedTask == null) {
-            throw new TaskNotFoundException();
-        }
+        Optional.ofNullable(deletedTask)
+                .orElseThrow(TaskNotFoundException::new);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
