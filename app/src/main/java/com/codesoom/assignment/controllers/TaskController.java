@@ -58,18 +58,18 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> update(@PathVariable("id") final Long id, @RequestBody final Task newTask) {
-        if (newTask.getTitle().isBlank()) {
-            logger.debug("task={}", newTask.getTitle());
+    public ResponseEntity<Task> update(@PathVariable("id") final Long id, @RequestBody final Task newTaskForUpdate) {
+        if (newTaskForUpdate.getTitle().isBlank()) {
+            logger.debug("task={}", newTaskForUpdate.getTitle());
             throw new TaskTitleEmptyException();
         }
 
-        var oldTask = tasks.get(id);
-        Optional.ofNullable(oldTask)
+        var originalTask = tasks.get(id);
+        Optional.ofNullable(originalTask)
                 .orElseThrow(TaskNotFoundException::new);
 
-        oldTask.setTitle(newTask.getTitle());
-        return new ResponseEntity<>(oldTask, HttpStatus.OK);
+        originalTask.setTitle(newTaskForUpdate.getTitle());
+        return new ResponseEntity<>(originalTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
