@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * It provides to map requests to proper method of TaskRepository
+ * A Controller map requests to proper method of Repository
  */
 @RestController
 @RequestMapping(path = "/tasks")
