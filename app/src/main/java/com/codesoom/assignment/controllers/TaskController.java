@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * A Controller map requests to proper method of Repository
+ * A Controller map requests to proper method of Repository.
  */
 @RestController
 @RequestMapping(path = "/tasks")
@@ -24,9 +24,9 @@ public class TaskController {
     }
 
     /**
-     * It returns all tasks in TaskRepository
+     * Returns all tasks in TaskRepository.
      *
-     * @return A list of Task instances
+     * @return the list of Task instances.
      */
     @GetMapping
     public List<Task> getAllTasks() {
@@ -34,10 +34,10 @@ public class TaskController {
     }
 
     /**
-     * It create a Task instance and returns that
+     * Returns a created Task instance.
      *
-     * @param task A Task instance is consist of request's content
-     * @return A Task instance which is created by TaskRepository
+     * @param task A Task instance is consist of request's content.
+     * @return the Task instance which is created by TaskRepository.
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,10 +47,10 @@ public class TaskController {
     }
 
     /**
-     *  It returns a Task instance which is pointed by id
+     *  Returns a Task instance which is pointed by id.
      *
-     * @param id An id of a Task instance which client wants to get
-     * @return A Task instance which is pointed
+     * @param id An id of a Task instance which client wants to get.
+     * @return the Task instance which is pointed.
      */
     @GetMapping(path = "/{id}")
     public Task getTask(@PathVariable Long id) {
@@ -58,11 +58,11 @@ public class TaskController {
     }
 
     /**
-     * It sets the whole properties of a Task instance which is pointed by id
+     * Sets the whole properties of a Task instance which is pointed by id.
      *
-     * @param id An id of a Task instance which client wants to set
-     * @param task A Task instance is consist of request's content
-     * @return A set Task instance
+     * @param id An id of a Task instance which client wants to set.
+     * @param task A Task instance is consist of request's content.
+     * @return the set Task instance.
      */
     @PutMapping(path = "/{id}")
     public Task setTask(@PathVariable Long id, @RequestBody Task task) {
@@ -71,11 +71,11 @@ public class TaskController {
     }
 
     /**
-     * It updates partial information of a Task instance which is pointed by id
+     * Updates partial information of a Task instance which is pointed by id.
      *
-     * @param id An id of a Task instance which client wants to update
-     * @param task A Task instance is consist of request's content
-     * @return An updated Task instance
+     * @param id An id of a Task instance which client wants to update.
+     * @param task A Task instance is consist of request's content.
+     * @return the updated Task instance.
      */
     @PatchMapping(path = "/{id}")
     public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
@@ -84,9 +84,9 @@ public class TaskController {
     }
 
     /**
-     * It deletes a Task instance in TaskRepository
+     * Deletes a Task instance in TaskRepository.
      *
-     * @param id An id of a Task instance which client wants to delete
+     * @param id An id of a Task instance which client wants to delete.
      */
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
