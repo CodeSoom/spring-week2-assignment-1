@@ -3,7 +3,8 @@ import axios from 'axios'
 class {
   onCreate() {
     this.state = {
-      tasks: []
+      tasks: [],
+      editingTaskId: ''
     };
     this.loadTasks();
   }
@@ -26,8 +27,24 @@ class {
     await this.loadTasks();
   }
 
+  async updateTask() {
+    const taskId = this.state.editingTaskId;
+    const title = this.getEl("title").value;
+    await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+      title
+    });
+    await this.loadTasks();
+  }
 
+  setEditingTask(taskId) {
+    this.state.editingTaskId = taskId;
+  }
+
+  cancel() {
+    this.getEl("title").value = '';
+  }
 }
+
 
 <layout>
   <h1>ToDo</h1>
@@ -36,6 +53,7 @@ class {
       <li>
         ${task.title}
         <button on-click("completeTask", task.id)>완료</button>
+        <button on-click("setEditingTask", task.id)>수정</button>
       </li>
     </for>
   </ul>
@@ -43,5 +61,7 @@ class {
     <label for:scoped="title">할 일</label>
     <input id:scoped="title" key="title" type="text"/>
     <button type="button" on-click("addTask")>추가</button>
+    <button type="button" on-click("updateTask")>확인</button>
+    <button type="button" on-click("cancel")>취소</button>
   </p>
 </layout>
