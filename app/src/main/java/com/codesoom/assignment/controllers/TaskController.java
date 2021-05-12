@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * A Controller map requests to proper method of Repository.
+ * 할 일에 대한 HTTP request를 처리하는 컨트롤러다.
  */
 @RestController
 @RequestMapping(path = "/tasks")
@@ -26,9 +26,9 @@ public class TaskController {
     }
 
     /**
-     * Returns all tasks in TaskRepository.
+     * 모든 할 일의 리스트를 반환한다.
      *
-     * @return the list of Task instances.
+     * @return 할 일 목록 전체를 반환한다.
      */
     @GetMapping
     public List<Task> getAllTasks() {
@@ -36,10 +36,10 @@ public class TaskController {
     }
 
     /**
-     * Returns a created Task instance.
+     * 생성된 할 일의 인스턴스를 반환한다.
      *
-     * @param task A Task instance is consist of request's content.
-     * @return the Task instance which is created by TaskRepository.
+     * @param task RequestBody의 content로 구성된 할 일 인스턴스다.
+     * @return 새로 생성된 할 일 인스턴스를 반환한다.
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,10 +49,10 @@ public class TaskController {
     }
 
     /**
-     *  Returns a Task instance which is pointed by id.
+     * PathVariable로 요청된 id를 가진 할 일 인스턴스를 반환한다.
      *
-     * @param id An id of a Task instance which client wants to get.
-     * @return the Task instance which is pointed.
+     * @param id 유저가 얻기를 원하는 할 일의 id이다.
+     * @return 유저가 요청한 id를 가진 할 일 인스턴스를 반환한다.
      */
     @GetMapping(path = "/{id}")
     public Task getTask(@PathVariable Long id) {
@@ -60,11 +60,11 @@ public class TaskController {
     }
 
     /**
-     * Sets the whole properties of a Task instance which is pointed by id.
+     * PathVariable로 요청된 id를 가진 할 일 인스턴스의 속성을 재설정한다.
      *
-     * @param id An id of a Task instance which client wants to set.
-     * @param task A Task instance is consist of request's content.
-     * @return the set Task instance.
+     * @param id 유저가 속성을 재설정하기 원하는 할 일의 id이다.
+     * @param task RequestBody의 content로 구성된 할 일 인스턴스다.
+     * @return 재설정이 끝난 할 일 인스턴스를 반환한다.
      */
     @PutMapping(path = "/{id}")
     public Task setTask(@PathVariable Long id, @RequestBody Task task) {
@@ -73,11 +73,11 @@ public class TaskController {
     }
 
     /**
-     * Updates partial information of a Task instance which is pointed by id.
+     * PathVariable로 요청된 id를 가진 할 일 인스턴스의 정보를 부분적으로 변경한다.
      *
-     * @param id An id of a Task instance which client wants to update.
-     * @param task A Task instance is consist of request's content.
-     * @return the updated Task instance.
+     * @param id 유저가 정보 변경을 원하는 할 일의 id이다.
+     * @param task RequestBody의 content로 구성된 할 일 인스턴스다.
+     * @return 정보가 변경된 할 일 인스턴스를 반환한다.
      */
     @PatchMapping(path = "/{id}")
     public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
@@ -86,9 +86,9 @@ public class TaskController {
     }
 
     /**
-     * Deletes a Task instance in TaskRepository.
+     * PathVariable로 요청된 id를 가진 할 일 인스턴스를 삭제한다.
      *
-     * @param id An id of a Task instance which client wants to delete.
+     * @param id 유저가 삭제를 원하는 할 일의 id이다.
      */
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
