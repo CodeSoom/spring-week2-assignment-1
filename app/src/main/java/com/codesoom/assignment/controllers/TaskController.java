@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.dto.Task;
+import com.codesoom.assignment.generators.IdGenerator;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,12 @@ import java.util.List;
 public class TaskController {
 
     private final TaskRepository taskRepository;
-    private Long currentTaskIdx = 0L;
+    private final IdGenerator taskIdGenerator;
 
     @Autowired
     public TaskController(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
+        this.taskIdGenerator = new IdGenerator();
     }
 
     /**
@@ -42,7 +44,7 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
-        task.setId(generateId());
+        task.setId(taskIdGenerator.generateId());
         return this.taskRepository.addTask(task);
     }
 
@@ -92,10 +94,5 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeTask(@PathVariable Long id) {
         this.taskRepository.removeOneTask(id);
-    }
-
-    private synchronized Long generateId() {
-        this.currentTaskIdx += 1;
-        return this.currentTaskIdx;
     }
 }
