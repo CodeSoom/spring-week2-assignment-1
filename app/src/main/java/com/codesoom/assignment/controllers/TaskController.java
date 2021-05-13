@@ -31,7 +31,7 @@ public class TaskController {
     private Logger log = LoggerFactory.getLogger(TaskController.class);
 
     /**
-     * 할 일 리스트를 반환합니다.
+     * 모든 할 일 리스트를 반환합니다.
      * @return 할 일 리스트
      */
     @GetMapping
