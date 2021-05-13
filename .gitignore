@@ -9,6 +9,7 @@ notifications
 
 # Ignore Gradle build output directory
 build
+out
 
 # VS Code
 .vscode
