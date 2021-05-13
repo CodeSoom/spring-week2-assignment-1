@@ -27,11 +27,8 @@ public class TaskService {
      */
     public List<Task> getTaskList() {
         log.info(">>> Access Service 할 일 목록 조회");
-
-        List<Task> taskList = tasksMap.values().stream()
+        return tasksMap.values().stream()
                 .collect(Collectors.toList());
-
-        return taskList;
     }
 
     /**
