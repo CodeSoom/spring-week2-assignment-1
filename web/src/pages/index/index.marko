@@ -1,0 +1,35 @@
+import axios from 'axios';
+
+class {
+
+    onCreate() {
+
+        this.state = {
+            tasks: [],
+        }
+
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const {data} = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data;
+    }
+
+}
+
+<h1>ToDO</h1>
+
+<ol>
+    <for|task| of=state.tasks>
+        <li key=task.id>
+            <span>${task.title}</span>
+        </li>
+    </for>
+</ol>
+
+<p>
+    <label for="taskTitle">할 일 :</label>
+    <input type="text" id="taskTitle" key="taskTitleInput">
+    <button>추가</button>
+</p>
