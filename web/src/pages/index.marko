@@ -26,11 +26,9 @@ class {
     async updateTask(taskId){
         this.state.currId = taskId;
         this.state.editing = true;
-        console.log(this.state.currId, this.state.editing)
     };
 
     async deleteTask(taskId){
-        console.log({taskId})
         await axios.delete(`http://localhost:8080/tasks/${taskId}`);
         await this.loadTasks();
     }
