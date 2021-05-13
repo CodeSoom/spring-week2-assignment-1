@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class TaskService {
 
-    private Long taskIdSeq = 0L;
+    private Long taskIdSeqeuence = 0L;
     private LinkedHashMap<Long, Task> tasksMap = new LinkedHashMap<>();
 
     private Logger log = LoggerFactory.getLogger(TaskService.class);
@@ -59,7 +59,9 @@ public class TaskService {
     public Task saveTask(Task newTask) {
         log.info(">>> Access Service 할 일 등록");
 
-        newTask.setId(taskIdSeq++);
+        Long newTaskId = getNewTaskId();
+        newTask.setId(newTaskId);
+
         tasksMap.put(newTask.getId(), newTask);
 
         return newTask;
@@ -74,15 +76,15 @@ public class TaskService {
     public Task updateTask(Long taskId, String newTitle) {
         log.info(">>> Access Service 할 일 수정");
 
-        Task findTask = tasksMap.get(taskId);
+        Task foundTask = tasksMap.get(taskId);
 
         // 해당하는 Task가 없을 경우 예외 발생
-        if(findTask == null){
+        if(foundTask == null){
             throw new TaskNotFoundException(taskId);
         }
-        findTask.setTitle(newTitle);
+        foundTask.setTitle(newTitle);
 
-        return findTask;
+        return foundTask;
     }
 
     /**
@@ -93,15 +95,24 @@ public class TaskService {
     public Task removeTask(Long taskId) {
         log.info(">>> Access Service 할 일 삭제");
 
-        Task findTask = tasksMap.get(taskId);// taskId에 해당하는 Task를 구함
+        Task foundTask = tasksMap.get(taskId);// taskId에 해당하는 Task를 구함
 
         // 해당하는 Task가 없을 경우 예외 발생
-        if(findTask == null){
+        if(foundTask == null){
             throw new TaskNotFoundException(taskId);
         }
         tasksMap.remove(taskId);
 
-        return findTask;
+        return foundTask;
+    }
+
+    /**
+     * 새로 생성할 할 일에 부여할 ID를 반환합니다.
+     * @return 새로 생성할 할 일의 ID
+     */
+    private Long getNewTaskId() {
+        taskIdSeqeuence += 1;
+        return taskIdSeqeuence;
     }
 
 }
