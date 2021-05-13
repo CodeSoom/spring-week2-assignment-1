@@ -22,9 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleTaskNotFoundException(TaskNotFoundException ex){
-
         return ex.getErroeMsg();
-
     }
 
 }

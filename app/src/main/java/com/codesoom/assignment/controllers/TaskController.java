@@ -37,14 +37,12 @@ public class TaskController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Task> list() {
-
         log.info(">>>>>>>>>>> Access Controller 할 일 목록 조회");
         List<Task> taskList = this.taskService.getTaskList();
 
         log.info(">>>>>>>>>>> Response : " + taskList.toString());
 
         return taskList;
-
     }
 
     /**
@@ -55,7 +53,6 @@ public class TaskController {
     @GetMapping("{taskId}")
     @ResponseStatus(HttpStatus.OK)
     public Task detail(@PathVariable("taskId") Long taskId) {
-
         log.info(">>> Access Controller 할 일 상세조회");
         log.info("==== Req Param ====");
         log.info("taskId : " + taskId);
@@ -76,7 +73,6 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task newTask) {
-
         log.info(">>>>>>>>>>> Access Controller 할 일 등록");
         log.info("==== Req Param ====");
         log.info("newTask : " + newTask.toString());
@@ -86,7 +82,6 @@ public class TaskController {
         log.info(">>>>>>>>>>>> Response : " + createdTask.toString());
 
         return createdTask;
-
     }
 
     /**
@@ -99,7 +94,6 @@ public class TaskController {
     @PatchMapping("{taskId}")
     @ResponseStatus(HttpStatus.OK)
     public Task update(@PathVariable("taskId") Long taskId, @RequestBody Task task) {
-
         log.info(">>>>>>>>>>> Access Controller 할 일 수정");
         log.info("==== Req Param ====");
         log.info("taskId : " + taskId);
@@ -121,7 +115,6 @@ public class TaskController {
     @DeleteMapping("{taskId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Task delete(@PathVariable("taskId") Long taskId) {
-
         log.info(">>>>>>>>>>> Access Controller 할 일 삭제");
         log.info("==== Req Param ====");
         log.info("taskId : " + taskId);
@@ -131,7 +124,6 @@ public class TaskController {
         log.info(">>>>>>>>>>> Response : " + deletedTask.toString());
 
         return deletedTask;
-
     }
 
 }

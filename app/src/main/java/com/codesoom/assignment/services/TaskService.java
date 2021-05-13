@@ -26,14 +26,12 @@ public class TaskService {
      * @return 할 일 리스트
      */
     public List<Task> getTaskList() {
-
         log.info(">>> Access Service 할 일 목록 조회");
 
         List<Task> taskList = tasksMap.values().stream()
                 .collect(Collectors.toList());
 
         return taskList;
-
     }
 
     /**
@@ -42,7 +40,6 @@ public class TaskService {
      * @return 조회한 할 일 정보
      */
     public Task getTaskOne(Long taskId) {
-
         log.info(">>> Access Service 할 일 상세조회");
 
         Task findTask = tasksMap.get(taskId);
@@ -52,7 +49,6 @@ public class TaskService {
         }
 
         return findTask;
-
     }
 
     /**
@@ -61,14 +57,12 @@ public class TaskService {
      * @return 등록한 할 일
      */
     public Task saveTask(Task newTask) {
-
         log.info(">>> Access Service 할 일 등록");
 
         newTask.setId(taskIdSeq++);
         tasksMap.put(newTask.getId(), newTask);
 
         return newTask;
-
     }
 
     /**
@@ -78,7 +72,6 @@ public class TaskService {
      * @return 수정한 할 일
      */
     public Task updateTask(Long taskId, String newTitle) {
-
         log.info(">>> Access Service 할 일 수정");
 
         Task findTask = tasksMap.get(taskId);
@@ -87,11 +80,9 @@ public class TaskService {
         if(findTask == null){
             throw new TaskNotFoundException(taskId);
         }
-
         findTask.setTitle(newTitle);
 
         return findTask;
-
     }
 
     /**
@@ -100,7 +91,6 @@ public class TaskService {
      * @return 삭제한 할 일
      */
     public Task removeTask(Long taskId) {
-
         log.info(">>> Access Service 할 일 삭제");
 
         Task findTask = tasksMap.get(taskId);// taskId에 해당하는 Task를 구함
@@ -109,11 +99,9 @@ public class TaskService {
         if(findTask == null){
             throw new TaskNotFoundException(taskId);
         }
-
         tasksMap.remove(taskId);
 
         return findTask;
-
     }
 
 }

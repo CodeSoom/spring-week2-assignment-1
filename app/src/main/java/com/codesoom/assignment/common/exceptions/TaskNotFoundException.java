@@ -15,9 +15,7 @@ public class TaskNotFoundException extends RuntimeException{
 
     // 주어진 Id에 해당하는 할 일이 목록에 없을 경우 발생하는 예외입니다.
     public TaskNotFoundException(Long taskId) {
-
         log.error("( taskId : " + taskId + ") 에 해당하는 Task가 존재하지 않습니다." );
-
     }
 
     public String getErroeMsg() {
