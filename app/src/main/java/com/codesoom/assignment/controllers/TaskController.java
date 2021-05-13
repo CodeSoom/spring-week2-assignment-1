@@ -6,7 +6,6 @@ import com.codesoom.assignment.models.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,50 +32,48 @@ public class TaskController {
     private Long newTaskId = 0L;
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<Task> list() {
         return new ArrayList<>(tasks.values());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> get(@PathVariable("id") final Long id) {
-        final var task = tasks.get(id);
-        Optional.ofNullable(task)
+    public Task get(@PathVariable("id") final Long id) {
+        return Optional
+                .ofNullable(tasks.get(id))
                 .orElseThrow(TaskNotFoundException::new);
-        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Task> create(@RequestBody Task task) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task create(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
             throw new TaskTitleEmptyException();
         }
         newTaskId += 1;
         task.setId(newTaskId);
         tasks.put(task.getId(), task);
-        return new ResponseEntity<>(task, HttpStatus.CREATED);
+        return task;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> update(@PathVariable("id") final Long id, @RequestBody final Task newTaskForUpdate) {
+    public Task update(@PathVariable("id") final Long id, @RequestBody final Task newTaskForUpdate) {
         if (newTaskForUpdate.getTitle().isBlank()) {
             logger.debug("task={}", newTaskForUpdate.getTitle());
             throw new TaskTitleEmptyException();
         }
 
-        var originalTask = tasks.get(id);
-        Optional.ofNullable(originalTask)
+        var originalTask = Optional
+                .ofNullable(tasks.get(id))
                 .orElseThrow(TaskNotFoundException::new);
 
         originalTask.setTitle(newTaskForUpdate.getTitle());
-        return new ResponseEntity<>(originalTask, HttpStatus.OK);
+        return originalTask;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
-        final var deletedTask = tasks.remove(id);
-        Optional.ofNullable(deletedTask)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") final Long id) {
+        Optional.ofNullable(tasks.remove(id))
                 .orElseThrow(TaskNotFoundException::new);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
