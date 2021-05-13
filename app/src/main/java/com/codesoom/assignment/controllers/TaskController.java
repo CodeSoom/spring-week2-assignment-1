@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 할 일에 대한 HTTP request를 처리하는 컨트롤러다.
+ * 할 일에 대한 HTTP request를 처리합니다.
  */
 @RestController
 @RequestMapping(path = "/tasks")
@@ -29,7 +29,7 @@ public class TaskController {
     /**
      * 모든 할 일의 리스트를 반환한다.
      *
-     * @return 할 일 목록 전체를 반환한다.
+     * @return 할 일 목록
      */
     @GetMapping
     public List<Task> getAllTasks() {
@@ -37,10 +37,10 @@ public class TaskController {
     }
 
     /**
-     * 생성된 할 일의 인스턴스를 반환한다.
+     * 새로운 할 일을 생성해 리턴합니다.
      *
-     * @param task RequestBody의 content로 구성된 할 일 인스턴스다.
-     * @return 새로 생성된 할 일 인스턴스를 반환한다.
+     * @param task 생성할 할 일 정보
+     * @return 새로 생성된 할 일
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
