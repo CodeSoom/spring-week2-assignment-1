@@ -1,21 +1,24 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exception.ParameterEmptyException;
 import com.codesoom.assignment.exception.TaskIdNotFoundException;
 import com.codesoom.assignment.model.Task;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +28,6 @@ import java.util.List;
 @CrossOrigin
 public class TaskController {
     private List<Task> tasks = new ArrayList<>();
-
 
     @GetMapping
     public List<Task> taskList() {
@@ -39,18 +41,26 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task taskCreate(@RequestBody Task task) throws Throwable {
+    public ResponseEntity<Task> taskCreate(@RequestBody Task task) throws Throwable {
         task.setId(generatedId());
         tasks.add(task);
-        return task;
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(task.getId())
+                .toUri();
+        return new ResponseEntity<Task>(task,  getHttpLocationHeaders(uri), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    private HttpHeaders getHttpLocationHeaders(URI uri) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(uri);
+        return httpHeaders;
+    }
+
+    @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public Task taskModify(@PathVariable Long id, @RequestBody Task task) {
-        final String newTitle = task.getTitle();
-        if(id ==null || newTitle.isBlank()){
-            throw new IllegalArgumentException(String.format("ID[%s] or Title[%s] is null or blank", id, newTitle));
-        }
+        validateParameter(id, task);
         Task findTask = findTask(id);
         int findTaskIndex = tasks.indexOf(findTask);
         task.setId(findTask.getId());
@@ -58,20 +68,16 @@ public class TaskController {
         return task;
     }
 
-    @PatchMapping("/{id}")
-    public Task taskPatchModify(@PathVariable Long id, @RequestBody Task task) {
-        return taskModify(id, task);
-    }
-
     @DeleteMapping("/{id}")
-    public void taskDelete(@PathVariable Long id){
+    public ResponseEntity taskDelete(@PathVariable Long id) {
         Task findTask = findTask(id);
         tasks.remove(findTask);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     private Task findTask(Long id) {
         return tasks.stream()
-                .filter(task -> task.getId() == id)
+                .filter(task -> task.getId().compareTo(id) == 0)
                 .findFirst()
                 .orElseThrow(TaskIdNotFoundException::new);
     }
@@ -83,9 +89,15 @@ public class TaskController {
             maxId = tasks.stream()
                     .max(comparator)
                     .orElseThrow(TaskIdNotFoundException::new)
-                    .getId()+1;
+                    .getId() + 1;
         }
         return maxId;
     }
 
+    private void validateParameter(Long id, Task task) {
+        final String newTitle = task.getTitle();
+        if (id == null || newTitle.isBlank()) {
+            throw new ParameterEmptyException(id, newTitle);
+        }
+    }
 }

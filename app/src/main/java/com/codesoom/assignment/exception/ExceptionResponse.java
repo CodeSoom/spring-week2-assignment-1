@@ -10,8 +10,8 @@ public class ExceptionResponse {
     public ExceptionResponse() {
     }
 
-    public ExceptionResponse(Date timeStamp, String message, String details) {
-        this.timeStamp = timeStamp;
+    public ExceptionResponse(String message, String details) {
+        this.timeStamp = new Date();
         this.message = message;
         this.details = details;
     }

@@ -19,7 +19,7 @@ public class Task {
     }
 
     @JsonIgnore
-    public boolean isTitleBlank(){
+    public boolean isTitleBlank() {
         return this.title.isBlank();
     }
 
@@ -29,9 +29,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                '}';
+        return String.format("Task{id = %s , title = %s  } ",this. id, this.title);
     }
 }

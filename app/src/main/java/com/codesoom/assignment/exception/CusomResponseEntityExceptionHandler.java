@@ -21,20 +21,16 @@ public class CusomResponseEntityExceptionHandler extends ResponseEntityException
     protected final ResponseEntity<Object> handleTaskIdNotFoundException
             (Exception ex, WebRequest request) {
         ExceptionResponse exceptionResponse
-                = new ExceptionResponse(new Date(),ex.getMessage(), request.getDescription(false));
+                = new ExceptionResponse(ex.getMessage(), request.getDescription(false));
         return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected final ResponseEntity<Object> handleIllegalArgumentException
+    protected final ExceptionResponse handleIllegalArgumentException
             (Exception ex, WebRequest request) {
-        ExceptionResponse exceptionResponse
-                = new ExceptionResponse(new Date(),ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ExceptionResponse(ex.getMessage(), request.getDescription(false));
     }
-
-
 
     @Override
     @ResponseStatus(HttpStatus.BAD_REQUEST)

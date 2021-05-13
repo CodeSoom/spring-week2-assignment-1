@@ -28,12 +28,12 @@ class {
     console.log(task);
     console.log(event);
     console.log(el);
-    console.log("-----------------");
-    console.log(this.getEl(task.id).value);
+
     console.log(this.state.tasks);
     console.log(this.state.tasks[task.id]);
     let taska = this.state.tasks[task.id];
     console.log(taska);
+    console.log(this.getEl(taks));
   }
   finishTask(){
 
@@ -45,9 +45,9 @@ class {
 </layout>
 <ol>
   <for|task| of = state.tasks>
-    <li key=task.id for:scoped ="list"+task.id>
+    <li key='list+${task.id}' id:scoped='list'+task.id>
         ${task.title}
-        <button type="button" on-click("modfiyTask",task) id:scoped=task.id >수정</button>
+        <button type="button" on-click("modfiyTask",'list'+task.id) id:scoped=task.id >수정</button>
         <button type="button" on-click("finishTask")>완료</button>
         <button type="button" on-click("finishTask")>완료</button>
         <button type="button" on-click("finishTask")>완료</button>
