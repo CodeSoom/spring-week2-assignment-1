@@ -50,15 +50,14 @@ public class TaskController {
         return taskRepository.getTask(id);
     }
 
-    //TODO: 메서드 이름 적절한지 여쭤볼 것
     @PutMapping("/{id}")
-    public Task setAndReturnTask(@PathVariable long id, @RequestBody Task param) {
-        return taskRepository.setAndReturnTask(id, param);
+    public Task putTask(@PathVariable long id, @RequestBody Task param) {
+        return taskRepository.updateTask(id, param);
     }
 
     @PatchMapping("/{id}")
     public Task patchTask(@PathVariable long id, @RequestBody Task param) {
-        return taskRepository.patchTask(id, param);
+        return taskRepository.updateTask(id, param);
     }
 
     @DeleteMapping("/{id}")

@@ -30,13 +30,7 @@ public class TaskRepository {
                 .orElseThrow(() -> new TaskNotFoundException());
     }
 
-    public Task setAndReturnTask(long id, Task param) {
-        Task task = getTask(id);
-        task.setTitle(param.getTitle());
-        return task;
-    }
-
-    public Task patchTask(long id, Task param) {
+    public Task updateTask(long id, Task param) {
         Task task = getTask(id);
         task.setTitle(param.getTitle());
         return task;
