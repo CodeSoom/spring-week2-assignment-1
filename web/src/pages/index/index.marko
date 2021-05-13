@@ -11,9 +11,36 @@ class {
         this.loadTasks();
     }
 
+    /**
+    * 할 일 전체 목록을 불러옵니다. 
+    */
     async loadTasks() {
         const {data} = await axios.get('http://localhost:8080/tasks');
         this.state.tasks = data;
+    }
+
+    /**
+    * 할 일을 등록합니다.
+    */
+    async createTask() {
+        let $inp = this.getEl("newTaskTitleInput");
+        let newTitle = $inp.value;
+
+        try {
+
+            const {data} = await axios.post('http://localhost:8080/tasks', {
+                    "title" : newTitle
+                }
+            );
+
+            this.state.tasks.push(data); // 등록한 할 일 추가
+
+            $inp.value = ""; // 입력창 초기화
+
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
     }
 
 }
@@ -29,7 +56,7 @@ class {
 </ol>
 
 <p>
-    <label for="taskTitle">할 일 :</label>
-    <input type="text" id="taskTitle" key="taskTitleInput">
-    <button>추가</button>
+    <label for="newTaskTitleInput">할 일 :</label>
+    <input type="text" id="newTaskTitleInput" key="newTaskTitleInput">
+    <button on-click('createTask')>추가</button>
 </p>
