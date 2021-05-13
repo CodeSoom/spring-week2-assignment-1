@@ -10,10 +10,14 @@ public class ExceptionResponse {
     public ExceptionResponse() {
     }
 
-    public ExceptionResponse(String message, String details) {
+    public ExceptionResponse(Date timeStamp, String message, String details) {
         this.timeStamp = new Date();
         this.message = message;
         this.details = details;
+    }
+
+    public ExceptionResponse(String message, String details) {
+        this(new Date(), message, details);
     }
 
     public Date getTimeStamp() {

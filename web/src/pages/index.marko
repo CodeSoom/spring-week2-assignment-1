@@ -24,16 +24,16 @@ class {
     await this.loadTasks();
     console.log(title);
   }
-  modfiyTask(task,event,el){
-    console.log(task);
-    console.log(event);
-    console.log(el);
-
-    console.log(this.state.tasks);
-    console.log(this.state.tasks[task.id]);
-    let taska = this.state.tasks[task.id];
-    console.log(taska);
-    console.log(this.getEl(taks));
+ 
+  modfiyTask(event){
+    console.log(event); 
+    console.log(document.getElementById(event));
+    var parent=document.getElementById(event);
+    var children = parent.childNodes;
+    for(var i=0; i<children.length ;i++){
+      console.log(children[i].nodeName);
+    }
+    console.log(document.getElementById(event).childNodes);
   }
   finishTask(){
 
@@ -45,9 +45,9 @@ class {
 </layout>
 <ol>
   <for|task| of = state.tasks>
-    <li key='list+${task.id}' id:scoped='list'+task.id>
+    <li id='list'+task.id>
         ${task.title}
-        <button type="button" on-click("modfiyTask",'list'+task.id) id:scoped=task.id >수정</button>
+        <button type="button" on-click("modfiyTask",'list'+task.id) >수정</button>
         <button type="button" on-click("finishTask")>완료</button>
         <button type="button" on-click("finishTask")>완료</button>
         <button type="button" on-click("finishTask")>완료</button>
