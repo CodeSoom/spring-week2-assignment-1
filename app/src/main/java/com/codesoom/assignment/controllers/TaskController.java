@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 할 일에 대한 HTTP request를 처리하는 컨트롤러다.
+ * 할 일에 대한 HTTP request를 처리합니다.
  */
 @RestController
 @RequestMapping(path = "/tasks")
