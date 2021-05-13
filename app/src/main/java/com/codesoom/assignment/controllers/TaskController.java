@@ -29,7 +29,7 @@ public class TaskController {
     /**
      * 모든 할 일의 리스트를 반환한다.
      *
-     * @return 할 일 목록 전체를 반환한다.
+     * @return 할 일 목록
      */
     @GetMapping
     public List<Task> getAllTasks() {
