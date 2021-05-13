@@ -4,12 +4,9 @@ class {
   onCreate(){
     this.state = { 
       tasks: [],      
-      isModify : true,
-      isComplete : true,
-      isConfirm : false,
-      isCancel : false, 
+      isEditable : true,
+      editTaskId : -1,
     };
-
     this.loadTasks();
   };
   async loadTasks(){
@@ -22,42 +19,65 @@ class {
       title:title,
     });
     await this.loadTasks();
-    console.log(title);
   }
  
-  modfiyTask(event){
-    console.log(event); 
-    console.log(document.getElementById(event));
-    var parent=document.getElementById(event);
-    var children = parent.childNodes;
-    for(var i=0; i<children.length ;i++){
-      console.log(children[i].nodeName);
-    }
-    console.log(document.getElementById(event).childNodes);
+  modfiyTask(task,event, el){
+    event.preventDefault();
+    console.log(task);
+    this.state.editTaskId = task.id;
+    this.state.isEditable = true;
   }
-  finishTask(){
+  async deleteTask(task, event, el){
+    this.state.isEditable = false; //초기화
+    this.state.editTaskId = -1; //초기화
+    await axios.delete("http://localhost:8080/tasks/"+task.id,{
+      title:task.title,
+    });
+    await this.loadTasks();
+  }
 
+  cancelTask(){    
+    this.state.isEditable = false; //초기화
+    this.state.editTaskId = -1; //초기화
+  }
+  
+
+  async confirmTask(task, newTitle,event, el){
+    this.state.editTaskId = task.id;
+    this.state.isEditable = false;
+    task.title=this.getEl("newTitle").value;
+    const title = task.title;
+    const taskid = task.id;
+    await axios.put("http://localhost:8080/tasks/"+taskid,{
+      title:title,
+    });
+    await this.loadTasks();
   }
 }
+
+
+
 
 <layout>
   <h1>ToDo</h1>
 </layout>
 <ol>
   <for|task| of = state.tasks>
-    <li id='list'+task.id>
-        ${task.title}
-        <button type="button" on-click("modfiyTask",'list'+task.id) >수정</button>
-        <button type="button" on-click("finishTask")>완료</button>
-        <button type="button" on-click("finishTask")>완료</button>
-        <button type="button" on-click("finishTask")>완료</button>
-
+    <li key=task.id>
+      <if(state.editTaskId == task.id && state.isEditable)>
+        <input type="text" key="newTitle"/>          
+        <button type="button" on-click("confirmTask", task)>확인</button>
+        <button type="button" on-click("cancelTask") >취소</button>
+      </if>
+      <else>
+        <label for:scoped="title"> ${task.title} </label><!--${state.editTaskId}-->
+        <button type="button" on-click("modfiyTask",task)>수정</button>
+        <button type="button" on-click("deleteTask",task) >완료</button>        
+      </else>            
     </li>
   </for>
 </ol>
 
-<label for:scoped="title">할일</label>
-<input type="text" id:scoped="name" key="title"/>
-<button type="button" on-click("addTask")>
-  추가
-</button>
+<label for:scoped="title">할 일</label>
+<input type="text" id:scoped="name" key="title" name="할 일"/>
+<button type="button" on-click("addTask") value="추가">추가</button>
