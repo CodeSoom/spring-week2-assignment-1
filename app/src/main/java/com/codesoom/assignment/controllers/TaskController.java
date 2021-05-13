@@ -35,14 +35,15 @@ public class TaskController {
      * @return 할 일 리스트
      */
     @GetMapping
-    public ResponseEntity<List<Task>> list() {
+    @ResponseStatus(HttpStatus.OK)
+    public List<Task> list() {
 
         log.info(">>>>>>>>>>> Access Controller 할 일 목록 조회");
         List<Task> taskList = this.taskService.getTaskList();
 
         log.info(">>>>>>>>>>> Response : " + taskList.toString());
 
-        return new ResponseEntity<List<Task>>(taskList, HttpStatus.OK);
+        return taskList;
 
     }
 
@@ -52,7 +53,8 @@ public class TaskController {
      * @return 조회한 할 일
      */
     @GetMapping("{taskId}")
-    public ResponseEntity<Task> detail(@PathVariable("taskId") Long taskId) {
+    @ResponseStatus(HttpStatus.OK)
+    public Task detail(@PathVariable("taskId") Long taskId) {
 
         log.info(">>> Access Controller 할 일 상세조회");
         log.info("==== Req Param ====");
@@ -63,7 +65,7 @@ public class TaskController {
 
         log.info(">>>>>>>>>>> Response : " + findTask.toString());
         
-        return new ResponseEntity<Task>(findTask, HttpStatus.OK);
+        return findTask;
     }
 
     /**
@@ -72,7 +74,8 @@ public class TaskController {
      * @return 새로 등록한 할 일
      */
     @PostMapping
-    public ResponseEntity<Task> create(@RequestBody Task newTask) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task create(@RequestBody Task newTask) {
 
         log.info(">>>>>>>>>>> Access Controller 할 일 등록");
         log.info("==== Req Param ====");
@@ -82,7 +85,7 @@ public class TaskController {
 
         log.info(">>>>>>>>>>>> Response : " + createdTask.toString());
 
-        return new ResponseEntity<Task>(createdTask, HttpStatus.CREATED);
+        return createdTask;
 
     }
 
@@ -94,7 +97,8 @@ public class TaskController {
      */
     @PutMapping("{taskId}")
     @PatchMapping("{taskId}")
-    public ResponseEntity<Task>  update(@PathVariable("taskId") Long taskId, @RequestBody Task task) {
+    @ResponseStatus(HttpStatus.OK)
+    public Task update(@PathVariable("taskId") Long taskId, @RequestBody Task task) {
 
         log.info(">>>>>>>>>>> Access Controller 할 일 수정");
         log.info("==== Req Param ====");
@@ -106,7 +110,7 @@ public class TaskController {
 
         log.info(">>>>>>>>>>> Response : " + updatedTask.toString());
 
-        return new ResponseEntity<Task>(updatedTask, HttpStatus.OK);
+        return updatedTask;
     }
 
     /**
@@ -115,7 +119,8 @@ public class TaskController {
      * @return 삭제한 할 일
      */
     @DeleteMapping("{taskId}")
-    public ResponseEntity<Task> delete(@PathVariable("taskId") Long taskId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public Task delete(@PathVariable("taskId") Long taskId) {
 
         log.info(">>>>>>>>>>> Access Controller 할 일 삭제");
         log.info("==== Req Param ====");
@@ -125,7 +130,7 @@ public class TaskController {
 
         log.info(">>>>>>>>>>> Response : " + deletedTask.toString());
 
-        return new ResponseEntity<Task>(deletedTask, HttpStatus.NO_CONTENT);
+        return deletedTask;
 
     }
 

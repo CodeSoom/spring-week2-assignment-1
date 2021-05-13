@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
@@ -19,9 +20,10 @@ public class GlobalExceptionHandler {
 
     // taskId에 맞는 할 일을 못찾은 경우
     @ExceptionHandler(TaskNotFoundException.class)
-    public ResponseEntity handleTaskNotFoundException(TaskNotFoundException ex){
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleTaskNotFoundException(TaskNotFoundException ex){
 
-        return new ResponseEntity(ex.getErroeMsg(), HttpStatus.NOT_FOUND);
+        return ex.getErroeMsg();
 
     }
 
