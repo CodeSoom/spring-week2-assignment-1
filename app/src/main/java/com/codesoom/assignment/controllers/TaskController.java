@@ -34,7 +34,7 @@ public class TaskController {
     // POST /tasks
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) {
+    public Task createTask(@RequestBody Task task) {
         if (task.getTitle().isBlank()) {
             // TODO: validation error...
             throw new InvalidRequestException();
@@ -47,13 +47,13 @@ public class TaskController {
     }
 
     // GET /tasks/{id}
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task get(@PathVariable("id") long id) {
+    public Task getTask(@PathVariable("id") Long id) {
         if(emptyCheck(id)) {
             throw new DataNotFoundException("id");
         } else {
-            return tasks.stream().filter(t -> t.getId() == id)
+            return tasks.stream().filter(t -> t.getId().equals(id))
                     .findFirst().get();
         }
     }
@@ -61,15 +61,32 @@ public class TaskController {
 
 
     // PUT/PATCH /tasks/{id}
-    @RequestMapping(path = "/{id}", method = RequestMethod.PATCH)
+    @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task patchTask(@PathVariable("id") long id, @RequestBody Task newTask) {
+    public Task patchTask(@PathVariable("id") Long id, @RequestBody Task newTask) {
 
         if(emptyCheck(id)) {
             throw new DataNotFoundException("id");
         } else {
             Task task = tasks.stream()
-                    .filter(t -> t.getId() == id)
+                    .filter(t -> t.getId().equals(id))
+                    .findFirst()
+                    .get();
+
+            task.setTitle(newTask.getTitle());
+            return task;
+        }
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Task putTask(@PathVariable("id") Long id, @RequestBody Task newTask) {
+
+        if(emptyCheck(id)) {
+            throw new DataNotFoundException("id");
+        } else {
+            Task task = tasks.stream()
+                    .filter(t -> t.getId().equals(id))
                     .findFirst()
                     .get();
 
@@ -79,14 +96,14 @@ public class TaskController {
     }
 
     // DELETE /tasks{id}
-    @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteTask(@PathVariable("id") long id) {
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable("id") Long id) {
         if(emptyCheck(id)) {
             throw new DataNotFoundException("id");
         } else {
             Task task = tasks.stream()
-                    .filter(t -> t.getId() == id)
+                    .filter(t -> t.getId().equals(id))
                     .findFirst()
                     .get();
 
@@ -94,7 +111,7 @@ public class TaskController {
         }
     }
 
-    private long generateID() {
+    private Long generateID() {
         newId += 1;
         return newId;
     }
@@ -106,9 +123,9 @@ public class TaskController {
                 .orElseGet(Stream::empty);
     }
 
-    private boolean emptyCheck(long id) {
+    private boolean emptyCheck(Long id) {
         return collectionToStream(tasks)
-                .filter(t -> t.getId() == id)
+                .filter(t -> t.getId().equals(id))
                 .findFirst()
                 .isEmpty();
     }

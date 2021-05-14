@@ -2,7 +2,7 @@ package com.codesoom.assignment.models;
 
 public class Task {
 
-    private long id;
+    private Long id;
     private String title;
 
     @Override
@@ -10,7 +10,7 @@ public class Task {
         return String.format("{id=%d, title=%s}, id, title");
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
