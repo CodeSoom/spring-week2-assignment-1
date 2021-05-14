@@ -41,12 +41,12 @@ public class TaskController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task ID cannot be 0!");
         }
 
-        Task fetchedTask = TaskRepository.fetchOne(id);
-        if (fetchedTask == null) {
+        Task task = TaskRepository.fetchOne(id);
+        if (task == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found!");
         }
 
-        return fetchedTask;
+        return task;
     }
 
     @PostMapping
