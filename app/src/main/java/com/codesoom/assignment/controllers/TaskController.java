@@ -52,10 +52,9 @@ public class TaskController {
     public Task getTask(@PathVariable("id") Long id) {
         if(emptyCheck(id)) {
             throw new DataNotFoundException("id");
-        } else {
-            return tasks.stream().filter(t -> t.getId().equals(id))
-                    .findFirst().get();
         }
+        return tasks.stream().filter(t -> t.getId().equals(id))
+                .findFirst().get();
     }
 
 
@@ -67,15 +66,16 @@ public class TaskController {
 
         if(emptyCheck(id)) {
             throw new DataNotFoundException("id");
-        } else {
-            Task task = tasks.stream()
-                    .filter(t -> t.getId().equals(id))
-                    .findFirst()
-                    .get();
-
-            task.setTitle(newTask.getTitle());
-            return task;
         }
+
+        Task task = tasks.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .get();
+
+        task.setTitle(newTask.getTitle());
+        return task;
+
     }
 
     @PutMapping("/{id}")
@@ -84,15 +84,14 @@ public class TaskController {
 
         if(emptyCheck(id)) {
             throw new DataNotFoundException("id");
-        } else {
-            Task task = tasks.stream()
-                    .filter(t -> t.getId().equals(id))
-                    .findFirst()
-                    .get();
-
-            task.setTitle(newTask.getTitle());
-            return task;
         }
+        Task task = tasks.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .get();
+
+        task.setTitle(newTask.getTitle());
+        return task;
     }
 
     // DELETE /tasks{id}
@@ -101,14 +100,13 @@ public class TaskController {
     public void deleteTask(@PathVariable("id") Long id) {
         if(emptyCheck(id)) {
             throw new DataNotFoundException("id");
-        } else {
-            Task task = tasks.stream()
-                    .filter(t -> t.getId().equals(id))
-                    .findFirst()
-                    .get();
-
-            tasks.remove(task);
         }
+        Task task = tasks.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .get();
+
+        tasks.remove(task);
     }
 
     private Long generateID() {
