@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.exceptions.TaskTitleEmptyException;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.TaskList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin
@@ -28,31 +27,27 @@ import java.util.Optional;
 @RequestMapping("/tasks")
 public class TaskController {
     private final Logger logger = LoggerFactory.getLogger(TaskController.class);
-    private final Map<Long, Task> tasks = new HashMap<>();
-    private Long newTaskId = 0L;
+    private final TaskList taskList = new TaskList();
 
     @GetMapping
     public List<Task> list() {
-        return new ArrayList<>(tasks.values());
+        return new ArrayList<>(taskList.all());
     }
 
     @GetMapping("/{id}")
     public Task get(@PathVariable("id") final Long id) {
         return Optional
-                .ofNullable(tasks.get(id))
+                .ofNullable(taskList.one(id))
                 .orElseThrow(TaskNotFoundException::new);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) {
+    public Task create(@RequestBody final Task task) {
         if (task.getTitle().isBlank()) {
             throw new TaskTitleEmptyException();
         }
-        newTaskId += 1;
-        task.setId(newTaskId);
-        tasks.put(task.getId(), task);
-        return task;
+        return taskList.save(task);
     }
 
     @PutMapping("/{id}")
@@ -62,18 +57,17 @@ public class TaskController {
             throw new TaskTitleEmptyException();
         }
 
-        var originalTask = Optional
-                .ofNullable(tasks.get(id))
+        Optional.ofNullable(taskList.one(id))
                 .orElseThrow(TaskNotFoundException::new);
 
-        originalTask.setTitle(newTaskForUpdate.getTitle());
-        return originalTask;
+        taskList.update(id, newTaskForUpdate);
+        return newTaskForUpdate;
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") final Long id) {
-        Optional.ofNullable(tasks.remove(id))
+        Optional.ofNullable(taskList.remove(id))
                 .orElseThrow(TaskNotFoundException::new);
     }
 }
