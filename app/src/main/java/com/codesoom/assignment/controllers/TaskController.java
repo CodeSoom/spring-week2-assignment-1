@@ -21,9 +21,9 @@ public class TaskController {
     private final IdGenerator taskIdGenerator;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository) {
+    public TaskController(TaskRepository taskRepository, IdGenerator unsignedLongGenerator) {
         this.taskRepository = taskRepository;
-        this.taskIdGenerator = new IdGenerator();
+        this.taskIdGenerator = unsignedLongGenerator;
     }
 
     /**
