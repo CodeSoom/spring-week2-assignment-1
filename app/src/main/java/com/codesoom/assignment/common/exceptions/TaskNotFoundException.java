@@ -1,6 +1,5 @@
 package com.codesoom.assignment.common.exceptions;
 
-import com.codesoom.assignment.common.aop.GlobalExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +17,7 @@ public class TaskNotFoundException extends RuntimeException{
         log.error("( taskId : " + taskId + ") 에 해당하는 Task가 존재하지 않습니다." );
     }
 
-    public String getErroeMsg() {
+    public String getErrorMsg() {
         return erroeMsg;
     }
 
