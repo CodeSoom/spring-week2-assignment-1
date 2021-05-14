@@ -1,0 +1,43 @@
+/**
+* ToDoList에서 각 행에 사용되는 Edit 영역의 컴포넌트입니다.
+*
+* @param taskId : 렌더링 될 할 일의 Id 
+* @param title : 렌더링 될 할 일의 제목
+*
+*/
+
+class {
+
+    onCreate(param) {
+
+        this.state = {
+            "taskId" : param.taskId, // 할 일 Id
+            "title" : param.title, // 할 일 제목
+            "editModeFlag" : false, // EditMode 여부 ( true : Edite Mode, false : General Mode )
+        };
+
+    }
+    
+    /**
+    * UI 모드를 전환시킵니다. ( Generlan Mode / Edit Mode )
+    */
+    changeUiMode(){
+       this.state.editModeFlag = !this.state.editModeFlag;
+    }
+
+}
+    
+<if( state.editModeFlag == true )> <!-- Edit Mode -->
+    <div>
+        <span><input key="modifiedTaskTitleInput" type="text" value =`${state.title}`></span>
+        <button>확인</button>
+        <button on-click('changeUiMode', `${state.taskId}`)>취소</button>
+    </div>
+</>
+<else> <!-- General Mode -->
+    <div>
+        <span>${state.title}</span>
+        <button on-click('changeUiMode', `${state.taskId}`)>수정</button>
+        <button>완료</button>
+    </div>
+</else>

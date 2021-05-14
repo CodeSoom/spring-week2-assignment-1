@@ -5,7 +5,7 @@ class {
     onCreate() {
 
         this.state = {
-            tasks: [],
+            tasks: []
         }
 
         this.loadTasks();
@@ -33,7 +33,7 @@ class {
                 }
             );
 
-            this.state.tasks.push(data); // 등록한 할 일 추가
+            this.state.tasks = [...this.state.tasks, data]; // 등록한 할 일 추가 ( 데이터 변경 감지를 위해 배열을 다시 생성한다. )
 
             $inp.value = ""; // 입력창 초기화
 
@@ -49,8 +49,8 @@ class {
 
 <ol>
     <for|task| of=state.tasks>
-        <li key=task.id>
-            <span>${task.title}</span>
+        <li key=`taskLi${task.id}`>
+           <edit-area key=`editArea${task.id}` taskId=task.id title=task.title/>
         </li>
     </for>
 </ol>
