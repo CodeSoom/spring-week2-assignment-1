@@ -1,14 +1,14 @@
 package com.codesoom.assignment.models;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 할 일 목록.
  */
 public class TaskList {
-    private final Map<Long, Task> tasks = new HashMap<>();
+    private final Map<Long, Task> tasks = new TreeMap<>();
     private final TaskLongId taskLongId = new TaskLongId();
 
     public Task one(final Long id) {
@@ -17,6 +17,11 @@ public class TaskList {
 
     public Collection<Task> all() {
         return tasks.values();
+    }
+
+    public Collection<Task> descendingAll() {
+        var descendingTasks = ((TreeMap<Long, Task>) tasks).descendingMap();
+        return descendingTasks.values();
     }
 
     public Task save(final Task task) {

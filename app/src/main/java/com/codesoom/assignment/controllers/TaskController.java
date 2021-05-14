@@ -7,6 +7,7 @@ import com.codesoom.assignment.models.TaskList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +32,10 @@ public class TaskController {
     private final TaskList taskList = new TaskList();
 
     @GetMapping
-    public List<Task> list() {
+    public List<Task> list(@RequestParam("desc") @Nullable Boolean desc) {
+        if (Optional.ofNullable(desc).orElse(false)) {
+            return new ArrayList<>(taskList.descendingAll());
+        }
         return new ArrayList<>(taskList.all());
     }
 
