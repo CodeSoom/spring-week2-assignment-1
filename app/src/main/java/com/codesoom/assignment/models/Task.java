@@ -24,4 +24,9 @@ public class Task {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Task{id=%s, title=%s", id, title);
+    }
 }
