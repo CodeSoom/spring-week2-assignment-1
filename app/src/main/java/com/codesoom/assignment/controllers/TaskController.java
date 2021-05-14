@@ -41,8 +41,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public Task get(@PathVariable("id") final Long id) {
-        return Optional
-                .ofNullable(taskList.one(id))
+        return taskList.one(id)
                 .orElseThrow(TaskNotFoundException::new);
     }
 
@@ -62,7 +61,7 @@ public class TaskController {
             throw new TaskTitleEmptyException();
         }
 
-        Optional.ofNullable(taskList.one(id))
+        taskList.one(id)
                 .orElseThrow(TaskNotFoundException::new);
 
         taskList.update(id, newTaskForUpdate);
@@ -72,7 +71,7 @@ public class TaskController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") final Long id) {
-        Optional.ofNullable(taskList.remove(id))
+        taskList.remove(id)
                 .orElseThrow(TaskNotFoundException::new);
     }
 }
