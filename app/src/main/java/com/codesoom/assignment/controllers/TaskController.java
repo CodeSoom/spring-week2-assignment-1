@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,8 +37,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public Task taskDetail(@PathVariable Long id) {
-        Task task = findTask(id);
-        return task;
+        return findTask(id);
     }
 
     @PostMapping
@@ -61,23 +61,23 @@ public class TaskController {
     @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public Task taskModify(@PathVariable Long id, @RequestBody Task task) {
         validateParameter(id, task);
-        Task findTask = findTask(id);
-        int findTaskIndex = tasks.indexOf(findTask);
-        task.setId(findTask.getId());
-        tasks.set(findTaskIndex, task);
+        Task foundTask = findTask(id);
+        int foundTaskIndex = tasks.indexOf(foundTask);
+        task.setId(foundTask.getId());
+        tasks.set(foundTaskIndex, task);
         return task;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity taskDelete(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void taskDelete(@PathVariable Long id) {
         Task findTask = findTask(id);
         tasks.remove(findTask);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     private Task findTask(Long id) {
         return tasks.stream()
-                .filter(task -> task.getId().compareTo(id) == 0)
+                .filter(task -> task.getId().equals(id))
                 .findFirst()
                 .orElseThrow(TaskIdNotFoundException::new);
     }
