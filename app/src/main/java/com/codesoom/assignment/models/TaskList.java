@@ -22,7 +22,8 @@ public class TaskList {
     }
 
     public List<Task> descendingAll() {
-        final var descendingTasks = ((TreeMap<Long, Task>) tasks).descendingMap();
+        final var descendingTasks =
+                ((TreeMap<Long, Task>) tasks).descendingMap();
         return new ArrayList<>(descendingTasks.values());
     }
 

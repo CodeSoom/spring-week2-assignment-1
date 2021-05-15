@@ -7,7 +7,6 @@ import com.codesoom.assignment.models.TaskList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +30,10 @@ public class TaskController {
     private final TaskList taskList = new TaskList();
 
     @GetMapping
-    public List<Task> list(@RequestParam("desc") @Nullable Boolean desc) {
-        if (Optional.ofNullable(desc).orElse(false)) {
+    public List<Task> list(
+            @RequestParam("desc") Optional<Boolean> desc
+    ) {
+        if (desc.orElse(false)) {
             return taskList.descendingAll();
         }
         return taskList.all();
@@ -54,7 +55,10 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task update(@PathVariable("id") final Long id, @RequestBody final Task newTaskForUpdate) {
+    public Task update(
+            @PathVariable("id") final Long id,
+            @RequestBody final Task newTaskForUpdate
+    ) {
         if (newTaskForUpdate.getTitle().isBlank()) {
             logger.debug("task={}", newTaskForUpdate.getTitle());
             throw new TaskTitleEmptyException();
