@@ -17,6 +17,12 @@ public class TaskController {
         return tasks;
     }
 
+    @GetMapping("/{id}")
+    public Task item(@PathVariable("id") Long id) {
+        Task task = findTask(id);
+        return task;
+    }
+
     @PostMapping
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
@@ -28,5 +34,12 @@ public class TaskController {
     private Long generateId() {
         newId += 1;
         return newId;
+    }
+
+    private Task findTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 }
