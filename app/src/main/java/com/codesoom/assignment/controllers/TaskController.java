@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/tasks")
-@CrossOrigin
+@CrossOrigin("*")
 public class TaskController {
 
     @Autowired
@@ -58,7 +57,7 @@ public class TaskController {
         log.info("taskId : " + taskId);
         log.info("===================");
 
-        Task findTask = this.taskService.getTaskOne(taskId);
+        Task findTask = this.taskService.findTaskOne(taskId);
 
         log.info(">>>>>>>>>>> Response : " + findTask.toString());
         

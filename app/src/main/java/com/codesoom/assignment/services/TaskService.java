@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Member;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,9 +28,14 @@ public class TaskService {
      * @return 할 일 리스트
      */
     public List<Task> getTaskList() {
+        
+        String orderBy = "DESC"; // 정렬기준
+        
         log.info(">>> Access Service 할 일 목록 조회");
         return tasksMap.values().stream()
+                .sorted( orderBy.equals("DESC") ? Comparator.comparing(Task::getId) : Comparator.comparing(Task::getId).reversed() ) // orderBy에 따라 정렬기준을 다르게 세팅
                 .collect(Collectors.toList());
+        
     }
 
     /**
@@ -36,16 +43,15 @@ public class TaskService {
      * @param taskId 조회할 할 일 ID
      * @return 조회한 할 일 정보
      */
-    public Task getTaskOne(Long taskId) {
+    public Task findTaskOne(Long taskId) {
         log.info(">>> Access Service 할 일 상세조회");
 
-        Task findTask = tasksMap.get(taskId);
-
-        if( findTask == null ) {
-            throw new TaskNotFoundException(taskId);
+        Task foundTask = tasksMap.get(taskId);
+        if( foundTask == null ) {
+            throw new TaskNotFoundException();
         }
 
-        return findTask;
+        return foundTask;
     }
 
     /**
@@ -74,11 +80,11 @@ public class TaskService {
         log.info(">>> Access Service 할 일 수정");
 
         Task foundTask = tasksMap.get(taskId);
-
         // 해당하는 Task가 없을 경우 예외 발생
         if(foundTask == null){
-            throw new TaskNotFoundException(taskId);
+            throw new TaskNotFoundException();
         }
+
         foundTask.setTitle(newTitle);
 
         return foundTask;
@@ -93,10 +99,9 @@ public class TaskService {
         log.info(">>> Access Service 할 일 삭제");
 
         Task foundTask = tasksMap.get(taskId);// taskId에 해당하는 Task를 구함
-
         // 해당하는 Task가 없을 경우 예외 발생
         if(foundTask == null){
-            throw new TaskNotFoundException(taskId);
+            throw new TaskNotFoundException();
         }
         tasksMap.remove(taskId);
 

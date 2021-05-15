@@ -16,11 +16,11 @@ public class GlobalExceptionHandler {
 
     private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    // taskId에 맞는 할 일을 못찾은 경우
+    // taskId에 맞는 할 일을 못찾은 경우 던져진 예외를 처리합니다.
     @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleTaskNotFoundException(TaskNotFoundException ex){
-        return ex.getErrorMsg();
+        return ex.getMessage();
     }
 
 }
