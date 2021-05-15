@@ -5,7 +5,7 @@ class {
         this.state = {
             tasks: [],
             toModify: false,
-            modifyCode: [],
+            modifyCode: 0,
         };
 
         this.loadTasks();
@@ -24,17 +24,18 @@ class {
         await this.loadTasks();
     }
 
-    async toModifyTask() {
+    async toModifyTask(taskId) {
         this.state.toModify = true;
-        this.state.modifyCode = this.getEls('taskId').value;
-        await this.modifyTask();
+        this.state.modifyCode = taskId;
+        await this.loadTasks();
     }
 
     // Testing
-    async modifyTask() {
+    async modifyTask(taskId) {
          const newTitle = this.getEl('newTitle').value;
+         console.log(newTitle);
          await axios.put('http://localhost:8080/tasks/'+this.state.modifyCode, {
-            newTitle
+            title: newTitle
          });
          this.state.toModify = false;
          this.state.modifyCode = 0;
@@ -42,15 +43,13 @@ class {
     }
 
     // Testing
-    async deleteTask() {
-        this.state.modifyCode = this.getEls('taskId');
-        console.log(this.state.modifyCode[1].value);
-        const taskId = this.state.modifyCode[????].value;
+    async deleteTask(taskId) {
+        this.state.modifyCode = taskId
         await axios.delete('http://localhost:8080/tasks/' + taskId);
         await this.loadTasks();
     }
 
-    async undoList() {
+    async undoList(taskId) {
         this.state.toModify = false;
         this.state.modifyCode = 0;
         await this.loadTasks();
@@ -66,15 +65,14 @@ class {
             <if(state.modifyCode === task.id)>
                 <if(state.toModify)>
                     <input type="text" value=task.title key="newTitle"/>
-                    <button type="button" on-click("modifyTask")>확인</button>
-                    <button type="button" on-click("undoList")>취소</button>
+                    <button type="button" on-click("modifyTask", task.id)>확인</button>
+                    <button type="button" on-click("undoList", task.id)>취소</button>
                 </if>
             </if>
             <else>
                 ${task.title}
-                <input type="hidden" value=task.id key="taskId[]" id="taskId"+task.id/>
-                <button type="button" on-click("toModifyTask")>수정</button>
-                <button type="button" on-click("deleteTask")>완료</button>
+                <button type="button" on-click("toModifyTask", task.id)>수정</button>
+                <button type="button" on-click("deleteTask", task.id)>완료</button>
             </else>
         </li>
     </for>
