@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,6 +32,16 @@ public class TaskController {
         return task;
     }
 
+    @PutMapping("/{id}")
+    public Task updateItem(@PathVariable("id") Long id, @RequestBody Task updateItem) {
+        return modifyTask(id, updateItem);
+    }
+
+    @PatchMapping("/{id}")
+    public Task patchItem(@PathVariable("id") Long id, @RequestBody Task patchItem) {
+       return modifyTask(id, patchItem);
+    }
+
     private Long generateId() {
         newId += 1;
         return newId;
@@ -41,5 +52,11 @@ public class TaskController {
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    private Task modifyTask(Long id, Task modifyItem) {
+        Task task = findTask(id);
+        task.setTitle(modifyItem.getTitle());
+        return task;
     }
 }
