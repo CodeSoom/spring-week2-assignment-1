@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -43,10 +44,10 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteItem(@PathVariable("id") Long id) {
+    public Task deleteItem(@PathVariable("id") Long id) {
         Task task = findTask(id);
         tasks.remove(task);
-        return "";
+        return task;
     }
 
     private Long generateId() {
