@@ -1,6 +1,7 @@
 package com.codesoom.assignment.models;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -16,13 +17,13 @@ public class TaskList {
         return Optional.ofNullable(tasks.get(id));
     }
 
-    public Collection<Task> all() {
-        return tasks.values();
+    public List<Task> all() {
+        return new ArrayList<>(tasks.values());
     }
 
-    public Collection<Task> descendingAll() {
+    public List<Task> descendingAll() {
         final var descendingTasks = ((TreeMap<Long, Task>) tasks).descendingMap();
-        return descendingTasks.values();
+        return new ArrayList<>(descendingTasks.values());
     }
 
     public Task save(final Task task) {

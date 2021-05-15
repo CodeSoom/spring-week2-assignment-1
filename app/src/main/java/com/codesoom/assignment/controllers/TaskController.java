@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,9 +33,9 @@ public class TaskController {
     @GetMapping
     public List<Task> list(@RequestParam("desc") @Nullable Boolean desc) {
         if (Optional.ofNullable(desc).orElse(false)) {
-            return new ArrayList<>(taskList.descendingAll());
+            return taskList.descendingAll();
         }
-        return new ArrayList<>(taskList.all());
+        return taskList.all();
     }
 
     @GetMapping("/{id}")
