@@ -42,6 +42,13 @@ public class TaskController {
        return modifyTask(id, patchItem);
     }
 
+    @DeleteMapping("/{id}")
+    public String deleteItem(@PathVariable("id") Long id) {
+        Task task = findTask(id);
+        tasks.remove(task);
+        return "";
+    }
+
     private Long generateId() {
         newId += 1;
         return newId;
