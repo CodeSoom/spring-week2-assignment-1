@@ -6,6 +6,8 @@
 *
 */
 
+import axios from 'axios';
+
 class {
 
     onCreate(param) {
@@ -25,12 +27,62 @@ class {
        this.state.editModeFlag = !this.state.editModeFlag;
     }
 
+    /**
+    * 할 일을 수정합니다.
+    * @param taskId 수정할 할 일 Id
+    */
+    async updateTask(taskId) {
+
+        let $inp = this.getEl("modifiedTaskTitleInput");
+        let modifiedTitle = $inp.value;
+
+        try {
+
+            const {data} = await axios.put('http://localhost:8080/tasks/'+taskId, {
+                    "id" : taskId,
+                    "title" : modifiedTitle
+                }
+            );
+
+            this.changeUiMode();
+            this.state.title = data.title;
+
+        } catch (error) {
+
+            console.error(error);
+            alert(error.response.data);
+
+        }
+
+    } 
+    
+    /**
+    * 할 일을 삭제합니다.
+    * @param taskId 수정할 할 일 Id
+    */
+    async deleteTask(taskId) {
+
+        try {
+
+            const {data} = await axios.delete('http://localhost:8080/tasks/'+taskId);
+
+             this.emit("task-list-change");
+
+        } catch (error) {
+
+            console.error(error);
+            alert(error.response.data);
+
+        }
+       
+    }
+
 }
     
 <if( state.editModeFlag == true )> <!-- Edit Mode -->
     <div>
         <span><input key="modifiedTaskTitleInput" type="text" value =`${state.title}`></span>
-        <button>확인</button>
+        <button on-click('updateTask', `${state.taskId}`)>확인</button>
         <button on-click('changeUiMode', `${state.taskId}`)>취소</button>
     </div>
 </>
@@ -38,6 +90,6 @@ class {
     <div>
         <span>${state.title}</span>
         <button on-click('changeUiMode', `${state.taskId}`)>수정</button>
-        <button>완료</button>
+        <button on-click('deleteTask', `${state.taskId}`)>완료</button>
     </div>
 </else>

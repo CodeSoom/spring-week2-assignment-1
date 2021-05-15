@@ -45,12 +45,12 @@ class {
 
 }
 
-<h1>ToDO</h1>
+<h1>ToDo</h1>
 
 <ol>
     <for|task| of=state.tasks>
         <li key=`taskLi${task.id}`>
-           <edit-area key=`editArea${task.id}` taskId=task.id title=task.title/>
+           <edit-area key=`editArea${task.id}` taskId=task.id title=task.title on-task-list-change("loadTasks")/>
         </li>
     </for>
 </ol>
