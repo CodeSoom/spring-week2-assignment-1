@@ -58,10 +58,10 @@ public class TaskController {
     }
 
     /**
-     * PathVariable로 요청된 id를 가진 할 일 인스턴스를 반환한다.
+     * 요청된 id를 가진 할 일 인스턴스를 반환한다.
      *
-     * @param id 유저가 얻기를 원하는 할 일의 id이다.
-     * @return 유저가 요청한 id를 가진 할 일 인스턴스를 반환한다.
+     * @param id 조회 대상 할 일의 id
+     * @return 조회된 할 일 인스턴스
      */
     @GetMapping(path = "/{id}")
     public Task getTask(@PathVariable Long id) {
