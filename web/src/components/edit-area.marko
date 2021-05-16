@@ -15,7 +15,7 @@ class {
         this.state = {
             "taskId" : param.taskId, // 할 일 Id
             "title" : param.title, // 할 일 제목
-            "editModeFlag" : false, // EditMode 여부 ( true : Edite Mode, false : General Mode )
+            "isEditing" : false, // EditMode 여부 ( true : Edite Mode, false : General Mode )
         };
 
     }
@@ -24,7 +24,7 @@ class {
     * UI 모드를 전환시킵니다. ( Generlan Mode / Edit Mode )
     */
     changeUiMode(){
-       this.state.editModeFlag = !this.state.editModeFlag;
+       this.state.isEditing  = !this.state.isEditing ;
     }
 
     /**
@@ -79,7 +79,7 @@ class {
 
 }
     
-<if( state.editModeFlag == true )> <!-- Edit Mode -->
+<if( state.isEditing  == true )> <!-- Edit Mode -->
     <div>
         <span><input key="modifiedTaskTitleInput" type="text" value =`${state.title}`></span>
         <button on-click('updateTask', `${state.taskId}`)>확인</button>
