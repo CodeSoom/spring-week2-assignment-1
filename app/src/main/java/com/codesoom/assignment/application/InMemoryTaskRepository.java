@@ -56,7 +56,7 @@ public class InMemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Long generateId() {
+    public synchronized Long generateId() {
         newId += 1;
         return newId;
     }
