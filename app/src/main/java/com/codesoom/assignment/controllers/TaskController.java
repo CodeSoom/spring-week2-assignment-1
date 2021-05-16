@@ -8,7 +8,16 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.ErrorCreate;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,27 +71,17 @@ public class TaskController {
 
     private Task selectTask(List<Task> tasks, Long id) {
 //        return tasks.stream().filter(task -> task.getId().equals(id)).findFirst().orElse(null);
-        return tasks.stream().filter(task -> task.getId().equals(id)).findFirst().orElseThrow(ErrorCreate::new);
+        return tasks.stream()
+                .filter(task -> task.getId()
+                .equals(id))
+                .findFirst()
+                .orElseThrow(ErrorCreate::new);
     }
 
     private Long generateId(){
         newId += 1;
         return newId;
     }
-
-//    public static class StatusCode {
-//        public static final int OK = 200;
-//        public static final int CREATED = 201;
-//        public static final int NO_CONTENT = 204;
-//        public static final int BAD_REQUEST =  400;
-//        public static final int UNAUTHORIZED = 401;
-//        public static final int FORBIDDEN = 403;
-//        public static final int NOT_FOUND = 404;
-//        public static final int INTERNAL_SERVER_ERROR = 500;
-//        public static final int SERVICE_UNAVAILABLE = 503;
-//        public static final int DB_ERROR = 600;
-//    }
-
 }
 
 // status code를 어디로 리턴해야 하는 것인지.

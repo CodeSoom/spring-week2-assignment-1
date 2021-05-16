@@ -48,7 +48,7 @@ class {
     }
 }
 
-<h1> TO DO </h1>
+<h1> ToDo </h1>
 <ol>
     <for|task| of=state.tasks>
         <li>
@@ -56,7 +56,7 @@ class {
                 <input.edit type="text" key=`task${task.id}` value=task.title/>
 
                  <button type = "button" on-click("updateComplete", task.id)>
-                        수정 완료
+                        확인
                 </button>
                 <button type = "button" on-click("resetState")>
                         취소
