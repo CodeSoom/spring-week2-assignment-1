@@ -3,7 +3,6 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.dto.Task;
 import com.codesoom.assignment.generators.IdGenerator;
 import com.codesoom.assignment.repositories.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,6 @@ public class TaskController {
     private final TaskRepository taskRepository;
     private final IdGenerator taskIdGenerator;
 
-    @Autowired
     public TaskController(TaskRepository taskRepository, IdGenerator unsignedLongGenerator) {
         this.taskRepository = taskRepository;
         this.taskIdGenerator = unsignedLongGenerator;
