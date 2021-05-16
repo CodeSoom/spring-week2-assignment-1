@@ -20,8 +20,10 @@ public class CusomResponseEntityExceptionHandler extends ResponseEntityException
     @ExceptionHandler(TaskIdNotFoundException.class)
     protected final ResponseEntity<Object> handleTaskIdNotFoundException
             (Exception ex, WebRequest request) {
+        System.out.println(request.getDescription(true));
+        //요청 url
         ExceptionResponse exceptionResponse
-                = new ExceptionResponse(ex.getMessage(), request.getDescription(false));
+                = new ExceptionResponse(ex.getMessage(), request.getDescription(true));
         return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -34,7 +36,10 @@ public class CusomResponseEntityExceptionHandler extends ResponseEntityException
 
     @Override
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported
+            (HttpRequestMethodNotSupportedException ex
+                    , HttpHeaders headers, HttpStatus status,
+             WebRequest request) {
         return super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
     }
 }
