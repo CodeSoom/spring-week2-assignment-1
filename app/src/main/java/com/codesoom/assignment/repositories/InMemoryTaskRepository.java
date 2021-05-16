@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class InMemoryTaskRepository implements TaskRepository {
@@ -21,11 +22,10 @@ public class InMemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Task fetchOne(Long id) {
+    public Optional<Task> fetchOne(Long id) {
         return tasks.stream()
                 .filter((Task task) -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     @Override

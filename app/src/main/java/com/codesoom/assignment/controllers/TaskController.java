@@ -11,10 +11,12 @@ import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.InMemoryTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("tasks")
@@ -36,17 +38,12 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task task(@PathVariable("id") Long id) {
+    public ResponseEntity<Task> task(@PathVariable Long id) {
         if(id == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task ID cannot be 0!");
         }
 
-        Task task = TaskRepository.fetchOne(id);
-        if (task == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task not found!");
-        }
-
-        return task;
+        return ResponseEntity.of(TaskRepository.fetchOne(id));
     }
 
     @PostMapping
