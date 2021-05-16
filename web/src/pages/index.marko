@@ -26,6 +26,28 @@ class {
         await axios.delete(`http://localhost:8080/tasks/${id}`);
         await this.loadTasks();
     }
+
+    async updateTask(id) {
+        const title = this.getEl(`title-${id}`).value;
+        await axios.patch(`http://localhost:8080/tasks/${id}`, {
+            title,
+        });
+        await this.loadTasks();
+    }
+
+    editTask(id) {
+        this.state.tasks = this.state.tasks.map(task => task.id == id ? {
+            ...task, 
+            editing: true,
+        } : task);
+    }
+
+    cancelEditTask(id) {
+        this.state.tasks = this.state.tasks.map(task => task.id == id ? {
+            ...task, 
+            editing: false,
+        } : task);
+    }
 }
 
 
@@ -34,10 +56,24 @@ class {
     <ol>
         <for|task| of=state.tasks>
             <li>
-                ${task.title}
-                <button type="button" on-click("deleteTask", task.id)>
-                    완료
-                </button>
+                <if(!task.editing)> 
+                    ${task.title}
+                    <button type="button" on-click("deleteTask", task.id)>
+                        완료
+                    </button>
+                    <button type="button" on-click("editTask", task.id)>
+                        수정
+                    </button>
+                </if>
+                <else>
+                    <input key=`title-${task.id}` type="text" value=task.title/>
+                    <button type="button" on-click("updateTask", task.id)>
+                        확인
+                    </button>
+                    <button type="button" on-click("cancelEditTask", task.id)>
+                        취소
+                    </button>
+                </else>
             </li>
         </for>
     </ol>
