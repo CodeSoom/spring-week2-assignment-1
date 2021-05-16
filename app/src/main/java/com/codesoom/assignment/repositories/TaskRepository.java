@@ -10,5 +10,6 @@ public interface TaskRepository {
     public List<Task> fetchAll();
     public Optional<Task> fetchOne(Long id);
     public List<Task> createOne(Task task);
+    public void deleteOne(Task task);
 
 }

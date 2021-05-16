@@ -33,4 +33,9 @@ public class InMemoryTaskRepository implements TaskRepository {
         tasks.add(task);
         return tasks;
     }
+
+    @Override
+    public void deleteOne(Task task) {
+        tasks.remove(task);
+    }
 }

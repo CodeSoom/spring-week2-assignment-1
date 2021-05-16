@@ -69,6 +69,19 @@ public class TaskController {
         return ResponseEntity.of(entity);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Task> delete(@PathVariable Long id) {
+        Optional<Task> entity = TaskRepository.fetchOne(id);
+
+        if (entity.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        TaskRepository.deleteOne(entity.get());
+
+        return ResponseEntity.noContent().build();
+    }
+
     private Long generateId() {
         newId += 1;
         return newId;
