@@ -1,8 +1,8 @@
 // TODO
 // 1. Read Collection - GET /tasks [OK]
-// 2. Read Item - GET /tasks/{id}
-// 3. Create - POST /tasks/{id}
-// 4. Update - PUT/PATCH /tasks/{id}
+// 2. Read Item - GET /tasks/{id} [OK]
+// 3. Create - POST /tasks/{id} [OK]
+// 4. Update - PUT/PATCH /tasks/{id} [OK]
 // 5. Delete - DELETE /tasks/{id}
 
 package com.codesoom.assignment.controllers;
@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,6 @@ import java.util.Optional;
 @RequestMapping("tasks")
 @CrossOrigin
 public class TaskController {
-//    private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
     private final InMemoryTaskRepository TaskRepository;
@@ -39,10 +39,6 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> task(@PathVariable Long id) {
-        if(id == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task ID cannot be 0!");
-        }
-
         return ResponseEntity.of(TaskRepository.fetchOne(id));
     }
 
@@ -54,6 +50,23 @@ public class TaskController {
 
         task.setId(generateId());
         return TaskRepository.createOne(task);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Task> update(
+            @PathVariable Long id,
+            @RequestBody Task source
+    ) {
+        Optional<Task> entity = TaskRepository.fetchOne(id);
+
+        if (entity.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Task task = entity.get();
+        task.setTitle(source.getTitle());
+
+        return ResponseEntity.of(entity);
     }
 
     private Long generateId() {
