@@ -7,7 +7,7 @@ import java.util.List;
 public interface TaskRepository {
 
     public List<Task> fetchAll();
-    public Task fetchOne(long id);
+    public Task fetchOne(Long id);
     public List<Task> createOne(Task task);
 
 }

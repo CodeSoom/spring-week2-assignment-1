@@ -11,6 +11,9 @@ notifications
 # Ignore Gradle build output directory
 build
 
+# Ignore JavaDoc directory
+javaDoc
+
 # VS Code
 .vscode
 

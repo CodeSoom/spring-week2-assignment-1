@@ -8,7 +8,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.repositories.TaskRepositoryImpl;
+import com.codesoom.assignment.repositories.InMemoryTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +23,10 @@ public class TaskController {
 //    private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
-    private final TaskRepositoryImpl TaskRepository;
+    private final InMemoryTaskRepository TaskRepository;
 
     @Autowired
-    public TaskController(TaskRepositoryImpl taskRepository) {
+    public TaskController(InMemoryTaskRepository taskRepository) {
         TaskRepository = taskRepository;
     }
 
@@ -36,7 +36,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task task(@PathVariable("id") long id) {
+    public Task task(@PathVariable("id") Long id) {
         if(id == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task ID cannot be 0!");
         }

@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class TaskRepositoryImpl implements TaskRepository {
+public class InMemoryTaskRepository implements TaskRepository {
 
     private final List<Task> tasks;
 
-    public TaskRepositoryImpl() {
+    public InMemoryTaskRepository() {
         this.tasks = new ArrayList<>();
     }
 
@@ -21,10 +21,10 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Task fetchOne(long id) {
+    public Task fetchOne(Long id) {
         return tasks.stream()
-                .filter((Task task) -> task.getId() == id)
-                .findAny()
+                .filter((Task task) -> task.getId().equals(id))
+                .findFirst()
                 .orElse(null);
     }
 
