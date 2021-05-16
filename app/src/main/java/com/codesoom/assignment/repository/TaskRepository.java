@@ -27,7 +27,7 @@ public class TaskRepository {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new TaskNotFoundException());
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public Task updateTask(long id, Task param) {
