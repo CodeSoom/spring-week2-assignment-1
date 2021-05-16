@@ -1,23 +1,12 @@
-// TODO
-// 1. Read Collection - GET /tasks [OK]
-// 2. Read Item - GET /tasks/{id} [OK]
-// 3. Create - POST /tasks/{id} [OK]
-// 4. Update - PUT/PATCH /tasks/{id} [OK]
-// 5. Delete - DELETE /tasks/{id}
-
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.InMemoryTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("tasks")
@@ -38,8 +27,8 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> task(@PathVariable Long id) {
-        return ResponseEntity.of(TaskRepository.fetchOne(id));
+    public Task task(@PathVariable Long id) {
+        return TaskRepository.fetchOne(id);
     }
 
     @PostMapping
@@ -53,31 +42,20 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Task> update(
+    protected Task update(
             @PathVariable Long id,
             @RequestBody Task source
     ) {
-        Optional<Task> entity = TaskRepository.fetchOne(id);
-
-        if (entity.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Task task = entity.get();
+        Task task = TaskRepository.fetchOne(id);
         task.setTitle(source.getTitle());
 
-        return ResponseEntity.of(entity);
+        return task;
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> delete(@PathVariable Long id) {
-        Optional<Task> entity = TaskRepository.fetchOne(id);
-
-        if (entity.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        TaskRepository.deleteOne(entity.get());
+        Task task = TaskRepository.fetchOne(id);
+        TaskRepository.deleteOne(task);
 
         return ResponseEntity.noContent().build();
     }

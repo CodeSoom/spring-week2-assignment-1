@@ -1,5 +1,6 @@
 package com.codesoom.assignment.repositories;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
@@ -22,10 +23,11 @@ public class InMemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> fetchOne(Long id) {
+    public Task fetchOne(Long id) {
         return tasks.stream()
                 .filter((Task task) -> task.getId().equals(id))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     @Override
