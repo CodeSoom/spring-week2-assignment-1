@@ -23,7 +23,7 @@ class {
     }
 
     async deleteTask(id) {
-        await axios.delete('http://localhost:8080/tasks/'+ id);
+        await axios.delete(`http://localhost:8080/tasks/${id}`);
         await this.loadTasks();
     }
 }
@@ -36,7 +36,7 @@ class {
             <li>
                 ${task.title}
                 <button type="button" on-click("deleteTask", task.id)>
-                    삭제
+                    완료
                 </button>
             </li>
         </for>
