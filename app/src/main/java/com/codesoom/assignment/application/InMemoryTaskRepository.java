@@ -26,20 +26,21 @@ public class InMemoryTaskRepository implements TaskRepository {
     @Override
     public Task fetchOne(Long id) {
         return tasks.stream()
-                .filter((Task task) -> task.getId().equals(id))
+                .filter(task -> task.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     @Override
-    public List<Task> createOne(Task task) {
+    public Task createOne(Task task) {
         if (task.getTitle().isBlank()) {
             throw new TaskTitleBlankException();
         }
 
         task.setId(generateId());
         tasks.add(task);
-        return tasks;
+
+        return task;
     }
 
     @Override

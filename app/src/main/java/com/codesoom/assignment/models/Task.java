@@ -7,7 +7,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("{id=%d, title=%s}", id, title);
+        return String.format("Task{id=%s, title=%s}", id, title);
     }
 
     public Long getId() {

@@ -8,7 +8,7 @@ public interface TaskRepository {
 
     public List<Task> fetchAll();
     public Task fetchOne(Long id);
-    public List<Task> createOne(Task task);
+    public Task createOne(Task task);
     public Task updateOne(Long id, Task task);
     public void deleteOne(Long id);
 
