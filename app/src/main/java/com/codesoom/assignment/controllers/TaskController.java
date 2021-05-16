@@ -1,9 +1,9 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.repositories.InMemoryTaskRepository;
+import com.codesoom.assignment.application.InMemoryTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,8 +12,6 @@ import java.util.List;
 @RequestMapping("tasks")
 @CrossOrigin
 public class TaskController {
-    private Long newId = 0L;
-
     private final InMemoryTaskRepository TaskRepository;
 
     @Autowired
@@ -32,36 +30,23 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public List<Task> create(@RequestBody Task task) {
-        if(task.getTitle().isBlank()) {
-            // TODO: Validation error...
-        }
-
-        task.setId(generateId());
         return TaskRepository.createOne(task);
     }
 
+    @PutMapping("/{id}")
     @PatchMapping("/{id}")
     protected Task update(
             @PathVariable Long id,
             @RequestBody Task source
     ) {
-        Task task = TaskRepository.fetchOne(id);
-        task.setTitle(source.getTitle());
-
-        return task;
+        return TaskRepository.updateOne(id, source);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Task> delete(@PathVariable Long id) {
-        Task task = TaskRepository.fetchOne(id);
-        TaskRepository.deleteOne(task);
-
-        return ResponseEntity.noContent().build();
-    }
-
-    private Long generateId() {
-        newId += 1;
-        return newId;
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        TaskRepository.deleteOne(id);
     }
 }

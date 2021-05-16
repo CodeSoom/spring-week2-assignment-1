@@ -1,17 +1,18 @@
-package com.codesoom.assignment.repositories;
+package com.codesoom.assignment.application;
 
+import com.codesoom.assignment.exceptions.TaskTitleBlankException;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class InMemoryTaskRepository implements TaskRepository {
 
     private final List<Task> tasks;
+    private Long newId = 0L;
 
     public InMemoryTaskRepository() {
         this.tasks = new ArrayList<>();
@@ -32,12 +33,31 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     @Override
     public List<Task> createOne(Task task) {
+        if (task.getTitle().isBlank()) {
+            throw new TaskTitleBlankException();
+        }
+
+        task.setId(generateId());
         tasks.add(task);
         return tasks;
     }
 
     @Override
-    public void deleteOne(Task task) {
+    public Task updateOne(Long id, Task source) {
+        Task task = fetchOne(id);
+        task.setTitle(source.getTitle());
+        return task;
+    }
+
+    @Override
+    public void deleteOne(Long id) {
+        Task task = fetchOne(id);
         tasks.remove(task);
+    }
+
+    @Override
+    public Long generateId() {
+        newId += 1;
+        return newId;
     }
 }
