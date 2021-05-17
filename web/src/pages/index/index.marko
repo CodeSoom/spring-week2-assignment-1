@@ -1,6 +1,8 @@
 // TODO
-// 1. GET /tasks -> 목록으로 표시
-// 2.
+// 1. GET /tasks -> 목록으로 표시 [완료]
+// 2. 입력 -> POST /tasks (할 일 추가) -> GET /tasks (목록 갱신) [완료]
+// 3. 삭제 [완료]
+// 4. 수정
 
 import axios from 'axios';
 
@@ -9,86 +11,85 @@ class {
         this.state = {
             tasks: [],
         };
-
         this.loadTasks();
     }
-
-   async loadTasks(){
+    async loadTasks() {
         const { data } = await axios.get('http://localhost:8080/tasks');
         this.state.tasks = data;
-   }
-
-   async addTask(){
+    }
+    async addTask() {
         const title = this.getEl('title').value;
-        await axios.post('http://localhost:8080/tasks',{
+        await axios.post('http://localhost:8080/tasks', {
             title,
         });
         await this.loadTasks();
-   }
-
-   updateTask(taskId){
-           this.state.tasks = this.state.tasks.map(task => task.taskId === taskId ? {
+    }
+    async deleteTask(id) {
+        await axios.delete(`http://localhost:8080/tasks/${id}`);
+        await this.loadTasks();
+    }
+    async updateTask(id) {
+        const title = this.getEl(`title-${id}`).value;
+        await axios.patch(`http://localhost:8080/tasks/${id}`, {
+            title,
+        });
+        await this.loadTasks();
+    }
+    editTask(id) {
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
             ...task,
-            isEditing: true,
-           } : task);
-      }
-
-   async removeTask(taskId){
-      await axios.delete(`http://localhost:8080/tasks/${taskId}`);
-      await this.loadTasks();
-   }
-
-      confirmTask(taskId){
-        const title = this.getEl(`title-${taskId}`).value;
-        await axios.put(`http://localhost:8080/tasks/${taskId}`,{
-            title,
-        });
-        await this.loadTasks();
-      }
-
-     cancelEditTask(taskId){
-       this.state.tasks = this.state.tasks.map(task => task.taskId === taskId ? {
-        ...task,
-        isEditing: false,
-       } : task);
-     }
+            editing: true,
+        } : task);
+    }
+    cancelEditTask(id) {
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+            ...task,
+            editing: false,
+        } : task);
+    }
 }
 
-<h1>Todo</h1>
-
+<h1>ToDo</h1>
 <ol>
-    <for|task| of=state.tasks>
-        <li key=task.id>
-            <if(task.isEditing)>
-                <input key=`title-${task.id}` type='text' value=task.title/>
-                <span>  </span>
-                <button type="button" on-click("confirmTask",task.id)>
-                        확인
+    <for|task, index| of=state.tasks>
+        <li>
+            <if(task.editing)>
+                <input
+                    key=`title-${task.id}`
+                    type="text"
+                    value=`${task.title}`
+                />
+                ${' '}
+                <button type="button" on-click('updateTask', task.id)>
+                    확인
                 </button>
-                <span>  </span>
-                <button type="button" on-click("cancelEditTask",task.id)>
-                        취소
+                ${' '}
+                <button type="button" on-click('cancelEditTask', task.id)>
+                    취소
                 </button>
             </if>
             <else>
                 ${task.title}
-                <span>  </span>
-                <button type="button" on-click("removeTask",task.id)>
-                        완료
+                ${' '}
+                <button type="button" on-click('editTask', task.id)>
+                    수정
                 </button>
-                <span>  </span>
-                <button type="button" on-click("updateTask",task.id)>
-                        수정
+                ${' '}
+                <button type="button" on-click('deleteTask', task.id)>
+                    완료
                 </button>
             </else>
-
         </li>
     </for>
 </ol>
 <p>
-    <label for:scoped="title">할일</label>
-    <input type="text" id:scoped="title" key="title" />
-    <button type="button" on-click("addTask")>
+    <label for:scoped="title">할 일</label>
+    <input
+        id:scoped="title"
+        key="title"
+        type="text"
+    />
+    <button type="button" on-click('addTask')>
         추가
     </button>
 </p>
