@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,14 +36,15 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> details(@PathVariable Long id){
-        return ResponseEntity.of(findTask(id));
+    public Task details(@PathVariable Long id){
+        return findTask(id);
     }
 
-    private Optional<Task> findTask(Long id) {
+    private Task findTask(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(()-> new TaskNotFoundException(id));
     }
 
     @PostMapping
@@ -55,28 +57,17 @@ public class TaskController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task old_task) {
-        Optional<Task> entity = findTask(id);
-
-        if(!entity.isPresent()){
-            return ResponseEntity.notFound().build();
-        }
-
-        Task task = entity.get();
+    public Task update(@PathVariable Long id, @RequestBody Task old_task) {
+        Task task = findTask(id);
         task.setTitle(old_task.getTitle());
 
-        return ResponseEntity.of(entity);
+        return task;
     }
 
     @DeleteMapping
     public ResponseEntity<Task> delete(@PathVariable Long id) {
-        Optional<Task> entity = findTask(id);
-
-        if(!entity.isPresent()){
-            return ResponseEntity.notFound().build();
-        }
-
-        tasks.remove(entity.get());
+        Task task = findTask(id);
+        tasks.remove(task);
 
         return ResponseEntity.noContent().build();
     }
