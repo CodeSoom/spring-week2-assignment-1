@@ -1,59 +1,48 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-
-/**
- * TODO
- * 1. Read Collection - GET /tasks
-  */
-
 
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+    private TaskService taskService;
+
+    public TaskController(){
+        taskService = new TaskService();
+    }
 
     @GetMapping
     public List<Task> list() {
-        return tasks;
+        return taskService.getTasks();
     }
 
     @GetMapping("/{id}")
-    public Task details(@PathVariable String id){
-        Task task = tasks.get(Integer.parseInt(id) - 1);
-        return task;
+    public Task details(@PathVariable Long id){
+        return taskService.findTask(id);
     }
 
     @PostMapping
     public Task created(@RequestBody Task task) {
-        task.setId(generatedId());
-        task.setTitle(task.getTitle());
-        tasks.add(task);
-
-        return task;
+        return taskService.createTask(task);
     }
 
-    @PutMapping("/{id}")
-    public Task update(@PathVariable String id, @RequestBody Task old_task) {
-        tasks.get(Integer.parseInt(id) - 1).setTitle(old_task.getTitle());
-        Task updated_task = tasks.get(Integer.parseInt(id) - 1);
-        return updated_task;
+    @PutMapping(value = "/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task old_task) {
+        return taskService.updateTask(id,old_task);
     }
 
-    @DeleteMapping
-    public List<Task> delete(@PathVariable String id, @RequestBody Task old_task) {
-        tasks.remove(Integer.parseInt(id) - 1);
-        return tasks;
+    @PatchMapping(value = "/{id}")
+    public Task patch(@PathVariable Long id, @RequestBody Task old_task) {
+        return taskService.updateTask(id,old_task);
     }
 
-    private Long generatedId() {
-        newId += 1;
-        return newId;
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
+        taskService.deleteTask(id);
     }
 }
