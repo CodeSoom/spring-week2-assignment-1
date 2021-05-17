@@ -1,0 +1,95 @@
+/**
+* ToDoList에서 각 행에 사용되는 Edit 영역의 컴포넌트입니다.
+*
+* @param taskId : 렌더링 될 할 일의 Id 
+* @param title : 렌더링 될 할 일의 제목
+*
+*/
+
+import axios from 'axios';
+
+class {
+
+    onCreate(param) {
+
+        this.state = {
+            "taskId" : param.taskId, // 할 일 Id
+            "title" : param.title, // 할 일 제목
+            "isEditing" : false, // EditMode 여부 ( true : Edite Mode, false : General Mode )
+        };
+
+    }
+    
+    /**
+    * UI 모드를 전환시킵니다. ( Generlan Mode / Edit Mode )
+    */
+    changeUiMode(){
+       this.state.isEditing  = !this.state.isEditing ;
+    }
+
+    /**
+    * 할 일을 수정합니다.
+    * @param taskId 수정할 할 일 Id
+    */
+    async updateTask(taskId) {
+
+        let $inp = this.getEl("modifiedTaskTitleInput");
+        let modifiedTitle = $inp.value;
+
+        try {
+
+            const {data} = await axios.put('http://localhost:8080/tasks/'+taskId, {
+                    "id" : taskId,
+                    "title" : modifiedTitle
+                }
+            );
+
+            this.changeUiMode();
+            this.state.title = data.title;
+
+        } catch (error) {
+
+            console.error(error);
+            alert(error.response.data);
+
+        }
+
+    } 
+    
+    /**
+    * 할 일을 삭제합니다.
+    * @param taskId 수정할 할 일 Id
+    */
+    async deleteTask(taskId) {
+
+        try {
+
+            const {data} = await axios.delete('http://localhost:8080/tasks/'+taskId);
+
+             this.emit("task-list-change");
+
+        } catch (error) {
+
+            console.error(error);
+            alert(error.response.data);
+
+        }
+       
+    }
+
+}
+    
+<if( state.isEditing  == true )> <!-- Edit Mode -->
+    <div>
+        <span><input key="modifiedTaskTitleInput" type="text" value =`${state.title}`></span>
+        <button on-click('updateTask', `${state.taskId}`)>확인</button>
+        <button on-click('changeUiMode', `${state.taskId}`)>취소</button>
+    </div>
+</>
+<else> <!-- General Mode -->
+    <div>
+        <span>${state.title}</span>
+        <button on-click('changeUiMode', `${state.taskId}`)>수정</button>
+        <button on-click('deleteTask', `${state.taskId}`)>완료</button>
+    </div>
+</else>

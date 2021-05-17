@@ -1,0 +1,62 @@
+import axios from 'axios';
+
+class {
+
+    onCreate() {
+
+        this.state = {
+            tasks: []
+        }
+
+        this.loadTasks();
+    }
+
+    /**
+    * 할 일 전체 목록을 불러옵니다. 
+    */
+    async loadTasks() {
+        const {data} = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data;
+    }
+
+    /**
+    * 할 일을 등록합니다.
+    */
+    async createTask() {
+        let $inp = this.getEl("newTaskTitleInput");
+        let newTitle = $inp.value;
+
+        try {
+
+            const {data} = await axios.post('http://localhost:8080/tasks', {
+                    "title" : newTitle
+                }
+            );
+
+            this.state.tasks = [...this.state.tasks, data]; // 등록한 할 일 추가 ( 데이터 변경 감지를 위해 배열을 다시 생성한다. )
+
+            $inp.value = ""; // 입력창 초기화
+
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
+    }
+
+}
+
+<h1>ToDo</h1>
+
+<ol>
+    <for|task| of=state.tasks>
+        <li key=`taskLi${task.id}`>
+           <edit-area key=`editArea${task.id}` taskId=task.id title=task.title on-task-list-change("loadTasks")/>
+        </li>
+    </for>
+</ol>
+
+<p>
+    <label for="newTaskTitleInput">할 일 :</label>
+    <input type="text" id="newTaskTitleInput" key="newTaskTitleInput">
+    <button on-click('createTask')>추가</button>
+</p>
