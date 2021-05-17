@@ -1,6 +1,6 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.TaskNotFoundException;
+import com.codesoom.assignment.application.TaskService;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,54 +21,44 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
 
-    private List<Task> taskList = new ArrayList<>();
-    private Long newTaskId = 0L;
+    private TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService =  taskService;
+    }
 
     @GetMapping("")
     public ResponseEntity getTaskList() {
+        List<Task> taskList = taskService.getTaskList();
+
         return new ResponseEntity(taskList, HttpStatus.OK);
     }
 
     @GetMapping("/{taskId}")
     public ResponseEntity getTask(@PathVariable Long taskId) {
-        Task searchTask = findTask(taskId);
+        Task searchTask = taskService.getTask(taskId);
 
         return new ResponseEntity(searchTask, HttpStatus.OK);
     }
 
     @PostMapping("")
     public ResponseEntity createTask(@RequestBody Task task) {
-        task.setId(generateId());
-        taskList.add(task);
+        Task createdTask = taskService.createTask(task);
 
-        return new ResponseEntity(task, HttpStatus.CREATED);
+        return new ResponseEntity(createdTask, HttpStatus.CREATED);
     }
 
     @PutMapping("/{taskId}")
     public ResponseEntity updateTask(@PathVariable Long taskId, @RequestBody Task requestTask) {
-        Task searchTask = findTask(taskId);
+        Task modifiedTask = taskService.updateTask(taskId, requestTask);
 
-        searchTask.setTitle(requestTask.getTitle());
-        return new ResponseEntity(searchTask, HttpStatus.OK);
+        return new ResponseEntity(modifiedTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity deleteTask(@PathVariable Long taskId) {
-        Task searchTask = findTask(taskId);
+        taskService.removeTask(taskId);
 
-        taskList.remove(searchTask);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    private Task findTask(Long taskId) {
-        return taskList.stream()
-                       .filter(task -> task.getId().equals(taskId))
-                       .findFirst()
-                       .orElseThrow(() -> new TaskNotFoundException(taskId));
-    }
-
-    private synchronized Long generateId() {
-        newTaskId = newTaskId + 1;
-        return newTaskId;
     }
 }
