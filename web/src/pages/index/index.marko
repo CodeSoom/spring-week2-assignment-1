@@ -26,35 +26,62 @@ class {
         await this.loadTasks();
    }
 
-   async updateTask(taskId,event){
-           const title = this.getEl('title').value;
-           await axios.put('http://localhost:8080/tasks'+taskId,{
-               title,
-           });
-           await this.loadTasks();
+   updateTask(taskId){
+           this.state.tasks = this.state.tasks.map(task => task.taskId === taskId ? {
+            ...task,
+            isEditing: true,
+           } : task);
       }
 
    async removeTask(taskId){
       await axios.delete(`http://localhost:8080/tasks/${taskId}`);
       await this.loadTasks();
    }
+
+      confirmTask(taskId){
+        const title = this.getEl(`title-${taskId}`).value;
+        await axios.put(`http://localhost:8080/tasks/${taskId}`,{
+            title,
+        });
+        await this.loadTasks();
+      }
+
+     cancelEditTask(taskId){
+       this.state.tasks = this.state.tasks.map(task => task.taskId === taskId ? {
+        ...task,
+        isEditing: false,
+       } : task);
+     }
 }
 
 <h1>Todo</h1>
 
 <ol>
     <for|task| of=state.tasks>
-        <li key=task.id> ${task.title}
-            <span>  </span>
-            <button type="button" on-click("removeTask",task.id)>
-                    완료
-            </button>
-            <button type="button" on-click("updateTask",task.id)>
-                    수정
-            </button>
-            <button type="button" on-click("removeTask",task.id)>
-                    삭제
-            </button>
+        <li key=task.id>
+            <if(task.isEditing)>
+                <input key=`title-${task.id}` type='text' value=task.title/>
+                <span>  </span>
+                <button type="button" on-click("confirmTask",task.id)>
+                        확인
+                </button>
+                <span>  </span>
+                <button type="button" on-click("cancelEditTask",task.id)>
+                        취소
+                </button>
+            </if>
+            <else>
+                ${task.title}
+                <span>  </span>
+                <button type="button" on-click("removeTask",task.id)>
+                        완료
+                </button>
+                <span>  </span>
+                <button type="button" on-click("updateTask",task.id)>
+                        수정
+                </button>
+            </else>
+
         </li>
     </for>
 </ol>
