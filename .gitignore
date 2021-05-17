@@ -1,6 +1,7 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 **/build/
+**/out/
 !src/**/build/
 caches
 daemon
@@ -9,6 +10,9 @@ notifications
 
 # Ignore Gradle build output directory
 build
+
+# Ignore JavaDoc directory
+javaDoc
 
 # VS Code
 .vscode
