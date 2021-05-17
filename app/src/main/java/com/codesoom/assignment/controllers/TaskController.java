@@ -69,9 +69,16 @@ public class TaskController {
     }
 
     @DeleteMapping
-    public List<Task> delete(@PathVariable String id, @RequestBody Task old_task) {
-        tasks.remove(getIndex(id));
-        return tasks;
+    public ResponseEntity<Task> delete(@PathVariable Long id) {
+        Optional<Task> entity = findTask(id);
+
+        if(!entity.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+
+        tasks.remove(entity.get());
+
+        return ResponseEntity.noContent().build();
     }
 
     private synchronized Long generatedId() {
