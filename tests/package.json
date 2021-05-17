@@ -24,5 +24,8 @@
     "jest-plugin-context": "^2.9.0",
     "puppeteer": "^5.5.0",
     "start-server-and-test": "^1.11.7"
+  },
+  "dependencies": {
+    "chromium": "^3.0.2"
   }
 }
