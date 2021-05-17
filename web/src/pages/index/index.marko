@@ -26,23 +26,31 @@ class {
         await this.loadTasks();
    }
 
-   async updateTask(){
+   async updateTask(taskId,event){
            const title = this.getEl('title').value;
-           await axios.post('http://localhost:8080/tasks',{
+           await axios.put('http://localhost:8080/tasks'+taskId,{
                title,
            });
            await this.loadTasks();
       }
+
+   async removeTask(taskId,event){
+      event.preventDefault();
+      await axios.delete('http://localhost:8080/tasks/' + taskId);
+      await this.loadTasks();
+   }
 }
 
 <h1>Todo</h1>
 
 <ol>
     <for|task| of=state.tasks>
-        <li>
-            ${task.title}  &nbsp;
-            <button type="button" on-click("updateTask")>
+        <li key=task.id> ${task.title}  &nbsp;
+            <button type="button" on-click("updateTask",task.id)>
                     수정
+            </button>
+            <button type="button" on-click("removeTask",task.id)>
+                    삭제
             </button>
         </li>
     </for>

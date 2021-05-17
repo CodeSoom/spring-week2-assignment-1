@@ -1,10 +1,20 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * TODO
@@ -25,9 +35,14 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task details(@PathVariable String id){
-        Task task = tasks.get(Integer.parseInt(id) - 1);
-        return task;
+    public ResponseEntity<Task> details(@PathVariable Long id){
+        return ResponseEntity.of(findTask(id));
+    }
+
+    private Optional<Task> findTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst();
     }
 
     @PostMapping
@@ -41,19 +56,25 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public Task update(@PathVariable String id, @RequestBody Task old_task) {
-        tasks.get(Integer.parseInt(id) - 1).setTitle(old_task.getTitle());
-        Task updated_task = tasks.get(Integer.parseInt(id) - 1);
+        tasks.get(getIndex(id)).setTitle(old_task.getTitle());
+        Task updated_task = tasks.get(getIndex(id));
         return updated_task;
     }
 
     @DeleteMapping
     public List<Task> delete(@PathVariable String id, @RequestBody Task old_task) {
-        tasks.remove(Integer.parseInt(id) - 1);
+        tasks.remove(getIndex(id));
         return tasks;
     }
 
-    private Long generatedId() {
+    private synchronized Long generatedId() {
         newId += 1;
         return newId;
+    }
+
+    // DRY 전략 적용
+    // method 방식으로 위임임
+   private int getIndex(String id){
+        return Integer.parseInt(id) - 1;
     }
 }
