@@ -34,9 +34,8 @@ class {
            await this.loadTasks();
       }
 
-   async removeTask(taskId,event){
-      event.preventDefault();
-      await axios.delete('http://localhost:8080/tasks/' + taskId);
+   async removeTask(taskId){
+      await axios.delete(`http://localhost:8080/tasks/${taskId}`);
       await this.loadTasks();
    }
 }
@@ -45,7 +44,11 @@ class {
 
 <ol>
     <for|task| of=state.tasks>
-        <li key=task.id> ${task.title}  &nbsp;
+        <li key=task.id> ${task.title}
+            <span>  </span>
+            <button type="button" on-click("removeTask",task.id)>
+                    완료
+            </button>
             <button type="button" on-click("updateTask",task.id)>
                     수정
             </button>
