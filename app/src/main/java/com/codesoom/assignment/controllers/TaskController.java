@@ -54,11 +54,18 @@ public class TaskController {
         return task;
     }
 
-    @PutMapping("/{id}")
-    public Task update(@PathVariable String id, @RequestBody Task old_task) {
-        tasks.get(getIndex(id)).setTitle(old_task.getTitle());
-        Task updated_task = tasks.get(getIndex(id));
-        return updated_task;
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task old_task) {
+        Optional<Task> entity = findTask(id);
+
+        if(!entity.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Task task = entity.get();
+        task.setTitle(old_task.getTitle());
+
+        return ResponseEntity.of(entity);
     }
 
     @DeleteMapping
