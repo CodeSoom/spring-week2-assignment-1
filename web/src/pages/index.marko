@@ -1,3 +1,68 @@
+import axios from 'axios'
+
+class {
+  onCreate() {
+    this.state = {
+      tasks: [],
+      editingTaskId: ''
+    };
+    this.loadTasks();
+  }
+
+  async loadTasks() {
+    const { data } = await axios.get("http://localhost:8080/tasks");
+    this.state.tasks = data;
+  }
+
+  async addTask() {
+    const title = this.getEl("title").value;
+    await axios.post("http://localhost:8080/tasks", {
+      title
+    });
+    await this.loadTasks();
+  }
+
+  async completeTask(taskId) {
+    await axios.delete(`http://localhost:8080/tasks/${taskId}`);
+    await this.loadTasks();
+  }
+
+  async updateTask() {
+    const taskId = this.state.editingTaskId;
+    const title = this.getEl("title").value;
+    await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+      title
+    });
+    await this.loadTasks();
+  }
+
+  setEditingTask(taskId) {
+    this.state.editingTaskId = taskId;
+  }
+
+  cancel() {
+    this.getEl("title").value = '';
+    this.state.editingTaskId = '';
+  }
+}
+
+
 <layout>
   <h1>ToDo</h1>
+  <ul>
+    <for|task| of=state.tasks>
+      <li>
+        ${task.title}
+        <button on-click("completeTask", task.id)>완료</button>
+        <button on-click("setEditingTask", task.id)>수정</button>
+      </li>
+    </for>
+  </ul>
+  <p>
+    <label for:scoped="title">할 일</label>
+    <input id:scoped="title" key="title" type="text"/>
+    <button type="button" on-click("addTask")>추가</button>
+    <button type="button" on-click("updateTask")>확인</button>
+    <button type="button" on-click("cancel")>취소</button>
+  </p>
 </layout>
