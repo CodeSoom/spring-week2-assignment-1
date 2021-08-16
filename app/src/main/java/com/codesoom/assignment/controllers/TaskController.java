@@ -4,6 +4,7 @@ import com.codesoom.assignment.models.Task;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ public class TaskController {
   private List<Task> tasks = new ArrayList<>();
   Long id =0L;
 
+
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<Task> taskList() {
@@ -29,6 +31,9 @@ public class TaskController {
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public Task targetTask(@PathVariable("id") Long id) {
+    if ( findTask(id) == null){
+      ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
+    }
     return findTask(id);
   }
 
@@ -51,15 +56,14 @@ public class TaskController {
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public List<Task> delete(@PathVariable("id") Long id){
+  public void delete(@PathVariable("id") Long id){
     tasks.remove(findTask(id));
-    return tasks;
+    return ;
   }
 
 
   private Long generateId() {
-    id++;
-    return id;
+    return ++id;
   }
 
   private Task findTask(Long id) {
