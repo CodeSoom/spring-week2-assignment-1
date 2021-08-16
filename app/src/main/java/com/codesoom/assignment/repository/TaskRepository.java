@@ -18,10 +18,15 @@ public class TaskRepository {
         return taskMap.get(id);
     }
 
-    public Task createTask(String title) {
+    public Task createTask(Task task) {
         Task newTask = new Task(TaskIdGenerator.getSequence());
-        newTask.setTitle(title);
+        newTask.setTitle(task.getTitle());
         taskMap.put(newTask.getId(), newTask);
         return newTask;
+    }
+
+    public Task putTask(Task task) {
+        taskMap.put(task.getId(), task);
+        return task;
     }
 }
