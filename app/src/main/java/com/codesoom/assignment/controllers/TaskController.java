@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     private final List<Map<String, Task>> tasks = new ArrayList<>();
     private final Map<String, Task> taskMap = new HashMap<>();
@@ -51,19 +54,8 @@ public class TaskController {
         return new ResponseEntity(task, HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Task> updateTaskByPatch(@PathVariable("id") Long id, @RequestBody Task task) {
-        Optional<Task> findtask = findTask(id);
-        if (findtask.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        findtask.get().setTitle(task.getTitle());
-
-        return new ResponseEntity(findtask, HttpStatus.OK);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTaskByPUT(@PathVariable("id") Long id, @RequestBody Task task) {
+    @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
+    public ResponseEntity<Task> updateTask(@PathVariable("id") Long id, @RequestBody Task task) {
         Optional<Task> findtask = findTask(id);
         if (findtask.isEmpty()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -80,7 +72,7 @@ public class TaskController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         taskMap.remove(String.valueOf(id));
-        
+
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
