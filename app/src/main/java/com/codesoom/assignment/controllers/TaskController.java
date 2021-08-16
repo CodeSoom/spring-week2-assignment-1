@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,6 +33,15 @@ public class TaskController {
     tasks.add(task);
     return task;
   }
+
+
+  @RequestMapping(path="/{id}", method={RequestMethod.PATCH, RequestMethod.PUT})
+  public Task rewrite(@RequestBody Task rewrittenTask,@PathVariable("id") Long id) throws Throwable {
+    Task targetTask = findTask(id);
+    targetTask.setTitle(rewrittenTask.getTitle());
+    return targetTask;
+  }
+
 
   private Long generateId() {
     id++;
