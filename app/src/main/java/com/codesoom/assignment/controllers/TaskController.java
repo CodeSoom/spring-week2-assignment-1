@@ -11,16 +11,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
     @GetMapping
-    public List<Task> list(){
+    public List<Task> getTasks(){
         return tasks;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> oneId(@PathVariable("id") Long id){
+    public ResponseEntity<Task> getTask(@PathVariable("id") Long id){
         Task task = findTask(id);
         if(task == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -29,7 +29,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> create(@RequestBody Task task){
+    public ResponseEntity<Task> createTask(@RequestBody Task task){
         task.setId(generateId());
         tasks.add(task);
 
@@ -37,7 +37,7 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Task> patchUpdate(@PathVariable("id") Long id, @RequestBody Task task){
+    public ResponseEntity<Task> updateTaskByPatch(@PathVariable("id") Long id, @RequestBody Task task){
         Task findedtask = findTask(id);
         if(findedtask == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -48,7 +48,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> putUpdate(@PathVariable("id") Long id, @RequestBody Task task){
+    public ResponseEntity<Task> updateTaskByPUT(@PathVariable("id") Long id, @RequestBody Task task){
         Task findedtask = findTask(id);
         if(findedtask == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -59,7 +59,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id){
+    public ResponseEntity deleteTask(@PathVariable("id") Long id){
         Task findedtask = findTask(id);
         if(findedtask == null){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
