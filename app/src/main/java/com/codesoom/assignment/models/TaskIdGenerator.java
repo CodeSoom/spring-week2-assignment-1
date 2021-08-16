@@ -6,4 +6,8 @@ public class TaskIdGenerator {
     public static Long getSequence() {
         return sequence++;
     }
+
+    public static Long getLastSequence() {
+        return sequence - 1;
+    }
 }
