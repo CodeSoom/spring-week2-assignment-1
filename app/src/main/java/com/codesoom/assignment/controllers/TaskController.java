@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.models.Task;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +41,12 @@ public class TaskController {
     Task targetTask = findTask(id);
     targetTask.setTitle(rewrittenTask.getTitle());
     return targetTask;
+  }
+
+  @DeleteMapping("/{id}")
+  public List<Task> delete(@PathVariable("id") Long id){
+    tasks.remove(findTask(id));
+    return tasks;
   }
 
 
