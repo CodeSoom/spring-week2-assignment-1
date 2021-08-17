@@ -21,13 +21,29 @@ class {
         await this.loadTasks();
     }
 
+    async deleteTask(event) {
+        event.preventDefault();
+        const {
+            target: {
+                parentElement : {
+                    id
+                }
+            }
+        } = event;
+        await axios.delete(`http://localhost:8080/tasks/${id}`);
+        await this.loadTasks();
+    }
+
 }
 <layout>
   <h1>ToDo</h1>
   <ol>
     <for|task| of=state.tasks>
-        <li>
+        <li id=`${task.id}`>
             ${task.title}
+            <button type="button" on-click("deleteTask")>
+            X
+            </button>
         </li>
     </for>
   </ol>
