@@ -23,5 +23,6 @@ public class Task {
   }
 
   public String toString() {
-    return "(" +id +", " + title +'}';
-  }}
+    return "(" + id + ", " + title + '}';
+  }
+}
