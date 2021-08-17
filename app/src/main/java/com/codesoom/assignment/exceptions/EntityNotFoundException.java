@@ -1,13 +1,13 @@
 package com.codesoom.assignment.exceptions;
 
-public class NotFoundEntityException extends RuntimeException{
+public class EntityNotFoundException extends RuntimeException{
     public static final String DEFAULT_MESSAGE = "요소를 찾을 수 없습니다.";
 
-    public NotFoundEntityException() {
+    public EntityNotFoundException() {
         super(DEFAULT_MESSAGE);
     }
 
-    public NotFoundEntityException(String message) {
+    public EntityNotFoundException(String message) {
         super(message);
     }
 }

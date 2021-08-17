@@ -1,6 +1,6 @@
 package com.codesoom.assignment.domain;
 
-import com.codesoom.assignment.exceptions.NotFoundEntityException;
+import com.codesoom.assignment.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -9,17 +9,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+
+/**
+ * Task를 컬렉션으로 관리하며 조회,저장,수정,삭제하는 클래스입니다.
+ */
 @Component
 public class TodoRepository {
-    private static final TodoRepository instance = new TodoRepository();
     private static final Map<Long, Task> store = new ConcurrentHashMap<>();
     private static Long sequence = 0L;
-
-    private TodoRepository() {}
-
-    public static TodoRepository getInstance() {
-        return instance;
-    }
 
     public Task save(Task task) {
         if (isNewTask(task)) {
@@ -32,7 +29,7 @@ public class TodoRepository {
         return task;
     }
 
-    private Long generateId() {
+    private synchronized Long generateId() {
         sequence += 1;
         return sequence;
     }
@@ -57,7 +54,7 @@ public class TodoRepository {
 
     public void deleteById(Long id) {
         if (!store.containsKey(id)) {
-            throw new NotFoundEntityException();
+            throw new EntityNotFoundException();
         }
 
         store.remove(id);

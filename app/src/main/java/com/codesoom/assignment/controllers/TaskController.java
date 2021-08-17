@@ -2,23 +2,32 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.domain.TodoRepository;
-import com.codesoom.assignment.exceptions.NotFoundEntityException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codesoom.assignment.exceptions.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+/**
+ * 이 클래스는 Task 작업에 대한  Rest API를 제공한다.
+ */
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
     private final TodoRepository todoRepository;
 
-    @Autowired
     public TaskController(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
     }
@@ -30,7 +39,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findOne(@PathVariable long id) {
-        final Task findTask = todoRepository.findById(id).orElseThrow(NotFoundEntityException::new);
+        final Task findTask = todoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 
         return ResponseEntity.ok(findTask);
     }
@@ -43,7 +52,7 @@ public class TaskController {
 
     @RequestMapping(path = "/{id}", method = {PUT, PATCH})
     public ResponseEntity<Task> updateTask(@PathVariable long id, @RequestBody Task task) {
-        final Task findTask = todoRepository.findById(id).orElseThrow(NotFoundEntityException::new);
+        final Task findTask = todoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         findTask.updateTitle(task.getTitle());
 
         return ResponseEntity.ok().body(findTask);
@@ -56,8 +65,8 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @ExceptionHandler(NotFoundEntityException.class)
-    public ResponseEntity<String> handleNotFoundEntityException() {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException() {
         return ResponseEntity.notFound().build();
     }
 }
