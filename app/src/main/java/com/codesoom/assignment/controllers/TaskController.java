@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.dtos.TaskDTO;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,22 +42,22 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task postTask(@RequestBody final Task task) {
-        task.setId(generateId());
+    public Task postTask(@RequestBody final TaskDTO taskDTO) {
+        Task task = new Task(generateId(), taskDTO.getTitle());
         tasks.add(task);
         return task;
     }
 
     @PatchMapping(ID_PATH)
     @PutMapping(ID_PATH)
-    public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final Task newTask) throws Exception {
+    public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final TaskDTO taskDTO) {
         Optional<Task> taskOptional = tasks.stream()
                 .filter(task -> Objects.equals(task.getId(), id))
                 .findFirst();
         if (taskOptional.isEmpty()) {
             throw new TaskNotFoundException();
         }
-        taskOptional.get().setTitle(newTask.getTitle());
+        taskOptional.get().setTitle(taskDTO.getTitle());
         return taskOptional.get();
     }
 
