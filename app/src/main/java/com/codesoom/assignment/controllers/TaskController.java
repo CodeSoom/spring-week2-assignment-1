@@ -35,7 +35,7 @@ public class TaskController {
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public Task targetTask(@PathVariable("id") Long id) throws HttpClientErrorException {
-    if(!tasks.containsKey(id)){
+    if (!tasks.containsKey(id)) {
       throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
     }
     System.out.println(tasks.get(id));
@@ -47,7 +47,7 @@ public class TaskController {
   public Task create(@RequestBody Task task) throws Throwable {
     Long generatedId = generateId();
     task.setId(generatedId);
-    tasks.put(generatedId,task);
+    tasks.put(generatedId, task);
     return task;
   }
 
@@ -63,8 +63,8 @@ public class TaskController {
 
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{id}")
-  public void delete(@PathVariable("id") Long id) throws HttpClientErrorException{
-    if(!tasks.containsKey(id)){
+  public void delete(@PathVariable("id") Long id) throws HttpClientErrorException {
+    if (!tasks.containsKey(id)) {
       throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
     }
     tasks.remove(id);
