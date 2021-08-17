@@ -1,3 +1,63 @@
-<layout>
-  <h1>ToDo</h1>
-</layout>
+
+import axios from 'axios'
+
+class {
+    onCreate(){
+        this.state = {
+            tasks: [],
+        };
+
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        console.log(data)
+        this.state.tasks = data;
+    }
+
+    async addTask() {
+        console.log("add")
+        const title = this.getEl('title').value;
+        console.log(title);
+        await axios.post('http://localhost:8080/tasks', {
+            title,
+        });
+        await this.loadTasks();
+    };
+
+    async updateTask(id, event) {
+        event.preventDefault();
+        console.log(`update ${id}`)
+        await axios.put(`http://localhost:8080/tasks/${id}`);
+        await this.loadTasks();
+    };
+
+    async completeTask(id, event) {
+        event.preventDefault();
+        console.log(`complete ${id}`)
+        await axios.delete(`http://localhost:8080/tasks/${id}`);
+        await this.loadTasks();
+    };
+}
+
+
+<h1>ToDo</h1>
+<ol>
+    <for|task| of=state.tasks>
+        <li>
+            ${task.title}
+            <button on-click("updateForm")>
+                수정
+            </button>
+            <button on-click("completeTask", task.id)>
+                완료
+            </button>
+        </li>
+    </for>
+</ol>
+<p>
+    <label for:scoped="title">할 일</label>
+    <input id:scoped="title" key="title" type="text" />
+    <button type="button" on-click("addTask")>추가</button>
+</p>
