@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -48,8 +49,7 @@ public class TaskController {
         return task;
     }
 
-    @PatchMapping(ID_PATH)
-    @PutMapping(ID_PATH)
+    @RequestMapping(value = ID_PATH, method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final TaskDTO taskDTO) {
         Optional<Task> taskOptional = tasks.stream()
                 .filter(task -> Objects.equals(task.getId(), id))
