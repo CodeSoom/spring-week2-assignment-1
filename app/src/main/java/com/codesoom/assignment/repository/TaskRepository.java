@@ -15,34 +15,37 @@ public class TaskRepository {
         return taskMap.values();
     }
 
-    public Task getTaskById(Long id) {
-        return taskMap.get(id);
+    public Optional<Task> getTaskById(Long id) {
+        return Optional.ofNullable(taskMap.get(id));
     }
 
-    public Task createTask(Task task) {
+    public Task postTask(Task task) {
         Task newTask = new Task(TaskIdGenerator.getSequence());
         newTask.setTitle(task.getTitle());
         taskMap.put(newTask.getId(), newTask);
         return newTask;
     }
 
-    public Task putTask(Long id, Task task) {
-        taskMap.put(task.getId(), task);
-        return task;
+    public Optional<Task> putTask(Long id, Task task) {
+        Optional<Task> oldTask = Optional.ofNullable(taskMap.get(id));
+        oldTask.ifPresent(thisTask -> {
+            thisTask.setTitle(task.getTitle());
+            taskMap.put(thisTask.getId(), thisTask);
+        });
+        return oldTask;
     }
 
     public Optional<Task> patchTask(Long id, Task task) {
         Optional<Task> oldTask = Optional.ofNullable(taskMap.get(id));
-        oldTask.ifPresent(item -> item.setTitle(task.getTitle()));
+        oldTask.ifPresent(thisTask -> {
+            thisTask.setTitle(task.getTitle());
+            taskMap.put(thisTask.getId(), thisTask);
+        });
         return oldTask;
     }
 
     public Optional<Task> deleteTask(Long id) {
-        Task task = null;
-        if (taskMap.containsKey(id)) {
-            task = taskMap.get(id);
-            taskMap.remove(id);
-        }
-        return Optional.ofNullable(task);
+        Optional<Task> task = Optional.ofNullable(taskMap.get(id));
+        return task;
     }
 }

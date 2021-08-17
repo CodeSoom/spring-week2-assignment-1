@@ -2,7 +2,6 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,36 +26,48 @@ public class TaskController {
     TaskRepository taskRepository = new TaskRepository();
 
     @GetMapping
-    public Collection<Task> getTaskList() {
-        return taskRepository.getTaskList();
+    public ResponseEntity<Collection<Task>> getTaskList() {
+        return new ResponseEntity<>(taskRepository.getTaskList(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
-        if (Optional.ofNullable(taskRepository.getTaskById(id)).isPresent()) {
-            return new ResponseEntity<>(taskRepository.getTaskById(id), HttpStatus.OK);
+        Optional<Task> task = taskRepository.getTaskById(id);
+        if (task.isPresent()) {
+            return new ResponseEntity(task, HttpStatus.OK);
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        return new ResponseEntity<>(taskRepository.createTask(task), HttpStatus.CREATED);
+    public ResponseEntity<Task> postTask(@RequestBody Task task) {
+        return new ResponseEntity<>(taskRepository.postTask(task), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> putTask(@PathVariable Long id, @RequestBody Task task) {
-        Task newTask = taskRepository.putTask(id, task);
-        return new ResponseEntity<>(newTask, HttpStatus.OK);
+        Optional<Task> newTask = taskRepository.putTask(id, task);
+        if (newTask.isPresent()) {
+            return new ResponseEntity(newTask, HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PatchMapping("/{id}")
-    public Optional<Task> patchTask(@PathVariable Long id, @RequestBody Task task) {
-        return taskRepository.patchTask(id, task);
+    public ResponseEntity<Task> patchTask(@PathVariable Long id, @RequestBody Task task) {
+        Optional<Task> newTask = taskRepository.putTask(id, task);
+        if (newTask.isPresent()) {
+            return new ResponseEntity(newTask, HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
-    public Optional<Task> deleteTask(@PathVariable Long id) {
-        return taskRepository.deleteTask(id);
+    public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
+        Optional<Task> deleteTask = taskRepository.deleteTask(id);
+        if (deleteTask.isPresent()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 }
