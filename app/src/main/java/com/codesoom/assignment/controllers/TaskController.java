@@ -1,9 +1,9 @@
 // TODO
 // 1. Read Collection - GET /tasks => 완료
-// 2. Read Item - GET /tasks/{id}
+// 2. Read Item - GET /tasks/{id} => 완료
 // 3. Create - POST /tasks => 완료
-// 4. Update - PUT/PATCh /tasks/{id} => 완료
-// 5. Delete - DELETE /tasks/{id} => WIP
+// 4. Update - PUT/PATCH /tasks/{id} => 완료
+// 5. Delete - DELETE /tasks/{id} => 완료
 
 package com.codesoom.assignment.controllers;
 
@@ -33,9 +33,7 @@ public class TaskController {
         return task;
     }
 
-    @PutMapping
-    @PatchMapping
-    @RequestMapping("/{id}")
+    @PutMapping("/{id}")
     public Task modify(@RequestBody Task task, @PathVariable("id") long id) {
         task.setId(id);
         tasks.put(task.getId(), task);
@@ -43,12 +41,11 @@ public class TaskController {
         return task;
     }
 
-//    @DeleteMapping
-//    @RequestMapping("/{id}")
-//    public String delete(@PathVariable("id") long id) {
-//        tasks.remove(id);
-//        return "삭제됨";
-//    }
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") long id) {
+        tasks.remove(id);
+        return "삭제됨";
+    }
 
     private Long generateId() {
         newId += 1;
