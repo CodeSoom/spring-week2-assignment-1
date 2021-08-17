@@ -20,77 +20,22 @@ class {
         });
         await this.loadTasks();
     }
-
-    async updateTask(event) {
-        const id = this.getEl("id").id;
-        const title = this.getEl("taskTitle").value;
-        await axios.patch(`http://localhost:8080/tasks/${parentElement.id}`, {
-            title,
-        });
-        await this.loadTasks();
-    }
-
-    async updateFormat() {
-        const taskId = this.getEl("taskId").id;
-        console.log(taskId);
-        this.state.tasks[taskId]["isUpdateFormat"] = true;
-        await this.loadTasks();
-    }
-
-    async calcelUpdate() {
-        const taskId = this.getEl("taskId").value;
-        this.state.tasks[taskId].isUpdateFormat = false;
-        await this.loadTasks();
-    }
-
-    async deleteTask(event) {
-        event.preventDefault();
-        const {
-            target: {
-                parentElement: {
-                    id
-                }
-            }
-        } = event;
-        await axios.delete(`http://localhost:8080/tasks/${id}`);
-        await this.loadTasks();
-    }
-
 }
 
 <layout>
-  <h1>ToDo</h1>
-  <ol>
+    <h1>ToDo</h1>
+    <ol>
     <for|task| of=state.tasks>
-        <li id=`${task.id}` key="taskId">
-            <if(task.isUpdateFormat)>
-                <input type="text" key="taskTitle" value=`${task.title}`>
-                <button type="button" on-click("updateTask")>
-                    완료
-                </button>
-                <button type="button" on-click("calcelUpdate")>
-                    취소
-                </button>
-            </if>
-            <else>
-                <span>${task.title}</span>
-                <button type="button" on-click("updateFormat")>
-                    수정
-                </button>
-                <button type="button" on-click("deleteTask")>
-                    완료
-                </button>
-            </else>
-        </li>
+        <task-item task=task/>
     </for>
-  </ol>
+    </ol>
+    <p>
+        <label for:scoped="title">
+            할 일
+        </label>
+        <input id:scoped="title" key="title" type="text" />
+        <button type="button" on-click("addTask")>
+            추가
+        </button>
+    </p>
 </layout>
-<p>
-    <label for:scoped="title">
-        할 일
-    </label>
-    <input id:scoped="title" key="title" type="text" />
-    <button type="button" on-click("addTask")>
-        추가
-    </button>
-</p>
