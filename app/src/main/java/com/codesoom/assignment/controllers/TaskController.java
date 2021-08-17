@@ -14,6 +14,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     private final TodoRepository todoRepository;
 
