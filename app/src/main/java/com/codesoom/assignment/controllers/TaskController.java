@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +24,6 @@ import java.util.stream.IntStream;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-    private static final String ROOT_PATH = "";
     private static final String ID_PATH = "/{id}";
     private static final String ID = "id";
     private static final int INDEX_START = 0;
@@ -35,12 +35,12 @@ public class TaskController {
         return ++newId;
     }
 
-    @GetMapping(ROOT_PATH)
-    public List<Task> sayHello() {
+    @GetMapping
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    @PostMapping(ROOT_PATH)
+    @PostMapping
     public Task postTask(@RequestBody final Task task) {
         task.setId(generateId());
         tasks.add(task);
@@ -49,19 +49,22 @@ public class TaskController {
 
     @PatchMapping(ID_PATH)
     @PutMapping(ID_PATH)
-    public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final Task newTask) {
+    public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final Task newTask) throws Exception {
         Optional<Task> taskOptional = tasks.stream()
                 .filter(task -> Objects.equals(task.getId(), id))
                 .findFirst();
-        taskOptional.ifPresent(task -> task.setTitle(newTask.getTitle()));
+        if (taskOptional.isEmpty()) {
+            throw new TaskNotFoundException();
+        }
+        taskOptional.get().setTitle(newTask.getTitle());
         return taskOptional.get();
     }
 
     @DeleteMapping(ID_PATH)
     public void deleteTask(@PathVariable(ID) final Long id) {
-        OptionalInt indexOptional = IntStream.range(INDEX_START, tasks.size())
+        IntStream.range(INDEX_START, tasks.size())
                 .filter(index -> Objects.equals(tasks.get(index).getId(), id))
-                .findFirst();
-        indexOptional.ifPresent(tasks::remove);
+                .findFirst()
+                .ifPresent(tasks::remove);
     }
 }
