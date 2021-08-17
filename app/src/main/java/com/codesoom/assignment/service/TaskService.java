@@ -2,14 +2,16 @@ package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 public interface TaskService {
 
-    public Map getAll();
-    public Task getDetail(String findId);
+    public Collection<Task> getAll();
+    public Optional<Task> getDetails(Long taskId);
     public Task create(Task task);
-    public Task updateTask(String findId, Task task);
-    public void deleteTask(String findId);
+    public Optional<Task> updateTask(Long taskId, Task task);
+    public boolean deleteTask(Long taskId);
 
 }

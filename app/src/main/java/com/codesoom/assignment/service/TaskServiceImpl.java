@@ -5,7 +5,9 @@ import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class TaskServiceImpl implements TaskService {
@@ -18,13 +20,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Map getAll() {
+    public Collection<Task> getAll() {
         return taskRepository.findAll();
     }
 
     @Override
-    public Task getDetail(String findId) {
-        return taskRepository.findTask(findId);
+    public Optional<Task> getDetails(Long taskId) {
+        return taskRepository.findTask(taskId);
     }
 
     @Override
@@ -33,13 +35,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task updateTask(String findId, Task task) {
-       return taskRepository.updateTask(findId, task);
+    public Optional<Task> updateTask(Long taskId, Task task) {
+       return taskRepository.updateTask(taskId, task);
     }
 
     @Override
-    public void deleteTask(String findId) {
-        taskRepository.deleteTask(findId);
+    public boolean deleteTask(Long taskId) {
+
+        if(taskRepository.deleteTask(taskId)){
+            return true;
+        }
+        return false;
+
     }
 
 

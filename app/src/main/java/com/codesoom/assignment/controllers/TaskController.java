@@ -3,9 +3,16 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpResponse;
+import java.util.Collection;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -15,30 +22,58 @@ public class TaskController {
     private TaskService taskService;
 
 
-    @GetMapping("")
-    public Map getAll() {
-       return taskService.getAll();
+    @GetMapping
+    public Collection<Task> getAll(HttpServletResponse response) {
+        response.setStatus(HttpStatus.OK.value());
+        return taskService.getAll();
     }
 
-    @GetMapping("/{findId}")
-    public Task getDetail(@PathVariable("findId") String findId)
-    {
-        return taskService.getDetail(findId);
+    @GetMapping("/{taskId}")
+    public Task getDetails(@PathVariable("taskId") Long taskId,HttpServletResponse response) {
+
+        Optional<Task> task = taskService.getDetails(taskId);
+        if(task.isPresent()) {
+            response.setStatus(HttpStatus.OK.value());
+            return task.get();
+        } else {
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            return null;
+        }
+
     }
 
-    @PostMapping("")
-    public Task create(@RequestBody Task task) {
+    @PostMapping
+    public Task create(@RequestBody Task task, HttpServletResponse response) {
+
+        response.setStatus(HttpStatus.CREATED.value());
         return taskService.create(task);
+
     }
 
-    @PutMapping("/{findId}")
-    public Task updateTask(@PathVariable("findId") String findId, @RequestBody Task task){
-       return  taskService.updateTask(findId, task);
+    @PutMapping("/{taskId}")
+    public Task updateTask(@PathVariable("taskId") Long taskId, @RequestBody Task task, HttpServletResponse response){
+
+        Optional<Task> result = taskService.updateTask(taskId, task);
+        if(result.isPresent()) {
+            response.setStatus(HttpStatus.OK.value());
+            return result.get();
+        }
+        else {
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+            return null;
+        }
+
     }
 
-    @DeleteMapping("/{findId}")
-    public void deleteTask(@PathVariable("findId") String findId){
-        taskService.deleteTask(findId);
+    @DeleteMapping("/{taskId}")
+    public void deleteTask(@PathVariable("taskId") Long taskId, HttpServletResponse response){
+
+        if(taskService.deleteTask(taskId)) {
+            response.setStatus(HttpStatus.NO_CONTENT.value());
+        } else {
+            response.setStatus(HttpStatus.NOT_FOUND.value());
+        }
+
     }
 
 }
