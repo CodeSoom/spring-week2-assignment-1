@@ -18,6 +18,10 @@ public class TaskController {
     private final List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
+    private Long generateId() {
+        return ++newId;
+    }
+
     @GetMapping("")
     public List<Task> sayHello() {
         return tasks;
@@ -25,7 +29,8 @@ public class TaskController {
 
     @PostMapping("")
     public Task postTask(@RequestBody final Task task) {
-        task.setId(++newId);
+        task.setId(generateId());
+        tasks.add(task);
         return task;
     }
 }
