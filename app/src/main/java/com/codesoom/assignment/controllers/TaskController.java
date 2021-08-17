@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     TaskManager taskManager = new TaskManager();
 
