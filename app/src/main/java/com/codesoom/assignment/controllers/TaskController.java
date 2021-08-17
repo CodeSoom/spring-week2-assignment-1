@@ -2,6 +2,9 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
+import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,18 +32,22 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Task> getTaskById(@PathVariable Long id) {
-        return Optional.ofNullable(taskRepository.getTaskById(id));
+    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
+        if (Optional.ofNullable(taskRepository.getTaskById(id)).isPresent()) {
+            return new ResponseEntity<>(taskRepository.getTaskById(id), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskRepository.createTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+        return new ResponseEntity<>(taskRepository.createTask(task), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Task putTask(@PathVariable Long id, @RequestBody Task task) {
-        return taskRepository.putTask(id, task);
+    public ResponseEntity<Task> putTask(@PathVariable Long id, @RequestBody Task task) {
+        Task newTask = taskRepository.putTask(id, task);
+        return new ResponseEntity<>(newTask, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
