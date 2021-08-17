@@ -1,5 +1,6 @@
 import axios from 'axios'
 class {
+
     onCreate() {
         this.state = {
         tasks : [],
@@ -9,11 +10,14 @@ class {
 
     async loadTasks(){
         const { data } = await axios.get("http://localhost:8080/tasks");
-        this.state.tasks = data;
+        this.state.tasks = data.map(this.initTask);
+    }
+
+    initTask(task) {
+        return {...task, isUpdateMode: false};
     }
 
    async addTask() {
-
        const title = this.getEl('title').value;
 
         // 추가
@@ -21,22 +25,58 @@ class {
             title,
         });
         // 재로딩
-        await this.loadTasks(); 
+        await this.loadTasks();
     }
 
-    async editTask(){
+    async updateTask(taskId) {
+        // 수정
+        await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+            title: this.getEl('editTitle').value
+        });
 
+        // 재로딩
+        await this.loadTasks();
     }
+
+    async deleteTask(taskId) {
+            // 수정
+            await axios.delete(`http://localhost:8080/tasks/${taskId}`);
+
+            // 재로딩
+            await this.loadTasks();
+        }
+
+
+
+   editButton(taskInfo) {
+        this.state.tasks = this.state.tasks.map(task => {
+            if(task.id === taskInfo.id){
+                task.isUpdateMode = taskInfo.on;
+            }
+            return task;
+        });
+    }
+
+
  }
 
 <h1>ToDo</h1>
 <ol>
     <for|task| of=state.tasks>
-        <li>
-            ${task.title}
-            <button type="button" on-click("editTask")>수정</button>
-            <button> 완료 </button>
-        </li>
+        <if(task.isUpdateMode)>
+            <li>
+                <input type="text" key="editTitle" value='${task.title}'>
+                <button type="button" on-click("updateTask", task.id)>확인</button>
+                <button type="button" on-click("editButton", { id: task.id, on: false})>취소</button>
+            </li>
+        </if>
+        <else>
+            <li>
+                ${task.title}
+                <button type="button" on-click("editButton", { id: task.id, on: true})>수정</button>
+                <button type="button" on-click("deleteTask", task.id)> 완료 </button>
+            </li>
+        </else>
     </for>
 </ol>
 
@@ -45,5 +85,5 @@ class {
     할 일
 </label>
 <input id:scoped="title" key="title" type="text">
-<button type="button" on-click("addTask")>전송</button>
+<button type="button" on-click("addTask")>추가</button>
 </p>
