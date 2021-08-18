@@ -42,13 +42,13 @@ public class TaskController {
     }
 
     @RequestMapping(value = "{id}", method = { RequestMethod.PUT, RequestMethod.PATCH })
-    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
+    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task requestTask) {
 
-        Optional<Task> findTask = findTaskById(id);
-        findTask.isPresent();
-        if (findTask.isPresent()) {
-            findTask.get().setTitle(task.getTitle());
-            return new ResponseEntity(findTask, HttpStatus.OK);
+        Optional<Task> task = findTaskById(id);
+        task.isPresent();
+        if (task.isPresent()) {
+            task.get().setTitle(requestTask.getTitle());
+            return new ResponseEntity(task, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -56,9 +56,9 @@ public class TaskController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> completeTask(@PathVariable Long id) {
-        Optional<Task> findTask = findTaskById(id);
-        if (findTask.isPresent()) {
-            tasks.remove(findTask.get());
+        Optional<Task> task = findTaskById(id);
+        if (task.isPresent()) {
+            tasks.remove(task.get());
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -70,12 +70,10 @@ public class TaskController {
     }
 
     private Optional<Task> findTaskById(Long id) {
-        Task task = tasks
+        return tasks
                 .stream()
                 .filter(t -> t.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        return Optional.ofNullable(task);
+                .findFirst();
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
