@@ -11,7 +11,7 @@ public class TaskMap {
 
     private final Map<Long, Task> taskMap = new HashMap<>();
 
-    public void put(Long lastId, Task task) {
+    public void insert(Long lastId, Task task) {
         taskMap.put(lastId, task);
     }
 
@@ -19,7 +19,7 @@ public class TaskMap {
         return taskMap.values();
     }
 
-    public Task get(Long id) {
+    public Task getWith(Long id) {
         return Optional.ofNullable(taskMap.get(id))
             .orElseThrow(TaskIdNotFoundException::new);
     }

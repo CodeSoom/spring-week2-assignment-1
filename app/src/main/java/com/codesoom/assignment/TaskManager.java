@@ -22,7 +22,7 @@ public class TaskManager {
         Long lastId = getLastId();
         task.setId(lastId);
 
-        taskMap.put(lastId, task);
+        taskMap.insert(lastId, task);
 
         return task;
     }
@@ -32,7 +32,7 @@ public class TaskManager {
     }
 
     public Task getTaskWith(Long id) {
-        return taskMap.get(id);
+        return taskMap.getWith(id);
     }
 
     private synchronized Long getLastId() {
