@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    TaskManager taskManager = new TaskManager();
+    private TaskManager taskManager = new TaskManager();
 
     @GetMapping("/**")
     public ResponseEntity<List<Task>> getAll() {
