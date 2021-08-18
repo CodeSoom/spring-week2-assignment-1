@@ -19,7 +19,7 @@ public class TaskManager {
     }
 
     public Task createTask(Task task) {
-        Long lastId = generateLastId();
+        Long lastId = getLastId();
         task.setId(lastId);
 
         taskMap.put(lastId, task);
@@ -27,9 +27,13 @@ public class TaskManager {
         return task;
     }
 
-    public Long generateLastId() {
-        lastId++;
+    public synchronized Long getLastId() {
+        increaseLastId();
         return lastId;
+    }
+
+    private void increaseLastId() {
+        lastId++;
     }
 
     public Collection<Task> getAllTasks() {
