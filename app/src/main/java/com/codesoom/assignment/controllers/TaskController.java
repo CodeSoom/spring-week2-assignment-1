@@ -1,6 +1,4 @@
 //Todo
-// 1. 메소드세이프
-// 2. httpclient Error exception & tasknotfound exception
 // 5. build. gradel Tpfvm flqb
 
 package com.codesoom.assignment.controllers;
@@ -10,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +23,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
 
   private Long id = 0L;
