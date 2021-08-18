@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
 
     private HashMap<Long, Task> tasks = new HashMap<>();
