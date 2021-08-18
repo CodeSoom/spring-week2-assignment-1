@@ -35,6 +35,10 @@ public class TaskManager {
         return taskMap.getWith(id);
     }
 
+    public Task updateTask(Long id, Task content) {
+        return taskMap.update(id, content.getTitle());
+    }
+
     private synchronized Long getLastId() {
         increaseLastId();
         return lastId;
