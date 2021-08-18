@@ -43,7 +43,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task findOne(@PathVariable long id) {
+    public Task findOne(@PathVariable Long id) {
         return  todoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
@@ -54,7 +54,7 @@ public class TaskController {
     }
 
     @RequestMapping(path = "/{id}", method = {PUT, PATCH})
-    public Task updateTask(@PathVariable long id, @RequestBody Task task) {
+    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
         final Task findTask = todoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         findTask.updateTitle(task.getTitle());
 
@@ -63,7 +63,7 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTask(@PathVariable long id) {
+    public void deleteTask(@PathVariable Long id) {
         todoRepository.deleteById(id);
     }
 
