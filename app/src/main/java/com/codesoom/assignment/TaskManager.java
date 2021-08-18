@@ -5,28 +5,31 @@ import com.codesoom.assignment.Exception.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class TaskManager {
     private Long nextId = 1L;
-    private List<Task> tasks = new ArrayList<>();
+    private HashMap<Long, Task> tasks = new HashMap<>();
 
     public void create(String title) {
-        Task newTask = new Task(this.nextId++, title);
-        this.tasks.add(newTask);
+        Long newId = nextId++;
+        Task newTask = new Task(newId, title);
+        this.tasks.put(newId, newTask);
     }
 
     public List<Task> getAll() {
-        return this.tasks;
+        return new ArrayList<Task>(this.tasks.values());
     }
 
     public Task getOne(Long id) throws TaskNotFoundException {
-        return this.tasks.stream()
-                .filter(task->task.getId().equals(id))
-                .findFirst()
-                .orElseThrow(()->new TaskNotFoundException("Not Found Task"));
+        if(!exist(id)) {
+            throw new TaskNotFoundException("Not Found Task");
+        }
+
+        return this.tasks.get(id);
     }
 
     public Task getLast() throws TaskNotFoundException {
@@ -38,9 +41,7 @@ public class TaskManager {
             throw new TaskNotFoundException("Not Found Task");
         }
 
-        this.tasks = this.tasks.stream()
-                .filter(task->!(task.getId().equals(id)))
-                .collect(Collectors.toList());
+        this.tasks.remove(id);
     }
 
     public void update(Long id, String title) throws TaskNotFoundException {
@@ -49,10 +50,6 @@ public class TaskManager {
     }
 
     private boolean exist(Long id) {
-        long countResult = tasks.stream()
-                .filter(task->task.getId().equals(id))
-                .count();
-
-        return countResult > 0;
+        return this.tasks.containsKey(id);
     }
 }
