@@ -1,6 +1,7 @@
 package com.codesoom.assignment;
 
 
+import com.codesoom.assignment.Exception.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 
 import java.util.ArrayList;
@@ -21,20 +22,20 @@ public class TaskManager {
         return this.tasks;
     }
 
-    public Task getOne(Long id) throws NoSuchElementException {
+    public Task getOne(Long id) throws TaskNotFoundException {
         return this.tasks.stream()
                 .filter(task->task.getId().equals(id))
                 .findFirst()
-                .orElseThrow(()->new NoSuchElementException("Not Found Task"));
+                .orElseThrow(()->new TaskNotFoundException("Not Found Task"));
     }
 
-    public Task getLast() throws NoSuchElementException {
+    public Task getLast() throws TaskNotFoundException {
         return getOne(nextId - 1);
     }
 
-    public void remove(Long id) throws NoSuchElementException {
+    public void remove(Long id) throws TaskNotFoundException {
         if(!exist(id)) {
-            throw new NoSuchElementException("Not Found Task");
+            throw new TaskNotFoundException("Not Found Task");
         }
 
         this.tasks = this.tasks.stream()
@@ -42,7 +43,7 @@ public class TaskManager {
                 .collect(Collectors.toList());
     }
 
-    public void update(Long id, String title) throws NoSuchElementException {
+    public void update(Long id, String title) throws TaskNotFoundException {
         Task updateTask = getOne(id);
         updateTask.setTitle(title);
     }

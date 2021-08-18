@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.Exception.TaskNotFoundException;
 import com.codesoom.assignment.TaskManager;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/tasks")
@@ -26,7 +26,7 @@ public class TaskController {
 
         try {
             task = taskManager.getOne(taskId);
-        } catch (NoSuchElementException e) {
+        } catch (TaskNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -51,7 +51,7 @@ public class TaskController {
             String title = task.getTitle();
             taskManager.update(taskId, title);
             updatedTask = taskManager.getOne(taskId);
-        } catch (NoSuchElementException e) {
+        } catch (TaskNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -62,7 +62,7 @@ public class TaskController {
     public ResponseEntity<?> delete(@PathVariable Long taskId) {
         try {
             taskManager.remove(taskId);
-        } catch (NoSuchElementException e) {
+        } catch (TaskNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
