@@ -27,7 +27,15 @@ public class TaskManager {
         return task;
     }
 
-    public synchronized Long getLastId() {
+    public Collection<Task> getAllTasks() {
+        return taskMap.getValues();
+    }
+
+    public Task getTaskWith(Long id) {
+        return taskMap.get(id);
+    }
+
+    private synchronized Long getLastId() {
         increaseLastId();
         return lastId;
     }
@@ -36,7 +44,4 @@ public class TaskManager {
         lastId++;
     }
 
-    public Collection<Task> getAllTasks() {
-        return taskMap.getValues();
-    }
 }
