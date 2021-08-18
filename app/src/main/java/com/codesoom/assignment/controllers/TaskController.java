@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
@@ -23,51 +24,57 @@ import java.util.Optional;
 @CrossOrigin
 public class TaskController {
 
-    TaskRepository taskRepository = new TaskRepository();
+    private final TaskRepository taskRepository;
+
+    public TaskController(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @GetMapping
-    public ResponseEntity<Collection<Task>> getTaskList() {
-        return new ResponseEntity<>(taskRepository.getTaskList(), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Task> getTaskList() {
+        return taskRepository.getTaskList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         Optional<Task> task = taskRepository.getTaskById(id);
-        if (task.isPresent()) {
-            return new ResponseEntity(task, HttpStatus.OK);
+        if (task.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(task, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Task> postTask(@RequestBody Task task) {
-        return new ResponseEntity<>(taskRepository.postTask(task), HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task postTask(@RequestBody Task task) {
+        return taskRepository.postTask(task);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> putTask(@PathVariable Long id, @RequestBody Task task) {
         Optional<Task> newTask = taskRepository.putTask(id, task);
-        if (newTask.isPresent()) {
-            return new ResponseEntity(newTask, HttpStatus.OK);
+        if (newTask.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(newTask, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Task> patchTask(@PathVariable Long id, @RequestBody Task task) {
         Optional<Task> newTask = taskRepository.putTask(id, task);
-        if (newTask.isPresent()) {
-            return new ResponseEntity(newTask, HttpStatus.OK);
+        if (newTask.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(newTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
         Optional<Task> deleteTask = taskRepository.deleteTask(id);
-        if (deleteTask.isPresent()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        if (deleteTask.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
