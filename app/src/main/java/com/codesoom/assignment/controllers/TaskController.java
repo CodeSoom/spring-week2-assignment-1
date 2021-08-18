@@ -1,3 +1,10 @@
+//Todo
+// 1. 메소드세이프
+// 2. httpclient Error exception & tasknotfound exception
+// 3.  private
+// 4. java doc
+// 5. build. gradel Tpfvm flqb
+
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
@@ -23,6 +30,11 @@ public class TaskController {
   Long id = 0L;
   private HashMap<Long, Task> tasks = new HashMap();
 
+  /**
+   * http get 요청을 받아 알일들을 리턴합니다.
+   *
+   * @return tasks를 list로 반환
+   */
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
   public List<Task> taskList() {
@@ -32,6 +44,13 @@ public class TaskController {
         .collect(Collectors.toList());
   }
 
+  /**
+   * http get 요청을 id와 함꼐 받아서 그 해당 id에 해당하는 할일을 반환합니다.
+   *
+   * @param id
+   * @return 해당 id task
+   * @throws HttpClientErrorException task가 없는 id로 요청시
+   */
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
   public Task targetTask(@PathVariable("id") Long id) throws HttpClientErrorException {
@@ -42,6 +61,13 @@ public class TaskController {
     return tasks.get(id);
   }
 
+  /**
+   * http요청의 body 문자열을 받아 할일 객체를 생성하고 리턴합니다.
+   *
+   * @param task
+   * @return 힐일 객체
+   * @throws Throwable
+   */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public Task create(@RequestBody Task task) throws Throwable {
@@ -51,7 +77,14 @@ public class TaskController {
     return task;
   }
 
-
+  /**
+   * patch나 put 요청의 경우, id와 body 문자열을 받아 해당 id에 해당하는 task 객체의 내용을 수정한후, 해당 task 객체를 return합니다.
+   *
+   * @param rewrittenTask
+   * @param id
+   * @return 수정한 task객체 반환
+   * @throws Throwable
+   */
   @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
   @ResponseStatus(HttpStatus.OK)
   public Task rewrite(@RequestBody Task rewrittenTask, @PathVariable("id") Long id)
@@ -61,6 +94,12 @@ public class TaskController {
     return targetTask;
   }
 
+  /**
+   * id를 받아서 해당 id에 해당하는 task 객체를 삭제합니다.
+   *
+   * @param id
+   * @throws HttpClientErrorException
+   */
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{id}")
   public void delete(@PathVariable("id") Long id) throws HttpClientErrorException {
