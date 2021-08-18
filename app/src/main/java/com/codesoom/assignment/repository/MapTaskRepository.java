@@ -27,9 +27,7 @@ public class MapTaskRepository implements TaskRepository {
     @Override
     public Optional<Task> findTask(Long taskId) {
 
-        if(tasks.get(taskId) == null) return Optional.empty();
-
-        return Optional.of(tasks.get(taskId));
+        return Optional.ofNullable(tasks.get(taskId));
 
     }
 

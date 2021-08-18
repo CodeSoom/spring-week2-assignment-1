@@ -1,4 +1,4 @@
-cdnp# ToDo REST API 만들기
+# ToDo REST API 만들기
 
 ## 과제 목표
 
