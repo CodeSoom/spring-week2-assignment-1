@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 할일에 대한 처리를 하는 컨트롤러.
+ *
+ * @author  pangnem
+ * @see RestController
+ * @see RequestMapping
+ */
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
