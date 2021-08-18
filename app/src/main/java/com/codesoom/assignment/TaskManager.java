@@ -39,6 +39,10 @@ public class TaskManager {
         return taskMap.update(id, content.getTitle());
     }
 
+    public void deleteTask(Long id) {
+        taskMap.delete(id);
+    }
+
     private synchronized Long getLastId() {
         increaseLastId();
         return lastId;

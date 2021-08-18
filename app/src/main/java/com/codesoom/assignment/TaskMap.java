@@ -20,15 +20,25 @@ public class TaskMap {
     }
 
     public Task getWith(Long id) {
-        return Optional.ofNullable(taskMap.get(id))
-            .orElseThrow(TaskIdNotFoundException::new);
+        return findWith(id);
     }
 
     public Task update(Long id, String title) {
-        Task task = getWith(id);
+        Task task = findWith(id);
 
         task.setTitle(title);
 
         return task;
+    }
+
+    public void delete(Long id) {
+        findWith(id);
+
+        taskMap.remove(id);
+    }
+
+    private Task findWith(Long id) {
+        return Optional.ofNullable(taskMap.get(id))
+            .orElseThrow(TaskIdNotFoundException::new);
     }
 }

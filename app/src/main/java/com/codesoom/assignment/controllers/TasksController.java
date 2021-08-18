@@ -5,6 +5,7 @@ import com.codesoom.assignment.models.Task;
 import java.util.Collection;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,5 +50,11 @@ public class TasksController {
     @PatchMapping("{id}")
     public Task update(@PathVariable Long id, @RequestBody Task task) {
         return taskManager.updateTask(id, task);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        taskManager.deleteTask(id);
     }
 }
