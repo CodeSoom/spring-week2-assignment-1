@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -41,7 +42,6 @@ public class TaskController {
         .stream()
         .collect(Collectors.toList());
   }
-
   /**
    * http get 요청을 id와 함꼐 받아서 그 해당 id에 해당하는 할일을 반환합니다.
    *
@@ -108,7 +108,7 @@ public class TaskController {
   }
 
 
-  private Long generateId() {
+  private synchronized Long generateId() {
     return ++id;
   }
 
