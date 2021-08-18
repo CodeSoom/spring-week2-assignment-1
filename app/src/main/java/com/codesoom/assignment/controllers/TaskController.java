@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.dtos.TaskDTO;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 @CrossOrigin
@@ -40,6 +43,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Task postTask(@RequestBody final TaskDTO taskDTO) {
         Task task = new Task(generateId(), taskDTO.getTitle());
         tasks.add(task);
@@ -69,10 +73,14 @@ public class TaskController {
     }
 
     @DeleteMapping(ID_PATH)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable(ID) final Long id) {
-        IntStream.range(INDEX_START, tasks.size())
+        OptionalInt integerOptional =  IntStream.range(INDEX_START, tasks.size())
                 .filter(index -> Objects.equals(tasks.get(index).getId(), id))
-                .findFirst()
-                .ifPresent(tasks::remove);
+                .findFirst();
+        if (integerOptional.isEmpty()) {
+            throw new TaskNotFoundException();
+        }
+        tasks.remove(integerOptional.getAsInt());
     }
 }
