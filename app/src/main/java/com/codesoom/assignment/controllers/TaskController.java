@@ -6,10 +6,8 @@ import com.codesoom.assignment.model.Task;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 @CrossOrigin
@@ -49,16 +46,26 @@ public class TaskController {
         return task;
     }
 
-    @RequestMapping(value = ID_PATH, method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final TaskDTO taskDTO) {
+    private Task getTaskItem(final Long id) {
         Optional<Task> taskOptional = tasks.stream()
-                .filter(task -> Objects.equals(task.getId(), id))
+                .filter(task-> Objects.equals(task.getId(), id))
                 .findFirst();
         if (taskOptional.isEmpty()) {
             throw new TaskNotFoundException();
         }
-        taskOptional.get().setTitle(taskDTO.getTitle());
         return taskOptional.get();
+    }
+
+    @GetMapping(ID_PATH)
+    public Task getTask(@PathVariable(ID) final Long id) {
+        return getTaskItem(id);
+    }
+
+    @RequestMapping(value = ID_PATH, method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final TaskDTO taskDTO) {
+        Task task = getTaskItem(id);
+        task.setTitle(taskDTO.getTitle());
+        return task;
     }
 
     @DeleteMapping(ID_PATH)
