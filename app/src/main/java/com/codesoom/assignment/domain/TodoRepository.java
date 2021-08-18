@@ -18,7 +18,7 @@ public class TodoRepository {
     private static final Map<Long, Task> store = new ConcurrentHashMap<>();
     private static Long sequence = 0L;
 
-    public Task save(Task task) {
+    public synchronized Task save(Task task) {
         if (isNewTask(task)) {
             final Task newTask = new Task(generateId(), task.getTitle());
             store.put(newTask.getId(), newTask);
