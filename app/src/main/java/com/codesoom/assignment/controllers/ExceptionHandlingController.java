@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,9 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 class GlobalControllerAdvice {
 
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  @ExceptionHandler(value = RuntimeException.class)
-  public ResponseEntity notFoundException(Exception e) {
+  @ExceptionHandler(value = TaskNotFoundException.class)
+  public TaskNotFoundException notFoundException() {
 
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    return new TaskNotFoundException("not found with that id");
   }
 }

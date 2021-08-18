@@ -3,6 +3,7 @@
 
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import java.util.HashMap;
 import java.util.List;
@@ -51,9 +52,9 @@ public class TaskController {
    */
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public Task targetTask(@PathVariable("id") Long id) throws HttpClientErrorException {
+  public Task targetTask(@PathVariable("id") Long id) throws TaskNotFoundException {
     if (!tasks.containsKey(id)) {
-      throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+      throw new TaskNotFoundException( "Task not found");
     }
     System.out.println(tasks.get(id));
     return tasks.get(id);
@@ -86,7 +87,11 @@ public class TaskController {
   @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
   @ResponseStatus(HttpStatus.OK)
   public Task rewrite(@RequestBody Task rewrittenTask, @PathVariable("id") Long id)
-      throws Throwable {
+      throws TaskNotFoundException {
+
+    if (!tasks.containsKey(id)) {
+      throw new TaskNotFoundException("task not found with that id");
+    }
     Task targetTask = tasks.get(id);
     targetTask.setTitle(rewrittenTask.getTitle());
     return targetTask;
@@ -100,9 +105,9 @@ public class TaskController {
    */
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{id}")
-  public void delete(@PathVariable("id") Long id) throws HttpClientErrorException {
+  public void delete(@PathVariable("id") Long id) throws TaskNotFoundException {
     if (!tasks.containsKey(id)) {
-      throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+      throw new TaskNotFoundException("task not found with that id");
     }
     tasks.remove(id);
   }
