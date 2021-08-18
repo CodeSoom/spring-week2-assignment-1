@@ -23,36 +23,36 @@ import java.util.NoSuchElementException;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private final TasksStorage tasks = new TasksStorage();
+    private final TasksStorage tasksStorage = new TasksStorage();
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Collection<Task> readAll() {
-        return tasks.readAll();
+        return tasksStorage.readAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task read(@PathVariable Long id) {
-        return tasks.read(id).orElseThrow();
+        return tasksStorage.read(id).orElseThrow();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody TaskRequest taskRequest) {
-        return  tasks.create(taskRequest.getTitle());
+        return  tasksStorage.create(taskRequest.getTitle());
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task update(@PathVariable Long id, @RequestBody TaskRequest taskRequest) {
-        return tasks.update(id, taskRequest.getTitle()).orElseThrow();
+        return tasksStorage.update(id, taskRequest.getTitle()).orElseThrow();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Task delete(@PathVariable Long id) {
-        return tasks.delete(id).orElseThrow();
+        return tasksStorage.delete(id).orElseThrow();
     }
 
     @ExceptionHandler(NoSuchElementException.class)
