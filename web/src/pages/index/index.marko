@@ -21,13 +21,29 @@ class {
     });
     await this.loadTasks();
   }
+  handleClick() {
+    let clickedTarget = event.target;
+    if (clickedTarget.className === "update_button") {
+        
+    } else if (clickedTarget.className === "update_button") {
+    }
+  }
+
+  async updateTask() {
+    await axios.put("http://localhost:8080/tasks/${id}");
+    await this.loadTasks();
+  }
 }
 
 <h1>Todo</h1>
 <ol>
   <for|task| of=state.tasks>
     <li>
-      ${task.title}
+      <div on-click("handleClick")>
+        <span>${task.title}</span>
+        <button class="update_button" type="button" style="margin-left: 5px" on-click("updateTask")>수정</button>
+        <button class="done_button" type="button" style="margin-left: 5px">완료</button>
+      </div>
     </li>
   </for>
 </ol>
