@@ -2,10 +2,13 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import org.checkerframework.checker.nullness.Opt;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +19,7 @@ import java.util.Optional;
 public class TaskController {
 
     private List<Task> tasks = new ArrayList<>();
-    private Long newId = 1L;
+    private Long newId = 0L;
 
     @GetMapping
     public ResponseEntity<List<Task>> getTaskList() {
@@ -24,9 +27,9 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable String id) {
-        System.out.println("get id = " + id);
+    public ResponseEntity<Task> getTask(@PathVariable Long id) {
         Optional<Task> findTask = findTaskById(id);
+
         return new ResponseEntity(findTask, findTask.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
@@ -35,31 +38,30 @@ public class TaskController {
         generateTaskId();
         task.setId(newId);
         tasks.add(task);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(task, HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
-    @PatchMapping("{id}")
-    public ResponseEntity<Task> updateTask(@PathVariable String id, @RequestBody Task task) {
-        System.out.println(" update id = " + id);
+    @RequestMapping(value = "{id}", method = { RequestMethod.PUT, RequestMethod.PATCH })
+    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
+
         Optional<Task> findTask = findTaskById(id);
+        findTask.isPresent();
         if (findTask.isPresent()) {
             findTask.get().setTitle(task.getTitle());
             return new ResponseEntity(findTask, HttpStatus.OK);
         } else {
-            return new ResponseEntity(findTask, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> completeTask(@PathVariable String id) {
-        System.out.println("complete id = " + id);
+    public ResponseEntity<Void> completeTask(@PathVariable Long id) {
         Optional<Task> findTask = findTaskById(id);
         if (findTask.isPresent()) {
             tasks.remove(findTask.get());
-            return new ResponseEntity(findTask, HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity(findTask, HttpStatus.NO_CONTENT);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -67,14 +69,17 @@ public class TaskController {
         newId += 1L;
     }
 
-    private Optional<Task> findTaskById(String id) {
-        System.out.println("find Task id = " + id);
+    private Optional<Task> findTaskById(Long id) {
         Task task = tasks
                 .stream()
-                .filter(t -> t.getId().equals(Long.parseLong(id)))
+                .filter(t -> t.getId().equals(id))
                 .findFirst()
                 .orElse(null);
         return Optional.ofNullable(task);
+    }
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
