@@ -6,7 +6,7 @@ public class TaskRequest {
     private static final String EMPTY_TITLE = "";
 
     public TaskRequest() {
-        this.title = EMPTY_TITLE;
+        this(EMPTY_TITLE);
     }
 
     public TaskRequest(String title) {
