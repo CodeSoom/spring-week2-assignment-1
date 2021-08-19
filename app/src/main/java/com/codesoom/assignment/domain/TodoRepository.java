@@ -1,6 +1,6 @@
 package com.codesoom.assignment.domain;
 
-import com.codesoom.assignment.exceptions.EntityNotFoundException;
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class TodoRepository {
 
     public void deleteById(Long id) {
         if (!store.containsKey(id)) {
-            throw new EntityNotFoundException();
+            throw new TaskNotFoundException(id);
         }
 
         store.remove(id);

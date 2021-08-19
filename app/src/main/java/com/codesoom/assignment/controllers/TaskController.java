@@ -2,9 +2,8 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.domain.TodoRepository;
-import com.codesoom.assignment.exceptions.EntityNotFoundException;
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static org.springframework.web.bind.annotation.RequestMethod.*;
+import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 /**
  * 이 클래스는 Task 작업에 대한  Rest API를 제공한다.
@@ -44,7 +43,8 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public Task findOne(@PathVariable Long id) {
-        return  todoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return  todoRepository.findById(id)
+                .orElseThrow(()-> new TaskNotFoundException(id));
     }
 
     @PostMapping
@@ -55,7 +55,8 @@ public class TaskController {
 
     @RequestMapping(path = "/{id}", method = {PUT, PATCH})
     public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
-        final Task findTask = todoRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        final Task findTask = todoRepository.findById(id)
+                .orElseThrow(()-> new TaskNotFoundException(id));
         findTask.updateTitle(task.getTitle());
 
         return findTask;
@@ -67,9 +68,9 @@ public class TaskController {
         todoRepository.deleteById(id);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(TaskNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void handleEntityNotFoundException(EntityNotFoundException err) {
+    public void handleEntityNotFoundException(TaskNotFoundException err) {
         logger.severe(String.format("[%s]%s", LocalDateTime.now(), err.getMessage()));
     }
 }
