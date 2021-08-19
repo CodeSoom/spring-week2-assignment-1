@@ -49,6 +49,14 @@ public class TaskService {
         return new TaskResponse(task.id(), task.title());
     }
 
+    public void deleteTask(Long id) {
+        if (tasks.containsKey(id)) {
+            tasks.remove(id);
+            return ;
+        }
+        throw new NoSuchElementException(TASK_NOT_FOUND);
+    }
+
     private Task task(Long id) {
         if (tasks.containsKey(id)) {
             return tasks.get(id);
