@@ -32,7 +32,7 @@ public class TaskManager {
     }
 
     public Task getTaskWith(Long id) {
-        return taskMap.getWith(id);
+        return taskMap.get(id);
     }
 
     public Task updateTask(Long id, Task content) {

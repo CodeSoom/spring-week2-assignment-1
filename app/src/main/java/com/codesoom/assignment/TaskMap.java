@@ -19,7 +19,7 @@ public class TaskMap {
         return taskMap.values();
     }
 
-    public Task getWith(Long id) {
+    public Task get(Long id) {
         return findWith(id);
     }
 
