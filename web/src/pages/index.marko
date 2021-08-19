@@ -24,18 +24,23 @@ class {
 
     await this.loadTasks();
   }
+
+  async deleteTask(task) {
+    await axios.delete(`http://localhost:8080/tasks/${task.id}`);
+
+    await this.loadTasks();
+  }
 }
 
-<p> TODO </p>
+<p> ToDo </p>
 <ol>
   <for|task| of=state.tasks> 
     <li>
-      ${task.title}
+      ${task.title} <button type="button" on-click('deleteTask', task)> 완료 </button>
     </li>
   </for>
 </ol>
 
-<label type="text" for:scoped="title">할일</label> 
+<label type="text" for:scoped="title">할 일</label> 
 <input id:scoped="title" key="title"/>
 <button type="button" on-click("createTask")> 추가 </button>
-
