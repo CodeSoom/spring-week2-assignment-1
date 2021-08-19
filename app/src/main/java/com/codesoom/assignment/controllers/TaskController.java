@@ -33,4 +33,10 @@ public class TaskController {
     public ResponseEntity<TaskResponse> addTask(@RequestBody TaskRequest taskRequest) {
         return new ResponseEntity<>(taskService.addTask(taskRequest), HttpStatus.CREATED);
     }
+
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public ResponseEntity<TaskResponse> modifyTask(@PathVariable Long id, @RequestBody TaskRequest taskRequest) {
+        taskRequest.setId(id);
+        return new ResponseEntity<>(taskService.modifyTask(taskRequest), HttpStatus.OK);
+    }
 }

@@ -43,6 +43,12 @@ public class TaskService {
         return new TaskResponse(task.id(), task.title());
     }
 
+    public TaskResponse modifyTask(TaskRequest taskRequest) {
+        Task task = task(taskRequest.getId());
+        task.changeTitle(taskRequest.getTitle());
+        return new TaskResponse(task.id(), task.title());
+    }
+
     private Task task(Long id) {
         if (tasks.containsKey(id)) {
             return tasks.get(id);
