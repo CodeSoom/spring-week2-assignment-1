@@ -7,8 +7,6 @@ import com.codesoom.assignment.models.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 public class TaskManager {
     private Long nextId = 1L;
