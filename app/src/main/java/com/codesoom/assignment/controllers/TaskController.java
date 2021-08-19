@@ -73,8 +73,10 @@ public class TaskController {
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
         Optional<Task> deleteTask = taskRepository.deleteTask(id);
         if (deleteTask.isEmpty()) {
+            System.out.println("test1");
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+        System.out.println("test2");
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

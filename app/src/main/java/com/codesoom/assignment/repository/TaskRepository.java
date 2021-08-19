@@ -2,7 +2,6 @@ package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskIdGenerator;
-import com.codesoom.assignment.models.TaskIdGeneratorImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -55,6 +54,8 @@ public class TaskRepository {
     }
 
     public Optional<Task> deleteTask(Long id) {
-        return Optional.ofNullable(taskMap.get(id));
+        Task task = taskMap.get(id);
+        taskMap.remove(id);
+        return Optional.ofNullable(task);
     }
 }
