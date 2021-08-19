@@ -1,4 +1,4 @@
-package com.codesoom.assignment.model;
+package com.codesoom.assignment.models;
 
 public final class Task {
     private final Long id;

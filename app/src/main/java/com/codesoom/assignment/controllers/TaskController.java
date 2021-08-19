@@ -2,7 +2,8 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.dtos.TaskDTO;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
-import com.codesoom.assignment.model.Task;
+import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,62 +26,46 @@ import java.util.stream.IntStream;
 @CrossOrigin
 @RestController
 @RequestMapping("/tasks")
-public class TaskController {
+public final class TaskController {
     private static final String ID_PATH = "/{id}";
     private static final String ID = "id";
-    private static final int INDEX_START = 0;
-
-    private final List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
-
-    private Long generateId() {
-        return ++newId;
-    }
 
     @GetMapping
     public List<Task> getTasks() {
-        return tasks;
+        return TaskRepository.getTasks();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task postTask(@RequestBody final TaskDTO taskDTO) {
-        Task task = new Task(generateId(), taskDTO.getTitle());
-        tasks.add(task);
-        return task;
-    }
-
-    private Task getTaskItem(final Long id) {
-        Optional<Task> taskOptional = tasks.stream()
-                .filter(task-> Objects.equals(task.getId(), id))
-                .findFirst();
-        if (taskOptional.isEmpty()) {
-            throw new TaskNotFoundException();
-        }
-        return taskOptional.get();
+        return TaskRepository.createTask(taskDTO);
     }
 
     @GetMapping(ID_PATH)
     public Task getTask(@PathVariable(ID) final Long id) {
-        return getTaskItem(id);
+        final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
+        if (optionalInt.isEmpty()) {
+            throw new TaskNotFoundException();
+        }
+        return TaskRepository.getTask(optionalInt.getAsInt());
     }
 
     @RequestMapping(value = ID_PATH, method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final TaskDTO taskDTO) {
-        Task task = getTaskItem(id);
-        task.setTitle(taskDTO.getTitle());
-        return task;
+        final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
+        if (optionalInt.isEmpty()) {
+            throw new TaskNotFoundException();
+        }
+        return TaskRepository.updateTask(optionalInt.getAsInt(), taskDTO);
     }
 
     @DeleteMapping(ID_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable(ID) final Long id) {
-        OptionalInt integerOptional =  IntStream.range(INDEX_START, tasks.size())
-                .filter(index -> Objects.equals(tasks.get(index).getId(), id))
-                .findFirst();
-        if (integerOptional.isEmpty()) {
+        final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
+        if (optionalInt.isEmpty()) {
             throw new TaskNotFoundException();
         }
-        tasks.remove(integerOptional.getAsInt());
+        TaskRepository.deleteTask(optionalInt.getAsInt());
     }
 }

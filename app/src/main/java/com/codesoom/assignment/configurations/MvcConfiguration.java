@@ -1,6 +1,6 @@
-package com.codesoom.assignment.configuration;
+package com.codesoom.assignment.configurations;
 
-import com.codesoom.assignment.interceptor.IdInterceptor;
+import com.codesoom.assignment.interceptors.IdInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
