@@ -49,7 +49,7 @@ public class TaskMap {
     }
 
     private String getPreviousMethodName() {
-        int PREVIOUS_METHOD_INDEX = 2;
+        int PREVIOUS_METHOD_INDEX = 3;
         return Thread.currentThread().getStackTrace()[PREVIOUS_METHOD_INDEX].getMethodName();
     }
 }
