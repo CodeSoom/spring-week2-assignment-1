@@ -15,8 +15,14 @@ public class TaskManager {
     private Long nextId = 1L;
     private HashMap<Long, Task> tasks = new HashMap<>();
 
+    private final Object nextIdLock = new Object();
+
     public void create(String title) {
-        Long newId = nextId++;
+        synchronized (nextIdLock) {
+            nextId++;
+        }
+
+        Long newId = nextId;
         Task newTask = new Task(newId, title);
         this.tasks.put(newId, newTask);
     }
