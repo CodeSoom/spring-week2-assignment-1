@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 
 @RestController
@@ -65,11 +66,11 @@ public class TaskController {
    *
    * @param task 할 일의 내용
    * @return 만들어진 할 일
-   * @throws Throwable 오류가 난 경우
+   * @throws BadRequest body 문자열이 없는 경우
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Task create(@RequestBody Task task) throws Throwable {
+  public Task create(@RequestBody Task task) throws BadRequest {
     Long generatedId = generateId();
     task.setId(generatedId);
     tasks.put(generatedId, task);
