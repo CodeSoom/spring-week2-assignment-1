@@ -12,12 +12,13 @@ import java.util.Optional;
 public class MapTaskRepository implements TaskRepository {
 
     private Map<Long, Task> tasks = new HashMap<>();
-    private Long id = 1L;
+    private Long id = 0L;
 
     @Override
     public Task join(Task task) {
 
-        task.setId(id++);
+        id++;
+        task.setId(id);
         tasks.put(task.getId(), task);
 
         return task;
@@ -41,11 +42,11 @@ public class MapTaskRepository implements TaskRepository {
     @Override
     public Optional<Task> updateTask(Long taskId, Task task) {
 
-        Optional<Task> editTask = findTask(taskId);
-        if(editTask.isPresent()) {
-            editTask.get().setTitle(task.getTitle());
+        Optional<Task> editTaskObject = findTask(taskId);
+        if(editTaskObject.isPresent()) {
+            editTaskObject.get().setTitle(task.getTitle());
         }
-        return editTask;
+        return editTaskObject;
 
     }
 

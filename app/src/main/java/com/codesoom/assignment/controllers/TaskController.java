@@ -31,7 +31,7 @@ public class TaskController {
     public Task getDetails(@PathVariable("taskId") Long taskId,HttpServletResponse response) {
 
         Optional<Task> task = taskService.getDetails(taskId);
-        if(!task.isPresent()) {
+        if(task.isEmpty()) {
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return null;
         }
@@ -52,7 +52,7 @@ public class TaskController {
     public Task updateTask(@PathVariable("taskId") Long taskId, @RequestBody Task task, HttpServletResponse response){
 
         Optional<Task> result = taskService.updateTask(taskId, task);
-        if(!result.isPresent()) {
+        if(result.isEmpty()) {
             response.setStatus(HttpStatus.NOT_FOUND.value());
             return null;
         }
