@@ -12,6 +12,7 @@ class {
   async loadTasks() {
     const {data} = await axios.get("http://localhost:8080/tasks");
     this.state.tasks = data;
+    this.state.tasks.map(task => task.editState = false);
   }
 
   async addTask() {
@@ -22,15 +23,20 @@ class {
     await this.loadTasks();
   }
   async deleteTask(id) {
-    console.log(id);
     let uri = "http://localhost:8080/tasks/" + id;
     await axios.delete(uri);
     await this.loadTasks();
   }
 
-  async updateTask() {
-    await axios.put("http://localhost:8080/tasks/${id}");
+  async updateTask(id) {
+    let uri = "http://localhost:8080/tasks/" + id;
+    await axios.put(uri);
     await this.loadTasks();
+  }
+
+  switchToEditMode(id) {
+    this.state.tasks.filter(task => task.id === id).map(task => task.editState = true);
+    console.log(this.state.tasks);
   }
 }
 
@@ -38,11 +44,19 @@ class {
 <ol>
   <for|task| of=state.tasks>
     <li>
+      <if(task.editState)>
+          <input key=`task-${task.id}` value=`${task.title}` type="text" />
+          <button type="button" style="margin-left: 5px" on-click("updateTask", task.id)>확인</button>
+          <button type="button" style="margin-left: 5px" on-click("cancelEditMode", task.id)>취소</button>
+      </if>
+
+      <else-if(!task.editState)>
       <div style="margin-top: 5px">
         <span>${task.title}</span>
-        <button class="update_button" type="button" style="margin-left: 5px" on-click("updateTask", task.id)>수정</button>
-        <button class="done_button" type="button" style="margin-left: 5px" on-click("deleteTask", task.id)>완료</button>
+        <button type="button" style="margin-left: 5px" on-click("switchToEditMode", task.id)>수정</button>
+        <button type="button" style="margin-left: 5px" on-click("deleteTask", task.id)>완료</button>
       </div>
+      </else-if>
     </li>
   </for>
 </ol>
