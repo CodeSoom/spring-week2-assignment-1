@@ -18,6 +18,12 @@ public class TodoRepository {
     private static final Map<Long, Task> store = new ConcurrentHashMap<>();
     private static Long sequence = 0L;
 
+    private final IdGenerator idGenerator;
+
+    public TodoRepository(IdGenerator idGenerator) {
+        this.idGenerator = idGenerator;
+    }
+
     public synchronized Task save(Task task) {
         if (isNewTask(task)) {
             final Task newTask = new Task(generateId(), task.getTitle());
@@ -30,7 +36,7 @@ public class TodoRepository {
     }
 
     private synchronized Long generateId() {
-        sequence += 1;
+        sequence = idGenerator.generate(sequence);
         return sequence;
     }
 
