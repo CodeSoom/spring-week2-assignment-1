@@ -1,9 +1,7 @@
 package com.codesoom.assignment.Exception;
 
 /**
- * TaskNotFoundException은 taskManger에서 존재하지 않는 Task에 접근했을 때, 발생하는 Exception 입니다.
- *
- * @author wjy5446
+ * 할 일을 찾지 못했을 때 던집니다.
  */
 
 public class TaskNotFoundException extends RuntimeException {
