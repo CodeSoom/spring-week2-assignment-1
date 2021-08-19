@@ -4,7 +4,8 @@ class {
   onCreate() {
     
     this.state = {
-      tasks: []
+      tasks: [],
+      updateModeIds: []
     }
 
     this.loadTasks();
@@ -30,13 +31,45 @@ class {
 
     await this.loadTasks();
   }
+
+  async updateTask(task) {
+    const newTitle = this.getEl("newTitle").value;
+    await axios.put(`http://localhost:8080/tasks/${task.id}`, {
+      title: newTitle
+    });
+
+    this.toggleUpdate(task);
+
+    await this.loadTasks();
+  }
+
+  async toggleUpdate(task) {
+    const {id} = task;
+    if (!this.state.updateModeIds.find(id => id)) {
+      this.state.updateModeIds.push(id);
+    } else {
+      this.state.updateModeIds.pop(id);
+    }
+
+    await this.loadTasks();
+  }
 }
 
 <p> ToDo </p>
 <ol>
   <for|task| of=state.tasks> 
     <li>
-      ${task.title} <button type="button" on-click('deleteTask', task)> 완료 </button>
+      <if(!state.updateModeIds.find(id => id === task.id))> 
+        ${task.title} 
+        <button type="button" on-click('toggleUpdate', task)> 수정 </button>
+        <button type="button" on-click('deleteTask', task)> 완료 </button>
+      </if>
+      <else>
+        <input type="text" value="${task.title}" key="newTitle"/>
+        <button type="button" on-click('updateTask', task)> 확인 </button>
+        <button type="button" on-click('toggleUpdate', task)> 취소 </button>
+      </else>
+
     </li>
   </for>
 </ol>
