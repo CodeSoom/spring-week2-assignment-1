@@ -35,8 +35,11 @@ class {
   }
 
   switchToEditMode(id) {
-    this.state.tasks.filter(task => task.id === id).map(task => task.editState = true);
-    console.log(this.state.tasks);
+    for (let i = 0; i < this.state.tasks.length; i++) {
+        if (this.state.tasks[i].id === id) {
+            this.state.tasks[i].editState = true;
+        }
+    }
   }
 }
 
