@@ -5,6 +5,7 @@ class {
     onCreate(){
         this.state = {
             tasks: [],
+            updateTask: null
         };
 
         this.loadTasks();
@@ -12,33 +13,41 @@ class {
 
     async loadTasks() {
         const { data } = await axios.get('http://localhost:8080/tasks');
-        console.log(data)
         this.state.tasks = data;
     }
 
     async addTask() {
-        console.log("add")
         const title = this.getEl('title').value;
-        console.log(title);
         await axios.post('http://localhost:8080/tasks', {
             title,
         });
         await this.loadTasks();
     };
 
-    async updateTask(id, event) {
-        event.preventDefault();
-        console.log(`update ${id}`)
-        await axios.put(`http://localhost:8080/tasks/${id}`);
+    async updateTask(id) {
+        this.state.updateTask = id;
         await this.loadTasks();
     };
 
-    async completeTask(id, event) {
-        event.preventDefault();
+    async postUpdateTask(id){
+        const title = this.getEl('updateTitle').value;
+        await axios.put(`http://localhost:8080/tasks/${id}`, {
+            title,
+        });
+        this.cancelUpdate();
+        await this.loadTasks();
+    }
+
+    async completeTask(id) {
         console.log(`complete ${id}`)
         await axios.delete(`http://localhost:8080/tasks/${id}`);
         await this.loadTasks();
     };
+
+    async cancelUpdate() {
+        this.state.updateTask = null;
+        await this.loadTasks();
+    }
 }
 
 
@@ -46,13 +55,16 @@ class {
 <ol>
     <for|task| of=state.tasks>
         <li>
+        <if(state.updateTask === task.id)>
+            <input text="text" value=`${task.title}` key="updateTitle"/>
+            <button on-click("postUpdateTask", task.id)>확인</button>
+            <button on-click("cancelUpdate")>취소</button>
+        </if>
+        <else>
             ${task.title}
-            <button on-click("updateForm")>
-                수정
-            </button>
-            <button on-click("completeTask", task.id)>
-                완료
-            </button>
+            <button on-click("updateTask", task.id)>수정</button>
+            <button on-click("completeTask", task.id)>완료</button>
+        </else>
         </li>
     </for>
 </ol>
