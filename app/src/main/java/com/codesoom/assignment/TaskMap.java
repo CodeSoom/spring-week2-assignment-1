@@ -38,7 +38,13 @@ public class TaskMap {
     }
 
     private Task findWith(Long id) {
+        String previousMethodName = getPreviousMethodName();
         return Optional.ofNullable(taskMap.get(id))
-            .orElseThrow(TaskIdNotFoundException::new);
+            .orElseThrow(() -> new TaskIdNotFoundException(previousMethodName, id));
+    }
+
+    private String getPreviousMethodName() {
+        int PREVIOUS_METHOD_INDEX = 2;
+        return Thread.currentThread().getStackTrace()[PREVIOUS_METHOD_INDEX].getMethodName();
     }
 }
