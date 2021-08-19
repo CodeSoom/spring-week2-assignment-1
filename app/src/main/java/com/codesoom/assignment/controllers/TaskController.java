@@ -31,9 +31,9 @@ public class TaskController {
   private HashMap<Long, Task> tasks = new HashMap();
 
   /**
-   * http get 요청을 받아 알일들을 리턴합니다.
+   * 모든 할일들을 리턴합니다.
    *
-   * @return tasks를 list로 반환
+   * @return 할일들을 모두 리턴
    */
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
@@ -44,11 +44,11 @@ public class TaskController {
         .collect(Collectors.toList());
   }
   /**
-   * http get 요청을 id와 함꼐 받아서 그 해당 id에 해당하는 할일을 반환합니다.
+   * 주어진 id에 해당하는 할 일을 검색해 리턴합니다.
    *
-   * @param id
-   * @return 해당 id task
-   * @throws HttpClientErrorException task가 없는 id로 요청시
+   * @param id 할 일의 id
+   * @return 감섹걀거ㅣ 칮이넨 할 일
+   * @throws TaskNotFoundException 할일을 찾지 못한 경우
    */
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
@@ -61,11 +61,11 @@ public class TaskController {
   }
 
   /**
-   * http요청의 body 문자열을 받아 할일 객체를 생성하고 리턴합니다.
+   * body 문자열을 받아 할 일을 생성하고 리턴합니다.
    *
-   * @param task
-   * @return 힐일 객체
-   * @throws Throwable
+   * @param task 할 일의 내용
+   * @return 만들어진 할 일
+   * @throws Throwable 오류가 난 경우
    */
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
@@ -77,12 +77,12 @@ public class TaskController {
   }
 
   /**
-   * patch나 put 요청의 경우, id와 body 문자열을 받아 해당 id에 해당하는 task 객체의 내용을 수정한후, 해당 task 객체를 return합니다.
+   * id와 body 문자열을 받아 해당 id에 해당하는 할 일 내용을 수정한후, 해당 할 일을 return합니다.
    *
-   * @param rewrittenTask
-   * @param id
-   * @return 수정한 task객체 반환
-   * @throws Throwable
+   * @param rewrittenTask 할 일의 수정된 내용
+   * @param id 수정할 할 일의 id
+   * @return 수정된 할 일
+   * @throws TaskNotFoundException 해당 id에 해당하는 할일을 찾지 못한 경우
    */
   @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
   @ResponseStatus(HttpStatus.OK)
@@ -98,10 +98,10 @@ public class TaskController {
   }
 
   /**
-   * id를 받아서 해당 id에 해당하는 task 객체를 삭제합니다.
+   * 해당 id에 해당하는 task 객체를 삭제합니다.
    *
-   * @param id
-   * @throws HttpClientErrorException
+   * @param id 삭제하고 싶은 할 일의 id
+   * @throws TaskNotFoundException 해당 id에 해당하는 할일을 찾지 못한 경우
    */
   @ResponseStatus(HttpStatus.NO_CONTENT)
   @DeleteMapping("/{id}")
