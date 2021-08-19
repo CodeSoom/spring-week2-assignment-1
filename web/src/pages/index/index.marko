@@ -21,12 +21,11 @@ class {
     });
     await this.loadTasks();
   }
-  handleClick() {
-    let clickedTarget = event.target;
-    if (clickedTarget.className === "update_button") {
-
-    } else if (clickedTarget.className === "update_button") {
-    }
+  async deleteTask(id) {
+    console.log(id);
+    let uri = "http://localhost:8080/tasks/" + id;
+    await axios.delete(uri);
+    await this.loadTasks();
   }
 
   async updateTask() {
@@ -39,10 +38,10 @@ class {
 <ol>
   <for|task| of=state.tasks>
     <li>
-      <div on-click("handleClick")>
+      <div style="margin-top: 5px">
         <span>${task.title}</span>
-        <button class="update_button" type="button" style="margin-left: 5px" on-click("updateTask")>수정</button>
-        <button class="done_button" type="button" style="margin-left: 5px">완료</button>
+        <button class="update_button" type="button" style="margin-left: 5px" on-click("updateTask", task.id)>수정</button>
+        <button class="done_button" type="button" style="margin-left: 5px" on-click("deleteTask", task.id)>완료</button>
       </div>
     </li>
   </for>
@@ -51,8 +50,8 @@ class {
   <label for:scoped="title">
     할 일
   </label>
-  <input id:scoped="title" key="title" type="text"/>
-  <button type="button" on-click("addTask")>
+  <input id:scoped="title" style="margin-left: 5px" key="title" type="text"/>
+  <button type="button" style="margin-left: 5px" on-click("addTask")>
    추가
   </button>
 </p>
