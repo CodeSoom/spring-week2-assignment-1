@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 할일에 대한 처리를 하는 컨트롤러.
+ * 할 일에 대한 처리를 담당합니다.
  *
  * @author  pangnem
  * @see RestController
