@@ -43,12 +43,12 @@ public class TaskManager {
         taskMap.delete(id);
     }
 
-    private synchronized Long getLastId() {
+    private Long getLastId() {
         increaseLastId();
         return lastId;
     }
 
-    private void increaseLastId() {
+    private synchronized void increaseLastId() {
         lastId++;
     }
 
