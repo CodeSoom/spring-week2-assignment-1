@@ -55,7 +55,7 @@ public class TaskController {
   @ResponseStatus(HttpStatus.OK)
   public Task targetTask(@PathVariable("id") Long id) throws TaskNotFoundException {
     if (!tasks.containsKey(id)) {
-      throw new TaskNotFoundException( "Task not found");
+      throw new TaskNotFoundException( "Task not found with that id :" +id);
     }
     System.out.println(tasks.get(id));
     return tasks.get(id);
@@ -91,7 +91,7 @@ public class TaskController {
       throws TaskNotFoundException {
 
     if (!tasks.containsKey(id)) {
-      throw new TaskNotFoundException("task not found with that id");
+      throw new TaskNotFoundException("Task not found with that id :" +id);
     }
     Task targetTask = tasks.get(id);
     targetTask.setTitle(rewrittenTask.getTitle());
@@ -108,7 +108,7 @@ public class TaskController {
   @DeleteMapping("/{id}")
   public void delete(@PathVariable("id") Long id) throws TaskNotFoundException {
     if (!tasks.containsKey(id)) {
-      throw new TaskNotFoundException("task not found with that id");
+      throw new TaskNotFoundException("Task not found with that id :" +id);
     }
     tasks.remove(id);
   }
