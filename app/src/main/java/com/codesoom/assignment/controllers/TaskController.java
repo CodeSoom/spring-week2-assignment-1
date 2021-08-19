@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * 할 일 Controller
+ * 할 일에 대한 생성/수정/삭제 기능 제공
+ */
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
@@ -35,7 +39,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task modify(@RequestBody Task task, @PathVariable("id") long id) {
+    public Task modify(@RequestBody Task task, @PathVariable("id") Long id) {
         task.setId(id);
         tasks.put(task.getId(), task);
 
@@ -43,9 +47,14 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") long id) {
-        tasks.remove(id);
-        return "삭제됨";
+    public String delete(@PathVariable("id") Long id) {
+        if(tasks.get(id) != null) {
+            tasks.remove(id);
+            return "삭제됨";
+        } else {
+            return "해당 id를 가진 task 없음";
+        }
+
     }
 
     private Long generateId() {
