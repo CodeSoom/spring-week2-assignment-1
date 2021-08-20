@@ -2,23 +2,20 @@ package com.codesoom.assignment;
 
 import com.codesoom.assignment.models.Task;
 import java.util.Collection;
+import org.springframework.stereotype.Service;
 
 /**
  * 할 일 목록 관리를 담당합니다.
  */
+@Service
 public class TaskManager {
 
-    private static final TaskManager uniqueInstance = new TaskManager();
-
-    private final TaskStorage taskStorage = new TaskStorage();
+    private final TaskStorage taskStorage;
 
     private Long lastId = 0L;
 
-    private TaskManager() {
-    }
-
-    public static TaskManager getInstance() {
-        return uniqueInstance;
+    private TaskManager(TaskStorage taskStorage) {
+        this.taskStorage = taskStorage;
     }
 
     public Task createTask(Task task) {

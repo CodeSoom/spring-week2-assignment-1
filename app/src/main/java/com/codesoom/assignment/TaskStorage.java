@@ -6,10 +6,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
 /**
  * 등록된 할 일들을 저장 및 관리합니다.
  */
+@Repository
 public class TaskStorage {
 
     private final Map<Long, Task> taskMap = new HashMap<>();

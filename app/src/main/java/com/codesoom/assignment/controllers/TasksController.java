@@ -28,7 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class TasksController {
 
-    private final TaskManager taskManager = TaskManager.getInstance();
+    private final TaskManager taskManager;
+
+    public TasksController(TaskManager taskManager) {
+        this.taskManager = taskManager;
+    }
 
     @GetMapping
     public Collection<Task> get() {
