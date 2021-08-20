@@ -1,0 +1,82 @@
+import axios  from "axios";
+
+<h2>ToDo</h2>
+<ol>
+    <for|task| of=state.tasks>
+        <if(task.isUpdate)>
+            <li>
+                <input type="text" key="editTitle" value=`${task.title}`>
+                <button on-click("updateTask", task.id)>확인</button>
+                <button on-click("onModButton", { id:task.id, bool : false})>취소</button>
+            </li>
+        </if>
+        <else>
+            <li>
+                ${task.title}
+                <button on-click("onModButton", { id:task.id, bool : true})>수정</button>
+                <button on-click("deleteTask", task.id)>완료</button>
+                <!-- <button on-click(onModify, task.id)>완료</button> -->
+            </li>
+        </else>
+    </for>
+</ol>
+<p>
+    <label for:scoped="title">
+        할  일
+    </label>
+    <input id:scoped="title" key="title" type="text">
+    <button type="button" on-click("addTask")>
+        추가
+    </button>
+</p>
+
+
+class {
+    onCreate(){
+        this.state = {
+            tasks: [],
+        }
+        this.loadTasks();
+    };    
+
+    async loadTasks(){
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        debugger;
+        this.state.tasks = data.map(this.initTask);
+    };
+
+    initTask(task) {
+         return {...task, isUpdateMode: false};
+     }
+
+    async addTask(){
+        const title = this.getEl('title').value;
+        await axios.post('http://localhost:8080/tasks', {
+            title,
+        })
+        await this.loadTasks();
+    };
+
+    async updateTask(taskId){
+        debugger;
+        await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+            title: this.getEl('editTitle').value
+        });
+
+        await this.loadTasks();
+    };
+
+    //Todo
+    async deleteTask(){
+
+    };
+
+    onModButton(taskInfo) {        
+         this.state.tasks = this.state.tasks.map(task => {
+             if(task.id === taskInfo.id){
+                 task.isUpdate = taskInfo.bool;
+             }
+             return task;
+         });
+     }
+}
