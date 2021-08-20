@@ -4,13 +4,13 @@ class {
   onCreate() {
     this.state = {
       tasks: [],
+      updateTask: null
     };
     this.loadTasks();
   }
   async loadTasks() {
     const {data} = await axios.get("http://localhost:8080/tasks");
     this.state.tasks = data;
-    this.state.tasks.map(task => task.editState = false);
   }
   async addTask() {
     const title = this.getEl("title").value;
@@ -25,52 +25,40 @@ class {
     await this.loadTasks();
   }
   async updateTask(id) {
+    console.log("check");
     let title = this.getEl(`task-${id}`).value;
     let uri = "http://localhost:8080/tasks/" + id;
     await axios.put(uri, {title});
+    this.cancelEditMode();
     await this.loadTasks();
   }
-  switchToEditMode(id) {
-    //for (let i = 0; i < this.state.tasks.length; i++) {
-    //    if (this.state.tasks[i].id === id) {
-    //        this.state.tasks[i].editState = true;
-    //    }
-    //}
-    this.state.tasks = this.state.tasks.map((task) => id === task.id
-      ? ({ ...task, editState: true })
-      : task
-    );
+  async switchToEditMode(id) {
+     this.state.updateTask = id;
+     await this.loadTasks();
   }
-  cancelEditMode(id) {
-    //for (let i = 0; i < this.state.tasks.length; i++) {
-    //    if (this.state.tasks[i].id === id) {
-    //        this.state.tasks[i].editState = false;
-    //    }
-    //}
-    this.state.tasks = this.state.tasks.map((task) => id === task.id
-      ? ({ ...task, editState: false })
-      : task
-    );
+  async cancelEditMode(id) {
+    this.state.updateTask = null;
+    await this.loadTasks();
   }
 }
 
-<h1>Todo</h1>
+<h1>ToDo</h1>
 <ol>
   <for|task| of=state.tasks>
     <li>
-      <if(task.editState)>
+      <if(state.updateTask === task.id)>
           <input key=`task-${task.id}` value=`${task.title}` type="text" />
           <button type="button" style="margin-left: 5px" on-click("updateTask", task.id)>확인</button>
           <button type="button" style="margin-left: 5px" on-click("cancelEditMode", task.id)>취소</button>
       </if>
 
-      <else-if(!task.editState)>
+      <else>
       <div style="margin-top: 5px">
         <span>${task.title}</span>
         <button type="button" style="margin-left: 5px" on-click("switchToEditMode", task.id)>수정</button>
         <button type="button" style="margin-left: 5px" on-click("deleteTask", task.id)>완료</button>
       </div>
-      </else-if>
+      </else>
     </li>
   </for>
 </ol>
