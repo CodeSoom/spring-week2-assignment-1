@@ -19,11 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 /**
- * Task 처리에 대한 Request를 받고, 이에 대한 Response를 반환하는 작업을 담당합니다.
- *
- * @see RestController
- * @see RequestMapping
- * @see CrossOrigin
+ * HTTP 프로토콜을 통한 Task 처리 컨트롤을 담당합니다.
  */
 @RestController
 @RequestMapping("/tasks")
