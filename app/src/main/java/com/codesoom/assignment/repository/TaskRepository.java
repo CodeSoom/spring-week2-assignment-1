@@ -27,14 +27,14 @@ public class TaskRepository {
         return Optional.ofNullable(taskMap.get(id));
     }
 
-    public Task postTask(Task task) {
+    public Task addTask(Task task) {
         Task newTask = new Task(taskIdGenerator.getNextSequence());
         newTask.setTitle(task.getTitle());
         taskMap.put(newTask.getId(), newTask);
         return newTask;
     }
 
-    public Optional<Task> putTask(Long id, Task task) {
+    public Optional<Task> replaceTask(Long id, Task task) {
         Optional<Task> oldTask = Optional.ofNullable(taskMap.get(id));
         oldTask.ifPresent(thisTask -> {
             thisTask.setTitle(task.getTitle());
@@ -43,7 +43,7 @@ public class TaskRepository {
         return oldTask;
     }
 
-    public Optional<Task> patchTask(Long id, Task task) {
+    public Optional<Task> updateTask(Long id, Task task) {
         Optional<Task> oldTask = Optional.ofNullable(taskMap.get(id));
         oldTask.ifPresent(thisTask -> {
             thisTask.setTitle(task.getTitle());

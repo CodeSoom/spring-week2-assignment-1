@@ -48,12 +48,12 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task postTask(@RequestBody Task task) {
-        return taskRepository.postTask(task);
+        return taskRepository.addTask(task);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> putTask(@PathVariable Long id, @RequestBody Task task) {
-        Optional<Task> newTask = taskRepository.putTask(id, task);
+        Optional<Task> newTask = taskRepository.replaceTask(id, task);
         if (newTask.isEmpty()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -62,7 +62,7 @@ public class TaskController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Task> patchTask(@PathVariable Long id, @RequestBody Task task) {
-        Optional<Task> newTask = taskRepository.putTask(id, task);
+        Optional<Task> newTask = taskRepository.updateTask(id, task);
         if (newTask.isEmpty()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
