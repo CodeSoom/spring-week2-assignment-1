@@ -1,13 +1,14 @@
 package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.enums.HttpMethod;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.model.TaskRequest;
 import com.codesoom.assignment.model.TaskResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -15,8 +16,6 @@ import java.util.stream.Collectors;
 @Service
 public class TaskService {
     private static final long INIT_ID = 0L;
-    private static final String TASK_NOT_FOUND = "찾으시는 Task가 존재하지 않습니다.";
-
     private final Map<Long, Task> tasks;
     private final AtomicLong taskKey;
 
@@ -32,7 +31,7 @@ public class TaskService {
     }
 
     public TaskResponse getTask(Long id) {
-        Task task = task(id);
+        Task task = task(id, HttpMethod.GET);
         return new TaskResponse(task.id(), task.title());
     }
 
@@ -44,7 +43,7 @@ public class TaskService {
     }
 
     public TaskResponse modifyTask(TaskRequest taskRequest) {
-        Task task = task(taskRequest.getId());
+        Task task = task(taskRequest.getId(), HttpMethod.PUT);
         task.changeTitle(taskRequest.getTitle());
         return new TaskResponse(task.id(), task.title());
     }
@@ -54,13 +53,14 @@ public class TaskService {
             tasks.remove(id);
             return ;
         }
-        throw new NoSuchElementException(TASK_NOT_FOUND);
+        throw new TaskNotFoundException(id, HttpMethod.DELETE);
     }
 
-    private Task task(Long id) {
+    private Task task(Long id, HttpMethod method) {
         if (tasks.containsKey(id)) {
             return tasks.get(id);
         }
-        throw new NoSuchElementException(TASK_NOT_FOUND);
+        throw new TaskNotFoundException(id, method);
     }
+
 }
