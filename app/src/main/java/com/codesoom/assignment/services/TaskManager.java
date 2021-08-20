@@ -12,15 +12,16 @@ import org.springframework.stereotype.Service;
 public class TaskManager {
 
     private final TaskStorage taskStorage;
+    private final TaskIdGenerator taskIdGenerator;
 
-    private Long lastId = 0L;
-
-    private TaskManager(TaskStorage taskStorage) {
+    public TaskManager(TaskStorage taskStorage,
+        TaskIdGenerator taskLastIdManager) {
         this.taskStorage = taskStorage;
+        this.taskIdGenerator = taskLastIdManager;
     }
 
     public Task createTask(Task task) {
-        Long lastId = getLastId();
+        Long lastId = taskIdGenerator.getLastId();
         task.setId(lastId);
 
         taskStorage.insert(lastId, task);
@@ -43,14 +44,4 @@ public class TaskManager {
     public void deleteTask(Long id) {
         taskStorage.delete(id);
     }
-
-    private Long getLastId() {
-        increaseLastId();
-        return lastId;
-    }
-
-    private synchronized void increaseLastId() {
-        lastId++;
-    }
-
 }
