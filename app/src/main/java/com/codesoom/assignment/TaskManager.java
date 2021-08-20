@@ -10,7 +10,7 @@ public class TaskManager {
 
     private static final TaskManager uniqueInstance = new TaskManager();
 
-    private final TaskMap taskMap = new TaskMap();
+    private final TaskStorage taskStorage = new TaskStorage();
 
     private Long lastId = 0L;
 
@@ -25,25 +25,25 @@ public class TaskManager {
         Long lastId = getLastId();
         task.setId(lastId);
 
-        taskMap.insert(lastId, task);
+        taskStorage.insert(lastId, task);
 
         return task;
     }
 
     public Collection<Task> getAllTasks() {
-        return taskMap.getValues();
+        return taskStorage.getValues();
     }
 
     public Task getTaskWith(Long id) {
-        return taskMap.get(id);
+        return taskStorage.get(id);
     }
 
     public Task updateTask(Long id, Task content) {
-        return taskMap.update(id, content.getTitle());
+        return taskStorage.update(id, content.getTitle());
     }
 
     public void deleteTask(Long id) {
-        taskMap.delete(id);
+        taskStorage.delete(id);
     }
 
     private Long getLastId() {

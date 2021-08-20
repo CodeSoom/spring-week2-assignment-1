@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * 등록된 할 일들을 관리합니다.
+ * 등록된 할 일들을 저장 및 관리합니다.
  */
-public class TaskMap {
+public class TaskStorage {
 
     private final Map<Long, Task> taskMap = new HashMap<>();
 
