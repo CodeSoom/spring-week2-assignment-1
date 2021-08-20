@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 할 일에 대한 처리를 담당합니다.
- *
- * @author  pangnem
- * @see RestController
- * @see RequestMapping
  */
 @RestController
 @RequestMapping("/tasks")
