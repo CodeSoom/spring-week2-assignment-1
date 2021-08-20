@@ -1,7 +1,6 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.dtos.TaskDTO;
-import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.http.HttpStatus;
@@ -16,12 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.OptionalInt;
-import java.util.stream.IntStream;
 
 @CrossOrigin
 @RestController
@@ -44,18 +39,12 @@ public final class TaskController {
     @GetMapping(ID_PATH)
     public Task getTask(@PathVariable(ID) final Long id) {
         final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
-        if (optionalInt.isEmpty()) {
-            throw new TaskNotFoundException();
-        }
         return TaskRepository.getTask(optionalInt.getAsInt());
     }
 
     @RequestMapping(value = ID_PATH, method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final TaskDTO taskDTO) {
         final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
-        if (optionalInt.isEmpty()) {
-            throw new TaskNotFoundException();
-        }
         return TaskRepository.updateTask(optionalInt.getAsInt(), taskDTO);
     }
 
@@ -63,9 +52,6 @@ public final class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable(ID) final Long id) {
         final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
-        if (optionalInt.isEmpty()) {
-            throw new TaskNotFoundException();
-        }
         TaskRepository.deleteTask(optionalInt.getAsInt());
     }
 }
