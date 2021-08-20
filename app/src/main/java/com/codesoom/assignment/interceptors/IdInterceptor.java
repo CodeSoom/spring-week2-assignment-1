@@ -21,6 +21,7 @@ public final class IdInterceptor implements HandlerInterceptor {
         if (optionalInt.isEmpty()) {
             throw new TaskNotFoundException();
         }
+        request.setAttribute("taskIndex", optionalInt.getAsInt());
         return true;
     }
 }

@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.OptionalInt;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/tasks")
 public final class TaskController {
     private static final String ID_PATH = "/{id}";
-    private static final String ID = "id";
 
     @GetMapping
     public List<Task> getTasks() {
@@ -37,21 +35,20 @@ public final class TaskController {
     }
 
     @GetMapping(ID_PATH)
-    public Task getTask(@PathVariable(ID) final Long id) {
-        final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
-        return TaskRepository.getTask(optionalInt.getAsInt());
+    public Task getTask(@RequestAttribute("taskIndex") final int taskIndex) {
+        return TaskRepository.getTask(taskIndex);
     }
 
     @RequestMapping(value = ID_PATH, method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task updateTask(@PathVariable(ID) final Long id, @RequestBody final TaskDTO taskDTO) {
-        final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
-        return TaskRepository.updateTask(optionalInt.getAsInt(), taskDTO);
+    public Task updateTask(
+        @RequestAttribute("taskIndex") final int taskIndex, @RequestBody final TaskDTO taskDTO
+        ) {
+        return TaskRepository.updateTask(taskIndex, taskDTO);
     }
 
     @DeleteMapping(ID_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTask(@PathVariable(ID) final Long id) {
-        final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
-        TaskRepository.deleteTask(optionalInt.getAsInt());
+    public void deleteTask(@RequestAttribute("taskIndex") final int taskIndex) {
+        TaskRepository.deleteTask(taskIndex);
     }
 }
