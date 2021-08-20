@@ -35,7 +35,7 @@ public class TaskManager {
 
     public Task getOne(Long id) throws TaskNotFoundException {
         if(!exist(id)) {
-            String message = "getOne() 메소드에서 요청하신 id(" + id + ")에 대한 Task에 접근할 수 없습니다.";
+            String message = "id(" + id + ")에 대한 Task에 접근할 수 없습니다.";
             throw new TaskNotFoundException(message);
         }
 
@@ -44,7 +44,7 @@ public class TaskManager {
 
     public void remove(Long id) throws TaskNotFoundException {
         if(!exist(id)) {
-            String message = "remove() 메소드에서 요청하신 id(" + id + ")에 대한 Task에 접근할 수 없습니다.";
+            String message = "id(" + id + ")에 대한 Task에 접근할 수 없습니다.";
             throw new TaskNotFoundException(message);
         }
 
