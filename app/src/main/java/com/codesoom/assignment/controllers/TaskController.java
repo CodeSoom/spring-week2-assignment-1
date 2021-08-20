@@ -19,16 +19,23 @@ public class TaskController {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
-    // @RequestMapping(path = "", method = RequestMethod.GET)
     @GetMapping
     public List<Task> list() {
         return tasks;
     }
 
-    // @RequestMapping(path = "", method = RequestMethod.POST)
     @PostMapping
-    public String create() {
-        return "Created";
+    public Task create() {
+        Task task = new Task();
+        task.setId(generateId());
+        tasks.add(task);
+
+        return task;
+    }
+
+    private Long generateId() {
+        newId += 1;
+        return newId;
     }
 
 }
