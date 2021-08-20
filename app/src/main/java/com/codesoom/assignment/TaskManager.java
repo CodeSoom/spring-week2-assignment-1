@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Task 목록 정보를 저장하고 있으며, Task 목록에 대한 CRUD 처리를 담당합니다.
+ * Task 목록에 대한 CRUD 처리를 담당합니다.
  */
 public class TaskManager {
     private Long nextId = 1L;
