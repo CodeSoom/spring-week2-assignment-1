@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exception.DataNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.http.HttpStatus;
@@ -37,12 +38,13 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public Task getTaskById(@PathVariable Long id) {
         Optional<Task> task = taskRepository.getTaskById(id);
         if (task.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new DataNotFoundException();
         }
-        return new ResponseEntity(task, HttpStatus.OK);
+        return task.get();
     }
 
     @PostMapping
@@ -52,29 +54,31 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> putTask(@PathVariable Long id, @RequestBody Task task) {
+    @ResponseStatus(HttpStatus.OK)
+    public Task putTask(@PathVariable Long id, @RequestBody Task task) {
         Optional<Task> newTask = taskRepository.replaceTask(id, task);
         if (newTask.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new DataNotFoundException();
         }
-        return new ResponseEntity(newTask, HttpStatus.OK);
+        return newTask.get();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Task> patchTask(@PathVariable Long id, @RequestBody Task task) {
+    @ResponseStatus(HttpStatus.OK)
+    public Task patchTask(@PathVariable Long id, @RequestBody Task task) {
         Optional<Task> newTask = taskRepository.updateTask(id, task);
         if (newTask.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new DataNotFoundException();
         }
-        return new ResponseEntity(newTask, HttpStatus.OK);
+        return newTask.get();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable Long id) {
         Optional<Task> deleteTask = taskRepository.deleteTask(id);
         if (deleteTask.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            throw new DataNotFoundException();
         }
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
