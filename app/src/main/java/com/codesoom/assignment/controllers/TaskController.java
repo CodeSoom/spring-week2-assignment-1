@@ -34,13 +34,7 @@ public class TaskController {
 
     @GetMapping("/{taskId}")
     public ResponseEntity<?> getOne(@PathVariable Long taskId) {
-        Task task;
-
-        try {
-            task = taskManager.getOne(taskId);
-        } catch (TaskNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Task task = taskManager.getOne(taskId);
 
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
@@ -57,26 +51,17 @@ public class TaskController {
     @PutMapping("/{taskId}")
     @PatchMapping("/{taskId}")
     public ResponseEntity<?> update(@PathVariable Long taskId, @RequestBody Task task) {
-        Task updatedTask;
+        String title = task.getTitle();
 
-        try {
-            String title = task.getTitle();
-            taskManager.update(taskId, title);
-            updatedTask = taskManager.getOne(taskId);
-        } catch (TaskNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        taskManager.update(taskId, title);
+        Task updatedTask = taskManager.getOne(taskId);
 
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity<?> delete(@PathVariable Long taskId) {
-        try {
-            taskManager.remove(taskId);
-        } catch (TaskNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        taskManager.remove(taskId);
 
         return new ResponseEntity<>("Success Remove Task", HttpStatus.NO_CONTENT);
     }
