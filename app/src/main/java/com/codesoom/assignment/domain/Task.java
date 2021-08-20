@@ -27,9 +27,7 @@ public class Task {
     }
 
     public void updateTitle(String updated) {
-        if (!title.equals(updated)) {
-            title = updated;
-        }
+        title = updated;
     }
 
     @Override
