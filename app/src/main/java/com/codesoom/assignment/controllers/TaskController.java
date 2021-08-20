@@ -3,6 +3,8 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.dtos.TaskDTO;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
+import com.codesoom.assignment.utils.UrlPath;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,10 +21,8 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping(UrlPath.TASKS)
 public final class TaskController {
-    private static final String ID_PATH = "/{id}";
-
     @GetMapping
     public List<Task> getTasks() {
         return TaskRepository.getTasks();
@@ -34,19 +34,19 @@ public final class TaskController {
         return TaskRepository.createTask(taskDTO);
     }
 
-    @GetMapping(ID_PATH)
+    @GetMapping(UrlPath.ID)
     public Task getTask(@RequestAttribute("taskIndex") final int taskIndex) {
         return TaskRepository.getTask(taskIndex);
     }
 
-    @RequestMapping(value = ID_PATH, method = {RequestMethod.PUT, RequestMethod.PATCH})
+    @RequestMapping(value = UrlPath.ID, method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(
         @RequestAttribute("taskIndex") final int taskIndex, @RequestBody final TaskDTO taskDTO
         ) {
         return TaskRepository.updateTask(taskIndex, taskDTO);
     }
 
-    @DeleteMapping(ID_PATH)
+    @DeleteMapping(UrlPath.ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@RequestAttribute("taskIndex") final int taskIndex) {
         TaskRepository.deleteTask(taskIndex);
