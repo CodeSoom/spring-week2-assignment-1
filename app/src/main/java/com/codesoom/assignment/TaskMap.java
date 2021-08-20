@@ -8,9 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * 할 일 목록 을 가지고 있는 클래스입니다.
- *
- * @author pangnem
+ * 등록된 할 일들을 관리합니다.
  */
 public class TaskMap {
 
