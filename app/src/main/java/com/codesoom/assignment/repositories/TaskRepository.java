@@ -16,11 +16,11 @@ public class TaskRepository {
 
     private final Map<Long, Task> taskMap = new HashMap<>();
 
-    public void insert(Long id, Task task) {
+    public void save(Long id, Task task) {
         taskMap.put(id, task);
     }
 
-    public Collection<Task> getValues() {
+    public Collection<Task> getAllTasks() {
         return taskMap.values();
     }
 

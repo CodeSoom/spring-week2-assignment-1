@@ -24,13 +24,13 @@ public class TaskManager {
         Long lastId = taskIdGenerator.getLastId();
         task.setId(lastId);
 
-        taskRepository.insert(lastId, task);
+        taskRepository.save(lastId, task);
 
         return task;
     }
 
     public Collection<Task> getAllTasks() {
-        return taskRepository.getValues();
+        return taskRepository.getAllTasks();
     }
 
     public Task getTaskWith(Long id) {
