@@ -11,7 +11,6 @@ import java.util.stream.IntStream;
 
 public final class TaskRepository {
     private static final List<Task> TASKS = new ArrayList<>();
-    private static final int INDEX_START = 0;
 
     private static Long NEW_ID = 0L;
 
@@ -30,7 +29,7 @@ public final class TaskRepository {
     }
 
     public static OptionalInt findTaskIndex(final Long id) {
-        return IntStream.range(INDEX_START, TASKS.size())
+        return IntStream.range(0, TASKS.size())
                 .filter(index -> Objects.equals(TASKS.get(index).getId(), id))
                 .findFirst();
     }
