@@ -42,11 +42,11 @@ public class MapTaskRepository implements TaskRepository {
     @Override
     public Optional<Task> updateTask(Long taskId, Task task) {
 
-        Optional<Task> editTaskObject = findTask(taskId);
-        if(editTaskObject.isPresent()) {
-            editTaskObject.get().setTitle(task.getTitle());
+        Optional<Task> taskObject = findTask(taskId);
+        if(taskObject.isPresent()) {
+            taskObject.get().setTitle(task.getTitle());
         }
-        return editTaskObject;
+        return taskObject;
 
     }
 

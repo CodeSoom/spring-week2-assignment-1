@@ -48,7 +48,7 @@ public class TaskController {
 
     }
 
-    @PutMapping("/{taskId}")
+    @RequestMapping(value = "/{taskId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable("taskId") Long taskId, @RequestBody Task task, HttpServletResponse response){
 
         Optional<Task> result = taskService.updateTask(taskId, task);
