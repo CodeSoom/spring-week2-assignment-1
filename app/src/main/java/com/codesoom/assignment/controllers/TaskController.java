@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.crypto.Data;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -40,11 +41,7 @@ public class TaskController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task getTaskById(@PathVariable Long id) {
-        Optional<Task> task = taskRepository.getTaskById(id);
-        if (task.isEmpty()) {
-            throw new DataNotFoundException();
-        }
-        return task.get();
+        return taskRepository.getTaskById(id).orElseThrow(DataNotFoundException::new);
     }
 
     @PostMapping
@@ -56,29 +53,18 @@ public class TaskController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task putTask(@PathVariable Long id, @RequestBody Task task) {
-        Optional<Task> newTask = taskRepository.replaceTask(id, task);
-        if (newTask.isEmpty()) {
-            throw new DataNotFoundException();
-        }
-        return newTask.get();
+        return taskRepository.replaceTask(id, task).orElseThrow(DataNotFoundException::new);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task patchTask(@PathVariable Long id, @RequestBody Task task) {
-        Optional<Task> newTask = taskRepository.updateTask(id, task);
-        if (newTask.isEmpty()) {
-            throw new DataNotFoundException();
-        }
-        return newTask.get();
+        return taskRepository.updateTask(id, task).orElseThrow(DataNotFoundException::new);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long id) {
-        Optional<Task> deleteTask = taskRepository.deleteTask(id);
-        if (deleteTask.isEmpty()) {
-            throw new DataNotFoundException();
-        }
+        taskRepository.deleteTask(id).orElseThrow(DataNotFoundException::new);
     }
 }

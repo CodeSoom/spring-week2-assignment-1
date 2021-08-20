@@ -5,16 +5,13 @@ class {
     this.state = {
       tasks: [],
     };
-
     this.loadTasks();
   }
-
   async loadTasks() {
     const {data} = await axios.get("http://localhost:8080/tasks");
     this.state.tasks = data;
     this.state.tasks.map(task => task.editState = false);
   }
-
   async addTask() {
     const title = this.getEl("title").value;
     await axios.post("http://localhost:8080/tasks", {
@@ -27,14 +24,12 @@ class {
     await axios.delete(uri);
     await this.loadTasks();
   }
-
   async updateTask(id) {
     let title = this.getEl(`task-${id}`).value;
     let uri = "http://localhost:8080/tasks/" + id;
     await axios.put(uri, {title});
     await this.loadTasks();
   }
-
   switchToEditMode(id) {
     //for (let i = 0; i < this.state.tasks.length; i++) {
     //    if (this.state.tasks[i].id === id) {
@@ -46,7 +41,6 @@ class {
       : task
     );
   }
-
   cancelEditMode(id) {
     //for (let i = 0; i < this.state.tasks.length; i++) {
     //    if (this.state.tasks[i].id === id) {
