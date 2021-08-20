@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * Task를 컬렉션으로 관리하며 조회,저장,수정,삭제하는 클래스입니다.
+ * 할 일({@link Task}) 객체를 관리하는 클래스
  */
 @Component
 public class TodoRepository {
