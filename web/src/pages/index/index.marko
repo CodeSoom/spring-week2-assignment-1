@@ -26,6 +26,11 @@ class {
         await this.loadTasks();
     }
 
+    async onDeleteButtonClick(id) {
+        await axios.delete('http://localhost:8080/tasks/'+id);
+        await this.loadTasks();
+    }
+
 
 }
 
@@ -33,7 +38,7 @@ class {
 <ol>
     <for|task| of=state.tasks>
         <li>
-            ${task.title}
+            ${task.title} <button type="button" on-click("onDeleteButtonClick", task.id)>삭제</button>
         </li>
     </for>
 </ol>
