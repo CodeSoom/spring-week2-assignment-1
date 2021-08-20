@@ -1,6 +1,6 @@
 package com.codesoom.assignment.services;
 
-import com.codesoom.assignment.repositories.TaskStorage;
+import com.codesoom.assignment.repositories.TaskRepository;
 import com.codesoom.assignment.models.Task;
 import java.util.Collection;
 import org.springframework.stereotype.Service;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskManager {
 
-    private final TaskStorage taskStorage;
+    private final TaskRepository taskRepository;
     private final TaskIdGenerator taskIdGenerator;
 
-    public TaskManager(TaskStorage taskStorage,
+    public TaskManager(TaskRepository taskRepository,
         TaskIdGenerator taskLastIdManager) {
-        this.taskStorage = taskStorage;
+        this.taskRepository = taskRepository;
         this.taskIdGenerator = taskLastIdManager;
     }
 
@@ -24,24 +24,24 @@ public class TaskManager {
         Long lastId = taskIdGenerator.getLastId();
         task.setId(lastId);
 
-        taskStorage.insert(lastId, task);
+        taskRepository.insert(lastId, task);
 
         return task;
     }
 
     public Collection<Task> getAllTasks() {
-        return taskStorage.getValues();
+        return taskRepository.getValues();
     }
 
     public Task getTaskWith(Long id) {
-        return taskStorage.get(id);
+        return taskRepository.get(id);
     }
 
     public Task updateTask(Long id, Task content) {
-        return taskStorage.update(id, content.getTitle());
+        return taskRepository.update(id, content.getTitle());
     }
 
     public void deleteTask(Long id) {
-        taskStorage.delete(id);
+        taskRepository.delete(id);
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * 등록된 할 일들을 저장 및 관리합니다.
  */
 @Repository
-public class TaskStorage {
+public class TaskRepository {
 
     private final Map<Long, Task> taskMap = new HashMap<>();
 
