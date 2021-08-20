@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.dtos.TaskDTO;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
+import com.codesoom.assignment.utils.TaskConstants;
 import com.codesoom.assignment.utils.UrlPath;
 
 import org.springframework.http.HttpStatus;
@@ -35,20 +36,25 @@ public final class TaskController {
     }
 
     @GetMapping(UrlPath.ID)
-    public Task getTask(@RequestAttribute("taskIndex") final int taskIndex) {
+    public Task getTask(@RequestAttribute(TaskConstants.TASK_INDEX) final int taskIndex) {
         return TaskRepository.getTask(taskIndex);
     }
 
-    @RequestMapping(value = UrlPath.ID, method = {RequestMethod.PUT, RequestMethod.PATCH})
+    @RequestMapping(
+        value = UrlPath.ID, method = {RequestMethod.PUT, RequestMethod.PATCH}
+        )
     public Task updateTask(
-        @RequestAttribute("taskIndex") final int taskIndex, @RequestBody final TaskDTO taskDTO
+        @RequestAttribute(TaskConstants.TASK_INDEX) final int taskIndex,
+        @RequestBody final TaskDTO taskDTO
         ) {
         return TaskRepository.updateTask(taskIndex, taskDTO);
     }
 
     @DeleteMapping(UrlPath.ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTask(@RequestAttribute("taskIndex") final int taskIndex) {
+    public void deleteTask(
+        @RequestAttribute(TaskConstants.TASK_INDEX) final int taskIndex
+        ) {
         TaskRepository.deleteTask(taskIndex);
     }
 }

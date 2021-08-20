@@ -11,17 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.repositories.TaskRepository;
+import com.codesoom.assignment.utils.TaskConstants;
 
 public final class IdInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) throws Exception {
         final Map<String, String> pathVariable = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        final Long id = Long.parseLong(pathVariable.get("id"));
+        final Long id = Long.parseLong(pathVariable.get(TaskConstants.TASK_ID));
         final OptionalInt optionalInt = TaskRepository.findTaskIndex(id);
         if (optionalInt.isEmpty()) {
             throw new TaskNotFoundException();
         }
-        request.setAttribute("taskIndex", optionalInt.getAsInt());
+        request.setAttribute(TaskConstants.TASK_INDEX, optionalInt.getAsInt());
         return true;
     }
 }
