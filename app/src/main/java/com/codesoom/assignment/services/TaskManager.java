@@ -1,5 +1,6 @@
-package com.codesoom.assignment;
+package com.codesoom.assignment.services;
 
+import com.codesoom.assignment.repositories.TaskStorage;
 import com.codesoom.assignment.models.Task;
 import java.util.Collection;
 import org.springframework.stereotype.Service;

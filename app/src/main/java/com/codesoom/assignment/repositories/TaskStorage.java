@@ -1,4 +1,4 @@
-package com.codesoom.assignment;
+package com.codesoom.assignment.repositories;
 
 import com.codesoom.assignment.errors.TaskIdNotFoundException;
 import com.codesoom.assignment.models.Task;

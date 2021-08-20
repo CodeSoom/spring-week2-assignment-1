@@ -1,6 +1,6 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.TaskManager;
+import com.codesoom.assignment.services.TaskManager;
 import com.codesoom.assignment.models.Task;
 import java.util.Collection;
 import org.springframework.http.HttpStatus;
