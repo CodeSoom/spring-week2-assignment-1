@@ -29,17 +29,34 @@ class {
   }
 
   async updateTask(id) {
+    let title = this.getEl(`task-${id}`).value;
     let uri = "http://localhost:8080/tasks/" + id;
-    await axios.put(uri);
+    await axios.put(uri, {title});
     await this.loadTasks();
   }
 
   switchToEditMode(id) {
-    for (let i = 0; i < this.state.tasks.length; i++) {
-        if (this.state.tasks[i].id === id) {
-            this.state.tasks[i].editState = true;
-        }
-    }
+    //for (let i = 0; i < this.state.tasks.length; i++) {
+    //    if (this.state.tasks[i].id === id) {
+    //        this.state.tasks[i].editState = true;
+    //    }
+    //}
+    this.state.tasks = this.state.tasks.map((task) => id === task.id
+      ? ({ ...task, editState: true })
+      : task
+    );
+  }
+
+  cancelEditMode(id) {
+    //for (let i = 0; i < this.state.tasks.length; i++) {
+    //    if (this.state.tasks[i].id === id) {
+    //        this.state.tasks[i].editState = false;
+    //    }
+    //}
+    this.state.tasks = this.state.tasks.map((task) => id === task.id
+      ? ({ ...task, editState: false })
+      : task
+    );
   }
 }
 

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class TaskIdGeneratorImpl implements TaskIdGenerator{
     private static Long sequence = 1L;
 
-    public Long getSequence() {
+    public Long getNextSequence() {
         return sequence++;
     }
 }

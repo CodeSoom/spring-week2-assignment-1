@@ -13,12 +13,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TaskRepository {
 
     private final TaskIdGenerator taskIdGenerator;
+    private Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
     public TaskRepository(TaskIdGenerator taskIdGenerator) {
         this.taskIdGenerator = taskIdGenerator;
     }
-
-    private Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
     public Collection<Task> getTaskList() {
         return taskMap.values();
@@ -29,7 +28,7 @@ public class TaskRepository {
     }
 
     public Task postTask(Task task) {
-        Task newTask = new Task(taskIdGenerator.getSequence());
+        Task newTask = new Task(taskIdGenerator.getNextSequence());
         newTask.setTitle(task.getTitle());
         taskMap.put(newTask.getId(), newTask);
         return newTask;
