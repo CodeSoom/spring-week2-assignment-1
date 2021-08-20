@@ -1,9 +1,12 @@
 package com.codesoom.assignment.models;
 
+import javax.validation.constraints.NotEmpty;
+
 public class Task {
 
   private Long id;
 
+  @NotEmpty
   private String title;
 
   public Long getId() {
