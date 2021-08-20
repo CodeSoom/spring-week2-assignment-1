@@ -2,6 +2,7 @@ package com.codesoom.assignment.models;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -24,24 +25,31 @@ public class TasksStorage {
         return task;
     }
 
-    public synchronized Optional<Task> read(Long id) {
-        return Optional.ofNullable(tasks.get(id));
+    public synchronized Task read(Long id) {
+        return Optional
+                .ofNullable(tasks.get(id))
+                .orElseThrow();
     }
 
     public synchronized Collection<Task> readAll() {
         return tasks.values();
     }
 
-    public synchronized Optional<Task> update(Long id, String title) {
+    public synchronized Task update(Long id, String title) {
         if (!tasks.containsKey(id)) {
-            return Optional.empty();
+            throw new NoSuchElementException();
         }
-        tasks.replace(id, new Task(id, title));
 
-        return Optional.of(new Task(id, title));
+        Task task = new Task(id, title);
+
+        tasks.replace(id, task);
+
+        return task;
     }
 
-    public synchronized Optional<Task> delete(Long id) {
-        return Optional.ofNullable(tasks.remove(id));
+    public synchronized Task delete(Long id) {
+        return Optional
+                .ofNullable(tasks.remove(id))
+                .orElseThrow();
     }
 }
