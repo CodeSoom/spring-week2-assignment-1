@@ -8,6 +8,8 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -30,6 +32,17 @@ public class TaskController {
         return new ArrayList<>(tasks.values());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> get(@PathVariable("id") Long id) {
+        Task task = tasks.get(id);
+        if(task != null) {
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
@@ -39,20 +52,23 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task modify(@RequestBody Task task, @PathVariable("id") Long id) {
-        task.setId(id);
-        tasks.put(task.getId(), task);
-
-        return task;
+    public ResponseEntity<?> modify(@RequestBody Task task, @PathVariable("id") Long id) {
+        if(tasks.get(id) != null ) {
+            task.setId(id);
+            tasks.put(task.getId(), task);
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         if(tasks.get(id) != null) {
             tasks.remove(id);
-            return "삭제됨";
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } else {
-            return "해당 id를 가진 task 없음";
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
 
     }
