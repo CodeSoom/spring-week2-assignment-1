@@ -62,7 +62,7 @@ public class TaskController {
   }
 
   /**
-   * body 문자열을 받아 할 일을 생성하고 리턴합니다.
+   * 할 일의 내용을 받아 할 일을 생성하고 리턴합니다.
    *
    * @param task 할 일의 내용
    * @return 만들어진 할 일
@@ -78,7 +78,7 @@ public class TaskController {
   }
 
   /**
-   * id와 body 문자열을 받아 해당 id에 해당하는 할 일 내용을 수정한후, 해당 할 일을 return합니다.
+   * id와 할 일의 수정된 내용을 받아 해당 id에 해당하는 할 일 내용을 수정한후, 해당 할 일을 return합니다.
    *
    * @param rewrittenTask 할 일의 수정된 내용
    * @param id 수정할 할 일의 id
