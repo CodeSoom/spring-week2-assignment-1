@@ -33,7 +33,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task read(@PathVariable Long id) {
+    public Task read(@PathVariable Long id) throws NoSuchElementException {
         return tasksStorage.read(id).orElseThrow();
     }
 
@@ -45,13 +45,13 @@ public class TaskController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task update(@PathVariable Long id, @RequestBody TaskRequest taskRequest) {
+    public Task update(@PathVariable Long id, @RequestBody TaskRequest taskRequest) throws NoSuchElementException {
         return tasksStorage.update(id, taskRequest.getTitle()).orElseThrow();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Task delete(@PathVariable Long id) {
+    public Task delete(@PathVariable Long id) throws NoSuchElementException {
         return tasksStorage.delete(id).orElseThrow();
     }
 
