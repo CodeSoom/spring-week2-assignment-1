@@ -17,7 +17,7 @@ public class TaskManager {
 
     private final Object nextIdLock = new Object();
 
-    public void create(String title) {
+    public Task create(String title) {
         synchronized (nextIdLock) {
             nextId++;
         }
@@ -25,6 +25,8 @@ public class TaskManager {
         Long newId = nextId;
         Task newTask = new Task(newId, title);
         this.tasks.put(newId, newTask);
+
+        return newTask;
     }
 
     public List<Task> getAll() {
@@ -38,10 +40,6 @@ public class TaskManager {
         }
 
         return this.tasks.get(id);
-    }
-
-    public Task getLast() throws TaskNotFoundException {
-        return getOne(nextId - 1);
     }
 
     public void remove(Long id) throws TaskNotFoundException {

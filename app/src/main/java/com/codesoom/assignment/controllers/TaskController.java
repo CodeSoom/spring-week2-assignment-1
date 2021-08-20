@@ -53,9 +53,9 @@ public class TaskController {
     public ResponseEntity<Task> create(@RequestBody Task task) {
         String title = task.getTitle();
 
-        taskManager.create(title);
+        Task newTask = taskManager.create(title);
 
-        return new ResponseEntity<>(taskManager.getLast(), HttpStatus.CREATED);
+        return new ResponseEntity<>(newTask, HttpStatus.CREATED);
     }
 
     @PutMapping("/{taskId}")
