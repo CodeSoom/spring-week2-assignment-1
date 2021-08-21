@@ -50,8 +50,11 @@ public class TaskController {
         if (!task.isPresent()) {
             throw new TaskNotFoundException(Long.toString(id));
         }
-        task.get().setTitle(requestTask.getTitle());
-        return task.get();
+
+        Task updateTask = new Task(task.get().getId(), requestTask.getTitle());
+        tasks.remove(task.get());
+        tasks.add(updateTask);
+        return updateTask;
     }
 
     @DeleteMapping("{id}")

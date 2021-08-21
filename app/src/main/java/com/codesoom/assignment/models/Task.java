@@ -18,12 +18,13 @@ public class Task {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     @Override
     public String toString() {
         return String.format("Task{id=%d, title=%s}", id, title);
+    }
+
+    public Task(Long id, String title) {
+        this.id = id;
+        this.title = title;
     }
 }
