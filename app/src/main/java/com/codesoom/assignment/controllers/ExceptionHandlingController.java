@@ -1,6 +1,5 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.InternalServerError;
 import com.codesoom.assignment.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,13 +16,30 @@ class GlobalControllerAdvice {
   @ExceptionHandler(value = TaskNotFoundException.class)
   public TaskNotFoundException notFoundException(@PathVariable("id") Long id) {
 
-    return new TaskNotFoundException("not found with that id : " +id);
+    return new TaskNotFoundException("not found with that id : " + id);
+  }
+
+
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
+  public ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException() {
+    System.out.println("arrayIndexOutOfBoundsException이 발생하였습니다.");
+    return new ArrayIndexOutOfBoundsException("서버 내부에 잘못이 있습니다.");
   }
 
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  @ExceptionHandler(value = InternalServerError.class)
-  public InternalServerError internalServerError(){
-
-    return new InternalServerError("서버 내부에 잘못이 있습니다.");
+  @ExceptionHandler(value = NullPointerException.class)
+  public NullPointerException nullPointerException() {
+    System.out.println("nullPointerException이 발생하였습니다.");
+    return new NullPointerException("서버 내부에 잘못이 있습니다.");
   }
+
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ExceptionHandler(value = NumberFormatException.class)
+  public NumberFormatException numberFormatException() {
+    System.out.println("NumberFormatException이 발생하였습니다.");
+    return new NumberFormatException("서버 내부에 잘못이 있습니다.");
+  }
+
+
 }
