@@ -1,5 +1,6 @@
 package com.codesoom.assignment.repository;
 
+import com.codesoom.assignment.controllers.TaskNotFoundException;
 import com.codesoom.assignment.domain.Task;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +27,10 @@ public class MapTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> findTask(Long taskId) {
+    public Task findTask(Long taskId) {
 
-        return Optional.ofNullable(tasks.get(taskId));
+        return tasks.values().stream().filter(task -> task.getId().equals(taskId)).findFirst()
+                .orElseThrow(() -> new TaskNotFoundException(taskId));
 
     }
 
@@ -40,25 +42,18 @@ public class MapTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> updateTask(Long taskId, Task task) {
+    public Task updateTask(Long taskId, Task task) {
 
-        Optional<Task> taskObject = findTask(taskId);
-        if(taskObject.isPresent()) {
-            taskObject.get().setTitle(task.getTitle());
-        }
-        return taskObject;
+        Task foundTask = findTask(taskId);
+        foundTask.setTitle(task.getTitle());
+        return foundTask;
 
     }
 
     @Override
-    public boolean deleteTask(Long taskId) {
+    public void deleteTask(Long taskId) {
 
-        if(findTask(taskId).isPresent()) {
-            tasks.remove(taskId);
-            return true;
-        }
-
-        return false;
+        tasks.remove(findTask(taskId));
 
     }
 

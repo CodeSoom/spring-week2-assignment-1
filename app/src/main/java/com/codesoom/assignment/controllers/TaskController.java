@@ -20,24 +20,17 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Collection<Task> getAll(HttpServletResponse response) {
+    public Collection<Task> getAll() {
         return taskService.getAll();
     }
 
     @GetMapping("/{taskId}")
-    public Task getDetails(@PathVariable("taskId") Long taskId,HttpServletResponse response) {
+    public Task getDetails(@PathVariable("taskId") Long taskId) {
 
-        Optional<Task> task = taskService.getDetails(taskId);
-        if(task.isEmpty()) {
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-            return null;
-        }
+        Task task = taskService.getDetails(taskId);
+        return task;
 
-        response.setStatus(HttpStatus.OK.value());
-        return task.get();
     }
 
     @PostMapping
@@ -49,27 +42,18 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/{taskId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task updateTask(@PathVariable("taskId") Long taskId, @RequestBody Task task, HttpServletResponse response){
+    public Task updateTask(@PathVariable("taskId") Long taskId, @RequestBody Task task){
 
-        Optional<Task> result = taskService.updateTask(taskId, task);
-        if(result.isEmpty()) {
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-            return null;
-        }
-
-        response.setStatus(HttpStatus.OK.value());
-        return result.get();
+        Task result = taskService.updateTask(taskId, task);
+        return result;
 
     }
 
     @DeleteMapping("/{taskId}")
-    public void deleteTask(@PathVariable("taskId") Long taskId, HttpServletResponse response){
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable("taskId") Long taskId){
 
-        if(taskService.deleteTask(taskId)) {
-            response.setStatus(HttpStatus.NO_CONTENT.value());
-        } else {
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-        }
+        taskService.deleteTask(taskId);
 
     }
 

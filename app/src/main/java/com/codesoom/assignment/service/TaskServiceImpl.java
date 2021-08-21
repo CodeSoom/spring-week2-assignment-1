@@ -24,7 +24,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> getDetails(Long taskId) {
+    public Task getDetails(Long taskId) {
         return taskRepository.findTask(taskId);
     }
 
@@ -34,17 +34,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Optional<Task> updateTask(Long taskId, Task task) {
+    public Task updateTask(Long taskId, Task task) {
        return taskRepository.updateTask(taskId, task);
     }
 
     @Override
-    public boolean deleteTask(Long taskId) {
+    public void deleteTask(Long taskId) {
 
-        if(taskRepository.deleteTask(taskId)){
-            return true;
-        }
-        return false;
+        taskRepository.deleteTask(taskId);
 
     }
 

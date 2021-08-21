@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface TaskService {
 
     public Collection<Task> getAll();
-    public Optional<Task> getDetails(Long taskId);
+    public Task getDetails(Long taskId);
     public Task create(Task task);
-    public Optional<Task> updateTask(Long taskId, Task task);
-    public boolean deleteTask(Long taskId);
+    public Task updateTask(Long taskId, Task task);
+    public void deleteTask(Long taskId);
 
 }
