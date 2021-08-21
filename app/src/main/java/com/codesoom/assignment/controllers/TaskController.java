@@ -35,7 +35,7 @@ public class TaskController {
   /**
    * 모든 할일들을 리턴합니다.
    *
-   * @return 할일들을 모두 리턴
+   * @return 모든 할 일
    */
   @GetMapping
   @ResponseStatus(HttpStatus.OK)
@@ -49,7 +49,7 @@ public class TaskController {
    * 주어진 id에 해당하는 할 일을 검색해 리턴합니다.
    *
    * @param id 할 일의 id
-   * @return 감섹걀거ㅣ 칮이넨 할 일
+   * @return 해당 id의 할일
    * @throws TaskNotFoundException 할일을 찾지 못한 경우
    */
   @GetMapping("/{id}")
