@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Component
 public class TaskServiceImpl implements TaskService {
@@ -42,7 +41,6 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(Long taskId) {
 
         taskRepository.deleteTask(taskId);
-
     }
 
 

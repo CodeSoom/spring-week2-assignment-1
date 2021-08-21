@@ -3,7 +3,6 @@ package com.codesoom.assignment.service;
 import com.codesoom.assignment.domain.Task;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface TaskService {
 

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Component
 public class MapTaskRepository implements TaskRepository {
@@ -53,9 +52,9 @@ public class MapTaskRepository implements TaskRepository {
     @Override
     public void deleteTask(Long taskId) {
 
-        tasks.remove(findTask(taskId));
+        Task task = findTask(taskId);
+        tasks.remove(task.getId());
 
     }
-
 
 }

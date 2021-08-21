@@ -4,13 +4,10 @@ import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
 import org.springframework.web.bind.annotation.*;
 
-
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/tasks")
