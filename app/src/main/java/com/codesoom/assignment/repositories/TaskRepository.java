@@ -12,10 +12,10 @@ import java.util.stream.IntStream;
 public final class TaskRepository {
     private static final List<Task> TASKS = new ArrayList<>();
 
-    private static Long NEW_ID = 0L;
+    private static Long newId = 0L;
 
     private static Long generateId() {
-        return ++NEW_ID;
+        return ++newId;
     }
 
     public static List<Task> getTasks() {
