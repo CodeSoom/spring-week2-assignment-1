@@ -23,22 +23,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 public final class TaskController {
+    private final TaskRepository taskRepository = TaskRepository.getInstance();
+
     @GetMapping
     public List<Task> getTasks() {
-        return TaskRepository.getTasks();
+        return taskRepository.getTasks();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task postTask(@RequestBody final TaskDTO taskDTO) {
-        return TaskRepository.createTask(taskDTO);
+        return taskRepository.createTask(taskDTO);
     }
 
     @GetMapping("/{id}")
     public Task getTask(
         @RequestAttribute(TaskConstants.TASK_INDEX) final int taskIndex
         ) {
-        return TaskRepository.getTask(taskIndex);
+        return taskRepository.getTask(taskIndex);
     }
 
     @RequestMapping(
@@ -48,7 +50,7 @@ public final class TaskController {
         @RequestAttribute(TaskConstants.TASK_INDEX) final int taskIndex,
         @RequestBody final TaskDTO taskDTO
         ) {
-        return TaskRepository.updateTask(taskIndex, taskDTO);
+        return taskRepository.updateTask(taskIndex, taskDTO);
     }
 
     @DeleteMapping("/{id}")
@@ -56,6 +58,6 @@ public final class TaskController {
     public void deleteTask(
         @RequestAttribute(TaskConstants.TASK_INDEX) final int taskIndex
         ) {
-        TaskRepository.deleteTask(taskIndex);
+        taskRepository.deleteTask(taskIndex);
     }
 }

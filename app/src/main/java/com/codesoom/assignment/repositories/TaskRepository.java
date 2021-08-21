@@ -10,43 +10,50 @@ import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 public final class TaskRepository {
-    private static final List<Task> TASKS = new ArrayList<>();
+    private static final TaskRepository TASK_REPOSITORY = new TaskRepository();
 
-    private static Long newId = 0L;
+    public static TaskRepository getInstance() {
+        return TASK_REPOSITORY;
+    }
 
-    private static Long generateId() {
+    private final List<Task> tasks;
+    private Long newId = 0L;
+
+    private TaskRepository() {
+        this.tasks = new ArrayList<>();
+    }
+
+    private Long generateId() {
         return ++newId;
     }
 
-    public static List<Task> getTasks() {
-        return TASKS;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public synchronized static Task createTask(final TaskDTO taskDTO) {
+    public synchronized Task createTask(final TaskDTO taskDTO) {
         final Task task = new Task(generateId(), taskDTO.getTitle());
-        TASKS.add(task);
+        tasks.add(task);
         return task;
     }
 
-    public static OptionalInt findTaskIndex(final Long id) {
-        return IntStream.range(0, TASKS.size())
-                .filter(index -> Objects.equals(TASKS.get(index).getId(), id))
+    public OptionalInt findTaskIndex(final Long id) {
+        return IntStream.range(0, tasks.size())
+                .filter(index -> Objects.equals(tasks.get(index).getId(), id))
                 .findFirst();
     }
 
-    public static Task getTask(final int index) {
-        return TASKS.get(index);
+    public Task getTask(final int index) {
+        return tasks.get(index);
     }
 
-    public synchronized static Task updateTask(final int index, final TaskDTO taskDTO) {
-        final Task task = TASKS.get(index);
+    public synchronized Task updateTask(final int index, final TaskDTO taskDTO) {
+        final Task task = tasks.get(index);
         task.setTitle(taskDTO.getTitle());
         return task;
     }
 
-    public synchronized static void deleteTask(final int index) {
-        TASKS.remove(index);
+    public synchronized void deleteTask(final int index) {
+        tasks.remove(index);
     }
-
-
 }
