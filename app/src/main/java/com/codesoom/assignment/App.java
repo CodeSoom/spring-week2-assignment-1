@@ -5,10 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class App {
-    public String getGreeting() {
-        return "Hello, world!";
-    }
-
+    private static final int PORT = 8080;
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }
