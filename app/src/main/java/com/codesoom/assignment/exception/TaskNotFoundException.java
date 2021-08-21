@@ -1,12 +1,11 @@
 package com.codesoom.assignment.exception;
 
+/**
+ * 할 일이 발견되지 않은 경우 발생하는 예외입니다.
+ */
 public class TaskNotFoundException extends RuntimeException{
 
-    private String message;
-    private String BASIC_MESSAGE = "task를 찾지 못했습니다";
-
-    public TaskNotFoundException(String message) {
-        super(message);
-        this.message = String.format("%s %s", message, BASIC_MESSAGE);
+    public TaskNotFoundException(String id) {
+        super(String.format("%s 를 할 일 리스트에서 찾을 수 없습니다.", id));
     }
 }

@@ -1,9 +1,18 @@
 package com.codesoom.assignment.models;
 
+/**
+ * 할 일 객체입니다.
+ */
 public class Task {
 
+    /**
+     * 식별자 Id
+     */
     private Long id;
 
+    /**
+     * 할 일 제목
+     */
     private String title;
 
     public Long getId() {
