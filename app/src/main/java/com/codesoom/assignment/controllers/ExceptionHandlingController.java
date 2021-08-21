@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-class GlobalControllerAdvice {
+class TaskControllerAdvice {
 
   @RequestMapping({"/{id}"})
   @ResponseStatus(HttpStatus.NOT_FOUND)
