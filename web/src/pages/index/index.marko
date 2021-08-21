@@ -3,7 +3,7 @@ import axios from 'axios';
 class {
   onCreate() {
     this.state = {
-      tasks: [{}],
+      tasks: [],
     };
 
     this.loadTasks();
@@ -13,13 +13,73 @@ class {
     const { data } = await axios.get('http://localhost:8080/tasks');
     this.state.tasks = data;
   }
+
+  async addTask() {
+    const title = this.getEl('title').value;
+    await axios.post('http://localhost:8080/tasks', {
+      title
+    });
+    await this.loadTasks();
+  }
+
+  async editTask(id) {
+    // const task = this.state.tasks.find(i => i.id === id);
+    // task.editing = true;
+    // console.log(task);
+    this.state.tasks =  this.state.tasks.map(task => task.id === id ? {
+      ...task,
+       editing: true,
+    }: task);
+  }
+
+  async cancleEdit(id) {
+    this.state.tasks =  this.state.tasks.map(task => task.id === id ? {
+      ...task,
+       editing: false,
+    }: task);
+  }
+
+  async updateTask(id) {
+    const title = this.getEl(`title-${id}`).value;
+    await axios.patch(`http://localhost:8080/tasks/${id}`,{
+      title,
+    });
+    await this.loadTasks();
+  }
+
+  async deleteTask(id) {
+    await axios.delete(`http://localhost:8080/tasks/${id}`);
+    await this.loadTasks();
+  }
 }
 
-<h1>Todo</h1>
+<h1>ToDo</h1>
 <ol>
   <for|task| of=state.tasks>
     <li>
-      ${task};
-    </li>  
+      <if(task.editing)>
+        <input key=`title-${task.id}` type="text" value=task.title />
+        <span> </span>
+        <button type="button" on-click("updateTask", task.id)>확인</button>
+        <span> </span>
+        <button type="button" on-click("cancleEdit", task.id)>취소</button>
+      </if>
+      <else>
+        ${task.title}
+        <span> </span>
+        <button type="button" on-click("editTask", task.id)>수정</button>
+        <span> </span>
+        <button type="button" on-click("deleteTask", task.id)>완료</button>
+      </else>
+    </li>   
   </for>
 </ol>
+<p>
+  <label for:scoped="title">
+    할 일 
+  </label>
+  <input id:scoped="title" key="title" type="text" />
+  <button type="button" on-click("addTask")>
+    추가
+  </button>
+</p>
