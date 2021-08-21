@@ -11,16 +11,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * 할 일({@link Task}) 객체를 관리하는 클래스
+ * 할 일을 보관합니다.
  */
 @Component
 public class TodoRepository {
     private static final Map<Long, Task> store = new ConcurrentHashMap<>();
     private static Long sequence = 0L;
 
-    private final IdGenerator idGenerator;
+    private final IdGenerator<Long> idGenerator;
 
-    public TodoRepository(IdGenerator idGenerator) {
+    public TodoRepository(IdGenerator<Long> idGenerator) {
         this.idGenerator = idGenerator;
     }
 

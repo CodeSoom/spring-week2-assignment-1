@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.domain.TodoRepository;
+import com.codesoom.assignment.exceptions.NotSupportedIdTypeException;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -68,9 +69,9 @@ public class TaskController {
         todoRepository.deleteById(id);
     }
 
-    @ExceptionHandler(TaskNotFoundException.class)
+    @ExceptionHandler(value = {TaskNotFoundException.class, NotSupportedIdTypeException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void handleEntityNotFoundException(TaskNotFoundException err) {
+    public void handleRuntimeException(RuntimeException err) {
         logger.severe(String.format("[%s]%s", LocalDateTime.now(), err.getMessage()));
     }
 }
