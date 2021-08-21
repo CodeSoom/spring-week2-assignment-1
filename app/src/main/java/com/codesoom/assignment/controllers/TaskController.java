@@ -1,13 +1,11 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.exception.TaskNotFoundException;
+import com.codesoom.assignment.Service.TaskService;
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Task Controller 입니다.
@@ -18,9 +16,9 @@ import java.util.Optional;
 public class TaskController {
 
     /**
-     * Task Repository 입니다.
+     * Task Service 입니다.
      */
-    TaskRepository taskRepository = new TaskRepository();
+    TaskService taskService = new TaskService();
 
     /**
      * 할 일 리스트를 전체 조회하는 컨트롤러입니다.
@@ -29,7 +27,7 @@ public class TaskController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Task> getTaskList() {
-        return taskRepository.getTasks();
+        return taskService.getTaskList();
     }
 
     /**
@@ -41,11 +39,7 @@ public class TaskController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task getTask(@PathVariable Long id) {
-        Optional<Task> task = taskRepository.findTaskById(id);
-        if (!task.isPresent()) {
-            throw new TaskNotFoundException(Long.toString(id));
-        }
-        return task.get();
+        return taskService.getTask(id);
     }
 
     /**
@@ -57,11 +51,7 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
-        taskRepository.createNewTaskId();
-        Task newTask = new Task(taskRepository.getNewId(), task.getTitle());
-        taskRepository.addTask(newTask);
-
-        return newTask;
+        return taskService.createTask(task);
     }
 
     /**
@@ -74,15 +64,7 @@ public class TaskController {
     @RequestMapping(value = "{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     @ResponseStatus(HttpStatus.OK)
     public Task updateTask(@PathVariable Long id, @RequestBody Task requestTask) {
-        Optional<Task> task = taskRepository.findTaskById(id);
-        if (!task.isPresent()) {
-            throw new TaskNotFoundException(Long.toString(id));
-        }
-
-        Task updateTask = new Task(task.get().getId(), requestTask.getTitle());
-        taskRepository.removeTask(task.get());
-        taskRepository.addTask(updateTask);
-        return updateTask;
+        return taskService.updateTask(id, requestTask);
     }
 
     /**
@@ -93,11 +75,7 @@ public class TaskController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void completeTask(@PathVariable Long id) {
-        Optional<Task> task = taskRepository.findTaskById(id);
-        if (!task.isPresent()) {
-            throw new TaskNotFoundException(Long.toString(id));
-        }
-        taskRepository.removeTask(task.get());
+        taskService.completeTask(id);
     }
 
 }
