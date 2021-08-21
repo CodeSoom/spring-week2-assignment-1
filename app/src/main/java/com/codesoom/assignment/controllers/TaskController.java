@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.*;
 public class TaskController {
     @GetMapping
     public String list(){
+
         return "hello";
     }
 
     @PostMapping
     public String create(){
+
         return "post hello";
     }
 
