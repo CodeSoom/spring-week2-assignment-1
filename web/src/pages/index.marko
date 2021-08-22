@@ -1,3 +1,76 @@
-<layout>
-  <h1>ToDo</h1>
-</layout>
+import axios from 'axios';
+
+class {
+    onCreate(){
+        this.state = {
+            tasks: [],
+        };
+
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data.map(this.initTask);
+    }
+
+    initTask(task){
+        return {...task, isUpdateMode: false};
+    }
+
+    async addTask() {
+        //1. 추가
+        await axios.post('http://localhost:8080/tasks', {
+            title: this.getEl('title').value
+        });
+        await this.loadTasks();
+    }
+
+    async deleteTask(id){
+        await axios.delete(`http://localhost:8080/tasks/${id}`);
+        await this.loadTasks();
+    }
+
+    async updateTask(id) {
+        const title = this.getEl(`task-${id}`).value;
+        await axios.put(`http://localhost:8080/tasks/${id}`, {title: title});
+        await this.loadTasks();
+    }
+
+    toggleUpdateMode(taskInfo) {
+        this.state.tasks = this.state.tasks.map(task => {
+            if(task.id === taskInfo.id){
+                task.isUpdateMode = taskInfo.on;
+            }
+            return task;
+        });
+    }
+
+}
+
+<h1>ToDo</h1>
+<ol>
+    <for|task| of=state.tasks>
+        <if(task.isUpdateMode)>
+            <li>
+                <input key=`task-${task.id}` type='text' value=`${task.title}` />
+                <button type="button" on-click("updateTask", task.id)>확인</button>
+                <button type="button" on-click("toggleUpdateMode", { id: task.id, on: false })>취소</button>
+            </li>
+        </if>
+        <else>
+            <li>
+                <span>${task.title}</span>
+                <button type="button" on-click("toggleUpdateMode", { id: task.id, on: true })>수정</button>
+                <button type="button" on-click("deleteTask", task.id)>완료</button>
+            </li>
+        </else>
+    </for>
+</ol>
+<p>
+    <label for:scoped="title">할 일</label>
+    <input key="title" id:scoped="title" type="text" />
+    <button type="button" on-click("addTask")>
+       추가
+    </button>
+</p>
