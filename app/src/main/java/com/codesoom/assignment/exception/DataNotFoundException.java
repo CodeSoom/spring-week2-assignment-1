@@ -1,12 +1,8 @@
 package com.codesoom.assignment.exception;
 
-import java.util.NoSuchElementException;
+public class DataNotFoundException extends RuntimeException {
 
-public class DataNotFoundException extends NoSuchElementException {
-    public DataNotFoundException() {
-    }
-
-    public DataNotFoundException(String s) {
-        super(s);
+    public DataNotFoundException(Long id) {
+        super("Task not found : " + id);
     }
 }

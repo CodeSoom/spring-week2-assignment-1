@@ -41,7 +41,7 @@ public class TaskController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task getTaskById(@PathVariable Long id) {
-        return taskRepository.getTaskById(id).orElseThrow(DataNotFoundException::new);
+        return taskRepository.getTaskById(id).orElseThrow(() -> new DataNotFoundException(id));
     }
 
     @PostMapping
@@ -53,18 +53,18 @@ public class TaskController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task putTask(@PathVariable Long id, @RequestBody Task task) {
-        return taskRepository.replaceTask(id, task).orElseThrow(DataNotFoundException::new);
+        return taskRepository.replaceTask(id, task).orElseThrow(() -> new DataNotFoundException(id));
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task patchTask(@PathVariable Long id, @RequestBody Task task) {
-        return taskRepository.updateTask(id, task).orElseThrow(DataNotFoundException::new);
+        return taskRepository.updateTask(id, task).orElseThrow(() -> new DataNotFoundException(id));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long id) {
-        taskRepository.deleteTask(id).orElseThrow(DataNotFoundException::new);
+        taskRepository.deleteTask(id).orElseThrow(() -> new DataNotFoundException(id));
     }
 }
