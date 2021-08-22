@@ -19,26 +19,11 @@ class TaskControllerAdvice {
     return new TaskNotFoundException("not found with that id : " + id);
   }
 
-
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
-  public ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException() {
-    System.out.println("arrayIndexOutOfBoundsException이 발생하였습니다.");
-    return new ArrayIndexOutOfBoundsException("서버 내부에 잘못이 있습니다.");
-  }
-
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ExceptionHandler(value = NullPointerException.class)
   public NullPointerException nullPointerException() {
     System.out.println("nullPointerException이 발생하였습니다.");
     return new NullPointerException("서버 내부에 잘못이 있습니다.");
-  }
-
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-  @ExceptionHandler(value = NumberFormatException.class)
-  public NumberFormatException numberFormatException() {
-    System.out.println("NumberFormatException이 발생하였습니다.");
-    return new NumberFormatException("서버 내부에 잘못이 있습니다.");
   }
 
 
