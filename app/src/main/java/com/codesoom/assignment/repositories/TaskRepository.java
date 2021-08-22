@@ -17,9 +17,9 @@ public class TaskRepository {
     private final Map<Long, Task> taskMap = new HashMap<>();
 
     /**
-     * 번호와 할 일을 받아 저장합니다.
+     * 식별자와 할 일을 받아 저장합니다.
      *
-     * @param id 저장할 번호
+     * @param id 저장할 식별자
      * @param task 저장할 할 일
      */
     public void save(Long id, Task task) {
@@ -27,7 +27,7 @@ public class TaskRepository {
     }
 
     /**
-     * 모든 할 일을 찾습니다.
+     * 모든 할 일을 리턴합니다.
      *
      * @return 할 일 목록
      */
@@ -36,21 +36,21 @@ public class TaskRepository {
     }
 
     /**
-     * 번호에 해당하는 할 일을 찾습니다.
+     * 식별자에 해당하는 할 일을 찾아 리턴합니다.
      *
-     * @param id 찾을 할 일 번호
-     * @return Task
+     * @param id 찾을 할 일 식별자
+     * @return 찾은 할 일
      */
     public Task get(Long id) {
         return findWith(id);
     }
 
     /**
-     * 번호로 해당 할 일을 찾고, 제목을 변경합니다.
+     * 식별자로 해당 할 일을 찾고, 제목을 변경합니다.
      *
-     * @param id 찾을 할 일 번호
+     * @param id 찾을 할 일 식별자
      * @param title 변경할 할 일 제목
-     * @return Task
+     * @return 변경된 할 일
      */
     public Task update(Long id, String title) {
         Task task = findWith(id);
@@ -61,9 +61,9 @@ public class TaskRepository {
     }
 
     /**
-     * 번호로 할 일을 찾고, 삭제합니다.
+     * 식별자로 할 일을 찾고, 삭제합니다.
      *
-     * @param id 삭제할 번호
+     * @param id 삭제할 식별자
      */
     public void delete(Long id) {
         findWith(id);
