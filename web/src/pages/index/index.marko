@@ -15,7 +15,6 @@ import axios  from "axios";
                 ${task.title}
                 <button on-click("onModButton", { id:task.id, bool : true})>수정</button>
                 <button on-click("deleteTask", task.id)>완료</button>
-                <!-- <button on-click(onModify, task.id)>완료</button> -->
             </li>
         </else>
     </for>
@@ -57,18 +56,17 @@ class {
         await this.loadTasks();
     };
 
-    async updateTask(taskId){
-        debugger;
+    async updateTask(taskId){        
         await axios.put(`http://localhost:8080/tasks/${taskId}`, {
             title: this.getEl('editTitle').value
         });
 
         await this.loadTasks();
     };
-
-    //Todo
-    async deleteTask(){
-
+    
+    async deleteTask(taskId){
+        await axios.delete(`http://localhost:8080/tasks/${taskId}`);
+        await this.loadTasks();
     };
 
     onModButton(taskInfo) {        

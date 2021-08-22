@@ -1,52 +1,48 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import org.springframework.web.bind.annotation.*;
+import com.codesoom.assignment.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * HTTP 프로토콜을 통한 Task Entity를 처리하는 컨트롤을 담당합니다.
+ */
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+
+    @Autowired
+    TaskService taskService;
 
     @GetMapping
     public List<Task> list(){
-        return tasks;
+        return taskService.findAll();
     }
 
     @RequestMapping(path = "", method = RequestMethod.POST)
     public Task create(@RequestBody Task task){
-        task.setId(generateId());
-        tasks.add(task);
-        return task;
-    }
-
-    private Long generateId(){
-        newId += 1;
-        return newId;
+        return taskService.create(task);
     }
 
     @PutMapping("/{id}")
-    public Task modify(@PathVariable Long id, @RequestBody Task source){
-        Task task = findTaskById(id);
-        task.setTitle(source.getTitle());
-        return task;
+    public Task update(@PathVariable Long id, @RequestBody Task source){
+        return taskService.update(id, source);
     }
 
-    private Task findTaskById(Long id){
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    //Todo
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-
+    public boolean delete(@PathVariable Long id){
+        return taskService.delete(id);
     }
 }
