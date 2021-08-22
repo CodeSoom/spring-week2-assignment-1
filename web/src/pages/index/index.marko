@@ -8,6 +8,8 @@ class {
     onCreate() {
         this.state = {
             tasks: [],
+            inputMode: false,
+            modifyTaskId: -1,
         };
 
         this.loadTasks();
@@ -26,19 +28,37 @@ class {
         await this.loadTasks();
     }
 
-    async onDeleteButtonClick(id) {
+    async deleteTask(id) {
         await axios.delete('http://localhost:8080/tasks/'+id);
         await this.loadTasks();
     }
 
+    async onDeleteButtonClick(id) {
+        await this.deleteTask(id);
+    }
+    async modifyTask(id, title) {
+        await axios.put('http://localhost:8080/tasks/'+id, {
+            title,
+        });
+        await this.loadTasks();
+    }
 
+    async onModifyButtonClick(id) {
+        this.state.inputMode = true
+        this.state.modifyTaskId = id
+    }
 }
 
 <h1>ToDo</h1>
 <ol>
     <for|task| of=state.tasks>
         <li>
-            ${task.title} <button type="button" on-click("onDeleteButtonClick", task.id)>삭제</button>
+            <if (4 != task.id)>
+                ${task.id} ${task.title}
+            </if>
+            <else><input id:scoped="id" key="task" type="text" value=task.title/>
+            </else>
+            <button id=task.id type="button" on-click("onModifyButtonClick", task.id)>수정</button><button type="button" on-click("onDeleteButtonClick", task.id)>삭제</button>
         </li>
     </for>
 </ol>

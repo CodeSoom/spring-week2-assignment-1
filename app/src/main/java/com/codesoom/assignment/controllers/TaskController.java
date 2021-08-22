@@ -7,12 +7,15 @@
 
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -29,17 +32,15 @@ public class TaskController {
 
     @GetMapping
     public ArrayList<Task> list() {
-        return new ArrayList<>(tasks.values());
+        ArrayList<Task> taskList = new ArrayList<>(tasks.values());
+        taskList.sort(Comparator.comparing(Task::getId));
+        return taskList;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable("id") Long id) {
-        Task task = tasks.get(id);
-        if(task != null) {
-            return new ResponseEntity<>(task, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public Task get(@PathVariable("id") Long id) {
+        Task task = findTask(id);
+        return task;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -52,25 +53,31 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> modify(@RequestBody Task task, @PathVariable("id") Long id) {
-        if(tasks.get(id) != null ) {
-            task.setId(id);
-            tasks.put(task.getId(), task);
-            return new ResponseEntity<>(task, HttpStatus.OK);
+    public Task update(
+            @RequestBody Task source,
+            @PathVariable("id") Long id
+    ) {
+        Task task = findTask(id);
+        task.setTitle(source.getTitle());
+
+        return task;
+    }
+
+    private Task findTask(Long id) {
+        Task task = tasks.get(id);
+        if(task != null) {
+            return tasks.get(id);
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            throw new TaskNotFoundException(id);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        if(tasks.get(id) != null) {
-            tasks.remove(id);
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Task> delete(@PathVariable("id") Long id) {
+        Task task = findTask(id);
+        tasks.remove(task.getId());
 
+        return ResponseEntity.noContent().build();
     }
 
     private Long generateId() {
