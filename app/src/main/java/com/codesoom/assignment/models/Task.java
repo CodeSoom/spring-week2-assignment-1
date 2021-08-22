@@ -1,8 +1,12 @@
 package com.codesoom.assignment.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Task {
     private long id;
     private String title;
+
 
     public Long getId() {
         return id;

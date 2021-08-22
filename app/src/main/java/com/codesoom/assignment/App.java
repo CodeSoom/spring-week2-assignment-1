@@ -10,11 +10,6 @@ import java.net.InetSocketAddress;
 
 @SpringBootApplication
 public class App {
-    private static final String LOCAL_HOST = "localhost";
-    private static final int PORT = 8000;
-    private static final int BACKLOG = 0;
-
-
     public String getGreeting() {
         return "Hello, world!";
     }
