@@ -58,7 +58,7 @@ class {
             </if>
             <else><input id:scoped="id" key="task" type="text" value=task.title/>
             </else>
-            <button id=task.id type="button" on-click("onModifyButtonClick", task.id)>수정</button><button type="button" on-click("onDeleteButtonClick", task.id)>삭제</button>
+            <button id=task.id type="button" on-click("onModifyButtonClick", task.id)>수정</button><button type="button" on-click("onDeleteButtonClick", task.id)>완료</button>
         </li>
     </for>
 </ol>
