@@ -30,6 +30,14 @@ public final class TaskRepository {
         return task;
     }
 
+    /**
+     * Task의 인덱스를 리턴한다.
+     * 내부적으로 ArrayList를 사용하고 있기 때문에 remove작업에서
+     * Task 자체를 리턴하는것보다 Task의 인덱스를 리턴하는것이 더 유리함
+     *
+     * @param id Task의 id 멤버 변수
+     * @return 저장되어 있는 Task의 인덱스
+     */
     public OptionalInt findTaskIndex(final Long id) {
         return IntStream.range(0, TASKS.size())
                 .filter(index -> Objects.equals(TASKS.get(index).getId(), id))
