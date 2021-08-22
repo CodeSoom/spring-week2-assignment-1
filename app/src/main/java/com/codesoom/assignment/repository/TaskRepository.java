@@ -53,7 +53,8 @@ public class TaskRepository {
     }
 
     public Optional<Task> deleteTask(Long id) {
+        Task task = taskMap.get(id);
         taskMap.remove(id);
-        return Optional.ofNullable(taskMap.get(id));
+        return Optional.ofNullable(task);
     }
 }
