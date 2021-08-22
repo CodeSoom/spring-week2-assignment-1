@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 
@@ -45,6 +44,7 @@ public class TaskController {
         .stream()
         .collect(Collectors.toList());
   }
+
   /**
    * 주어진 id에 해당하는 할 일을 검색해 리턴합니다.
    *
@@ -56,7 +56,7 @@ public class TaskController {
   @ResponseStatus(HttpStatus.OK)
   public Task targetTask(@PathVariable("id") Long id) throws TaskNotFoundException {
     if (!tasks.containsKey(id)) {
-      throw new TaskNotFoundException( "Task not found with that id :" +id);
+      throw new TaskNotFoundException("Task not found with that id :" + id);
     }
     System.out.println(tasks.get(id));
     return tasks.get(id);
@@ -82,7 +82,7 @@ public class TaskController {
    * id와 할 일의 수정된 내용을 받아 해당 id에 해당하는 할 일 내용을 수정한후, 해당 할 일을 return합니다.
    *
    * @param rewrittenTask 할 일의 수정된 내용
-   * @param id 수정할 할 일의 id
+   * @param id            수정할 할 일의 id
    * @return 수정된 할 일
    * @throws TaskNotFoundException 해당 id에 해당하는 할일을 찾지 못한 경우
    */
@@ -92,7 +92,7 @@ public class TaskController {
       throws TaskNotFoundException {
 
     if (!tasks.containsKey(id)) {
-      throw new TaskNotFoundException("Task not found with that id :" +id);
+      throw new TaskNotFoundException("Task not found with that id :" + id);
     }
     Task targetTask = tasks.get(id);
     targetTask.setTitle(rewrittenTask.getTitle());
@@ -109,7 +109,7 @@ public class TaskController {
   @DeleteMapping("/{id}")
   public void delete(@PathVariable("id") Long id) throws TaskNotFoundException {
     if (!tasks.containsKey(id)) {
-      throw new TaskNotFoundException("Task not found with that id :" +id);
+      throw new TaskNotFoundException("Task not found with that id :" + id);
     }
     tasks.remove(id);
   }
