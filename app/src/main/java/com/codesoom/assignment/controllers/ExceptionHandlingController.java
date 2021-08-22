@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 class TaskControllerAdvice {
 
-  @RequestMapping({"/{id}"})
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ExceptionHandler(value = TaskNotFoundException.class)
   public TaskNotFoundException notFoundException(@PathVariable("id") Long id) {
