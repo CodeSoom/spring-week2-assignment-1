@@ -2,7 +2,7 @@ package com.codesoom.assignment.services;
 
 import com.codesoom.assignment.repositories.TaskRepository;
 import com.codesoom.assignment.models.Task;
-import java.util.Collection;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,7 +29,7 @@ public class TaskManager {
         return task;
     }
 
-    public Collection<Task> getAllTasks() {
+    public List<Task> getAllTasks() {
         return taskRepository.getAllTasks();
     }
 

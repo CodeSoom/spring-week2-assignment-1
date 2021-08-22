@@ -2,8 +2,9 @@ package com.codesoom.assignment.repositories;
 
 import com.codesoom.assignment.errors.TaskIdNotFoundException;
 import com.codesoom.assignment.models.Task;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Repository;
@@ -31,8 +32,8 @@ public class TaskRepository {
      *
      * @return 할 일 목록
      */
-    public Collection<Task> getAllTasks() {
-        return taskMap.values();
+    public List<Task> getAllTasks() {
+        return new ArrayList<>(taskMap.values());
     }
 
     /**

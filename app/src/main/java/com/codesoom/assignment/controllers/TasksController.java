@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.services.TaskManager;
 import com.codesoom.assignment.models.Task;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +32,7 @@ public class TasksController {
     }
 
     @GetMapping
-    public Collection<Task> get() {
+    public List<Task> get() {
         return taskManager.getAllTasks();
     }
 
