@@ -20,9 +20,9 @@ public class TaskManager {
         this.taskIdGenerator = taskLastIdManager;
     }
 
-    public Task createTask(Task task) {
+    public Task createTask(Task source) {
         Long lastId = taskIdGenerator.getLastId();
-        task.setId(lastId);
+        Task task = new Task(lastId, source.getTitle());
 
         taskRepository.save(lastId, task);
 

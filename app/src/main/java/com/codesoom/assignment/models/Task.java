@@ -21,16 +21,17 @@ public class Task {
         return title;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public boolean isMatchId(long taskId) {
-        return this.id.equals(taskId);
+    /**
+     * id가 일치하면 true를 리턴하고, 아닐 경우 false를 리턴합니다.
+     * @param id 비교 대상
+     * @return id가 일치하는 경우 true, 그 외의 경우 false
+     */
+    public boolean isMatchId(long id) {
+        return this.id.equals(id);
     }
 
     @Override
