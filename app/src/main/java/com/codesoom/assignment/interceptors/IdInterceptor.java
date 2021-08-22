@@ -14,7 +14,11 @@ import com.codesoom.assignment.repositories.TaskRepository;
 import com.codesoom.assignment.utils.TaskConstants;
 
 public final class IdInterceptor implements HandlerInterceptor {
-    private final TaskRepository taskRepository = TaskRepository.getInstance();
+    private final TaskRepository taskRepository;
+
+    public IdInterceptor() {
+        this.taskRepository = new TaskRepository();
+    }
 
     /**
      * "/tasks/{id}" http 요청 시

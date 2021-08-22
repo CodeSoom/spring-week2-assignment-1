@@ -23,7 +23,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 public final class TaskController {
-    private final TaskRepository taskRepository = TaskRepository.getInstance();
+    private final TaskRepository taskRepository;
+
+    public TaskController() {
+        this.taskRepository = new TaskRepository();
+    }
 
     @GetMapping
     public List<Task> getTasks() {
