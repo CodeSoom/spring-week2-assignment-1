@@ -18,7 +18,11 @@ public class TaskController {
     /**
      * Task Service 입니다.
      */
-    TaskService taskService = new TaskService();
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     /**
      * 할 일 리스트를 전체 조회하는 컨트롤러입니다.

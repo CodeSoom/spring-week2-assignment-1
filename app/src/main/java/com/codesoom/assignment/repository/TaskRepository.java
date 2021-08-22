@@ -1,6 +1,7 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +10,15 @@ import java.util.Optional;
 /**
  * 할 일 리스트를 저장하고 조작하는 리포지토리입니다.
  */
+@Repository
 public class TaskRepository {
 
+    /**
+     * 할 일을 저장하는 리스트입니다.
+     */
     private final List<Task> tasks = new ArrayList<>();
 
     private Long newId = 0L;
-
-    public TaskRepository() {}
 
     /**
      * Id를 1씩 증가시킵니다.

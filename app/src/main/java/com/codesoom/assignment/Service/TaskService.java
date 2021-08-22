@@ -3,18 +3,21 @@ package com.codesoom.assignment.Service;
 import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public class TaskService {
 
     /**
      * Task Repository 입니다.
      */
-    TaskRepository taskRepository = new TaskRepository();
+    private final TaskRepository taskRepository;
+
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     /**
      * 할 일 리스트를 전체 조회합니다.
@@ -32,12 +35,9 @@ public class TaskService {
      * @param id 조회할 식별자 Id
      * @return Task 조회한 할 일
      */
-    public Task getTask(@PathVariable Long id) {
-        Optional<Task> task = taskRepository.findTaskById(id);
-        if (!task.isPresent()) {
-            throw new TaskNotFoundException(Long.toString(id));
-        }
-        return task.get();
+    public Task getTask(Long id) {
+        return taskRepository.findTaskById(id)
+                .orElseThrow(() -> new TaskNotFoundException(Long.toString(id)));
     }
 
     /**
@@ -46,7 +46,7 @@ public class TaskService {
      * @param task 생성 요청된 할 일
      * @return Task 생성된 할 일
      */
-    public Task createTask(@RequestBody Task task) {
+    public Task createTask(Task task) {
         taskRepository.createNewTaskId();
         Task newTask = new Task(taskRepository.getNewId(), task.getTitle());
         taskRepository.addTask(newTask);
@@ -61,14 +61,11 @@ public class TaskService {
      * @param requestTask 변경 요청된 할 일
      * @return Task 변경된 할 일
      */
-    public Task updateTask(@PathVariable Long id, @RequestBody Task requestTask) {
-        Optional<Task> task = taskRepository.findTaskById(id);
-        if (!task.isPresent()) {
-            throw new TaskNotFoundException(Long.toString(id));
-        }
+    public Task updateTask(Long id, Task requestTask) {
+        Task task = getTask(id);
 
-        Task updateTask = new Task(task.get().getId(), requestTask.getTitle());
-        taskRepository.removeTask(task.get());
+        Task updateTask = new Task(task.getId(), requestTask.getTitle());
+        taskRepository.removeTask(task);
         taskRepository.addTask(updateTask);
         return updateTask;
     }
@@ -78,11 +75,7 @@ public class TaskService {
      *
      * @param id 완료된 Id 식별자
      */
-    public void completeTask(@PathVariable Long id) {
-        Optional<Task> task = taskRepository.findTaskById(id);
-        if (!task.isPresent()) {
-            throw new TaskNotFoundException(Long.toString(id));
-        }
-        taskRepository.removeTask(task.get());
+    public void completeTask(Long id) {
+        taskRepository.removeTask(getTask(id));
     }
 }
