@@ -19,15 +19,15 @@ public class TaskController {
 
     @GetMapping
     public Collection<Task> getAll() {
+
         return taskService.getAll();
+
     }
 
     @GetMapping("/{taskId}")
     public Task getDetails(@PathVariable("taskId") Long taskId) {
 
-        Task task = taskService.getDetails(taskId);
-        return task;
-
+        return taskService.getDetails(taskId);
     }
 
     @PostMapping
@@ -41,8 +41,7 @@ public class TaskController {
     @RequestMapping(value = "/{taskId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable("taskId") Long taskId, @RequestBody Task task){
 
-        Task result = taskService.updateTask(taskId, task);
-        return result;
+        return taskService.updateTask(taskId, task);
 
     }
 
