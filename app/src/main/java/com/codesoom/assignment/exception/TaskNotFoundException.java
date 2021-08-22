@@ -1,6 +1,6 @@
 package com.codesoom.assignment.exception;
 
-import com.codesoom.assignment.enums.HttpMethod;
+import com.codesoom.assignment.enums.ExceptionMessageType;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -14,8 +14,8 @@ public class TaskNotFoundException extends RuntimeException{
         super(DEFAULT_MESSAGE);
     }
 
-    public TaskNotFoundException(Long id, HttpMethod method) {
-        this(method.description() + String.format(MESSAGE_FORMAT, id));
+    public TaskNotFoundException(Long id, ExceptionMessageType messageType) {
+        this(messageType.message() + String.format(MESSAGE_FORMAT, id));
     }
 
     public TaskNotFoundException(String message) {

@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Task 기능에 대한 Rest API를 제공한다.
+ */
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
@@ -28,8 +31,8 @@ public class TaskController {
     }
 
     /**
-     * 할 일 목록을 가져온다.
-     * @return ResponseEntity<List<TaskResponse>>
+     * 할 일 목록을 리턴한다.
+     * @return 할 일 목록
      */
     @GetMapping
     public ResponseEntity<List<TaskResponse>> getTaskList() {
@@ -37,9 +40,9 @@ public class TaskController {
     }
 
     /**
-     * 할 일 상세 정보를 가져온다.
+     * id에 해당하는 할 일을 찾아서 리턴한다.
      * @param id
-     * @return ResponseEntity<TaskResponse>
+     * @return 할 일
      */
     @GetMapping("/{id}")
     public ResponseEntity<TaskResponse> getTask(@PathVariable Long id) {
@@ -49,7 +52,7 @@ public class TaskController {
     /**
      * 할 일을 추가 한다.
      * @param taskRequest
-     * @return ResponseEntity<TaskResponse>
+     * @return 추가된 할 일
      */
     @PostMapping
     public ResponseEntity<TaskResponse> addTask(@RequestBody TaskRequest taskRequest) {
@@ -57,10 +60,10 @@ public class TaskController {
     }
 
     /**
-     * 할 일을 수정 한다.
+     * id에 해당하는 할 일을 수정 한다.
      * @param id
      * @param taskRequest
-     * @return ResponseEntity<TaskResponse>
+     * @return 수정된 할 일
      */
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<TaskResponse> modifyTask(@PathVariable Long id, @RequestBody TaskRequest taskRequest) {
@@ -71,7 +74,7 @@ public class TaskController {
     /**
      * 할 일을 삭제 한다.
      * @param id
-     * @return ResponseEntity<TaskResponse>
+     * @return HttpStatus
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<TaskResponse> deleteTask(@PathVariable Long id) {
