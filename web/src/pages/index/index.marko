@@ -61,7 +61,7 @@ class {
             <li>
                 ${task.title}
                 <button type="button" on-click("editButton", { id: task.id, on: true})>수정</button>
-                <button type="button" on-click("deleteTask", task.id)> 삭제 </button>
+                <button type="button" on-click("deleteTask", task.id)> 완료 </button>
             </li>
         </else>
     </for>
