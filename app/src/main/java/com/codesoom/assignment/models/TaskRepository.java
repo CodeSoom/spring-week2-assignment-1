@@ -1,5 +1,6 @@
 package com.codesoom.assignment.models;
 
+import com.codesoom.assignment.TaskNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -16,8 +17,10 @@ public class TaskRepository {
         return tasks.values();
     }
 
-    public Optional<Task> getTask(Long id) {
-        return Optional.ofNullable(tasks.get(id));
+    public Task getTask(Long id) {
+        return Optional
+                .ofNullable(tasks.get(id))
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public Task saveTask(Task task) {
@@ -27,22 +30,20 @@ public class TaskRepository {
         return task;
     }
 
-    public Optional<Task> updateTask(Long id, Task task) {
-        Optional<Task> foundtask = getTask(id);
-        if (foundtask.isEmpty()) {
-            return foundtask;
-        }
-        foundtask.get()
-                .setTitle(task.getTitle());
+    public Task updateTask(Long id, Task source) {
+        Task task = getTask(id);
+        task.setTitle(source.getTitle());
 
-        return foundtask;
+        return task;
     }
 
-    public Optional<Task> deleteTask(Long id) {
-       return Optional.ofNullable(tasks.remove(id));
+    public void deleteTask(Long id) {
+        Optional
+                .ofNullable(tasks.remove(id))
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
-    private Long generateId() {
+    private synchronized Long generateId() {
         return ++id;
     }
 }

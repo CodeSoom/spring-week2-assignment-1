@@ -5,7 +5,6 @@ import com.codesoom.assignment.models.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -20,7 +19,7 @@ public class TaskService {
         return taskRepository.getTasks();
     }
 
-    public Optional<Task> getTask(Long id) {
+    public Task getTask(Long id) {
         return taskRepository.getTask(id);
     }
 
@@ -28,11 +27,11 @@ public class TaskService {
         return taskRepository.saveTask(task);
     }
 
-    public Optional<Task> updateTask(Long id, Task task) {
+    public Task updateTask(Long id, Task task) {
         return taskRepository.updateTask(id, task);
     }
 
-    public Optional<Task> deleteTask(Long id) {
-        return taskRepository.deleteTask(id);
+    public void deleteTask(Long id) {
+        taskRepository.deleteTask(id);
     }
 }
