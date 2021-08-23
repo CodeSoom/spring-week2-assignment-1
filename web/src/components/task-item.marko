@@ -1,0 +1,54 @@
+import axios from "axios";
+
+class {
+	onCreate({task}) {
+		this.state = {
+			task,
+			isUpdateFormat: false,
+		}
+	}
+
+	updateFormat() {
+		this.state.isUpdateFormat = true;
+	}
+
+	cancelUpdate() {
+		this.state.isUpdateFormat = false;
+	}
+
+	async deleteTask() {
+		await axios.delete(`http://localhost:8080/tasks/${this.state.task.id}`);
+		this.destroy();
+	}
+
+	async updateTask() {
+		const title = this.getEl("title").value;
+		const { data: task } = await axios.put(`http://localhost:8080/tasks/${this.state.task.id}`, {
+			title
+		});
+		this.state.task = task;
+		this.state.isUpdateFormat = false;
+	}
+}
+
+
+<li>
+	<if(state.isUpdateFormat)>
+		<input type="text" key="title" value=`${state.task.title}`>
+		<button type="button" on-click("updateTask")>
+			확인
+		</button>
+		<button type="button" on-click("cancelUpdate")>
+			취소
+		</button>
+	</if>
+	<else>
+		<span>${state.task.title}</span>
+		<button type="button" on-click("updateFormat")>
+			수정
+		</button>
+		<button type="button" on-click("deleteTask")>
+			완료
+		</button>
+	</else>
+</li>

@@ -6,6 +6,9 @@ caches
 daemon
 native
 notifications
+.project
+.settings
+bin
 
 # Ignore Gradle build output directory
 build
