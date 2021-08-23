@@ -1,0 +1,73 @@
+import axios from 'axios';
+
+class {
+  onCreate() {
+    this.state = {
+      tasks: [],
+      updateTask: null
+    };
+    this.loadTasks();
+  }
+  async loadTasks() {
+    const {data} = await axios.get("http://localhost:8080/tasks");
+    this.state.tasks = data;
+  }
+  async addTask() {
+    const title = this.getEl("title").value;
+    await axios.post("http://localhost:8080/tasks", {
+        title,
+    });
+    await this.loadTasks();
+  }
+  async deleteTask(id) {
+    let uri = "http://localhost:8080/tasks/" + id;
+    await axios.delete(uri);
+    await this.loadTasks();
+  }
+  async updateTask(id) {
+    console.log("check");
+    let title = this.getEl(`task-${id}`).value;
+    let uri = "http://localhost:8080/tasks/" + id;
+    await axios.put(uri, {title});
+    this.cancelEditMode();
+    await this.loadTasks();
+  }
+  async switchToEditMode(id) {
+     this.state.updateTask = id;
+     await this.loadTasks();
+  }
+  async cancelEditMode(id) {
+    this.state.updateTask = null;
+    await this.loadTasks();
+  }
+}
+
+<h1>ToDo</h1>
+<ol>
+  <for|task| of=state.tasks>
+    <li>
+      <if(state.updateTask === task.id)>
+          <input key=`task-${task.id}` value=`${task.title}` type="text" />
+          <button type="button" style="margin-left: 5px" on-click("updateTask", task.id)>확인</button>
+          <button type="button" style="margin-left: 5px" on-click("cancelEditMode", task.id)>취소</button>
+      </if>
+
+      <else>
+      <div style="margin-top: 5px">
+        <span>${task.title}</span>
+        <button type="button" style="margin-left: 5px" on-click("switchToEditMode", task.id)>수정</button>
+        <button type="button" style="margin-left: 5px" on-click("deleteTask", task.id)>완료</button>
+      </div>
+      </else>
+    </li>
+  </for>
+</ol>
+<p>
+  <label for:scoped="title">
+    할 일
+  </label>
+  <input id:scoped="title" style="margin-left: 5px" key="title" type="text"/>
+  <button type="button" style="margin-left: 5px" on-click("addTask")>
+   추가
+  </button>
+</p>
