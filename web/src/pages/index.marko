@@ -1,3 +1,88 @@
+import axios from 'axios';
+
+class { 
+  onCreate() {
+    this.state = {
+      tasks: [],
+    };
+
+    this.loadTasks();
+  }
+
+  async loadTasks() {
+    const { data } = await axios.get('http://localhost:8080/tasks');
+
+    this.state.tasks = data.map((task) => ({ ...task, isEditMode: false }));
+  }
+
+  async addTask() {
+    const title = this.getEl('new-task').value;
+
+    await axios.post('http://localhost:8080/tasks', { title });
+    await this.loadTasks();
+  }
+
+  async removeTask(id) {
+    await axios.delete(`http://localhost:8080/tasks/${id}`);
+    await this.loadTasks();
+  }
+
+  async updateTask(id) {
+    const title = this.getEl(`task-${id}`).value;
+
+    await axios.put(`http://localhost:8080/tasks/${id}`, { title });
+    await this.loadTasks();
+  }
+
+  changeToEditMode(id) {
+    this.state.tasks = this.state.tasks.map((task) => id === task.id 
+      ? ({ ...task, isEditMode: true })
+      : task
+    );    
+  }
+
+  cancelEditMode(id) {
+    this.state.tasks = this.state.tasks.map((task) => id === task.id 
+      ? ({ ...task, isEditMode: false })
+      : task
+    );    
+  }
+}
+
 <layout>
   <h1>ToDo</h1>
+
+  <ol>
+    <for|task| of=state.tasks>
+      <li>
+        <if(task.isEditMode)>
+          <input key=`task-${task.id}` value=`${task.title}` type="text" />
+          <button type="button" on-click("updateTask", task.id)>
+            확인
+          </button>
+          <button type="button" on-click("cancelEditMode", task.id)>
+            취소
+          </button>
+        </if>
+
+        <else-if(!task.isEditMode)>
+          ${task.title}
+          <button type="button" on-click("changeToEditMode", task.id)>
+            수정
+          </button>
+          <button type="button" on-click("removeTask", task.id)>
+            완료
+          </button>
+        </else-if>
+      </li>
+    </for>
+  </ol>
+
+  <p>
+    <label for:scoped="new-task">할 일</label>
+    <input id:scoped="new-task" key="new-task" type="text" />
+    <button type="button" on-click("addTask")>
+      추가
+    </button>
+  </p>
 </layout>
