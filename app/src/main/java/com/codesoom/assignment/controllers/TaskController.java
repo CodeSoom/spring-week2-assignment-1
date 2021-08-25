@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("tasks")
 public class TaskController {
     private final TaskRepository taskRepository;
 
@@ -29,6 +29,11 @@ public class TaskController {
     @GetMapping
     public List<Task> list() {
         return taskRepository.findAll();
+    }
+
+    @GetMapping("{id}")
+    public String show() {
+        return "...";
     }
 
     @PostMapping
