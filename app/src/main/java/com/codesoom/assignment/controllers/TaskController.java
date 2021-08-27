@@ -32,8 +32,9 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public String show() {
-        return "...";
+    public Task show(@RequestBody Task task) {
+        taskRepository.add(task);
+        return taskRepository.findAll().get(id);
     }
 
     @PostMapping

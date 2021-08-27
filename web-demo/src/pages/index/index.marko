@@ -1,0 +1,25 @@
+// TODO
+// 1. GET /tasks -> 목록으로 표시
+// 2. 입력 -> POST /tasks (할 일 추가) -> GET /tasks (Update)
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+        };
+        this.loadTasks();
+    }
+
+    loadTasks() {
+        
+    }
+}
+
+<h1>ToDo</h1>
+<ol>
+    <for|task| of=state.tasks>
+        <li>
+            ${task.title}
+        </li>
+    </for>
+</ol>
