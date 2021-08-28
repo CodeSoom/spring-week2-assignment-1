@@ -9,6 +9,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("tasks")
+@CrossOrigin
 public class TaskController {
     private final TaskRepository taskRepository;
 
@@ -31,11 +33,12 @@ public class TaskController {
         return taskRepository.findAll();
     }
 
+    /*
     @GetMapping("{id}")
     public Task show(@RequestBody Task task) {
         taskRepository.add(task);
-        return taskRepository.findAll().get(id);
     }
+     */
 
     @PostMapping
     public Task create(@RequestBody Task task) {
