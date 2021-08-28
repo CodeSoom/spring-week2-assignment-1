@@ -15,7 +15,7 @@ class {
 
     async loadTasks() {
         const { data } = await axios.get('http://localhost:8080/tasks');
-        this.state.task = data;
+        this.state.tasks = data;
     }
 }
 
