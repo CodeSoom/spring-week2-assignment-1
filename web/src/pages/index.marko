@@ -1,3 +1,72 @@
+import axios from 'axios'
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+        };
+
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const { data }  = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data.map((task) => ({...task, isEdit: false}));
+    };
+
+    async addTask() {
+        const title = this.getEl('title').value;
+        await axios.post('http://localhost:8080/tasks', {
+            title,
+        });
+        await this.loadTasks();
+    }
+
+    async updateTask(taskId) {
+        const title = this.getEl(`updatedTitle-${taskId}`).value;
+        await axios.put(`http://localhost:8080/tasks/${taskId}`, {
+            title,
+        });
+        await this.loadTasks();
+    }
+
+    async removeTask(taskId) {
+        await axios.delete(`http://localhost:8080/tasks/${taskId}`);
+        await this.loadTasks();
+    }
+
+    setEditOn(taskId) {
+        this.state.tasks = this.state.tasks.map((task) => (taskId === task.id ? {...task, isEdit: true} : {...task}));
+    }
+
+    setEditOff(taskId) {
+        this.state.tasks = this.state.tasks.map((task) => (taskId === task.id ? {...task, isEdit: false} : {...task}));
+    }
+}
+
 <layout>
   <h1>ToDo</h1>
 </layout>
+
+<ol>
+    <for|task| of=state.tasks>
+        <li key=task.id>
+            <if(!task.isEdit)>
+                ${task.title}
+                <button type="button" on-click("setEditOn", task.id)>수정</button>
+                <button type="button" on-click("removeTask", task.id)>완료</button>
+            </if>
+            <else>
+                <input id:scoped=`updatedTitle-${task.id}` key=`updatedTitle-${task.id}` type="text" />
+                <button type="button" on-click("updateTask", task.id)>확인</button>
+                <button type="button" on-click("setEditOff", task.id)>취소</button>
+            </else>
+        </li>
+    </for>
+</ol>
+
+<p>
+    <label for:scoped="title">할 일</label>
+    <input id:scoped="title" key="title" type="text" />
+    <button type="button" on-click("addTask")>추가</button>
+</p>
