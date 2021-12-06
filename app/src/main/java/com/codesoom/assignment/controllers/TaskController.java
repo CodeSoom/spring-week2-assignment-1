@@ -44,6 +44,13 @@ public class TaskController {
         return task;
     }
 
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id){
+        Task task = findTask(id);
+        tasks.remove(task);
+        return "Delete " + task ;
+    }
+
     private Long generateId(){
         newId += 1;
         return newId;
