@@ -23,5 +23,16 @@ public class TaskController {
 
         return tasks;
     }
+    @PostMapping
+    public Task create(@RequestBody Task task){
+        task.setId(generateId());
+        tasks.add(task);
 
+        return task;
+    }
+
+    private Long generateId(){
+        newId += 1;
+        return newId;
+    }
 }
