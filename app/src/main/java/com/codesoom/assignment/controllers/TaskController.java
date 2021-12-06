@@ -28,6 +28,8 @@ public class TaskController {
     }
 
     //key대신 변수명을 무엇을 주면 좋을까요?
+    //오류처리를 어떤 방법으로 하면 좋을까 고민입니다.
+    //다른 부분에 반복되는 부분도 간략하게 만들수있을지 않을까 생각이 듭니다.
     @GetMapping("/{id}")
     public  ResponseEntity<Task> Detail(@PathVariable Long id){
         Task task = tasks.stream()
@@ -38,13 +40,14 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody Task task){
+    public ResponseEntity create(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
 
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
-
+    //수정부분은 아직 감이 잘안잡히네요 put과 patch를 같이 쓰고싶은데 이렇게써도 괜찮을까요?
+    //너무 기초적인 질문이라 죄송합니다 ㅠㅜ
 //    @PatchMapping("/{id}")
 //    @PutMapping("/{id}")
 //    public ResponseEntity update(@PathVariable Long id, @RequestBody Task task){
