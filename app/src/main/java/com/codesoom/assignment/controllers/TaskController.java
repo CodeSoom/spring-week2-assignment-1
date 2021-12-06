@@ -36,6 +36,15 @@ public class TaskController {
 
         return task;
     }
+
+    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
+    public Task update(@RequestBody Task body, @PathVariable Long id){
+        Task task = findTask(id);
+        task.setTitle(body.getTitle());
+        return task;
+    }
+
     private Long generateId(){
         newId += 1;
         return newId;
