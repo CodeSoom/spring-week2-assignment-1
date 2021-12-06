@@ -30,9 +30,21 @@ public class TaskController {
 
         return task;
     }
+    @GetMapping("/{id}")
+    public Task view(@PathVariable Long id){
+        Task task = findTask(id);
 
+        return task;
+    }
     private Long generateId(){
         newId += 1;
         return newId;
+    }
+
+    private Task findTask(Long id){
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 }
