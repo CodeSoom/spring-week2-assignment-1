@@ -88,7 +88,7 @@ class {
     <label for:scoped="title">
         할 일
     </label>
-    <input id:scoped="title" key="title" type="text" on-keypress("checkInputKeyPressed")/>
+    <input id:scoped="title" key="title" type="text" on-keypress("checkInputKeyPressed", "add", 0)/>
     <button type="button" on-click("addTask")>
         추가
     </button>
