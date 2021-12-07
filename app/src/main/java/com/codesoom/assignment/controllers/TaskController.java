@@ -77,7 +77,7 @@ public class TaskController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         tasks.remove(task.get());
-        return new ResponseEntity<>("delete", HttpStatus.OK);
+        return new ResponseEntity<>("delete", HttpStatus.NO_CONTENT);
     }
 
     private  Long generateId(){
