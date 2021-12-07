@@ -7,13 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -29,7 +26,7 @@ public class TaskController {
     @GetMapping("/{id}")
     public Task findTask(@PathVariable Long id) {
         Task task = tasks.stream()
-                .filter(t -> t.getId().equals(id))
+                .filter(item -> item.getId().equals(id))
                 .findFirst()
                 .get();
         return task;
@@ -46,7 +43,7 @@ public class TaskController {
     @DeleteMapping("/{id}")
     public Task delete(@PathVariable Long id) {
         Task task = tasks.stream()
-                .filter(t -> t.getId().equals(id))
+                .filter(item -> item.getId().equals(id))
                 .findFirst()
                 .get();
         tasks.remove(task);
