@@ -17,7 +17,7 @@ public class TaskService {
         this.taskRepository = new TaskRepository();
     }
 
-    public Optional<Task> findByTaskId(long id) {
+    public Optional<Task> findByTaskId(Long id) {
         return taskRepository.findById(id);
     }
 

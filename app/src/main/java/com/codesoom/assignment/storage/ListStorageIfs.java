@@ -5,9 +5,9 @@ import java.util.Optional;
 
 public interface ListStorageIfs<T> {
 
-    Optional<T> findById(long id);
+    Optional<T> findById(Long id);
     T save(T entity);
-    void deleteById(long id);
+    void deleteById(Long id);
     void delete(T entity);
     List<T> findAll();
 }

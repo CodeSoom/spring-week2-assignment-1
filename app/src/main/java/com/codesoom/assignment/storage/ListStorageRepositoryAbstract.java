@@ -7,11 +7,11 @@ import java.util.Optional;
 public class ListStorageRepositoryAbstract<T extends ListStorageEntity> implements ListStorageIfs<T> {
 
     protected final List<T> list = new ArrayList<>();
-    private long newId = 0L;
+    private Long indexId = 0L;
 
 
     @Override
-    public Optional<T> findById(long id) {
+    public Optional<T> findById(Long id) {
         return list.stream().filter(it -> it.getId() == id).findFirst();
     }
 
@@ -31,7 +31,7 @@ public class ListStorageRepositoryAbstract<T extends ListStorageEntity> implemen
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         var optionalEntity = list.stream().filter(it -> it.getId() == id).findFirst();
 
         if (optionalEntity.isPresent()) {
@@ -50,11 +50,11 @@ public class ListStorageRepositoryAbstract<T extends ListStorageEntity> implemen
     }
 
     private Long generateId() {
-        newId += 1;
-        return newId;
+        indexId += 1;
+        return indexId;
     }
 
-    public long lastId() {
-        return newId;
+    public Long lastId() {
+        return indexId;
     }
 }

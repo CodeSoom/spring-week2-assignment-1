@@ -42,13 +42,13 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity read(@PathVariable Long id) {
-        Optional<Task> taskOptional = taskService.findByTaskId(id);
+        Optional<Task> task = taskService.findByTaskId(id);
 
-        if (taskOptional.isEmpty()) {
+        if (task.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(taskOptional);
+        return ResponseEntity.ok(task);
     }
 
     @PostMapping
@@ -63,26 +63,26 @@ public class TaskController {
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity update(@PathVariable Long id, @RequestBody Task task) {
-        Optional<Task> taskOptional = taskService.findByTaskId(id);
+        Optional<Task> targetTask = taskService.findByTaskId(id);
 
-        if (taskOptional.isEmpty()) {
+        if (targetTask.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        Task updateTask = taskService.updateTask(taskOptional.get(), task);
+        Task updateTask = taskService.updateTask(targetTask.get(), task);
 
         return ResponseEntity.ok(updateTask);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        Optional<Task> taskOptional = taskService.findByTaskId(id);
+        Optional<Task> task = taskService.findByTaskId(id);
 
-        if (taskOptional.isEmpty()) {
+        if (task.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        taskService.removeTask(taskOptional.get());
+        taskService.removeTask(task.get());
 
         return ResponseEntity.noContent().build();
     }
