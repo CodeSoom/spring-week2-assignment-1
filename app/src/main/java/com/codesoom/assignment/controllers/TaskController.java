@@ -52,7 +52,7 @@ public class TaskController {
         task.setId(generateId());
         tasks.add(task);
 
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
 
