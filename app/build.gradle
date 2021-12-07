@@ -48,9 +48,11 @@ dependencies {
     // Spring Dev Tools
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
+    // Library for automatic code completion
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
+    // Use Hateoas for Rest representations
     implementation 'org.springframework.hateoas:spring-hateoas'
 
 }
