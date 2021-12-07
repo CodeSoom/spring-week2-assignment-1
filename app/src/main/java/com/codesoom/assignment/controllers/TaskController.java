@@ -2,7 +2,7 @@
 // 1. Read Collection - GET /tasks => 완로
 // 2. Read Item - GET /tasks/{id} => 완료
 // 3. Create - POST / tasks => 완료
-// 4. Update - PUT/PATH /tasks/{id} => 미완
+// 4. Update - PUT/PATH /tasks/{id} => 완료
 // 5. Delete - DELETE /tasks/{id} => 완료
 
 package com.codesoom.assignment.controllers;
@@ -10,33 +10,41 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
     private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+    private Long Id = 0L;
 
     @GetMapping
     public  List<Task> list(){
         return tasks;
     }
 
-    //key대신 변수명을 무엇을 주면 좋을까요?
-    //오류처리를 어떤 방법으로 하면 좋을까 고민입니다.
-    //다른 부분에 반복되는 부분도 간략하게 만들수있을지 않을까 생각이 듭니다.
     @GetMapping("/{id}")
     public  ResponseEntity<Task> Detail(@PathVariable Long id){
-        Task task = tasks.stream()
-                .filter(key ->key.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        Optional<Task> task = tasks.stream()
+                .filter(it -> it.getId().equals(id))
+                .findFirst();
+            if (task.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(task.get(), HttpStatus.OK);
     }
 
     @PostMapping
@@ -46,32 +54,34 @@ public class TaskController {
 
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
-    //수정부분은 아직 감이 잘안잡히네요 put과 patch를 같이 쓰고싶은데 이렇게써도 괜찮을까요?
-    //너무 기초적인 질문이라 죄송합니다 ㅠㅜ
-//    @PatchMapping("/{id}")
-//    @PutMapping("/{id}")
-//    public ResponseEntity update(@PathVariable Long id, @RequestBody Task task){
-//        Task task1 = tasks.stream()
-//                .filter(key -> key.getId().equals(id))
-//                .findFirst()
-//                .orElse(null);
-//        task.setTitle(task1.getTitle());
-//        return new ResponseEntity<>(task, HttpStatus.OK);
-//    }
 
+
+    @RequestMapping(value = "/{id}", method = { RequestMethod.PUT, RequestMethod.PATCH })
+    public ResponseEntity update(@PathVariable Long id, @RequestBody Task source){
+        Optional<Task> task = tasks.stream()
+                .filter(it -> it.getId().equals(id))
+                .findFirst();
+        if (task.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        task.get().setTitle(source.getTitle());
+        return new ResponseEntity<>(task, HttpStatus.OK);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity Delete(@PathVariable Long id){
-        Task task = tasks.stream()
-                .filter(key -> key.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        tasks.remove(task);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Optional<Task> task = tasks.stream()
+                .filter(it -> it.getId().equals(id))
+                .findFirst();
+        if (task.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        tasks.remove(task.get());
+        return new ResponseEntity<>("delete", HttpStatus.OK);
     }
 
     private  Long generateId(){
-        newId += 1;
-        return  newId;
+        Id += 1;
+        return  Id;
     }
 }

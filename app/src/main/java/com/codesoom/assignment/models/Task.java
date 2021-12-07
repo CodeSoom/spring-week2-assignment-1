@@ -21,6 +21,7 @@ public class Task {
     }
 
     public String toString(){
-        return "Task - title: " + title +"id" +id;
+        return "Task - title: " + title;
     }
+
 }
