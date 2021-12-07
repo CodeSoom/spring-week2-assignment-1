@@ -10,8 +10,8 @@
 	<body>
 		<section class="todoapp">
 			<header class="header">
-				<h1>todos</h1>
-				<input  id:scoped="title"
+				<h1>ToDo</h1>
+				<input id:scoped="title"
                         key="title"
                         class="new-todo"
                         placeholder="What needs to be done?"
@@ -19,12 +19,11 @@
                         on-keypress("checkAddInputKeyPressed")>
 
 			</header>
-			<!-- This section should be hidden by default and shown when there are todos -->
 			<section class="main">
 				<input class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
 
-				<ul class="todo-list">
+				<ol class="todo-list">
 					<!-- These are here just to show the structure of the list items -->
 					<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
 					<for|task| of=state.tasks>
@@ -33,15 +32,13 @@
                                 <label on-dblclick("changeEditing", "${task.id}")>${task.title}</label>
                                 <button class="destroy" on-click("deleteTask","${task.id}")></button>
                             </div>
-                            <input key="input_${task.id}" class="edit" value="${task.title}" on-keypress("checkUpdateInputKeyPressed","${task.id}")>
+                            <input key="input_${task.id}" class="edit" value=task.title on-keypress("checkUpdateInputKeyPressed","${task.id}")>
                         </li>
 					</for>
-				</ul>
+				</ol>
 			</section>
 			<!-- This footer should be hidden by default and shown when there are todos -->
-			<footer class="footer">
-				<!-- This should be `0 items left` by default -->
-				<span class="todo-count"><strong>0</strong> item left</span>
+			<footer class="footer" hidden>
 			</footer>
 		</section>
 		<footer class="info">
@@ -69,7 +66,7 @@ class {
     }
 
     async addTask(){
-        const title = this.getEl('title').value;
+        const title = this.getEl(`title`).value;
         await axios.post('http://localhost:8080/tasks', {
             title : title,
         });
@@ -83,7 +80,9 @@ class {
 
     async updateTask(id){
         const title = this.getEl(`input_${id}`).value;
-        await axios.put(`http://localhost:8080/tasks/${id}`,{title:title});
+        await axios.put(`http://localhost:8080/tasks/${id}`,{
+            title:title
+        });
         this.changeView(id)
         this.loadTasks();
     }
@@ -93,6 +92,7 @@ class {
             this.addTask();
         }
     }
+    
     checkUpdateInputKeyPressed(id, event) {
       if (event.keyCode == 13) {
           this.updateTask(id);
