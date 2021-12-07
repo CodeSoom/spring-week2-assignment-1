@@ -27,13 +27,15 @@ public class TaskController {
     @GetMapping("/{id}")
     public Task findTask(@PathVariable Long id) {
         Task task = findbyId(id);
+
         return task;
     }
 
-    @RequestMapping(value = "/{id}", method = { RequestMethod.PUT, RequestMethod.POST })
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.POST})
     public Task updateTask(@RequestBody Task everything, @PathVariable Long id) {
         Task task = findbyId(id);
         task.setTitle(everything.getTitle());
+
         return task;
     }
 
@@ -55,6 +57,7 @@ public class TaskController {
 
     private Long generateId() {
         newId += 1;
+
         return newId;
     }
 
