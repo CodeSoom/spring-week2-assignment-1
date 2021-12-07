@@ -21,8 +21,6 @@ public class ListStorageRepositoryAbstract<T extends ListStorageEntity> implemen
 
         if (optionalEntity.isEmpty()) {
             entity.setId(generateId());
-        } else {
-            delete(optionalEntity.get());
         }
 
         list.add(entity);

@@ -29,10 +29,8 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateTask(Task task, Task source) {
-        task.setTitle(source.getTitle());
-
-        return task;
+    public Task updateTask(Task target, Task source) {
+        return taskRepository.update(target, source);
     }
 
     public void removeTask(Task task) {
