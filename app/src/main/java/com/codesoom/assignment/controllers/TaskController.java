@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-    private final List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
     @GetMapping
@@ -25,15 +26,19 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public Task findTask(@PathVariable Long id) {
-        Task task = tasks.stream()
-                .filter(item -> item.getId().equals(id))
-                .findFirst()
-                .get();
+        Task task = findbyId(id);
+        return task;
+    }
+
+    @RequestMapping(value = "/{id}", method = { RequestMethod.PUT, RequestMethod.POST })
+    public Task updateTask(@RequestBody Task everything, @PathVariable Long id) {
+        Task task = findbyId(id);
+        task.setTitle(everything.getTitle());
         return task;
     }
 
     @PostMapping
-    public Task create(@RequestBody Task task) {
+    public Task createTask(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
 
@@ -41,11 +46,8 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public Task delete(@PathVariable Long id) {
-        Task task = tasks.stream()
-                .filter(item -> item.getId().equals(id))
-                .findFirst()
-                .get();
+    public Task deleteTask(@PathVariable Long id) {
+        Task task = findbyId(id);
         tasks.remove(task);
 
         return task;
@@ -55,4 +57,12 @@ public class TaskController {
         newId += 1;
         return newId;
     }
+
+    private Task findbyId(Long id) {
+        return tasks.stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
 }
