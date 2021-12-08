@@ -23,50 +23,39 @@ class {
     await this.loadTasks();
   }
 
-  async updateTask(id) {
-    const title = this.getEl("source").value;
+  async handleUpdate(title, id) {
     await axios.patch(`http://localhost:8080/tasks/${id}`, {
       title,
     })
 
-    this.close();
+    this.handleClose();
     await this.loadTasks();
   }
 
-  async completeTask(id) {
+  async handleComplete(id) {
     await axios.delete(`http://localhost:8080/tasks/${id}`);
     await this.loadTasks();
   }
 
-  open(id) {
+  handleOpen(id) {
     this.state.updateTaskId = id;
   }
 
-  close() {
+  handleClose() {
     this.state.updateTaskId = null;
   }
 }
 
 <layout>
   <title text="ToDo" />
-  <ol>
-    <for|task| of=state.tasks>
-      <li key=task.id>
-        <div>
-          <if(task.id === state.updateTaskId)>
-            <input type="text" key="source" value=task.title />
-            <button type="button" on-click("updateTask", task.id)>확인</button>
-            <button type="button" on-click("close")>취소</button>
-          </if>
-          <else>
-            ${task.title}
-            <button type="button" on-click("open", task.id)>수정</button>
-            <button type="button" on-click("completeTask", task.id)>완료</button>
-          </else>
-        </div>
-      </li>
-    </for>
-  </ol>
+  <list
+    tasks=state.tasks
+    updateTaskId=state.updateTaskId
+    on-open('handleOpen')
+    on-close('handleClose')
+    on-update('handleUpdate')
+    on-complete('handleComplete')
+  />
   <label for:scoped="title">할 일 </label>
   <input type="text" key="title" id:scoped="title" />
   <button type="button" on-click("addTask")>추가</button>

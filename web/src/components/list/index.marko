@@ -1,0 +1,40 @@
+$ const tasks = input.tasks;
+$ const updateTaskId = input.updateTaskId;
+
+class {
+  handleOpen(id) {
+    this.emit('open', id)
+  }
+
+  handleClose() {
+    this.emit('close');
+  }
+
+  handleUpdate(id) {
+    const title = this.getEl("source").value;
+    this.emit('update', title, id);
+  }
+
+  handleComplete(id) {
+    this.emit('complete', id);
+  }
+}
+
+<ol>
+  <for|task| of=tasks>
+    <li key=task.id>
+      <div>
+        <if(task.id === updateTaskId)>
+          <input type="text" key="source" value=task.title />
+          <button type="button" on-click("handleUpdate", task.id)>확인</button>
+          <button type="button" on-click("handleClose")>취소</button>
+        </if>
+        <else>
+          ${task.title}
+          <button type="button" on-click("handleOpen", task.id)>수정</button>
+          <button type="button" on-click("handleComplete", task.id)>완료</button>
+        </else>
+      </div>
+    </li>
+  </for>
+</ol>
