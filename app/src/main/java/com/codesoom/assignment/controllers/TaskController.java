@@ -8,6 +8,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,7 +49,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity detail(@PathVariable Long id) {
-        Optional<Task> find = getTaskFromList(id);
+        Optional<Task> find = toTask(id);
 
         if (find.isPresent()) {
             Task task = find.get();
@@ -60,7 +61,7 @@ public class TaskController {
 
     @PatchMapping("/{id}")
     public ResponseEntity update(@PathVariable Long id, @RequestBody Task source) {
-        Optional<Task> find = getTaskFromList(id);
+        Optional<Task> find = toTask(id);
 
         if (find.isPresent()) {
             Task task = find.get();
@@ -78,7 +79,7 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        Optional<Task> find = getTaskFromList(id);
+        Optional<Task> find = toTask(id);
 
         if (find.isPresent()) {
             Task task = find.get();
@@ -89,7 +90,7 @@ public class TaskController {
         }
     }
 
-    private Optional<Task> getTaskFromList(Long id) {
+    private Optional<Task> toTask(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
                 .findFirst();
