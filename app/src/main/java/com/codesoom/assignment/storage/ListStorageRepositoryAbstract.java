@@ -17,9 +17,9 @@ public class ListStorageRepositoryAbstract<T extends ListStorageEntity> implemen
 
     @Override
     public T save(T entity) {
-        var optionalEntity = list.stream().filter(it -> it.getId() == entity.getId()).findFirst();
+        var target = findById(entity.getId());
 
-        if (optionalEntity.isEmpty()) {
+        if (target.isEmpty()) {
             entity.setId(generateId());
         }
 
@@ -30,10 +30,10 @@ public class ListStorageRepositoryAbstract<T extends ListStorageEntity> implemen
 
     @Override
     public void deleteById(Long id) {
-        var optionalEntity = list.stream().filter(it -> it.getId() == id).findFirst();
+        var target = findById(id);
 
-        if (optionalEntity.isPresent()) {
-            list.remove(optionalEntity.get());
+        if (target.isPresent()) {
+            list.remove(target.get());
         }
     }
 
