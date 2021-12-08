@@ -2,7 +2,8 @@ package com.codesoom.assignment.controllers;
 
 // TODO
 // 1. GET /tasks (done)
-// 2. GET /tasks/{id}
+// 2. GET /tasks/{id} (done)
+// -> 없을 경우 not found 처리
 // 3. POST /tasks (done)
 // 4. PUT/PATCH /tasks/{id} (done)
 //  -> PUT은 어떻게 하지? PUT과 PATCH mapping을 같이 쓸 순 없나?
@@ -23,6 +24,12 @@ public class TaskController {
     @GetMapping
     public List<Task> list() {
         return tasks;
+    }
+
+    @GetMapping("/{id}")
+    public Task detail(@PathVariable Long id) {
+        Task task = findTask(id);
+        return task;
     }
 
     @PostMapping
