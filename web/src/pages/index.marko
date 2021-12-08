@@ -15,8 +15,7 @@ class {
     this.state.tasks = data;
   }
 
-  async addTask() {
-    const title = this.getEl('title').value;
+  async handleAddTask(title) {
     await axios.post('http://localhost:8080/tasks', {
       title,
     });
@@ -56,7 +55,5 @@ class {
     on-update('handleUpdate')
     on-complete('handleComplete')
   />
-  <label for:scoped="title">할 일 </label>
-  <input type="text" key="title" id:scoped="title" />
-  <button type="button" on-click("addTask")>추가</button>
+  <input-task on-add-task('handleAddTask') />
 </layout>
