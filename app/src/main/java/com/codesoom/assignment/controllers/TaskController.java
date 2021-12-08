@@ -4,7 +4,8 @@ package com.codesoom.assignment.controllers;
 // 1. GET /tasks (done)
 // 2. GET /tasks/{id}
 // 3. POST /tasks (done)
-// 4. PUT/PATCH /tasks/{id}
+// 4. PUT/PATCH /tasks/{id} (done)
+//  -> PUT은 어떻게 하지? PUT과 PATCH mapping을 같이 쓸 순 없나?
 // 5. DELETE /tasks/{id} (done)
 
 import com.codesoom.assignment.models.Task;
@@ -28,6 +29,13 @@ public class TaskController {
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
+        return task;
+    }
+
+    @PatchMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task source) {
+        Task task = findTask(id);
+        task.setTitle(source.getTitle());
         return task;
     }
 
