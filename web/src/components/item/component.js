@@ -1,13 +1,14 @@
 module.exports = class {
   handleOpen(id) {
-    this.emit('open', id)
+    this.emit('open', id);
   }
 
   handleClose() {
     this.emit('close');
   }
 
-  handleUpdate(title, id) {
+  handleUpdate(id) {
+    const title = this.getEl("source").value;
     this.emit('update', title, id);
   }
 
