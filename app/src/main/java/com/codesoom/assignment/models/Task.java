@@ -1,5 +1,7 @@
 package com.codesoom.assignment.models;
 
+import java.util.Optional;
+
 public class Task {
     private Long id;
 
@@ -9,8 +11,9 @@ public class Task {
         return id;
     }
 
-    public void setId(Long id) {
+    public Optional<Task> setId(Long id) {
         this.id = id;
+        return null;
     }
 
     public String getTitle() {
@@ -22,7 +25,10 @@ public class Task {
     }
 
     public String toString() {
-        return "Task - title: "  + title;
+        this.id = id;
+        this.title = title;
+
+        return String.format("Task-> id: %s, title: %s", id, title);
     }
 
 }
