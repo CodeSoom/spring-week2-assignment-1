@@ -21,13 +21,21 @@ class {
     });
     await this.loadTasks();
   }
+
+  async completeTask(id) {
+    await axios.delete(`http://localhost:8080/tasks/${id}`);
+    await this.loadTasks();
+  }
 }
 
 <layout>
   <h1>ToDo</h1>
   <ol>
     <for|task| of=state.tasks>
-      <li>${task.title}</li>
+      <li>
+        ${task.title}
+        <button type="button" on-click("completeTask", task.id)>완료</button>
+      </li>
     </for>
   </ol>
   <label for:scoped="title">할 일 </label>
