@@ -8,6 +8,9 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -44,33 +48,52 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task detail(@PathVariable Long id) {
-        return toTask(id);
+    public ResponseEntity detail(@PathVariable Long id) {
+        Optional<Task> find = toTask(id);
+
+        if (find.isPresent()) {
+            Task task = find.get();
+            return new ResponseEntity(task, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PatchMapping("/{id}")
-    public Task update(@PathVariable Long id, @RequestBody Task source) {
-        Task task = toTask(id);
-        task.setTitle(source.getTitle());
-        return task;
+    public ResponseEntity update(@PathVariable Long id, @RequestBody Task source) {
+        Optional<Task> find = toTask(id);
+
+        if (find.isPresent()) {
+            Task task = find.get();
+            task.setTitle(source.getTitle());
+            return new ResponseEntity(task, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
-    public Task update2(@PathVariable Long id, @RequestBody Task source) {
+    public ResponseEntity update2(@PathVariable Long id, @RequestBody Task source) {
         return update(id, source);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        Task task = toTask(id);
-        tasks.remove(task);
+    public ResponseEntity delete(@PathVariable Long id) {
+        Optional<Task> find = toTask(id);
+
+        if (find.isPresent()) {
+            Task task = find.get();
+            tasks.remove(task);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    private Task toTask(Long id) {
+    private Optional<Task> toTask(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     private static synchronized Long generateId() {
