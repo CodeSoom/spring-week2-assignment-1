@@ -18,6 +18,7 @@ import com.codesoom.assignment.services.TaskService;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     TaskService taskService = new TaskService();
 
