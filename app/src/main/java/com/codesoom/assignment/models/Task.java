@@ -11,9 +11,8 @@ public class Task {
         return id;
     }
 
-    public Optional<Task> setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return null;
     }
 
     public String getTitle() {
