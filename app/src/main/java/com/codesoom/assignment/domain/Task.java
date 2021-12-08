@@ -3,10 +3,8 @@ package com.codesoom.assignment.domain;
 import com.codesoom.assignment.storage.ListStorageEntity;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @Getter
 public class Task extends ListStorageEntity {
 
@@ -15,7 +13,7 @@ public class Task extends ListStorageEntity {
 
     @Builder
     public Task(Long id, String title) {
-        this.setId(id);
+        super(id);
         this.title = title;
     }
 
