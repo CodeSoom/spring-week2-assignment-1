@@ -4,6 +4,7 @@ class {
   onCreate() {
     this.state = {
       tasks: [],
+      updateTaskId: null,
     };
 
     this.loadTasks();
@@ -22,9 +23,27 @@ class {
     await this.loadTasks();
   }
 
+  async updateTask(id) {
+    const title = this.getEl("source").value;
+    await axios.patch(`http://localhost:8080/tasks/${id}`, {
+      title,
+    })
+
+    this.close();
+    await this.loadTasks();
+  }
+
   async completeTask(id) {
     await axios.delete(`http://localhost:8080/tasks/${id}`);
     await this.loadTasks();
+  }
+
+  open(id) {
+    this.state.updateTaskId = id;
+  }
+
+  close() {
+    this.state.updateTaskId = null;
   }
 }
 
@@ -32,9 +51,19 @@ class {
   <h1>ToDo</h1>
   <ol>
     <for|task| of=state.tasks>
-      <li>
-        ${task.title}
-        <button type="button" on-click("completeTask", task.id)>완료</button>
+      <li key=task.id>
+        <div>
+          <if(task.id === state.updateTaskId)>
+            <input type="text" key="source" value=task.title />
+            <button type="button" on-click("updateTask", task.id)>확인</button>
+            <button type="button" on-click("close")>취소</button>
+          </if>
+          <else>
+            ${task.title}
+            <button type="button" on-click("open", task.id)>수정</button>
+            <button type="button" on-click("completeTask", task.id)>완료</button>
+          </else>
+        </div>
       </li>
     </for>
   </ol>
