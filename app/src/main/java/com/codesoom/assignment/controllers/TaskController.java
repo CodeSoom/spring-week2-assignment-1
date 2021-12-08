@@ -77,6 +77,10 @@ public class TaskController {
     }
 
     private Task findbyId(Long id) {
-        return tasks.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+        Optional <Task> task = Optional.ofNullable(tasks.stream()
+                .filter(item -> item.getId().equals(id))
+                .findFirst()
+                .orElse(null));
+        return null;
     }
 }
