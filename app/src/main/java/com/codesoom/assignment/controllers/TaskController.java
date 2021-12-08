@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    TaskService taskService = new TaskService();
+    private TaskService taskService = new TaskService();
 
     @GetMapping
     public List<Task> list() {
