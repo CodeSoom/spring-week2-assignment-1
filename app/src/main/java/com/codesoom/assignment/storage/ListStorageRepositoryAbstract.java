@@ -7,7 +7,7 @@ import java.util.Optional;
 public class ListStorageRepositoryAbstract<T extends ListStorageEntity> implements ListStorageIfs<T> {
 
     protected final List<T> list = new ArrayList<>();
-    private Long indexId = 0L;
+    private Long identificationId = 0L;
 
 
     @Override
@@ -48,11 +48,11 @@ public class ListStorageRepositoryAbstract<T extends ListStorageEntity> implemen
     }
 
     private Long generateId() {
-        indexId += 1;
-        return indexId;
+        identificationId += 1;
+        return identificationId;
     }
 
     public Long lastId() {
-        return indexId;
+        return identificationId;
     }
 }
