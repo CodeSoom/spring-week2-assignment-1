@@ -13,6 +13,14 @@ class {
     const { data } = await axios.get('http://localhost:8080/tasks');
     this.state.tasks = data;
   }
+
+  async addTask() {
+    const title = this.getEl('title').value;
+    await axios.post('http://localhost:8080/tasks', {
+      title,
+    });
+    await this.loadTasks();
+  }
 }
 
 <layout>
@@ -22,4 +30,7 @@ class {
       <li>${task.title}</li>
     </for>
   </ol>
+  <label for:scoped="title">할 일 </label>
+  <input type="text" key="title" id:scoped="title" />
+  <button type="button" on-click("addTask")>추가</button>
 </layout>
