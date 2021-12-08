@@ -37,7 +37,7 @@ public class TaskService {
         tasks.remove(task);
     }
 
-    private Long generateId() {
+    private synchronized Long generateId() {
         newId += 1;
         return newId;
     }
