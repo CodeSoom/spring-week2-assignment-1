@@ -73,7 +73,7 @@ public class TaskController {
                 .orElse(null);
     }
 
-    private Long generateId() {
+    private static synchronized Long generateId() {
         newId += 1;
         return newId;
     }
