@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.model.Task;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import java.util.List;
 //5. Delete - DELETE /tasks/{id}
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
