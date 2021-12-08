@@ -5,7 +5,7 @@ package com.codesoom.assignment.controllers;
 // 2. GET /tasks/{id}
 // 3. POST /tasks (done)
 // 4. PUT/PATCH /tasks/{id}
-// 5. DELETE /tasks/{id}
+// 5. DELETE /tasks/{id} (done)
 
 import com.codesoom.assignment.models.Task;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +29,19 @@ public class TaskController {
         task.setId(generateId());
         tasks.add(task);
         return task;
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        Task task = findTask(id);
+        tasks.remove(task);
+    }
+
+    private Task findTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
     private Long generateId() {
