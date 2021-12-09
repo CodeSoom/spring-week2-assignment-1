@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.models.HttpStatus;
 import com.codesoom.assignment.models.Task;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,34 +23,26 @@ public class TaskController {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
+    HttpStatus httpStatus = HttpStatus.HTTP_NOT_FOUND;
+
     @GetMapping
     public List<Task> listTask() {
         return tasks;
     }
 
     @GetMapping("/{id}")
-    public Task findTask(@PathVariable Long id) {
-        Optional<Task> task = Optional.ofNullable(findbyId(id));
+    public Optional<Task> findTask(@PathVariable Long id) {
+        Task task = findbyId(id);
 
-        if (task.isEmpty()) {
-            return null;
-        }
-
-        return task.get();
+        return Optional.ofNullable(task);
     }
 
+    // 두 Optional 합치기
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.POST})
     public Task updateTask(@RequestBody Task everything, @PathVariable Long id) {
         Task task = findbyId(id);
-        //if절로 NullPointerException 예외 처리
-        if (task == null) {
-            System.out.println("java.lang.NullPointerException");
-        }
 
-        if (task != null) {
-            task.setTitle(everything.getTitle());
-        }
-
+        task.setTitle(everything.getTitle());
         return task;
     }
 
@@ -77,10 +69,12 @@ public class TaskController {
     }
 
     private Task findbyId(Long id) {
-        Optional <Task> task = Optional.ofNullable(tasks.stream()
+        Optional<Task> task = tasks.stream()
                 .filter(item -> item.getId().equals(id))
-                .findFirst()
-                .orElse(null));
-        return null;
+                .findFirst();
+                if(task.isEmpty()){
+                    return null;
+                };
+        return task.get();
     }
 }

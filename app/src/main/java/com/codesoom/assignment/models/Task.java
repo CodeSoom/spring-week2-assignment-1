@@ -1,7 +1,5 @@
 package com.codesoom.assignment.models;
 
-import java.util.Optional;
-
 public class Task {
     private Long id;
 
