@@ -29,7 +29,7 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateTask(Task target, Task source) {
+    public Task updatesTask(Task target, Task source) {
         return taskRepository.update(target, source);
     }
 

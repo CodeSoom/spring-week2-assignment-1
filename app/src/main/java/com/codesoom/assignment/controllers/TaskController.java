@@ -36,7 +36,6 @@ public class TaskController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Task> list() {
-
         return taskService.findALL();
     }
 
@@ -69,7 +68,7 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
 
-        Task updateTask = taskService.updateTask(targetTask.get(), task);
+        Task updateTask = taskService.updatesTask(targetTask.get(), task);
 
         return ResponseEntity.ok(updateTask);
     }
