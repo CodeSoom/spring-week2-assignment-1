@@ -31,10 +31,10 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Task> findTask(@PathVariable Long id) {
+    public Task findTask(@PathVariable Long id) {
         Task task = findbyId(id);
 
-        return Optional.ofNullable(task);
+        return task;
     }
 
     // 두 Optional 합치기
