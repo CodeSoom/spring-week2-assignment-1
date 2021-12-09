@@ -53,7 +53,7 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    @RequestMapping(value = "{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity update(@PathVariable Long id, @RequestBody Task source) {
         Optional<Task> task = getTask(id);
         if (task.isEmpty()) {
@@ -63,7 +63,7 @@ public class TaskController {
         return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         Optional<Task> task = getTask(id);
         if (task.isEmpty()) {

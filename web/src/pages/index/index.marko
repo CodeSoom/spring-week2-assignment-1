@@ -13,21 +13,19 @@ class {
         };
         this.loadTasks();
     }
-
     async loadTasks(){
         const { data } = await axios.get('http://localhost:8080/tasks')
         this.state.tasks = data;
     }
-
     async addTask(){
         const title = this.getEl('title').value;
         await axios.post('http://localhost:8080/tasks', {
-            title : title,
+            title,
         });
         this.loadTasks();
     }
-
     async deleteTask(id){
+        console.log('http://localhost:8080/tasks/${id}');
         await axios.delete(`http://localhost:8080/tasks/${id}`);
         this.loadTasks();
     }
@@ -40,11 +38,11 @@ class {
 <ol>
     <for|task| of=state.tasks>
         <li>
-            <div key="${task.id}">
+            <div key=`${task.id}`>
                 ${task.title}
-               <button type="button" on-click("deleteTask","${task.id}")>
+                <button type="button" on-click("deleteTask",`${task.id}`)>
                     완료
-               </button>
+                </button>
             </div>
         </li>
     </for>
