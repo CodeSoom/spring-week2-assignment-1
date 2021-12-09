@@ -2,11 +2,15 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,18 +20,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
+@Slf4j
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
 
     private final TaskService taskService;
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
@@ -74,15 +82,23 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
         Optional<Task> task = taskService.findByTaskId(id);
 
         if (task.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new NoSuchElementException();
         }
 
         taskService.removeTask(task.get());
+        return;
+    }
 
-        return ResponseEntity.noContent().build();
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public void handleNoSuchElementException(NoSuchElementException ex,
+                                          HttpServletResponse response) {
+
+        log.info("Handle NoSuchElementException" + ex.getClass().getSimpleName());
     }
 }
