@@ -11,21 +11,20 @@ class {
         this.state = {
             tasks: [],
         };
-
         this.loadTasks();
     }
 
     async loadTasks(){
-        const { data } = await axios.get('http://localhost:8080/tasks');
+        const { data } = await axios.get('http://localhost:8080/tasks')
         this.state.tasks = data;
     }
 
-    async addTask() {
+    async addTask(){
         const title = this.getEl('title').value;
-        await axios.post('http://localhost:8080/tasks',{
-            title,
+        await axios.post('http://localhost:8080/tasks', {
+            title : title,
         });
-        await this.loadTasks();
+        this.loadTasks();
     }
 
     async deleteTask(id){
@@ -41,10 +40,12 @@ class {
 <ol>
     <for|task| of=state.tasks>
         <li>
-            ${task.title}
-            <button type="button" on-click("deleteTask","${id}")>
-                삭제
-            </button>
+            <div key="${task.id}">
+                ${task.title}
+               <button type="button" on-click("deleteTask","${task.id}")>
+                    완료
+               </button>
+            </div>
         </li>
     </for>
 </ol>
@@ -52,7 +53,7 @@ class {
     <label for:scoped="title">
         할 일
     </label>
-    <input id:scoped="title" key="title" type="text" />
+    <input id:scoped="title" key="title" type="text"/>
     <button type="button" on-click("addTask")>
         추가
     </button>
