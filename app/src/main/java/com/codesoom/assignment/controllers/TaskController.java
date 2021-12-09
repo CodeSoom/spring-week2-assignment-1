@@ -29,22 +29,22 @@ import java.util.Optional;
 @CrossOrigin
 public class TaskController {
     private List<Task> tasks = new ArrayList<>();
-    private Long Id = 0L;
+    private Long id = 0L;
 
     @GetMapping
-    public  List<Task> list(){
+    public List<Task> list() {
         return tasks;
     }
 
     @GetMapping("/{id}")
-    public  ResponseEntity<Task> Detail(@PathVariable Long id){
+    public ResponseEntity<Task> detail(@PathVariable Long id) {
         Optional<Task> task = tasks.stream()
                 .filter(it -> it.getId().equals(id))
                 .findFirst();
-            if (task.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(task.get(), HttpStatus.OK);
+        if (task.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(task.get(), HttpStatus.OK);
     }
 
     @PostMapping
@@ -56,8 +56,8 @@ public class TaskController {
     }
 
 
-    @RequestMapping(value = "/{id}", method = { RequestMethod.PUT, RequestMethod.PATCH })
-    public ResponseEntity update(@PathVariable Long id, @RequestBody Task source){
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public ResponseEntity update(@PathVariable Long id, @RequestBody Task source) {
         Optional<Task> task = tasks.stream()
                 .filter(it -> it.getId().equals(id))
                 .findFirst();
@@ -69,7 +69,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity Delete(@PathVariable Long id){
+    public ResponseEntity delete(@PathVariable Long id) {
         Optional<Task> task = tasks.stream()
                 .filter(it -> it.getId().equals(id))
                 .findFirst();
@@ -80,8 +80,8 @@ public class TaskController {
         return new ResponseEntity<>("delete", HttpStatus.NO_CONTENT);
     }
 
-    private  Long generateId(){
-        Id += 1;
-        return  Id;
+    private Long generateId() {
+        id += 1;
+        return id;
     }
 }

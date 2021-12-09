@@ -29,9 +29,10 @@ class {
     }
 
     async deleteTask(id){
-    await axios.delete('http://localhost:8080/tasks/${id}');
-    await this.loadTasks();
+        await axios.delete(`http://localhost:8080/tasks/${id}`);
+        this.loadTasks();
     }
+
 }
 
 
