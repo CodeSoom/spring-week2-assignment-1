@@ -3,8 +3,6 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +33,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class TaskController {
 
     private final TaskService taskService;
-    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
@@ -44,7 +41,7 @@ public class TaskController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Task> list() {
-        return taskService.findALL();
+        return taskService.findAll();
     }
 
     @GetMapping("/{id}")
