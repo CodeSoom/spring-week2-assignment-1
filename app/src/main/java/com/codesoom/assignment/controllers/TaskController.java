@@ -39,10 +39,8 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<Task> detail(@PathVariable Long id) {
         Optional<Task> task = getTask(id);
-        if (task.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(task.get(), HttpStatus.OK);
+
+        return getTaskResponseEntity(task);
     }
 
     @PostMapping
@@ -56,21 +54,17 @@ public class TaskController {
     @RequestMapping(value = "{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity update(@PathVariable Long id, @RequestBody Task source) {
         Optional<Task> task = getTask(id);
-        if (task.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         task.get().setTitle(source.getTitle());
-        return new ResponseEntity<>(task, HttpStatus.OK);
+
+        return getTaskResponseEntity(task);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         Optional<Task> task = getTask(id);
-        if (task.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         tasks.remove(task.get());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return getObjectResponseEntity(task);
     }
 
     private Long generateId() {
@@ -82,5 +76,19 @@ public class TaskController {
         return tasks.stream()
                 .filter(it -> it.getId().equals(id))
                 .findFirst();
+    }
+
+    private ResponseEntity<Task> getTaskResponseEntity(Optional<Task> task) {
+        if (task.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(task.get(), HttpStatus.OK);
+    }
+
+    private ResponseEntity<Object> getObjectResponseEntity(Optional<Task> task) {
+        if (task.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
