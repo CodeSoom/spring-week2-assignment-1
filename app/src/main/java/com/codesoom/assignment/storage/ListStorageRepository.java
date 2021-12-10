@@ -47,8 +47,12 @@ public class ListStorageRepository<T extends ListStorageEntity> implements ListS
         return list;
     }
 
-    private Long generateListId() {
+    private synchronized Long generateListId() {
         listId += 1;
+        return listId;
+    }
+
+    public Long lastId() {
         return listId;
     }
 }
