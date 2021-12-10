@@ -7,7 +7,7 @@ import java.util.Optional;
 public class ListStorageRepository<T extends ListStorageEntity> implements ListStorage<T> {
 
     protected final List<T> list = new ArrayList<>();
-    private Long id = 0L;
+    private Long listId = 0L;
 
 
     @Override
@@ -20,7 +20,7 @@ public class ListStorageRepository<T extends ListStorageEntity> implements ListS
         var target = findById(entity.getId());
 
         if (target.isEmpty()) {
-            entity.setId(generateId());
+            entity.setId(generateListId());
         }
 
         list.add(entity);
@@ -47,12 +47,8 @@ public class ListStorageRepository<T extends ListStorageEntity> implements ListS
         return list;
     }
 
-    private Long generateId() {
-        id += 1;
-        return id;
-    }
-
-    public Long lastId() {
-        return id;
+    private Long generateListId() {
+        listId += 1;
+        return listId;
     }
 }
