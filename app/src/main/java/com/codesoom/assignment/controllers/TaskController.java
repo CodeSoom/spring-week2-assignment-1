@@ -61,7 +61,7 @@ public class TaskController {
         return "Delete " + task ;
     }
 
-    private Long generateId(){
+    private synchronized Long generateId(){
         newId += 1;
         return newId;
     }
