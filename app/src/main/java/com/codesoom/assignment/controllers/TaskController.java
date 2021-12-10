@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private Long newId = 0L;
+    private Long taskId = 0L;
     private List<Task> tasks = new ArrayList<>();
 
     @GetMapping
@@ -21,56 +21,50 @@ public class TaskController {
         return tasks;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Task> create(@RequestBody Task task) {
+    public Task create(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
-        return new ResponseEntity<Task>(task, HttpStatus.CREATED);
+        return task;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> read(@PathVariable Long id) {
-        try {
-            Task task = tasks.stream().filter(item -> item.getId().equals(id))
-                    .findFirst()
-                    .get();
-            return new ResponseEntity<>(task, HttpStatus.OK);
-
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Optional<Task> task = getTask(id);
+        if (task.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok().body(task.get());
     }
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public ResponseEntity update(@PathVariable Long id, @RequestBody Task sourceTask) {
-        try {
-            Task task = tasks.stream().filter(item -> item.getId().equals(id)).findFirst().get();
-            task.setTitle(sourceTask.getTitle());
-            return new ResponseEntity<Task>(task, HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task sourceTask) {
+        Optional<Task> task = getTask(id);
+        if (task.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+        task.get().setTitle(sourceTask.getTitle());
+        return ResponseEntity.ok(task.get());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        try {
-            Task task = tasks.stream().filter(item -> item.getId().equals(id))
-                    .findFirst()
-                    .get();
-            tasks.remove(task);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        Optional<Task> task = getTask(id);
+        if (task.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+        tasks.remove(task.get());
+        return ResponseEntity.noContent().build();
     }
 
-    private Long generateId() {
-        newId += 1;
-        return newId;
+    private synchronized Long generateId() {
+        taskId += 1;
+        return taskId;
     }
 
+    private Optional<Task> getTask(Long id) {
+        return tasks.stream().filter(item -> item.getId().equals(id))
+                .findFirst();
+    }
 }
