@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ListStorageRepository<T extends ListStorageEntity> implements ListStorageIfs<T> {
+public class ListStorageRepository<T extends ListStorageEntity> implements ListStorage<T> {
 
     protected final List<T> list = new ArrayList<>();
     private Long id = 0L;

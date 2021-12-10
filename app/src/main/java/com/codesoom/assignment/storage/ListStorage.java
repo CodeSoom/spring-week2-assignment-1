@@ -3,7 +3,7 @@ package com.codesoom.assignment.storage;
 import java.util.List;
 import java.util.Optional;
 
-public interface ListStorageIfs<T> {
+public interface ListStorage<T> {
 
     Optional<T> findById(Long id);
     T save(T entity);
