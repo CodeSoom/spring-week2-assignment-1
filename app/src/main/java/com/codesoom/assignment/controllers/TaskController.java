@@ -54,17 +54,21 @@ public class TaskController {
     @RequestMapping(value = "{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity update(@PathVariable Long id, @RequestBody Task source) {
         Optional<Task> task = getTask(id);
+        if (task.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         task.get().setTitle(source.getTitle());
-
-        return getTaskResponseEntity(task);
+        return new ResponseEntity<>(task.get(), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         Optional<Task> task = getTask(id);
+        if (task.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         tasks.remove(task.get());
-
-        return getObjectResponseEntity(task);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private Long generateId() {
@@ -85,10 +89,4 @@ public class TaskController {
         return new ResponseEntity<>(task.get(), HttpStatus.OK);
     }
 
-    private ResponseEntity<Object> getObjectResponseEntity(Optional<Task> task) {
-        if (task.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }
