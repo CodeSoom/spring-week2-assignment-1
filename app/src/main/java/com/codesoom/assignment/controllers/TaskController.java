@@ -26,7 +26,7 @@ import java.util.Optional;
 public class TaskController {
 
     private static Map<Long, Task> tasks = new LinkedHashMap<>();
-    private static Long newId = 0L;
+    private static Long taskId = 0L;
 
     @GetMapping
     public List<Task> list() {
@@ -36,7 +36,7 @@ public class TaskController {
     @PostMapping
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
-        tasks.put(newId, task);
+        tasks.put(taskId, task);
 
         return task;
     }
@@ -89,7 +89,7 @@ public class TaskController {
     }
 
     private static synchronized Long generateId() {
-        newId += 1;
-        return newId;
+        taskId += 1;
+        return taskId;
     }
 }
