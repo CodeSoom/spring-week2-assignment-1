@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 //TODO
 //1. Read Collection - GET/tasks
@@ -26,45 +30,45 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
+
+    private Map<Long, Task> tasks = new LinkedHashMap<Long, Task>();
     private Long newId = 0L;
 
     @GetMapping
     public List<Task> list() {
 
-        return tasks;
+        return new ArrayList<Task>(tasks.values());
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-        task.setId(generateId());
+        Long id = generateId();
+        task.setId(id);
         task.setState("yet");
-        tasks.add(task);
+        tasks.put(id, task);
 
         return task;
     }
 
     @GetMapping("/{id}")
-    public Task view(@PathVariable Long id) {
-        Task task = findTask(id);
+    public Optional<Task> view(@PathVariable Long id) {
+        Optional<Task> task = findTask(id);
 
         return task;
     }
 
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/{id}")
-    public Task update(@RequestBody Task body, @PathVariable Long id) {
-        Task task = findTask(id);
-        task.setTitle(body.getTitle());
-        task.setState(body.getState());
-
+    public Optional<Task> update(@RequestBody Task body, @PathVariable Long id) {
+        Optional<Task> task = findTask(id);
+        task.get().setTitle(body.getTitle());
+        task.get().setState(body.getState());
         return task;
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
-        Task task = findTask(id);
-        tasks.remove(task);
-        return "Delete " + task;
+        tasks.remove(id);
+        return "Delete " + id;
     }
 
     private synchronized Long generateId() {
@@ -72,10 +76,10 @@ public class TaskController {
         return newId;
     }
 
-    private Task findTask(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new TaskNotFoundException("Not Found " + id));
+    private Optional<Task> findTask(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id가 null이므로 Task를 찾을 수 없습니다.");
+        }
+        return Optional.ofNullable(tasks.get(id));
     }
 }
