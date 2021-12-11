@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,45 +35,46 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Task detail(@PathVariable Long id, HttpServletResponse response) {
+    public ResponseEntity<Task> detail(@PathVariable Long id, HttpServletResponse response) {
         Optional<Task> find = taskRepository.findDetail(id);
 
         if (find.isEmpty()) {
-            response.setStatus(400);
-            return null;
+            return ResponseEntity.badRequest()
+                    .build();
         }
 
-        return find.get();
+        return ResponseEntity.ok(find.get());
     }
 
     @PatchMapping("/{id}")
-    public Task update(@PathVariable Long id, @RequestBody Task source, HttpServletResponse response) {
+    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task source, HttpServletResponse response) {
         Optional<Task> task = taskRepository.update(id, source.getTitle());
 
         if (task.isEmpty()) {
-            response.setStatus(400);
-            return null;
+            return ResponseEntity.badRequest()
+                    .build();
         }
 
-        return task.get();
+        return ResponseEntity.ok(task.get());
     }
 
     @PutMapping("/{id}")
-    public Task update2(@PathVariable Long id, @RequestBody Task source, HttpServletResponse response) {
+    public ResponseEntity<Task> update2(@PathVariable Long id, @RequestBody Task source, HttpServletResponse response) {
         return update(id, source, response);
     }
 
     @DeleteMapping("/{id}")
-    public Task delete(@PathVariable Long id, HttpServletResponse response) {
+    public ResponseEntity delete(@PathVariable Long id) {
         Optional<Task> find = taskRepository.findDetail(id);
 
         if (find.isEmpty()) {
-            response.setStatus(400);
-            return null;
+            return ResponseEntity.badRequest()
+                    .build();
         }
 
         taskRepository.delete(id);
-        return find.get();
+        return ResponseEntity.ok()
+                .build();
     }
 
 }
