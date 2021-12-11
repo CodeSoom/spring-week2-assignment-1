@@ -1,0 +1,90 @@
+import axios from 'axios';
+
+style {
+    button {
+        margin-left : 5px
+    }
+
+    div {
+        margin-bottom : 5px
+    }
+}
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: []
+        };
+
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const url = 'http://localhost:8080/tasks';
+        const { data } = await axios.get(url);
+        this.state.tasks = data;
+    }
+
+    async addTask() {
+        const url = 'http://localhost:8080/tasks';
+        const title = this.getEl('title').value;
+        const param = {
+            title
+        }
+        await axios.post(url, param);
+        await this.loadTasks();
+    }
+
+    async toggleDiv(id) {
+        const textDiv = this.getEl('textDiv' + id);
+        const updateDiv = this.getEl('updateDiv' + id);
+
+        if (textDiv.style.display === '') {
+            textDiv.style.display = 'none';
+            updateDiv.style.display = '';
+        } else {
+            textDiv.style.display = '';
+            updateDiv.style.display = 'none';
+        }
+    }
+
+    async deleteTask(id) {
+        const url = 'http://localhost:8080/tasks/' + id;
+        await axios.delete(url);
+        await this.loadTasks();
+    }
+
+    async updateTask(id) {
+        const url = 'http://localhost:8080/tasks/' + id;
+        const title = this.getEl('title' + id).value;
+        const param = {
+            title
+        }
+        await axios.patch(url, param);
+        await this.loadTasks();
+        await this.toggleDiv(id);
+    }
+}
+
+<h1>ToDo</h1>
+<ol>
+    <for|task| of=state.tasks>
+        <li>
+            <div key='textDiv'+task.id>
+                ${task.title}
+                <button on-click('toggleDiv', task.id)>수정</button>
+                <button on-click('deleteTask', task.id)>삭제</button>
+            </div>
+            <div key='updateDiv'+task.id style="display:none">
+                <input key='title'+task.id value=task.title>
+                <button on-click('updateTask', task.id)>확인</button>
+                <button on-click('toggleDiv', task.id)>취소</button>
+            </div>
+        </li>
+    </for>
+</ol>
+<p>
+    <label for:scoped="title">할일</label>
+    <input type="text" id:scoped="title" key="title">
+    <button on-click('addTask')>추가</button>
+</p>
