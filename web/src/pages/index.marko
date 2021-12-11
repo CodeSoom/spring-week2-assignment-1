@@ -3,6 +3,9 @@ style {
     .hidden {
         display: none;
     }
+    .done {
+        text-decoration: line-through;
+    }
 }
 class {
     onCreate() {
@@ -42,6 +45,25 @@ class {
         this.loadTasks();
     }
 
+    async updateTaskState(id){
+        const title = this.getEl(`title_${id}`);
+        const hasClass = title.classList.contains('done');
+        let state = '';
+
+        if(!hasClass){
+            title.classList.add('done');
+            state = 'done';
+        } else {
+            title.classList.remove('done');
+            state = 'yet';
+        }
+         console.log(`${title.innerText} and ${state}`);
+        await axios.patch(`http://localhost:8000/tasks/${id}`,{
+            title: `${title.innerText}`
+            ,state: `${state}`
+        });
+    }
+
     editTask(id){
         const element = this.getEl('${id}');
         const editInput = this.getEl(`editInput_${id}`);
@@ -51,12 +73,20 @@ class {
 
     completeTask(id){
         const title = this.getEl(`title_${id}`);
+        const hasClass = title.classList.contains('done');
+        let message = '완료 하시겠습니까?';
+        let isLine = 'line-through';
 
-        if(!confirm('완료하시겠습니까?')){
+        if(hasClass){
+           message = '완료 취소하시겠습니까?';
+           isLine = 'none';
+        }
+
+        if(!confirm(message)){
             return false
         }else{
-            title.style.textDecoration = 'line-through';
-            title.classList.add("complete");
+            title.style.textDecoration = isLine;
+            this.updateTaskState(id);
         }
     }
 
