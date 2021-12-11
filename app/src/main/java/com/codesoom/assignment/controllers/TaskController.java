@@ -1,10 +1,3 @@
-// TODO
-// 1. Read - Collection => 완료
-// 2. Read - Item => 완료
-// 3. Create => 완료
-// 4. Update => 완료
-// 5. Delete => 완료
-
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
