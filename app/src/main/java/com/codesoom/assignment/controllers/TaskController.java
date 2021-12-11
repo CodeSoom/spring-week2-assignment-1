@@ -30,47 +30,52 @@ public class TaskController {
     private Long newId = 0L;
 
     @GetMapping
-    public List<Task> list(){
+    public List<Task> list() {
 
         return tasks;
     }
+
     @PostMapping
-    public Task create(@RequestBody Task task){
+    public Task create(@RequestBody Task task) {
         task.setId(generateId());
+        task.setState("yet");
         tasks.add(task);
 
         return task;
     }
+
     @GetMapping("/{id}")
-    public Task view(@PathVariable Long id){
+    public Task view(@PathVariable Long id) {
         Task task = findTask(id);
 
         return task;
     }
 
-    @RequestMapping(method = {RequestMethod.PUT,RequestMethod.PATCH}, value = "/{id}")
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/{id}")
     public Task update(@RequestBody Task body, @PathVariable Long id) {
         Task task = findTask(id);
         task.setTitle(body.getTitle());
+        task.setState(body.getState());
+
         return task;
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id) {
         Task task = findTask(id);
         tasks.remove(task);
-        return "Delete " + task ;
+        return "Delete " + task;
     }
 
-    private synchronized Long generateId(){
+    private synchronized Long generateId() {
         newId += 1;
         return newId;
     }
 
-    private Task findTask(Long id){
+    private Task findTask(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
-                .orElseThrow( () -> new TaskNotFoundException("Not Found "+id));
+                .orElseThrow(() -> new TaskNotFoundException("Not Found " + id));
     }
 }
