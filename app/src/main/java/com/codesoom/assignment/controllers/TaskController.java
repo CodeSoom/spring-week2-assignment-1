@@ -48,9 +48,9 @@ public class TaskController {
         if (find.isPresent()) {
             Task task = find.get();
             return new ResponseEntity(task, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @PatchMapping("/{id}")
@@ -61,9 +61,9 @@ public class TaskController {
             Task task = find.get();
             task.setTitle(source.getTitle());
             return new ResponseEntity(task, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")
@@ -78,9 +78,9 @@ public class TaskController {
         if (find.isPresent()) {
             tasks.remove(id);
             return new ResponseEntity(HttpStatus.OK);
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 
     private Optional<Task> findTaskFromList(Long id) {
