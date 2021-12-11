@@ -1,8 +1,6 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,50 +37,51 @@ public class TaskController {
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
         tasks.put(taskId, task);
-
         return task;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity detail(@PathVariable Long id) {
+    public Task detail(@PathVariable Long id, HttpServletResponse response) {
         Optional<Task> find = findTaskFromList(id);
 
-        if (find.isPresent()) {
-            Task task = find.get();
-            return new ResponseEntity(task, HttpStatus.OK);
+        if (find.isEmpty()) {
+            response.setStatus(400);
+            return null;
         }
 
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return find.get();
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody Task source) {
+    public Task update(@PathVariable Long id, @RequestBody Task source, HttpServletResponse response) {
         Optional<Task> find = findTaskFromList(id);
 
-        if (find.isPresent()) {
-            Task task = find.get();
-            task.setTitle(source.getTitle());
-            return new ResponseEntity(task, HttpStatus.OK);
+        if (find.isEmpty()) {
+            response.setStatus(400);
+            return null;
         }
 
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        Task task = find.get();
+        task.setTitle(source.getTitle());
+        return task;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update2(@PathVariable Long id, @RequestBody Task source) {
-        return update(id, source);
+    public Task update2(@PathVariable Long id, @RequestBody Task source, HttpServletResponse response) {
+        return update(id, source, response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public Task delete(@PathVariable Long id, HttpServletResponse response) {
         Optional<Task> find = findTaskFromList(id);
 
-        if (find.isPresent()) {
-            tasks.remove(id);
-            return new ResponseEntity(HttpStatus.OK);
+        if (find.isEmpty()) {
+            response.setStatus(400);
+            return null;
         }
 
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        tasks.remove(id);
+        return find.get();
     }
 
     private Optional<Task> findTaskFromList(Long id) {
