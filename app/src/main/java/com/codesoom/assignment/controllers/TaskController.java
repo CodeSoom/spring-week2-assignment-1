@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -23,18 +25,18 @@ import java.util.Optional;
 @CrossOrigin
 public class TaskController {
 
-    private static List<Task> tasks = new ArrayList<>();
+    private static Map<Long, Task> tasks = new LinkedHashMap<>();
     private static Long newId = 0L;
 
     @GetMapping
     public List<Task> list() {
-        return tasks;
+        return new ArrayList<>(tasks.values());
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
-        tasks.add(task);
+        tasks.put(newId, task);
 
         return task;
     }
@@ -74,8 +76,7 @@ public class TaskController {
         Optional<Task> find = findTaskFromList(id);
 
         if (find.isPresent()) {
-            Task task = find.get();
-            tasks.remove(task);
+            tasks.remove(id);
             return new ResponseEntity(HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -83,9 +84,8 @@ public class TaskController {
     }
 
     private Optional<Task> findTaskFromList(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst();
+        Task task = tasks.get(id);
+        return Optional.ofNullable(task);
     }
 
     private static synchronized Long generateId() {
