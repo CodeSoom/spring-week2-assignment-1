@@ -3,7 +3,9 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,7 @@ public class TaskController {
         return new ArrayList<Task>(tasks.values());
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Task create(@RequestBody Task task) {
         Long id = generateId();
