@@ -65,8 +65,8 @@ public class TaskController {
             파라미터를 받는 방법은 @PathVariable 와 @RequestParam
             둘의 차이를 자세히 알아본 후 어느 방법이 더 효율적인지 정한 후 적용하기.
     */
-    @GetMapping("/{paramId}")
-    public Task getTaskById(@PathVariable(name = "paramId") long id) {
+    @GetMapping("/{taskId}")
+    public Task getTaskById(@PathVariable(name = "taskId") long id) {
         // id를 받는다.
         // 우리가 가진 할 일 목록에서, id 값으로 Task를 찾는다.
         // 할 일 목록에서 어떻게 찾는가? => for문으로 찾는다.
@@ -173,15 +173,13 @@ public class TaskController {
         //   * 할 일 목록에서 어떻게 찾는가? => indexOf()로 찾는
         int taskIndex = tasks.indexOf(task);
         // TODO: 찾을 수 없었을 때 어떻게 할 것인가?
-        // 찾을 수 없는 경우 -1 반환. IndexOutOfBoundsException 오류 발생.
-        // IndexOutOfBoundsException 오류 해결하기 위해 if문 사용.
-        // if문 조건식인 index 값이 -1이 아닌 경우 문장 수행
-        Task foundTask = null;
-        if(taskIndex != -1){
-            tasks.get(taskIndex);
-            // * 찾은 Task를 수정해요.
-            foundTask.setTitle(task.getTitle());
+        if(taskIndex < 0){
+            return null;
         }
+
+        Task foundTask = tasks.get(taskIndex);
+        foundTask.setTitle(task.getTitle());
+
         // * 수정된 Task를 응답한다.
         return foundTask;
     }
