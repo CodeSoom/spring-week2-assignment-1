@@ -24,4 +24,13 @@ public class Task {
     public String toString() {
         return "Task - title: " + title;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        return this.id.equals(((Task) o).getId());
+    }
 }
