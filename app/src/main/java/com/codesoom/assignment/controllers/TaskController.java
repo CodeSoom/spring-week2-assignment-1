@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -24,24 +21,21 @@ import java.util.Optional;
 @CrossOrigin
 public class TaskController {
 
-    private static Map<Long, Task> tasks = new LinkedHashMap<>();
-    private static Long taskId = 0L;
+    private final TaskRepository taskRepository = new TaskRepository();
 
     @GetMapping
     public List<Task> list() {
-        return new ArrayList<>(tasks.values());
+        return taskRepository.findList();
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-        task.setId(generateId());
-        tasks.put(taskId, task);
-        return task;
+        return taskRepository.add(task);
     }
 
     @GetMapping("/{id}")
     public Task detail(@PathVariable Long id, HttpServletResponse response) {
-        Optional<Task> find = findTaskFromList(id);
+        Optional<Task> find = taskRepository.findDetail(id);
 
         if (find.isEmpty()) {
             response.setStatus(400);
@@ -53,16 +47,14 @@ public class TaskController {
 
     @PatchMapping("/{id}")
     public Task update(@PathVariable Long id, @RequestBody Task source, HttpServletResponse response) {
-        Optional<Task> find = findTaskFromList(id);
+        Optional<Task> task = taskRepository.update(id, source.getTitle());
 
-        if (find.isEmpty()) {
+        if (task.isEmpty()) {
             response.setStatus(400);
             return null;
         }
 
-        Task task = find.get();
-        task.setTitle(source.getTitle());
-        return task;
+        return task.get();
     }
 
     @PutMapping("/{id}")
@@ -72,24 +64,15 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public Task delete(@PathVariable Long id, HttpServletResponse response) {
-        Optional<Task> find = findTaskFromList(id);
+        Optional<Task> find = taskRepository.findDetail(id);
 
         if (find.isEmpty()) {
             response.setStatus(400);
             return null;
         }
 
-        tasks.remove(id);
+        taskRepository.delete(id);
         return find.get();
     }
 
-    private Optional<Task> findTaskFromList(Long id) {
-        Task task = tasks.get(id);
-        return Optional.ofNullable(task);
-    }
-
-    private static synchronized Long generateId() {
-        taskId += 1;
-        return taskId;
-    }
 }
