@@ -10,7 +10,6 @@ public class TaskRepository extends ListStorageRepository<Task> {
 
     public Task update(Task target, Task source) {
         target.setTitle(source.getTitle());
-
         return target;
     }
 }

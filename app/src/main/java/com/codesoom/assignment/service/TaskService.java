@@ -2,6 +2,7 @@ package com.codesoom.assignment.service;
 
 
 import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,14 @@ public class TaskService {
         this.taskRepository = new TaskRepository();
     }
 
-    public Optional<Task> findByTaskId(Long id) {
-        return taskRepository.findById(id);
+    public Task findByTaskId(Long id) {
+        Optional<Task> task = taskRepository.findById(id);
+
+        if (task.isEmpty()) {
+            throw new TaskNotFoundException(id);
+        }
+
+        return task.get();
     }
 
     public List<Task> findAll() {
@@ -29,11 +36,13 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updatesTask(Task target, Task source) {
+    public Task updatesTask(Long id, Task source) {
+        Task target = findByTaskId(id);
         return taskRepository.update(target, source);
     }
 
-    public void removeTask(Task task) {
+    public void removeTask(Long id) {
+        Task task = findByTaskId(id);
         taskRepository.delete(task);
     }
 }
