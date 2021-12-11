@@ -7,7 +7,6 @@ import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -19,13 +18,7 @@ public class TaskService {
     }
 
     public Task findByTaskId(Long id) {
-        Optional<Task> task = taskRepository.findById(id);
-
-        if (task.isEmpty()) {
-            throw new TaskNotFoundException(id);
-        }
-
-        return task.get();
+        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public List<Task> findAll() {
