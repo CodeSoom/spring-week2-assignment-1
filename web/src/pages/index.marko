@@ -25,13 +25,16 @@ class {
     }
 
     async deleteTask(id){
-        await axios.delete(`http://localhost:8000/tasks/${id}`);
+        if(!confirm('완료하시겠습니까?')){
+            return false;
+        }else{
+            await axios.delete(`http://localhost:8000/tasks/${id}`);
+        }
         this.loadTasks();
     }
 
     async updateTask(id){
         const title = this.getEl(`editInput_${id}`).value;
-        alert(title+':'+id);
         await axios.patch(`http://localhost:8000/tasks/${id}`,{
             title
         });
@@ -43,20 +46,21 @@ class {
         const element = this.getEl('${id}');
         const editInput = this.getEl(`editInput_${id}`);
 
-        this.
-        div.classList.add("hidden");
+
     }
 
     completeTask(id){
+        const title = this.getEl(`title_${id}`);
+
         if(!confirm('완료하시겠습니까?')){
             return false
         }else{
-            deleteTask(id);
+            title.style.textDecoration = 'line-through';
+            title.classList.add("complete");
         }
     }
 
     changeState(id){
-    debugger;
         const element = this.getEl(`${id}`);
         const editTask = this.getEl(`edit_${id}`);
 
@@ -77,12 +81,15 @@ class {
     <for|task| of=state.tasks>
         <li>
             <div key=`${task.id}` >
-                ${task.title}
+                <span key=`title_${task.id}`>${task.title}</span>
                 <button type="button" on-click("changeState",`${task.id}`)>
                     수정
                 </button>
                 <button type="button" on-click("completeTask",`${task.id}`)>
                     완료
+                </button>
+                <button type="button" on-click("deleteTask",`${task.id}`)>
+                    삭제
                 </button>
             </div>
             <div key=`edit_${task.id}` hidden>
