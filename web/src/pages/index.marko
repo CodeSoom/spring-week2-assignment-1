@@ -108,11 +108,8 @@ class {
                 <button type="button" on-click("changeState",`${task.id}`)>
                     수정
                 </button>
-                <button type="button" on-click("completeTask",`${task.id}`)>
-                    완료
-                </button>
                 <button type="button" on-click("deleteTask",`${task.id}`)>
-                    삭제
+                    완료
                 </button>
             </div>
             <div key=`edit_${task.id}` hidden>
