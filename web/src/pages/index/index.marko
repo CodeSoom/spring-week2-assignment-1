@@ -1,9 +1,3 @@
-//TODO
-// 1. GET /tasks -> 목록으로 표시
-// 2. 입력 -> POST /tasks (할 일 추가) -> GET /tasks (목록 갱신)
-// 3. 삭제 -> 미완
-// 4. 수정 -> 미완
-
 import axios from 'axios';
 
 class {
@@ -13,24 +7,46 @@ class {
         };
         this.loadTasks();
     }
+
     async loadTasks(){
         const { data } = await axios.get('http://localhost:8080/tasks')
         this.state.tasks = data;
     }
+
     async addTask(){
         const title = this.getEl('title').value;
         await axios.post('http://localhost:8080/tasks', {
-            title,
+            title : title,
         });
         this.loadTasks();
     }
-    async deleteTask(id){
-        console.log('http://localhost:8080/tasks/${id}');
-        await axios.delete(`http://localhost:8080/tasks/${id}`);
-        this.loadTasks();
+
+    editTask(id){
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+        ...task, editing: true}
+         : task);
     }
 
+    cancelEdit(id){
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+        ...task, editing: false}
+         : task);
+    }
+
+    async updateTask(id){
+        const title = this.getEl(`title-${id}`).value;
+        await axios.patch(`http://localhost:8080/tasks/${id}`, {
+            title,
+        });
+        await this.loadTasks();
+    }
+
+    async deleteTask(id){
+        await axios.delete(`http://localhost:8080/tasks/${id}`);
+        await this.loadTasks();
+    }
 }
+
 
 
 
@@ -38,12 +54,28 @@ class {
 <ol>
     <for|task| of=state.tasks>
         <li>
-            <div key=`${task.id}`>
+            <if(task.editing)>
+                <input key=`title-${task.id}` type="text" value=task.title />
+                <span> </span>
+                <button type="button" on-click(`updateTask`,task.id)>
+                    확인
+                </button>
+                <span> </span>
+                <button type="button" on-click(`cancelEdit`,task.id)>
+                    취소
+                </button>
+            </if>
+            <else>
                 ${task.title}
-                <button type="button" on-click("deleteTask",`${task.id}`)>
+                <span> </span>
+                <button type="button" on-click("editTask",task.id)>
+                    수정
+                </button>
+                <span> </span>
+                <button type="button" on-click("deleteTask",task.id)>
                     완료
                 </button>
-            </div>
+            </else>
         </li>
     </for>
 </ol>
