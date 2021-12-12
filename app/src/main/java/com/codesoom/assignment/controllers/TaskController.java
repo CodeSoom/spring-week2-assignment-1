@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +32,11 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task create(@RequestBody Task task) {
-        return taskRepository.add(task);
+    public ResponseEntity<Task> create(@RequestBody Task source) {
+        Task task = taskRepository.add(source);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(task);
     }
 
     @GetMapping("/{id}")
@@ -39,7 +44,7 @@ public class TaskController {
         Optional<Task> find = taskRepository.findDetail(id);
 
         if (find.isEmpty()) {
-            return ResponseEntity.badRequest()
+            return ResponseEntity.notFound()
                     .build();
         }
 
@@ -51,7 +56,7 @@ public class TaskController {
         Optional<Task> task = taskRepository.update(id, source.getTitle());
 
         if (task.isEmpty()) {
-            return ResponseEntity.badRequest()
+            return ResponseEntity.notFound()
                     .build();
         }
 
@@ -68,12 +73,12 @@ public class TaskController {
         Optional<Task> find = taskRepository.findDetail(id);
 
         if (find.isEmpty()) {
-            return ResponseEntity.badRequest()
+            return ResponseEntity.notFound()
                     .build();
         }
 
         taskRepository.delete(id);
-        return ResponseEntity.ok()
+        return ResponseEntity.noContent()
                 .build();
     }
 
