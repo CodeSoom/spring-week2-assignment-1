@@ -39,13 +39,16 @@ public class TaskService {
     public Optional<Task> view(Long id) {
         Optional<Task> task = findTask(id);
         if (!task.isPresent()) {
-            throw new TaskNotFoundException("Task가 없습니다.");
+            throw new TaskNotFoundException("요청하신 " + id + "의 Task가 없습니다.");
         }
         return task;
     }
 
     public Optional<Task> update(Task body, Long id) {
         Optional<Task> task = findTask(id);
+        if (!task.isPresent()) {
+            throw new TaskNotFoundException("요청하신 " + id + "의 Task가 없습니다.");
+        }
         task.get().setTitle(body.getTitle());
         task.get().setState(body.getState());
         return task;
@@ -68,6 +71,7 @@ public class TaskService {
         if (id == null) {
             throw new IllegalArgumentException("id가 null이므로 Task를 찾을 수 없습니다.");
         }
+
         return Optional.ofNullable(tasks.get(id));
     }
 }
