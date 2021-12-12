@@ -16,18 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-//TODO
-//1. Read Collection - GET/tasks
-//2. Read Item - GET/tasks/{id}
-//3. Create - POST/tasks
-//4. Update - PUT/PATCH /tasks/{id}
-//5. Delete - DELETE /tasks/{id}
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
@@ -56,7 +49,9 @@ public class TaskController {
     @GetMapping("/{id}")
     public Optional<Task> view(@PathVariable Long id) {
         Optional<Task> task = findTask(id);
-
+        if (!task.isPresent()) {
+            throw new TaskNotFoundException("Task가 없습니다.");
+        }
         return task;
     }
 
@@ -69,9 +64,12 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
+        Optional<Task> task = findTask(id);
+        if (!task.isPresent()) {
+            throw new TaskNotFoundException("요청하신 " + id + "의 Task가 없습니다.");
+        }
         tasks.remove(id);
-        return "Delete " + id;
     }
 
     private synchronized Long generateId() {
