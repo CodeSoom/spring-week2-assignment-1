@@ -11,8 +11,16 @@ plugins {
     id 'application'
 
     // Spring
-    id 'org.springframework.boot' version '2.3.5.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+
+}
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
 }
 
 repositories {
@@ -25,7 +33,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
 
     // Use JUnit Jupiter Engine for testing.
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
@@ -36,6 +44,17 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Dev Tools
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
+
+    // Library for automatic code completion
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    // Use Hateoas for Rest representations
+    implementation 'org.springframework.hateoas:spring-hateoas'
+
 }
 
 application {
