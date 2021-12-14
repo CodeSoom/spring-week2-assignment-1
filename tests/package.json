@@ -8,7 +8,7 @@
     "e2e": "codeceptjs run --steps",
     "lint": "eslint .",
     "ci": "start-server-and-test '../gradlew run -p ../' http-get://localhost:8080/tasks test",
-    "ci:e2e": "start-server-and-test '../gradlew run -p ../' http-get://localhost:8080/tasks 'cd ../web && npm run dev -- --no-browser' http://localhost:3000 e2e"
+    "ci:e2e": "start-server-and-test '../gradlew run -p ../' http-get://localhost:8080/tasks 'cd ../web && npm run dev' http://localhost:3000 e2e"
   },
   "author": "",
   "license": "ISC",
