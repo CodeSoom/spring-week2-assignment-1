@@ -1,11 +1,10 @@
 package com.codesoom.assignment.services;
 
+import com.codesoom.assignment.controllers.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
-import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TaskService {
     private List<Task> tasks = new ArrayList<>();
@@ -15,11 +14,11 @@ public class TaskService {
         return tasks;
     }
 
-    public Optional<Task> getTask(Long id) {
-        Optional<Task> entity = tasks.stream()
+    public Task getTask(Long id) {
+        return tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst();
-        return entity;
+                .findFirst()
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     public Task createTask(Task task) {
@@ -28,30 +27,16 @@ public class TaskService {
         return task;
     }
 
-    public ResponseEntity<Task> updateTask(Long id, Task source) {
-        Optional<Task> entity = getTask(id);
-
-        if(entity.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Task task = entity.get();
+    public Task updateTask(Long id, Task source) {
+        Task task = getTask(id);
         task.setTitle(source.getTitle());
 
-        return ResponseEntity.of(entity);
+        return task;
     }
 
-    public ResponseEntity<Task> deleteTask(Long id) {
-        Optional<Task> entity = getTask(id);
-
-        if(entity.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Task task = entity.get();
+    public void deleteTask(Long id) {
+        Task task = getTask(id);
         tasks.remove(task);
-
-        return ResponseEntity.noContent().build();
     }
 
     private synchronized Long generateId() {

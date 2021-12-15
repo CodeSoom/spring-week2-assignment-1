@@ -37,8 +37,8 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Task> detail(@PathVariable Long id) {
-        return ResponseEntity.of(taskService.getTask(id));
+    public Task detail(@PathVariable Long id) {
+        return taskService.getTask(id);
     }
 
     @PostMapping
@@ -47,12 +47,13 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task source) {
+    public Task update(@PathVariable Long id, @RequestBody Task source) {
         return taskService.updateTask(id, source);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> delete(@PathVariable Long id) {
-       return taskService.deleteTask(id);
+       taskService.deleteTask(id);
+       return ResponseEntity.noContent().build();
     }
 }
