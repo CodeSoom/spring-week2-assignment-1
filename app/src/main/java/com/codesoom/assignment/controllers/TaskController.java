@@ -9,6 +9,7 @@ package com.codesoom.assignment.controllers;
 //  -> PUT은 어떻게 하지? PUT과 PATCH mapping을 같이 쓸 순 없나? (done)
 // 5. DELETE /tasks/{id} (done)
 // 6. taskService를 만들기 (done)
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +36,9 @@ public class TaskController {
         return taskService.getTasks();
     }
 
-    @GetMapping("/{id}")
-    public Task detail(@PathVariable Long id) {
-        return taskService.getTask(id);
+    @GetMapping("{id}")
+    public ResponseEntity<Task> detail(@PathVariable Long id) {
+        return ResponseEntity.of(taskService.getTask(id));
     }
 
     @PostMapping

@@ -4,6 +4,7 @@ import com.codesoom.assignment.models.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TaskService {
     private List<Task> tasks = new ArrayList<>();
@@ -13,11 +14,11 @@ public class TaskService {
         return tasks;
     }
 
-    public Task getTask(Long id) {
-        return tasks.stream()
+    public Optional<Task> getTask(Long id) {
+        Optional<Task> entity = tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
+        return entity;
     }
 
     public Task createTask(Task task) {
@@ -27,13 +28,15 @@ public class TaskService {
     }
 
     public Task updateTask(Long id, Task source) {
-        Task task = getTask(id);
+        Optional<Task> entity = getTask(id);
+        Task task = entity.get();
         task.setTitle(source.getTitle());
         return task;
     }
 
     public void deleteTask(Long id) {
-        Task task = getTask(id);
+        Optional<Task> entity = getTask(id);
+        Task task = entity.get();
         tasks.remove(task);
     }
 
