@@ -9,7 +9,9 @@ $ const selectedId = input.selectedId;
   </if>
   <else>
     ${task.title}
+    <span> </span>
     <button type="button" on-click("handleOpen", task.id)>수정</button>
+    <span> </span>
     <button type="button" on-click("handleComplete", task.id)>완료</button>
   </else>
 </div>
