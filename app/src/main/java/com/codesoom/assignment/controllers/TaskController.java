@@ -47,12 +47,12 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task update(@PathVariable Long id, @RequestBody Task source) {
+    public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task source) {
         return taskService.updateTask(id, source);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        taskService.deleteTask(id);
+    public ResponseEntity<Task> delete(@PathVariable Long id) {
+       return taskService.deleteTask(id);
     }
 }

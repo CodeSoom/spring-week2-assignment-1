@@ -1,6 +1,7 @@
 package com.codesoom.assignment.services;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,17 +28,30 @@ public class TaskService {
         return task;
     }
 
-    public Task updateTask(Long id, Task source) {
+    public ResponseEntity<Task> updateTask(Long id, Task source) {
         Optional<Task> entity = getTask(id);
+
+        if(entity.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         Task task = entity.get();
         task.setTitle(source.getTitle());
-        return task;
+
+        return ResponseEntity.of(entity);
     }
 
-    public void deleteTask(Long id) {
+    public ResponseEntity<Task> deleteTask(Long id) {
         Optional<Task> entity = getTask(id);
+
+        if(entity.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         Task task = entity.get();
         tasks.remove(task);
+
+        return ResponseEntity.noContent().build();
     }
 
     private synchronized Long generateId() {
