@@ -1,3 +1,136 @@
+import axios from 'axios';
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+        };
+        this.loadTasks();
+    }
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8000/tasks');
+        this.state.tasks = data;
+    }
+    async addTask(){
+        const title = this.getEl('title').value;
+
+        await axios.post('http://localhost:8000/tasks', {
+            title,
+        });
+        this.loadTasks();
+    }
+
+    async deleteTask(id){
+        if(!confirm('삭제하시겠습니까?')){
+            return false;
+        }else{
+            await axios.delete(`http://localhost:8000/tasks/${id}`);
+        }
+        this.loadTasks();
+    }
+
+    async updateTask(id){
+        const title = this.getEl(`editInput_${id}`).value;
+        await axios.patch(`http://localhost:8000/tasks/${id}`,{
+            title
+        });
+        this.changeState(id);
+        this.loadTasks();
+    }
+
+    async updateTaskState(id){
+        const title = this.getEl(`title_${id}`);
+        const hasClass = title.classList.contains('done');
+        let state = '';
+
+        if(!hasClass){
+            title.classList.add('done');
+            state = 'done';
+        } else {
+            title.classList.remove('done');
+            state = 'yet';
+        }
+         console.log(`${title.innerText} and ${state}`);
+        await axios.patch(`http://localhost:8000/tasks/${id}`,{
+            title: `${title.innerText}`
+            ,state: `${state}`
+        });
+    }
+
+    editTask(id){
+        const element = this.getEl('${id}');
+        const editInput = this.getEl(`editInput_${id}`);
+
+
+    }
+
+    completeTask(id){
+        const title = this.getEl(`title_${id}`);
+        const hasClass = title.classList.contains('done');
+        let message = '완료 하시겠습니까?';
+        let isLine = 'line-through';
+
+        if(hasClass){
+           message = '완료 취소하시겠습니까?';
+           isLine = 'none';
+        }
+
+        if(!confirm(message)){
+            return false
+        }else{
+            title.style.textDecoration = isLine;
+            this.updateTaskState(id);
+        }
+    }
+
+    changeState(id){
+        const element = this.getEl(`${id}`);
+        const editTask = this.getEl(`edit_${id}`);
+
+        if(element.hidden){
+            editTask.hidden = true;
+            element.hidden = false;
+        } else {
+            editTask.hidden = false;
+            element.hidden = true;
+        }
+        this.loadTasks();
+    }
+}
+
 <layout>
   <h1>ToDo</h1>
+  <ol>
+    <for|task| of=state.tasks>
+        <li>
+            <div key=`${task.id}` >
+                <span.${task.state} key=`title_${task.id}` >${task.title}</span>
+                <button type="button" on-click("changeState",`${task.id}`)>
+                    수정
+                </button>
+                <button type="button" on-click("deleteTask",`${task.id}`)>
+                    완료
+                </button>
+            </div>
+            <div key=`edit_${task.id}` hidden>
+                <input key=`editInput_${task.id}` type="text" value=`${task.title}` >
+                <button type="button" on-click("updateTask", `${task.id}`)>
+                    확인
+                </button>
+                <button type="button" on-click("changeState", `${task.id}`)>
+                    취소
+                </button>
+            </div>
+        </li>
+    </for>
+  </ol>
+  <p>
+    <label for:scoped="title">
+        To-do List
+    </label>
+    <input id:scoped="title" key="title" type="text" />
+    <button type="button" on-click("addTask")>
+        추가
+    </button>
+  </p>
 </layout>
