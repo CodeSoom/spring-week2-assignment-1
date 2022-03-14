@@ -1,0 +1,17 @@
+$ const task = input.task;
+$ const selectedId = input.selectedId;
+
+<div>
+  <if(task.id === selectedId)>
+    <input type="text" key="source" value=task.title />
+    <button type="button" on-click("handleUpdate", task.id)>확인</button>
+    <button type="button" on-click("handleClose")>취소</button>
+  </if>
+  <else>
+    ${task.title}
+    <span> </span>
+    <button type="button" on-click("handleOpen", task.id)>수정</button>
+    <span> </span>
+    <button type="button" on-click("handleComplete", task.id)>완료</button>
+  </else>
+</div>

@@ -1,0 +1,17 @@
+$ const tasks = input.tasks;
+$ const updateTaskId = input.updateTaskId;
+
+<ol>
+  <for|task| of=tasks>
+    <li key=task.id>
+      <item
+        task=task
+        selectedId=updateTaskId
+        on-open('handleOpen')
+        on-close('handleClose')
+        on-update('handleUpdate')
+        on-complete('handleComplete')
+      />
+    </li>
+  </for>
+</ol>

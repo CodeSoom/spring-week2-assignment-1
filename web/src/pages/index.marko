@@ -1,3 +1,59 @@
+import axios from 'axios';
+
+class {
+  onCreate() {
+    this.state = {
+      tasks: [],
+      updateTaskId: null,
+    };
+
+    this.loadTasks();
+  }
+
+  async loadTasks() {
+    const { data } = await axios.get('http://localhost:8080/tasks');
+    this.state.tasks = data;
+  }
+
+  async handleAddTask(title) {
+    await axios.post('http://localhost:8080/tasks', {
+      title,
+    });
+    await this.loadTasks();
+  }
+
+  async handleUpdate(title, id) {
+    await axios.patch(`http://localhost:8080/tasks/${id}`, {
+      title,
+    })
+
+    this.handleClose();
+    await this.loadTasks();
+  }
+
+  async handleComplete(id) {
+    await axios.delete(`http://localhost:8080/tasks/${id}`);
+    await this.loadTasks();
+  }
+
+  handleOpen(id) {
+    this.state.updateTaskId = id;
+  }
+
+  handleClose() {
+    this.state.updateTaskId = null;
+  }
+}
+
 <layout>
-  <h1>ToDo</h1>
+  <title text="ToDo" />
+  <list
+    tasks=state.tasks
+    updateTaskId=state.updateTaskId
+    on-open('handleOpen')
+    on-close('handleClose')
+    on-update('handleUpdate')
+    on-complete('handleComplete')
+  />
+  <input-task on-add-task('handleAddTask') />
 </layout>
