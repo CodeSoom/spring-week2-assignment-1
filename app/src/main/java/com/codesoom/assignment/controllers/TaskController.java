@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,12 +29,13 @@ public class TaskController {
 
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDto> view(@PathVariable Long taskId) {
-        Optional<Task> task = taskService.getTask(taskId);
-        if (task.isEmpty()) {
+        Optional<Task> findTask = taskService.getTask(taskId);
+        if (findTask.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        TaskDto taskDto = new TaskDto(task.get());
 
+        Task task = findTask.get();
+        TaskDto taskDto = TaskDto.from(task);
         return ResponseEntity.ok().body(taskDto);
     }
 
@@ -52,11 +52,10 @@ public class TaskController {
         if (findTask.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         Task task = findTask.get();
         taskService.replaceTask(task, taskSaveDto);
 
-        TaskDto taskDto = new TaskDto(task);
+        TaskDto taskDto = TaskDto.from(task);
         return ResponseEntity.ok().body(taskDto);
     }
 
@@ -71,18 +70,20 @@ public class TaskController {
         Task task = findTask.get();
         taskService.replaceTask(task, taskSaveDto);
 
-        TaskDto taskDto = new TaskDto(task);
+        TaskDto taskDto = TaskDto.from(task);
         return ResponseEntity.ok().body(taskDto);
     }
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Object> delete(@PathVariable Long taskId) {
 
-        boolean isDeleted = taskService.delete(taskId);
-
-        if (!isDeleted) {
+        Optional<Task> findTask = taskService.getTask(taskId);
+        if (findTask.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        taskService.delete(taskId);
+
         return ResponseEntity.noContent().build();
     }
 }

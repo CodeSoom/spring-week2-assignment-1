@@ -11,9 +11,11 @@ public class TaskDto {
     private TaskDto() {
     }
 
-    public TaskDto(Task task) {
-        this.id = task.getId();
-        this.title = task.getTitle();
+    public static TaskDto from(Task task) {
+        TaskDto taskDto = new TaskDto();
+        taskDto.id = task.getId();
+        taskDto.title = task.getTitle();
+        return taskDto;
     }
 
     public Long getId() {
