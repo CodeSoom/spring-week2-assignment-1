@@ -3,6 +3,7 @@ package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.dto.TaskDto;
+import com.codesoom.assignment.dto.TaskSaveDto;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,13 @@ public class TaskService {
         return tasks.values().stream()
                 .map(TaskDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public TaskDto save(TaskSaveDto taskSaveDto) {
+        Task task = new Task(taskSaveDto.getTitle());
+
+        taskRepository.save(task);
+
+        return new TaskDto(task);
     }
 }

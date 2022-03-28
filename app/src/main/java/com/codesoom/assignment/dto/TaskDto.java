@@ -15,4 +15,12 @@ public class TaskDto {
         this.id = task.getId();
         this.title = task.getTitle();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }
