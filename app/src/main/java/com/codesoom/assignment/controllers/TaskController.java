@@ -3,8 +3,10 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.domains.TaskDto;
 import com.codesoom.assignment.services.TaskService;
-import org.springframework.http.HttpMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin
 @RequestMapping("/tasks")
 @RestController
 public class TaskController {
+
+    private final Logger log = LoggerFactory.getLogger(TaskController.class);
 
     private final TaskService service;
 
@@ -35,6 +40,7 @@ public class TaskController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
     public void addTask(@RequestBody TaskDto taskDto) {
+        log.info("taskDto: {}", taskDto.toString());
         service.addTask(taskDto);
     }
 

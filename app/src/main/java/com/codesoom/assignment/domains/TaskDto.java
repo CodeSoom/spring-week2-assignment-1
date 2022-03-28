@@ -22,4 +22,11 @@ public class TaskDto {
     public Task toTask(Long id) {
         return new Task(id, title);
     }
+
+    @Override
+    public String toString() {
+        return "TaskDto{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }
