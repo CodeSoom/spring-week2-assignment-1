@@ -24,8 +24,18 @@
 
 ## 요구 사항
 
-- 모든 API 테스트를 통과해야 합니다.
-- 모든 E2E 테스트를 통과해야 합니다.
+- [ ] 모든 API 테스트를 통과해야 합니다.
+- [ ] 모든 E2E 테스트를 통과해야 합니다.
+
+## 작업 목록
+
+- [ ] java proejct -> spring project 로 변경
+- [ ] 전체 구조 설계
+- [ ] CRUD API 제작
+- [ ] marko.js 통해서 front 작업
+
+## 추가 작업 목록 (from feedback)
+
 
 ## API 실행하기
 
