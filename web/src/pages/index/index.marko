@@ -25,6 +25,14 @@ class {
         });
         await this.loadTasks();
     }
+
+    async setTask() {
+        const title = this.getEl('title').value;
+        await axios.post('http://localhost:8000/tasks', {
+            title,
+        });
+        await this.loadTasks();
+    }
 }
 
 <h1>ToDo</h1>
@@ -32,6 +40,10 @@ class {
     <for|task| of=state.tasks>
         <li>
             ${task.title}
+
+            <button type="button" on-click("setTask")>
+                    수정
+            </button>
         </li>
     </for>
 </ol>

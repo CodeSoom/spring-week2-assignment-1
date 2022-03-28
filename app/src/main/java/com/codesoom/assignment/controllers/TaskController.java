@@ -11,6 +11,7 @@ import com.codesoom.assignment.models.Task;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,14 @@ public class TaskController {
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
         tasks.add(task);
+
+        return task;
+    }
+
+    @PutMapping
+    public Task update(int index, String title) {
+        Task task = tasks.get(index);
+        task.setTitle(title);
 
         return task;
     }
