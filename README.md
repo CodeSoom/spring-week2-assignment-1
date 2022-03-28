@@ -4,7 +4,7 @@
 
 ![demo](https://user-images.githubusercontent.com/14071105/104095988-3bd50b80-52dd-11eb-96df-31faee9db389.gif)
 
-* Spring Web 이용해서 ToDo REST API를 만들어봅니다.  
+* Spring Web 이용해서 ToDo REST API를 만들어봅니다.
 * Marko를 이용해서 웹을 만들고, 만든 REST API와 연결하여 동작하는 ToDo앱을 만들어봅니다.
 
 ### REST API
@@ -66,5 +66,4 @@ $ npm run test
 ```bash
 $ npm run e2e
 ```
-
 
