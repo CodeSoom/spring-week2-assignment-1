@@ -1,5 +1,5 @@
 ### ToDo REST API
-- [ ] Todo 목록
+- [X] Todo 목록
 - [ ] Todo 등록
 - [ ] Todo 제목 수정
 - [ ] Todo 조회하기
