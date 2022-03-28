@@ -17,7 +17,7 @@ public class TaskRepository {
         return tasks;
     }
 
-    public void save(Task task) {
+    public void save(final Task task) {
         Long taskId = generateId();
         task.setId(taskId);
         tasks.put(taskId, task);
@@ -26,5 +26,9 @@ public class TaskRepository {
     private Long generateId() {
         sequenceId = sequenceId + 1;
         return sequenceId;
+    }
+
+    public Task findById(Long id) {
+        return tasks.get(id);
     }
 }

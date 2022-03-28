@@ -2,7 +2,7 @@
 - [X] Todo 목록
 - [X] Todo 등록
 - [ ] Todo 제목 수정
-- [ ] Todo 조회하기
+- [X] Todo 조회하기
 - [ ] Todo 삭제
 
 ### :프론트엔드

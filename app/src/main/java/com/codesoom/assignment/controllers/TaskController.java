@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequestMapping("/tasks")
 @RestController
@@ -25,11 +26,18 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
+    @GetMapping("/{taskId}")
+    public ResponseEntity<TaskDto> view(@PathVariable Long taskId) {
+        Optional<TaskDto> taskDto = taskService.getTask(taskId);
+        if(taskDto.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(taskDto.get());
+    }
+
     @PostMapping
     public ResponseEntity<TaskDto> save(@RequestBody TaskSaveDto taskSaveDto) {
-
         TaskDto taskDto = taskService.save(taskSaveDto);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
     }
 }

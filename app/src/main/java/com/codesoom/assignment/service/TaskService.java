@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,11 +28,18 @@ public class TaskService {
                 .collect(Collectors.toList());
     }
 
-    public TaskDto save(TaskSaveDto taskSaveDto) {
+    public TaskDto save(final TaskSaveDto taskSaveDto) {
         Task task = new Task(taskSaveDto.getTitle());
-
         taskRepository.save(task);
-
         return new TaskDto(task);
+    }
+
+    public Optional<TaskDto> getTask(final Long id) {
+        Task task = taskRepository.findById(id);
+        if (task == null) {
+            return Optional.empty();
+        }
+        TaskDto taskDto = new TaskDto(task);
+        return Optional.of(taskDto);
     }
 }
