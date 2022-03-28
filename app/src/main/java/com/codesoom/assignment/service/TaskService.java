@@ -22,7 +22,7 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public List<TaskDto> getTaskList() {
+    public List<TaskDto> getTaskDtoList() {
         Map<Long, Task> tasks = taskRepository.findAll();
         return tasks.values().stream()
                 .map(TaskDto::from)
@@ -43,7 +43,7 @@ public class TaskService {
         return Optional.of(task);
     }
 
-    public void delete(Long taskId) {
+    public void delete(final Long taskId) {
         taskRepository.deleteById(taskId);
     }
 

@@ -11,7 +11,7 @@ public class TaskDto {
     private TaskDto() {
     }
 
-    public static TaskDto from(Task task) {
+    public static TaskDto from(final Task task) {
         TaskDto taskDto = new TaskDto();
         taskDto.id = task.getId();
         taskDto.title = task.getTitle();

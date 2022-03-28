@@ -24,8 +24,14 @@ public class TaskController {
 
     @GetMapping
     public ResponseEntity<List<TaskDto>> list() {
-        List<TaskDto> tasks = taskService.getTaskList();
+        List<TaskDto> tasks = taskService.getTaskDtoList();
         return ResponseEntity.ok(tasks);
+    }
+
+    @PostMapping
+    public ResponseEntity<TaskDto> save(@RequestBody TaskSaveDto taskSaveDto) {
+        TaskDto taskDto = taskService.save(taskSaveDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
     }
 
     @GetMapping("/{taskId}")
@@ -38,12 +44,6 @@ public class TaskController {
         Task task = findTask.get();
         TaskDto taskDto = TaskDto.from(task);
         return ResponseEntity.ok().body(taskDto);
-    }
-
-    @PostMapping
-    public ResponseEntity<TaskDto> save(@RequestBody TaskSaveDto taskSaveDto) {
-        TaskDto taskDto = taskService.save(taskSaveDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
     }
 
     @PutMapping("/{taskId}")
