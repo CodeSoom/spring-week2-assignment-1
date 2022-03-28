@@ -2,9 +2,11 @@ package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.dto.TaskDto;
+import com.codesoom.assignment.dto.TaskEditDto;
 import com.codesoom.assignment.dto.TaskSaveDto;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -45,7 +47,13 @@ public class TaskService {
         taskRepository.deleteById(taskId);
     }
 
-    public void replaceTask(final Task task, final TaskSaveDto taskSaveDto) {
-        task.setTitle(taskSaveDto.getTitle());
+    public void replaceTask(final Task task, final TaskEditDto taskEditDto) {
+        task.setTitle(taskEditDto.getTitle());
+    }
+
+    public void modifyTask(final Task task, final TaskEditDto taskEditDto) {
+        if (StringUtils.hasText(taskEditDto.getTitle())) {
+            task.setTitle(taskEditDto.getTitle());
+        }
     }
 }

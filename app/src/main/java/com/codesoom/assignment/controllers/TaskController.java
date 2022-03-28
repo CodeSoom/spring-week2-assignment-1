@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.dto.TaskDto;
+import com.codesoom.assignment.dto.TaskEditDto;
 import com.codesoom.assignment.dto.TaskSaveDto;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
@@ -46,21 +47,22 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
-    public ResponseEntity<TaskDto> replace(@PathVariable Long taskId, @RequestBody TaskSaveDto taskSaveDto) {
+    public ResponseEntity<TaskDto> replace(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
 
         Optional<Task> findTask = taskService.getTask(taskId);
         if (findTask.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
         Task task = findTask.get();
-        taskService.replaceTask(task, taskSaveDto);
+        taskService.replaceTask(task, taskEditDto);
 
         TaskDto taskDto = TaskDto.from(task);
         return ResponseEntity.ok().body(taskDto);
     }
 
     @PatchMapping("/{taskId}")
-    public ResponseEntity<TaskDto> modify(@PathVariable Long taskId, @RequestBody TaskSaveDto taskSaveDto) {
+    public ResponseEntity<TaskDto> modify(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
 
         Optional<Task> findTask = taskService.getTask(taskId);
         if (findTask.isEmpty()) {
@@ -68,7 +70,7 @@ public class TaskController {
         }
 
         Task task = findTask.get();
-        taskService.replaceTask(task, taskSaveDto);
+        taskService.modifyTask(task, taskEditDto);
 
         TaskDto taskDto = TaskDto.from(task);
         return ResponseEntity.ok().body(taskDto);
