@@ -34,13 +34,12 @@ public class TaskService {
         return new TaskDto(task);
     }
 
-    public Optional<TaskDto> getTask(final Long taskId) {
+    public Optional<Task> getTask(final Long taskId) {
         Task task = taskRepository.findById(taskId);
-        if (task == null) {
+        if(task == null) {
             return Optional.empty();
         }
-        TaskDto taskDto = new TaskDto(task);
-        return Optional.of(taskDto);
+        return Optional.of(task);
     }
 
     public boolean delete(Long taskId) {
@@ -53,5 +52,9 @@ public class TaskService {
 
         taskRepository.deleteById(findTask.getId());
         return true;
+    }
+
+    public void replaceTask(Task task, TaskSaveDto taskSaveDto) {
+        task.setTitle(taskSaveDto.getTitle());
     }
 }

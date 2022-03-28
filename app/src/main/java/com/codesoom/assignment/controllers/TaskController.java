@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.dto.TaskSaveDto;
 import com.codesoom.assignment.service.TaskService;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,17 +30,49 @@ public class TaskController {
 
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDto> view(@PathVariable Long taskId) {
-        Optional<TaskDto> taskDto = taskService.getTask(taskId);
-        if (taskDto.isEmpty()) {
+        Optional<Task> task = taskService.getTask(taskId);
+        if (task.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(taskDto.get());
+        TaskDto taskDto = new TaskDto(task.get());
+
+        return ResponseEntity.ok().body(taskDto);
     }
 
     @PostMapping
     public ResponseEntity<TaskDto> save(@RequestBody TaskSaveDto taskSaveDto) {
         TaskDto taskDto = taskService.save(taskSaveDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
+    }
+
+    @PutMapping("/{taskId}")
+    public ResponseEntity<TaskDto> replace(@PathVariable Long taskId, @RequestBody TaskSaveDto taskSaveDto) {
+
+        Optional<Task> findTask = taskService.getTask(taskId);
+        if (findTask.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Task task = findTask.get();
+        taskService.replaceTask(task, taskSaveDto);
+
+        TaskDto taskDto = new TaskDto(task);
+        return ResponseEntity.ok().body(taskDto);
+    }
+
+    @PatchMapping("/{taskId}")
+    public ResponseEntity<TaskDto> modify(@PathVariable Long taskId, @RequestBody TaskSaveDto taskSaveDto) {
+
+        Optional<Task> findTask = taskService.getTask(taskId);
+        if (findTask.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Task task = findTask.get();
+        taskService.replaceTask(task, taskSaveDto);
+
+        TaskDto taskDto = new TaskDto(task);
+        return ResponseEntity.ok().body(taskDto);
     }
 
     @DeleteMapping("/{taskId}")

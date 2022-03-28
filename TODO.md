@@ -1,7 +1,7 @@
 ### ToDo REST API
 - [X] Todo 목록
 - [X] Todo 등록
-- [ ] Todo 제목 수정
+- [X] Todo 제목 수정
 - [X] Todo 조회하기
 - [X] Todo 삭제
 
