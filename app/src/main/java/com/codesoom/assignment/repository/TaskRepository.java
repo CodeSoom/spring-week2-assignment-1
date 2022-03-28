@@ -28,7 +28,11 @@ public class TaskRepository {
         return sequenceId;
     }
 
-    public Task findById(Long id) {
+    public Task findById(final Long id) {
         return tasks.get(id);
+    }
+
+    public void deleteById(final Long id) {
+        tasks.remove(id);
     }
 }

@@ -34,12 +34,24 @@ public class TaskService {
         return new TaskDto(task);
     }
 
-    public Optional<TaskDto> getTask(final Long id) {
-        Task task = taskRepository.findById(id);
+    public Optional<TaskDto> getTask(final Long taskId) {
+        Task task = taskRepository.findById(taskId);
         if (task == null) {
             return Optional.empty();
         }
         TaskDto taskDto = new TaskDto(task);
         return Optional.of(taskDto);
+    }
+
+    public boolean delete(Long taskId) {
+
+        Task findTask = taskRepository.findById(taskId);
+
+        if(findTask == null) {
+            return false;
+        }
+
+        taskRepository.deleteById(findTask.getId());
+        return true;
     }
 }

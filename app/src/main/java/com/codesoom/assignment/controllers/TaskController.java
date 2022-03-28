@@ -29,7 +29,7 @@ public class TaskController {
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDto> view(@PathVariable Long taskId) {
         Optional<TaskDto> taskDto = taskService.getTask(taskId);
-        if(taskDto.isEmpty()) {
+        if (taskDto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(taskDto.get());
@@ -39,5 +39,16 @@ public class TaskController {
     public ResponseEntity<TaskDto> save(@RequestBody TaskSaveDto taskSaveDto) {
         TaskDto taskDto = taskService.save(taskSaveDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
+    }
+
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Object> delete(@PathVariable Long taskId) {
+
+        boolean isDeleted = taskService.delete(taskId);
+
+        if (!isDeleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }
