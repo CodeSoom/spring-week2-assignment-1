@@ -12,7 +12,7 @@ public class TaskRepository {
     private long sequenceId = 0;
 
     private final Map<Long, Task> tasks = new HashMap<>();
-    
+
     public void save(final Task task) {
         Long taskId = generateId();
         task.setId(taskId);
@@ -20,8 +20,10 @@ public class TaskRepository {
     }
 
     private Long generateId() {
-        sequenceId = sequenceId + 1;
-        return sequenceId;
+        synchronized (this) {
+            sequenceId = sequenceId + 1;
+            return sequenceId;
+        }
     }
 
     public Map<Long, Task> findAll() {
