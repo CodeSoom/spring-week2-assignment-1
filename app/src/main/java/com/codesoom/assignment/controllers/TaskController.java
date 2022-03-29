@@ -1,10 +1,10 @@
 package com.codesoom.assignment.controllers;
 
-// TODO: GET /tasks - 모든 Task 조회
+// DONE: GET /tasks - 모든 Task 조회
 // DONE: GET /tasks/{id} - 1개의 Task 조회
 // DONE: POST /tasks - Task 1개 추가
-// TODO: PUT/PATCH /tasks/{id} - Task 수정
-// TODO: DELETE /tasks/{id} - 할 일 삭제
+// DONE: PUT/PATCH /tasks/{id} - Task 수정
+// DONE: DELETE /tasks/{id} - 할 일 삭제
 
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.dtos.TaskDto;
