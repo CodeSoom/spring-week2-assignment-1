@@ -22,7 +22,7 @@ public class TaskStorage {
     }
 
     /**
-     * 오름차순으로 증가하는 Id를 만듭니다.
+     * 새로운 Id를 생성하여 반환합니다.
      * @return newId
      */
     private Long generateId() {
