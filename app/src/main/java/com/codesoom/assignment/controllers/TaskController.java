@@ -3,7 +3,6 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.domains.TaskDto;
 import com.codesoom.assignment.services.TaskService;
-import com.codesoom.assignment.services.TaskServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -41,7 +40,6 @@ public class TaskController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
     public Task addTask(@RequestBody TaskDto taskDto) {
-        log.info("taskDto: {}", taskDto.toString());
         return service.addTask(taskDto);
     }
 

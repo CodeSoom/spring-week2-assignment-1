@@ -5,6 +5,7 @@ import com.codesoom.assignment.domains.TaskDto;
 
 import java.util.List;
 
+
 public interface TaskService {
 
     List<Task> getTasks();
