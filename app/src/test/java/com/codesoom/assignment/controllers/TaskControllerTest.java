@@ -21,8 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // DONE: GET /tasks - 모든 Task 조회
 // DONE: GET /tasks/{id} - 1개의 Task 조회
 // DONE: POST /tasks - Task 1개 추가
-// TODO: PUT/PATCH /tasks/{id} - Task 수정
-// TODO: DELETE /tasks/{id} - 할 일 삭제
+// DONE: PUT/PATCH /tasks/{id} - Task 수정
+// DONE: DELETE /tasks/{id} - 할 일 삭제
 
 @SpringBootTest
 @AutoConfigureUtf8MockMvc
@@ -57,7 +57,6 @@ class TaskControllerTest {
     @Test
     @DisplayName("GET /tasks, 모든 Task 조회 확인")
     public void getTasks() throws Exception {
-        // task 2개를 추가
         addTask("할 일1");
         addTask("할 일2");
 
@@ -72,7 +71,6 @@ class TaskControllerTest {
     @Test
     @DisplayName("GET /tasks/{id}, 단건 Task 조회 확인")
     public void getTask() throws Exception {
-        // task 2개를 추가
         addTask("할 일1");
         Task task2 = addTask("할 일2");
 
@@ -87,7 +85,6 @@ class TaskControllerTest {
     @Test
     @DisplayName("PUT /tasks/{id}, Task 수정 확인")
     public void putTask() throws Exception {
-        // task 2개를 추가
         addTask("할 일1");
         Task task2 = addTask("할 일2");
 
@@ -108,7 +105,6 @@ class TaskControllerTest {
     @Test
     @DisplayName("PATCH /tasks/{id}, Task 수정 확인")
     public void patchTask() throws Exception {
-        // task 2개를 추가
         addTask("할 일1");
         Task task2 = addTask("할 일2");
 
@@ -129,7 +125,6 @@ class TaskControllerTest {
     @Test
     @DisplayName("DELETE /tasks/{id}, Task 삭제 확인")
     public void deleteTask() throws Exception {
-        // task 2개를 추가
         addTask("할 일1");
         addTask("할 일2");
 
