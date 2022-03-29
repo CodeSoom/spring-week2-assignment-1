@@ -33,6 +33,11 @@ public class TaskRepository {
         throw new TaskNotFoundException("Task 를 찾을 수 없습니다.");
     }
 
+    public void removeAll() {
+        taskMap.clear();
+        sequence = 0L;
+    }
+
     public List<Task> findAll() {
         return new ArrayList<>(taskMap.values());
     }
