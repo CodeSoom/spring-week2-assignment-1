@@ -1,29 +1,18 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.App;
+import com.codesoom.assignment.annotations.AutoConfigureUtf8MockMvc;
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.dtos.TaskDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.junit.jupiter.api.*;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 // TODO: GET /tasks - 모든 Task 조회
 // TODO: GET /tasks/{id} - 1개의 Task 조회
@@ -31,69 +20,29 @@ import static org.junit.jupiter.api.Assertions.*;
 // TODO: PUT/PATCH /tasks/{id} - Task 수정
 // TODO: DELETE /tasks/{id} - 할 일 삭제
 
+@SpringBootTest
+@AutoConfigureUtf8MockMvc
 class TaskControllerTest {
+    @Autowired private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final String LOCAL_HOST_TASKS = "http://localhost:8080/tasks";
-
-    @BeforeAll
-    public static void turnOnServer() {
-         App.main(new String[]{});
-    }
+    private final String TASKS = "/tasks";
 
     @Test
-    @DisplayName("Task 를 추가하면, 상태코드 CREATED(201)과 추가한 Task 의 JSON 문자열을 반환한다.")
-    @Order(1)
-    public void testAddTask() throws IOException {
-        TaskDto taskDto = new TaskDto("할 일");
-        String taskDtoJson = objectMapper.writeValueAsString(taskDto);
-        String taskJson = objectMapper.writeValueAsString(new Task(1L, "할 일"));
+    @DisplayName("POST /tasks, Task 생성 확인")
+    public void postTasks() throws Exception {
+        TaskDto input = new TaskDto("할 일");
+        Task output = new Task(1L, "할 일");
 
-        testResponse(buildHttpUriRequest(HttpMethod.POST, LOCAL_HOST_TASKS, taskDtoJson), HttpStatus.CREATED, taskJson);
+        String inputJson = objectMapper.writeValueAsString(input);
+        String outputJson = objectMapper.writeValueAsString(output);
+
+        mockMvc.perform(
+                post(TASKS)
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isCreated())
+                .andExpect(content().string(outputJson));
     }
 
-    @Test
-    @DisplayName("id 를 이용해 Task 를 조회했을 때, 해당 id 의 Task 가 존재한다면, 상태 코드 SUCCESS(200)과 Task 의 JSON 문자열을 반환한다.")
-    @Order(2)
-    public void testFindTask() throws IOException {
-        Task addedTask = new Task(1L, "할 일");
-        String addedTaskJson = objectMapper.writeValueAsString(addedTask);
 
-        testResponse(buildHttpUriRequest(HttpMethod.GET, LOCAL_HOST_TASKS + "/1", ""), HttpStatus.OK, addedTaskJson);
-    }
-
-    private HttpUriRequest buildHttpUriRequest(HttpMethod method, String url, String body) {
-        HttpUriRequest httpUriRequest;
-
-        switch (method) {
-            case POST:
-                HttpPost postRequest = new HttpPost(url);
-                StringEntity requestEntity = new StringEntity(body, ContentType.APPLICATION_JSON);
-                postRequest.setEntity(requestEntity);
-
-                httpUriRequest = postRequest;
-                break;
-            default:
-                httpUriRequest = new HttpGet(url);
-        }
-
-        return httpUriRequest;
-    }
-
-    private void testResponse(HttpUriRequest request, HttpStatus expectedStatusCode, String expectedBody) throws IOException {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        CloseableHttpResponse response = httpClient.execute(request);
-        InputStream content = response.getEntity().getContent();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(content));
-
-        String body = bufferedReader.lines().collect(Collectors.joining("\n"));
-        int statusCode = response.getStatusLine().getStatusCode();
-
-        System.out.println("----------HTTP RESPONSE-----------");
-        System.out.println("statusCode = " + statusCode);
-        System.out.println("body = " + body);
-        System.out.println("----------------------------------");
-
-        Assertions.assertEquals(expectedStatusCode.value(), statusCode);
-        Assertions.assertEquals(expectedBody, body);
-    }
 }

@@ -5,6 +5,8 @@ import com.codesoom.assignment.dtos.TaskDto;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,5 +31,9 @@ public class TaskRepository {
         }
 
         throw new TaskNotFoundException("Task 를 찾을 수 없습니다.");
+    }
+
+    public List<Task> findAll() {
+        return new ArrayList<>(taskMap.values());
     }
 }

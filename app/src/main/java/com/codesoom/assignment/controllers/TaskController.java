@@ -12,6 +12,8 @@ import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -30,5 +32,10 @@ public class TaskController {
     @GetMapping("/{id}")
     public Task findTask(@PathVariable long id) {
         return taskRepository.find(id);
+    }
+
+    @GetMapping("")
+    public List<Task> findAllTasks() {
+        return taskRepository.findAll();
     }
 }
