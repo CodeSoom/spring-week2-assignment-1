@@ -40,6 +40,10 @@ public class TaskController {
 
     @PostMapping("/tasks")
     public BaseResponse<Task> addTask(@RequestBody Task newTask) {
+        if (!newTask.hasValidContent()) {
+            return new BaseResponse<>(HttpStatus.BAD_REQUEST);
+        }
+
         return taskService.addTask(newTask);
     }
 
