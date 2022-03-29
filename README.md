@@ -32,10 +32,17 @@
 - [ ] java proejct -> spring project 로 변경
 - [x] 전체 구조 설계
 - [x] CRUD API 제작
-- [ ] marko.js 통해서 front 작업
+- [ ] refactoring
+- [x] ~~marko.js 통해서 front 작업~~ -> 이미 작업된 상태로 시작
 
-## 추가 작업 목록 (from feedback)
+## 과제 1에서 완료하지 못한 작업 목록
+- [x] 테스트 매소드 한글이름 쓰지 않고 `@DisplayName` 사용하기
+- [ ] 테스트 여러가지 케이스 추가하기
+- [ ] POST, PUT, PATCH 시에 Task 가 Null 일 경우 방어하기
+- [ ] Task 를 저장하는 자료구조가 List 적절한지 고민해보기 (다른 자료구조를 쓴다면 어떤 점이 좋을까)
 
+## 과제 2에서 피드백을 통해 새롭게 추가된 작업 목록
+- [ ] PUT 과 PATCH 두 매서드를 한 함수에 매핑할 수 있는지 고민해보기
 
 ## API 실행하기
 
