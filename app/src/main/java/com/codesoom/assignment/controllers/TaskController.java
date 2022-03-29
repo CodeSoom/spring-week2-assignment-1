@@ -7,34 +7,51 @@
 
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.common.ErrorCodes;
+import com.codesoom.assignment.common.RestResponse;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.service.TodoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
 
-    private List<Task> tasks = new ArrayList<>();
+    private TodoService todoService = new TodoService();
 
     // 스프링이 내부에서 jackson을 사용해서 json으로 보내줌
     @GetMapping
-    public List<Task> list() {
-        return tasks;
+    public ResponseEntity<List<Task>> list() {
+
+        List<Task> tasks = todoService.findAllTasks();
+        return ResponseEntity.status(HttpStatus.OK).body(tasks);
     }
 
     @GetMapping("/{id}")
-    public void getTaskById(@PathVariable Long id) {
-        System.out.println(id);
+    public ResponseEntity<RestResponse<Task>> getTaskById(@PathVariable Long id) {
+
+        RestResponse response = new RestResponse();
+        Optional<Task> findTask = todoService.findTaskById(id);
+
+        if (findTask.isPresent()) {
+            response.setSuccess(HttpStatus.OK, findTask.get());
+        } else {
+            response.setFailed(ErrorCodes.NOT_FOUND);
+        }
+
+        return ResponseEntity.status(response.getCode()).body(response);
     }
 
     @PostMapping
     public Task createTask(@RequestBody Task task) {
-        task.setId(1L);
-        tasks.add(task);
+        todoService.saveTask(task);
         return task;
     }
 
