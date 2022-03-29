@@ -8,8 +8,9 @@ package com.codesoom.assignment.controllers;
 // 5. DELETE - DELETE /tasks/{id}
 
 import com.codesoom.assignment.application.TaskService;
-import com.codesoom.assignment.dto.TaskDTO;
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +27,9 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private TaskService taskService;
+    private final TaskService taskService;
 
-    private TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -43,18 +44,18 @@ public class TaskController {
     }
 
     @PostMapping(path = "")
-    private Task create(@RequestBody TaskDTO taskDTO) {
-        return this.taskService.createNewTask(taskDTO);
+    private Task create(@RequestBody TaskDto taskDto) {
+        return this.taskService.createNewTask(taskDto);
     }
 
     @PatchMapping(path = "/{id}")
-    private Task modify(@PathVariable("id") Long id, @RequestBody TaskDTO taskDTO) {
-        taskDTO.setId(id);
-        return this.taskService.modifyTaskById(taskDTO);
+    private Task modify(@PathVariable("id") Long id, @RequestBody TaskDto taskDto) {
+        taskDto.setId(id);
+        return this.taskService.modifyTaskById(taskDto);
     }
 
     @DeleteMapping(path = "/{id}")
-    private Task remove(@PathVariable("id") Long id) {
-        return this.taskService.deleteTaskById(id);
+    private void remove(@PathVariable("id") Long id) {
+        this.taskService.deleteTaskById(id);
     }
 }
