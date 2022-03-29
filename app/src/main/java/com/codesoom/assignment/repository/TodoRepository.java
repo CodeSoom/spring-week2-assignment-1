@@ -30,4 +30,14 @@ public class TodoRepository {
                 .findFirst();
     }
 
+    public Task save(Task task) {
+        if(task.getId() == null) task.setId(getNewId());
+        tasks.add(task);
+        return task;
+    }
+
+    public void deleteTask(Task task) {
+        tasks.remove(task);
+    }
+
 }
