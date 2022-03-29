@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class InMemoryTaskRepositoryImpl implements TaskRepository {
 
-    private static Long maxId = 0L;
+    private static AtomicLong maxId = new AtomicLong();
     private static Map<Long, Task> tasks = new ConcurrentHashMap<>();
 
     /**
@@ -21,8 +22,7 @@ public class InMemoryTaskRepositoryImpl implements TaskRepository {
      */
     @Override
     public synchronized Long generateId() {
-        maxId++;
-        return maxId;
+        return maxId.incrementAndGet();
     }
 
     @Override
