@@ -40,9 +40,9 @@ public class TaskController {
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
-    public void addTask(@RequestBody TaskDto taskDto) {
+    public Task addTask(@RequestBody TaskDto taskDto) {
         log.info("taskDto: {}", taskDto.toString());
-        service.addTask(taskDto);
+        return service.addTask(taskDto);
     }
 
     @GetMapping("/{id}")
@@ -51,13 +51,15 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public void updateTask(@PathVariable(name = "id") Long id,
+    public Task updateTask(@PathVariable(name = "id") Long id,
                            @RequestBody TaskDto taskDto) {
-        service.updateTaskById(id, taskDto);
+        return service.updateTaskById(id, taskDto);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable(name = "id") Long id) {
         service.deleteTaskById(id);
     }
+
 }

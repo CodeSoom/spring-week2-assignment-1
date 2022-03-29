@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -56,7 +57,7 @@ public class TaskServiceImpl implements TaskService {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> {throw new IllegalArgumentException("요청하신 id와 일치하는 값이 없습니다.");});
+                .orElseThrow(() -> new NoSuchElementException("요청하신 id와 일치하는 값이 없습니다."));
     }
 
     /**
@@ -74,4 +75,5 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTaskById(Long id) {
         tasks.remove(findTaskById(id));
     }
+
 }
