@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.domains.TaskDto;
 import com.codesoom.assignment.services.TaskService;
+import com.codesoom.assignment.services.TaskServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,8 +29,8 @@ public class TaskController {
 
     private final TaskService service;
 
-    public TaskController() {
-        this.service = new TaskService();
+    public TaskController(TaskService taskService) {
+        this.service = taskService;
     }
 
     @GetMapping
