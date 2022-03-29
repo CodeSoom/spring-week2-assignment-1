@@ -1,12 +1,16 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domains.Task;
+import com.codesoom.assignment.networks.BaseResponse;
 import com.codesoom.assignment.services.TaskService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,32 +25,61 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public List<Task> readTasks() {
+    public BaseResponse<List<Task>> readTasks() {
         return taskService.readTasks();
     }
 
     @GetMapping("/tasks/{taskId}")
-    public Task readTask() {
-        return taskService.readTask();
+    public BaseResponse<Task> readTask(@PathVariable Long taskId) {
+        if (isInValidTaskId(taskId)) {
+            return new BaseResponse<>(HttpStatus.NOT_FOUND);
+        }
+
+        return taskService.readTask(taskId);
     }
 
     @PostMapping("/tasks")
-    public Task addTask() {
-        return taskService.addTask();
+    public BaseResponse<Task> addTask(@RequestBody Task newTask) {
+        return taskService.addTask(newTask);
     }
 
-    @PutMapping("/tasks/{id}")
-    public Task editTask() {
-        return taskService.editTask();
+    @PutMapping("/tasks/{taskId}")
+    public BaseResponse<Task> editTask(@PathVariable Long taskId, @RequestBody Task task) {
+        if (isInValidTaskId(taskId)) {
+            return new BaseResponse<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (!task.hasValidContent()) {
+            return new BaseResponse<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return taskService.editTask(taskId, task);
     }
 
-    @PatchMapping("/tasks/{id}")
-    public Task editTaskElement() {
-        return taskService.editTask();
+    @PatchMapping("/tasks/{taskId}")
+    public BaseResponse<Task> editTaskElement(@PathVariable Long taskId, @RequestBody Task task) {
+        if (isInValidTaskId(taskId)) {
+            return new BaseResponse<>(HttpStatus.NOT_FOUND);
+        }
+
+        if (!task.hasValidContent()) {
+            return new BaseResponse<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return taskService.editTask(taskId, task);
     }
 
-    @DeleteMapping("/tasks/{id}")
-    public Task deleteTask() {
-        return taskService.deleteTask();
+    @DeleteMapping("/tasks/{taskId}")
+    public BaseResponse deleteTask(@PathVariable Long taskId) {
+        if (isInValidTaskId(taskId)) {
+            return new BaseResponse<>(HttpStatus.NOT_FOUND);
+        }
+
+        return taskService.deleteTask(taskId);
     }
+
+    private boolean isInValidTaskId(Long taskId) {
+        return taskId <= 0;
+    }
+
 }
