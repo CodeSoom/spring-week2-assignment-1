@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class TaskRepository {
-    private Map<Long, Task> taskMap = new ConcurrentHashMap<>();
+    private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
     private long sequence = 0L;
 
     public long incrementSequence() {
