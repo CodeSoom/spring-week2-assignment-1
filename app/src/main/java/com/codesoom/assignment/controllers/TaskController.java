@@ -38,4 +38,12 @@ public class TaskController {
     public List<Task> findAllTasks() {
         return taskRepository.findAll();
     }
+
+    @PutMapping("/{id}")
+    public Task updateTask(@PathVariable long id, @RequestBody TaskDto taskDto) { return taskRepository.update(id, taskDto.getTitle()); }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable long id) {
+        taskRepository.remove(id);
+    }
 }

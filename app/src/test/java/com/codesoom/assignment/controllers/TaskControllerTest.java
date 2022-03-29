@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -82,6 +82,62 @@ class TaskControllerTest {
                         get(TASKS +"/2"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(outputJson));
+    }
+
+    @Test
+    @DisplayName("PUT /tasks/{id}, Task 수정 확인")
+    public void putTask() throws Exception {
+        // task 2개를 추가
+        addTask("할 일1");
+        Task task2 = addTask("할 일2");
+
+        TaskDto taskDto = new TaskDto("할 일3");
+        String inputJson = objectMapper.writeValueAsString(taskDto);
+
+        Task task3 = new Task(task2.getId(), taskDto.getTitle());
+        String outputJson = objectMapper.writeValueAsString(task3);
+
+        mockMvc.perform(
+                        put(TASKS +"/2")
+                                .content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(outputJson));
+    }
+
+    @Test
+    @DisplayName("PATCH /tasks/{id}, Task 수정 확인")
+    public void patchTask() throws Exception {
+        // task 2개를 추가
+        addTask("할 일1");
+        Task task2 = addTask("할 일2");
+
+        TaskDto taskDto = new TaskDto("할 일3");
+        String inputJson = objectMapper.writeValueAsString(taskDto);
+
+        Task task3 = new Task(task2.getId(), taskDto.getTitle());
+        String outputJson = objectMapper.writeValueAsString(task3);
+
+        mockMvc.perform(
+                        put(TASKS +"/2")
+                                .content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(outputJson));
+    }
+
+    @Test
+    @DisplayName("DELETE /tasks/{id}, Task 삭제 확인")
+    public void deleteTask() throws Exception {
+        // task 2개를 추가
+        addTask("할 일1");
+        addTask("할 일2");
+
+        mockMvc.perform(
+                        delete(TASKS +"/2"))
+                .andExpect(status().isOk());
+
+        assertEquals(taskRepository.count(), 1);
     }
 
     private Task addTask(String title) {
