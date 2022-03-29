@@ -26,11 +26,30 @@ public class TaskController {
         return tasks;
     }
 
+    @GetMapping("/{id}")
+    public void getTaskById(@PathVariable Long id) {
+        System.out.println(id);
+    }
+
     @PostMapping
-    public Task create(@RequestBody Task task) {
+    public Task createTask(@RequestBody Task task) {
         task.setId(1L);
         tasks.add(task);
-
         return task;
+    }
+
+    @PutMapping("/{id}")
+    public void updateTaskAll(@PathVariable Long id) {
+        System.out.println(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void updateTask(@PathVariable Long id) {
+        System.out.println(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable Long id) {
+        System.out.println(id);
     }
 }
