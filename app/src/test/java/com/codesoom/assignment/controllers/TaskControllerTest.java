@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.App;
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.dtos.TaskDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,10 +13,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
@@ -44,12 +42,23 @@ class TaskControllerTest {
 
     @Test
     @DisplayName("Task 를 추가하면, 상태코드 CREATED(201)과 추가한 Task 의 JSON 문자열을 반환한다.")
+    @Order(1)
     public void testAddTask() throws IOException {
         TaskDto taskDto = new TaskDto("할 일");
         String taskDtoJson = objectMapper.writeValueAsString(taskDto);
         String taskJson = objectMapper.writeValueAsString(new Task(1L, "할 일"));
 
         testResponse(buildHttpUriRequest(HttpMethod.POST, LOCAL_HOST_TASKS, taskDtoJson), HttpStatus.CREATED, taskJson);
+    }
+
+    @Test
+    @DisplayName("id 를 이용해 Task 를 조회했을 때, 해당 id 의 Task 가 존재한다면, 상태 코드 SUCCESS(200)과 Task 의 JSON 문자열을 반환한다.")
+    @Order(2)
+    public void testFindTask() throws IOException {
+        Task addedTask = new Task(1L, "할 일");
+        String addedTaskJson = objectMapper.writeValueAsString(addedTask);
+
+        testResponse(buildHttpUriRequest(HttpMethod.GET, LOCAL_HOST_TASKS + "/1", ""), HttpStatus.OK, addedTaskJson);
     }
 
     private HttpUriRequest buildHttpUriRequest(HttpMethod method, String url, String body) {

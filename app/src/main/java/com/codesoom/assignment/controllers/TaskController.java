@@ -26,4 +26,9 @@ public class TaskController {
     public Task saveTask(@RequestBody TaskDto taskDto) {
         return taskRepository.save(taskDto);
     }
+
+    @GetMapping("/{id}")
+    public Task findTask(@PathVariable long id) {
+        return taskRepository.find(id);
+    }
 }
