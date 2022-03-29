@@ -36,6 +36,12 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // API 를 호출할 때 간단히 사용할 수 있는 Http Client 라이브러리
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+
+    // 스프링 부트 개발 도구
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 application {
