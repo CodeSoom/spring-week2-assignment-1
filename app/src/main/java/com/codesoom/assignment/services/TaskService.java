@@ -2,6 +2,7 @@ package com.codesoom.assignment.services;
 
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.domains.TaskList;
+import com.codesoom.assignment.enums.ExceptionMessages;
 import com.codesoom.assignment.networks.BaseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,13 +23,11 @@ public class TaskService {
     }
 
     public BaseResponse<Task> readTask(Long taskId) {
-        Task selectedTask = taskList.getTask(taskId);
+        Task selected = taskList.getTask(taskId);
 
-        if (selectedTask == null) {
-            return new BaseResponse<>(HttpStatus.NOT_FOUND);
-        }
+        throwErrorIfTaskIsNull(selected);
 
-        return new BaseResponse<>(HttpStatus.OK, selectedTask);
+        return new BaseResponse<>(HttpStatus.OK, selected);
     }
 
 
@@ -40,9 +39,7 @@ public class TaskService {
     public BaseResponse<Task> editTask(Long taskId, Task task) {
         Task selected = taskList.getTask(taskId);
 
-        if (selected == null) {
-            return new BaseResponse<>(HttpStatus.NOT_FOUND);
-        }
+        throwErrorIfTaskIsNull(selected);
 
         return new BaseResponse<>(HttpStatus.OK, selected.editTaskTitle(task.getTitle()));
     }
@@ -50,13 +47,17 @@ public class TaskService {
     public BaseResponse deleteTask(Long taskId) {
         Task selected = taskList.getTask(taskId);
 
-        if (selected == null) {
-            return new BaseResponse<>(HttpStatus.NOT_FOUND);
-        }
+        throwErrorIfTaskIsNull(selected);
 
         taskList.deleteTask(taskId);
 
         return new BaseResponse<>(HttpStatus.NO_CONTENT);
+    }
+
+    public void throwErrorIfTaskIsNull(Task task) {
+        if (task == null) {
+            throw new RuntimeException(ExceptionMessages.TASK_NOT_FOUND.getMessage());
+        }
     }
 
 }

@@ -1,9 +1,9 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domains.Task;
+import com.codesoom.assignment.enums.ExceptionMessages;
 import com.codesoom.assignment.networks.BaseResponse;
 import com.codesoom.assignment.services.TaskService;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +32,7 @@ public class TaskController {
     @GetMapping("/tasks/{taskId}")
     public BaseResponse<Task> readTask(@PathVariable Long taskId) {
         if (isInValidTaskId(taskId)) {
-            return new BaseResponse<>(HttpStatus.NOT_FOUND);
+            throw new RuntimeException(ExceptionMessages.INVALID_TASK_ID.getMessage());
         }
 
         return taskService.readTask(taskId);
@@ -40,8 +40,12 @@ public class TaskController {
 
     @PostMapping("/tasks")
     public BaseResponse<Task> addTask(@RequestBody Task newTask) {
+        if (newTask == null) {
+            throw new RuntimeException(ExceptionMessages.REQUEST_TASK_NOT_FOUND.getMessage());
+        }
+
         if (!newTask.hasValidContent()) {
-            return new BaseResponse<>(HttpStatus.BAD_REQUEST);
+            throw new RuntimeException(ExceptionMessages.INVALID_TASK_CONTENT.getMessage());
         }
 
         return taskService.addTask(newTask);
@@ -50,11 +54,15 @@ public class TaskController {
     @RequestMapping(value = "/tasks/{taskId}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public BaseResponse<Task> editTask(@PathVariable Long taskId, @RequestBody Task task) {
         if (isInValidTaskId(taskId)) {
-            return new BaseResponse<>(HttpStatus.NOT_FOUND);
+            throw new RuntimeException(ExceptionMessages.INVALID_TASK_ID.getMessage());
+        }
+
+        if (task == null) {
+            throw new RuntimeException(ExceptionMessages.REQUEST_TASK_NOT_FOUND.getMessage());
         }
 
         if (!task.hasValidContent()) {
-            return new BaseResponse<>(HttpStatus.BAD_REQUEST);
+            throw new RuntimeException(ExceptionMessages.INVALID_TASK_CONTENT.getMessage());
         }
 
         return taskService.editTask(taskId, task);
@@ -63,7 +71,7 @@ public class TaskController {
     @DeleteMapping("/tasks/{taskId}")
     public BaseResponse deleteTask(@PathVariable Long taskId) {
         if (isInValidTaskId(taskId)) {
-            return new BaseResponse<>(HttpStatus.NOT_FOUND);
+            throw new RuntimeException(ExceptionMessages.INVALID_TASK_ID.getMessage());
         }
 
         return taskService.deleteTask(taskId);
