@@ -1,7 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.models.TaskStorage;
+import com.codesoom.assignment.models.TaskBookKeeper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,30 +20,30 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 @RequestMapping("/tasks")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 1800)
 public class TaskController {
-    private final TaskStorage taskStorage = new TaskStorage();
+    private final TaskBookKeeper taskBookKeeper = new TaskBookKeeper();
 
     @GetMapping
     public List<Task> list() {
-        return taskStorage.list();
+        return taskBookKeeper.list();
     }
 
     @GetMapping("/{id}")
     public Task read(@PathVariable Long id) {
-        return taskStorage.read(id);
+        return taskBookKeeper.read(id);
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-        return taskStorage.create(task);
+        return taskBookKeeper.create(task);
     }
 
     @RequestMapping(value = "/{id}", method = { PUT, PATCH })
     public Task update(@PathVariable Long id, @RequestBody Task task) {
-        return taskStorage.update(id, task.getTitle());
+        return taskBookKeeper.update(id, task.getTitle());
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        taskStorage.delete(id);
+        taskBookKeeper.delete(id);
     }
 }
