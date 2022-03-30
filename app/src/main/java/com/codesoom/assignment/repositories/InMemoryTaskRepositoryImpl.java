@@ -21,7 +21,7 @@ public class InMemoryTaskRepositoryImpl implements TaskRepository {
      * 증가된 id를 반환합니다.
      */
     @Override
-    public synchronized Long generateId() {
+    public Long generateId() {
         return maxId.incrementAndGet();
     }
 
