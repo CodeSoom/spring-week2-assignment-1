@@ -7,15 +7,24 @@
 
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.common.ErrorCodes;
+import com.codesoom.assignment.common.StatusCodes;
 import com.codesoom.assignment.common.RestResponse;
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.service.TodoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +35,6 @@ public class TaskController {
 
     private TodoService todoService = new TodoService();
 
-    // 스프링이 내부에서 jackson을 사용해서 json으로 보내줌
     @GetMapping
     public ResponseEntity<List<Task>> list() {
 
