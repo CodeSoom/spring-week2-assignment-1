@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+// TODO - TaskController에 대한 Javadoc 작성
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/tasks")
 @RestController
@@ -33,7 +34,7 @@ public class TaskController {
     }
 
     /**
-     * 모든 Task 를 조회합니다.
+     * 모든 {@link Task} 를 조회합니다.
      */
     @GetMapping
     public ResponseEntity<List<TaskViewDto>> list() {
@@ -42,7 +43,7 @@ public class TaskController {
     }
 
     /**
-     * 새로운 Task를 생성합니다.
+     * 새로운 {@link Task}를 생성합니다.
      * @param taskSaveDto 생성에 필요한 데이터
      * @see TaskSaveDto
      */
@@ -53,9 +54,8 @@ public class TaskController {
     }
 
     /**
-     * Task를 조회합니다.
-     * @param taskId Task 아이디
-     * @see TaskViewDto
+     * {@link Task}를 조회합니다.
+     * @param taskId {@link Task#id}
      */
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskViewDto> view(@PathVariable Long taskId) {
@@ -70,8 +70,8 @@ public class TaskController {
     }
 
     /**
-     * 새로운 Task로 대체 합니다.
-     * @param taskId Task 아이디
+     * 새로운 {@link Task}로 대체 합니다.
+     * @param taskId {@link Task#id}
      * @param taskEditDto 대체에 필요한 데이터
      * @see TaskEditDto
      */
@@ -91,8 +91,8 @@ public class TaskController {
     }
 
     /**
-     * Task 일부를 수정 합니다.
-     * @param taskId Task 아이디
+     * {@link Task}의 일부를 수정 합니다.
+     * @param taskId {@link Task#id}
      * @param taskEditDto 수정할 데이터
      * @see TaskEditDto
      */
@@ -112,8 +112,8 @@ public class TaskController {
     }
 
     /**
-     * Task 삭제합니다.
-     * @param taskId Task 아이디
+     * {@link Task} 삭제합니다.
+     * @param taskId {@link Task#id}
      */
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Object> delete(@PathVariable Long taskId) {
