@@ -11,6 +11,13 @@ public class TaskStorage {
         return tasks;
     }
 
+    public Task read(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
+    }
+
     public Task create(Task task) {
         if (task.getTitle().isBlank()) {
             // TODO error...
