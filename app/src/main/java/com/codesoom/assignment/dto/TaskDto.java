@@ -7,30 +7,27 @@ import com.codesoom.assignment.domain.Task;
  */
 public class TaskDto {
 
-    private Long id;
+    private final Task task;
 
-    private String title;
-
-    private TaskDto() {
+    private TaskDto(Task task) {
+        this.task = task;
     }
 
     /**
      * Task 객체를 인자로 받아 TaskDto 를 리턴합니다.
+     *
      * @param task Task 객체
      * @return TaskDto 객체
      */
     public static TaskDto from(final Task task) {
-        TaskDto taskDto = new TaskDto();
-        taskDto.id = task.getId();
-        taskDto.title = task.getTitle();
-        return taskDto;
+        return new TaskDto(task);
     }
 
     public Long getId() {
-        return id;
+        return this.task.getId();
     }
 
     public String getTitle() {
-        return title;
+        return this.task.getTitle();
     }
 }

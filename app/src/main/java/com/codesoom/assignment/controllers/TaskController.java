@@ -55,7 +55,7 @@ public class TaskController {
     /**
      * Task를 조회합니다.
      * @param taskId Task 아이디
-     * @see com.codesoom.assignment.dto.TaskDto
+     * @see TaskDto
      */
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDto> view(@PathVariable Long taskId) {
