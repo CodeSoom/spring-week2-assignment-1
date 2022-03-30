@@ -47,7 +47,7 @@ public class TaskBookKeeper {
 
     /**
      * 새로운 Id를 생성하여 반환합니다.
-     * @return newId
+     * @return 새로운 Id
      */
     private Long generateId() {
         newId += 1;
