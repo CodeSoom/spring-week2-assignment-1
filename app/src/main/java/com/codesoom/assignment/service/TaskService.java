@@ -81,7 +81,7 @@ public class TaskService {
      * @param task 변경 대상 Task
      * @param taskEditDto 수정할 Task 데이터
      */
-    public void modifyTask(final Task task, final TaskEditDto taskEditDto) {
+    public void updateTask(final Task task, final TaskEditDto taskEditDto) {
         if (StringUtils.hasText(taskEditDto.getTitle())) {
             task.setTitle(taskEditDto.getTitle());
         }

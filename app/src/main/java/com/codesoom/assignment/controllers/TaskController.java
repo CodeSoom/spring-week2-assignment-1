@@ -97,7 +97,7 @@ public class TaskController {
      * @see TaskEditDto
      */
     @PatchMapping("/{taskId}")
-    public ResponseEntity<TaskDto> modify(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
+    public ResponseEntity<TaskDto> update(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
 
         Optional<Task> findTask = taskService.getTask(taskId);
         if (findTask.isEmpty()) {
@@ -105,7 +105,7 @@ public class TaskController {
         }
 
         Task task = findTask.get();
-        taskService.modifyTask(task, taskEditDto);
+        taskService.updateTask(task, taskEditDto);
 
         TaskDto taskDto = TaskDto.from(task);
         return ResponseEntity.ok().body(taskDto);
