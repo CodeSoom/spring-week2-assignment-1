@@ -44,6 +44,22 @@
 
 ## 과제 2에서 피드백을 통해 새롭게 추가된 작업 목록
 - [x] PUT 과 PATCH 두 매서드를 한 함수에 매핑할 수 있는지 고민해보기
+- [ ] synchronized 키워드에 대해 조사하고 적용할 수 있는 부분에 적용해보기 : newTaskId
+- [ ] DTO 를 쓴다면 역할을 명확하게 설명하기
+- [ ] 서비스, 컨트롤러, 리포지토리처럼 중요한 역할을 하는 클래스에는 모두 JavaDoc 주석을 작성해보기
+- [ ] 나의 코드를 남에게 설명하기 -> comment 이용
+- [ ] build.gradle 에 의존성 추가될 때 주석 등을 통해 라이브러리의 용도와 출처 등을 명확히 표기한다.  
+- [ ] TaskService 인터페이스로 의존성 역전시키기
+
+## 공부 목록
+- [ ] 아샬님 올려주신 강의 듣고 정리하기
+  - [Static 대신 객체 사용하기 #1](https://www.youtube.com/watch?v=qRZL2NkXRdo)
+  - [Static 대신 객체 사용하기 #2](https://www.youtube.com/watch?v=nZw-1UNfDJQ)
+- [ ] [병성님의 javadoc 글 읽고 정리하기](https://resonant-packet-5dd.notion.site/JavaDoc-7b59f9eed97941c89db965cf907c47bb)
+- [ ] [세기님의 synchronized 글 읽고 정리하기](https://shineoov.notion.site/synchronized-Java-2ae334a82cb5425f98f60db45431ee5b)
+- [ ] [세기님의 spring-developers-tool 읽고 정리하기](https://shineoov.notion.site/Developer-tools-Spring-900c5e9cdec64562bb7a5ed5bd41f25d)
+- [ ] [synchronized method 로 taskId ++ 하는 방식과 AtomicLong 과의 차이점](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicLong.html)
+
 
 ## API 실행하기
 
