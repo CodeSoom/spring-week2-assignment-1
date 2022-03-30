@@ -31,7 +31,15 @@ public class TaskService {
         return this.taskRepository.create(taskDto.getTitle());
     }
 
-    public Task modifyTaskById(TaskDto taskDto) throws TaskNotFoundException {
+    public Task putTaskById(TaskDto taskDto) throws TaskNotFoundException {
+        Task task = this.taskRepository.findOneById(taskDto.getId())
+                .orElseThrow(() -> {
+                    throw new TaskNotFoundException(taskDto.getId(), "PUT");
+                });
+        return this.taskRepository.update(task, taskDto.getTitle());
+    }
+
+    public Task patchTaskById(TaskDto taskDto) throws TaskNotFoundException {
         Task task = this.taskRepository.findOneById(taskDto.getId())
                 .orElseThrow(() -> {
                     throw new TaskNotFoundException(taskDto.getId(), "UPDATE");
@@ -39,13 +47,13 @@ public class TaskService {
         return this.taskRepository.update(task, taskDto.getTitle());
     }
 
-    public Task deleteTaskById(Long id) throws TaskNotFoundException {
+    public void deleteTaskById(Long id) throws TaskNotFoundException {
         Task task = this.taskRepository.findOneById(id)
                 .orElseThrow(() -> {
                     throw new TaskNotFoundException(id, "DELETE");
                 });
         this.taskRepository.remove(task);
-        return task;
+        return;
     }
 
 }
