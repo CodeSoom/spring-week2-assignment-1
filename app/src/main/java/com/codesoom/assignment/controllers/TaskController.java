@@ -43,18 +43,17 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RestResponse<Task>> getTaskById(@PathVariable Long id) {
+    public ResponseEntity getTaskById(@PathVariable Long id) {
 
         RestResponse response = new RestResponse();
         Optional<Task> findTask = todoService.findTaskById(id);
 
-        if (findTask.isPresent()) {
-            response.setSuccess(HttpStatus.OK, findTask.get());
-        } else {
-            response.setFailed(ErrorCodes.NOT_FOUND);
+        if (findTask.isEmpty()) {
+            response.setFailed(StatusCodes.NOT_FOUND);
+            return ResponseEntity.status(response.getCode()).body(response);
         }
 
-        return ResponseEntity.status(response.getCode()).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(findTask.get());
     }
 
     @PostMapping
