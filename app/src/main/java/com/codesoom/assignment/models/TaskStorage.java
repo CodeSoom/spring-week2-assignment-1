@@ -41,6 +41,10 @@ public class TaskStorage {
         return rewriteTask;
     }
 
+    public void delete(Long id) {
+        tasks.removeIf(task -> task.getId().equals(id));
+    }
+
     /**
      * 새로운 Id를 생성하여 반환합니다.
      * @return newId

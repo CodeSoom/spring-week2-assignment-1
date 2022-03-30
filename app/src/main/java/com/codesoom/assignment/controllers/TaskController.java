@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskStorage;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,5 +39,10 @@ public class TaskController {
     @PutMapping("/{id}")
     public Task update(@PathVariable Long id, @RequestBody Task task) {
         return taskStorage.update(id, task.getTitle());
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        taskStorage.delete(id);
     }
 }
