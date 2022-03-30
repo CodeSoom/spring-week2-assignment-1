@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,36 +43,29 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity getTaskById(@PathVariable Long id) {
-
-        RestResponse response = new RestResponse();
-        Optional<Task> findTask = todoService.findTaskById(id);
-
-        if (findTask.isEmpty()) {
-            response.setFailed(StatusCodes.NOT_FOUND);
-            return ResponseEntity.status(response.getCode()).body(response);
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(findTask.get());
+        Task task = todoService.findTaskById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(task);
     }
 
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        todoService.saveTask(task);
-        return task;
+    public ResponseEntity createTask(@RequestBody TaskDto taskDto) {
+        Task task = todoService.saveTask(taskDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(task);
     }
 
-    @PutMapping("/{id}")
-    public void updateTaskAll(@PathVariable Long id) {
-        System.out.println(id);
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public ResponseEntity updateTask(@PathVariable Long id, @RequestBody TaskDto taskDto) {
+
+        Task updatedTask = todoService.updateTask(id, taskDto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(updatedTask);
+
     }
 
-    @PatchMapping("/{id}")
-    public void updateTask(@PathVariable Long id) {
-        System.out.println(id);
-    }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Long id) {
-        System.out.println(id);
+    public ResponseEntity deleteTask(@PathVariable Long id) {
+        todoService.deleteTask(id);
+        return ResponseEntity.noContent().build();
     }
 }

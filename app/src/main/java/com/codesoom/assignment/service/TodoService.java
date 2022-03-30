@@ -1,10 +1,11 @@
 package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.common.exception.TaskNotFoundException;
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TodoRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public class TodoService {
 
@@ -14,23 +15,27 @@ public class TodoService {
         return todoRepository.findAllTasks();
     }
 
-    public Optional<Task> findTaskById(Long id) {
-        return todoRepository.findTaskById(id);
+
+    public Task findTaskById(Long id) {
+        return todoRepository.findTaskById(id)
+                .orElseThrow(TaskNotFoundException::new);
     }
 
-    public Task saveTask(Task task) {
+
+    public Task saveTask(TaskDto taskDto) {
+        Task task = taskDto.toModel();
         return todoRepository.save(task);
     }
 
-    public Task updateTask(Task task, Task requestTaskInfo) {
+    public Task updateTask(Long id, TaskDto requestTaskInfo) {
 
+        Task task = this.findTaskById(id);
         task.setTitle(requestTaskInfo.getTitle());
-
         return task;
     }
 
-    public void deleteTask(Task task) {
-
+    public void deleteTask(Long id) {
+        Task task = this.findTaskById(id);
         todoRepository.deleteTask(task);
     }
 

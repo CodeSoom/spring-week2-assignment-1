@@ -4,6 +4,11 @@ public class Task {
     private Long id;
     private String title;
 
+    public Task(TaskBuilder taskBuilder) {
+        this.id = taskBuilder.id;
+        this.title = taskBuilder.title;
+    }
+
     public Long getId() {
         return id;
     }
@@ -22,5 +27,23 @@ public class Task {
 
     public String toString() {
         return "Task - title: " + title;
+    }
+
+    public static class TaskBuilder {
+        private Long id;
+        private String title;
+
+        public TaskBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+        public TaskBuilder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Task build() {
+            return new Task(this);
+        }
     }
 }

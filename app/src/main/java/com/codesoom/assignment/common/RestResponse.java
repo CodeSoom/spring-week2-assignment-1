@@ -10,13 +10,18 @@ public class RestResponse<T> {
     private String msg;
     private T data;
 
+    public RestResponse(StatusCodes statusCodes) {
+        this.code = statusCodes.getCode();
+        this.msg = statusCodes.getMsg();
+    }
+
     public void setSuccess(HttpStatus status, T data) {
         this.code = status.value();
         this.msg = "";
         this.data = data;
     }
 
-    public void setFailed(ErrorCodes errorCode) {
+    public void setFailed(StatusCodes errorCode) {
         this.code = errorCode.getCode();
         this.msg = errorCode.getMsg();
         this.data = null;
