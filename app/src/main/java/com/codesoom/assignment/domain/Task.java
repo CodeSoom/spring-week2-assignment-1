@@ -5,6 +5,12 @@ import com.codesoom.assignment.common.Builder;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * task란 도메인을 개념적으로 표현한 클래스입니다.
+ *
+ * @author Lee Byoung Seong
+ * @version 1.0
+ */
 public class Task {
     private String taskId;
     private String title;
@@ -12,16 +18,35 @@ public class Task {
     private LocalDateTime updatedAt;
     private Status status;
 
-    private enum Status{
-        REMOVE,INCOMPLETE,COMPLETE
+    /**
+     * Task의 상태를 그룹화한 enum입니다.
+     * <p>
+     * {@code REMOVE} 삭제된 상태
+     * {@code INCOMPLETE} 미완료 상태
+     * {@code COMPLETION} 완료 상태
+     */
+    private enum Status {
+        REMOVE, INCOMPLETE, COMPLETION
     }
+
+    /**
+     * 전달 받은 아이디와 제목을 초기화 시킵니다.
+     *
+     * @param taskBuilder
+     */
     private Task(TaskBuilder taskBuilder) {
         this.title = taskBuilder.title;
         this.taskId = taskBuilder.taskId;
     }
 
+    /**
+     * Task등록시 상태, 등록일자, 수정일자, 아이디를 초기화 시킵니다.
+     * 객체의 상태를 스스로 책임시키기 위해 존재합니다
+     *
+     * @return Task
+     */
     public Task registerTask() {
-        this.status=Status.INCOMPLETE;
+        this.status = Status.INCOMPLETE;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.taskId = UUID.randomUUID().toString()
@@ -30,18 +55,19 @@ public class Task {
         return this;
     }
 
-    /*
-         task아이디를 통헤서 기존에 등록된 task를 가져온 후
-         title과 update시간을 변경할 예정입니다.
-     */
     public Task modifyTask(String title) {
         this.title = title;
         this.updatedAt = LocalDateTime.now();
         return this;
     }
 
-    public Task complete(){
-        this.status=Status.COMPLETE;
+    public Task complete() {
+        this.status = Status.COMPLETION;
+        return this;
+    }
+
+    public Task remove() {
+        this.status = Status.REMOVE;
         return this;
     }
 
