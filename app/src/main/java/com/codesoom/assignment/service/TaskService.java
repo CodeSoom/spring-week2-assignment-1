@@ -1,7 +1,7 @@
 package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
-import com.codesoom.assignment.dto.TaskDto;
+import com.codesoom.assignment.dto.TaskViewDto;
 import com.codesoom.assignment.dto.TaskEditDto;
 import com.codesoom.assignment.dto.TaskSaveDto;
 import com.codesoom.assignment.repository.TaskRepository;
@@ -26,10 +26,10 @@ public class TaskService {
      * 모든 Task를 TaskDto로 변환해 {@code List<TaskDto>}로 리턴합니다.
      * @return 모든 Task 를 TaskDto 로 변환한 {@code List<TaskDto>}
      */
-    public List<TaskDto> getTaskDtoList() {
+    public List<TaskViewDto> getTaskDtoList() {
         Map<Long, Task> tasks = taskRepository.findAll();
         return tasks.values().stream()
-                .map(TaskDto::from)
+                .map(TaskViewDto::from)
                 .collect(Collectors.toList());
     }
 
@@ -38,10 +38,10 @@ public class TaskService {
      * @param taskSaveDto 생성할 Task 데이터
      * @return 생성한 Task를 변환한 TaskDto (수정 에정)
      */
-    public TaskDto save(final TaskSaveDto taskSaveDto) {
+    public TaskViewDto save(final TaskSaveDto taskSaveDto) {
         Task task = new Task(taskSaveDto.getTitle());
         taskRepository.save(task);
-        return TaskDto.from(task);
+        return TaskViewDto.from(task);
     }
 
     /**
