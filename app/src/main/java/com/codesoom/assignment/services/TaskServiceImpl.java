@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+
+/**
+ * {@link TaskService}를 상속받아 할 일의 CRUD를 구현합니다.
+ */
 @Service
 public class TaskServiceImpl implements TaskService {
 
@@ -25,18 +29,24 @@ public class TaskServiceImpl implements TaskService {
 
     /**
      * 새로운 할 일을 추가한 뒤 결과를 반환한다.
+     *
+     * @param taskDto 사용자가 입력한 정보
+     * @return 저장된 할 일
      */
     @Override
     public Task addTask(TaskDto taskDto) {
         validateTaskDto(taskDto);
 
         Task newTask = taskDto.toTask(repository.generateId());
-        repository.save(newTask);
-        return newTask;
+        return repository.save(newTask);
     }
 
     /**
      * id로 할 일을 찾아 반환한다.
+     *
+     * @param id 요청받은 id
+     * @return 요청받은 id로 찾은 할 일
+     * @throws NoSuchElementException id와 일치하는 값이 없을 때
      */
     @Override
     public Task findTaskById(Long id) {
@@ -49,6 +59,10 @@ public class TaskServiceImpl implements TaskService {
 
     /**
      * 할 일의 제목을 수정한 뒤 결과를 반환한다.
+     *
+     * @param id 요청받은 id
+     * @param taskDto 수정할 데이터를 담은 객체
+     * @return 수정이 완료된 할 일
      */
     @Override
     public Task updateTaskById(Long id, TaskDto taskDto) {

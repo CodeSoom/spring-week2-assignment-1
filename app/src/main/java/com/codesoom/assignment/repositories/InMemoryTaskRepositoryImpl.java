@@ -14,40 +14,40 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 public class InMemoryTaskRepositoryImpl implements TaskRepository {
 
-    private static AtomicLong maxId = new AtomicLong();
+    private static AtomicLong maxId = new AtomicLong(0);
     private static Map<Long, Task> tasks = new ConcurrentHashMap<>();
 
-    /**
-     * 증가된 id를 반환합니다.
-     */
+    /** id를 증가시킨 후 반환합니다. */
     @Override
     public Long generateId() {
         return maxId.incrementAndGet();
     }
 
+    /** 모든 할 일을 반환합니다. */
     @Override
     public Map<Long, Task> getTasks() {
         return tasks;
     }
 
+    /** 새로운 할 일을 저장합니다. */
     @Override
     public Task save(Task task) {
         return tasks.put(task.getId(), task);
     }
 
-    /**
-     * id와 매핑되는 값이 있으면 Task를, 없으면 null을 반환합니다.
-     */
+    /** id와 매핑되는 할 일을, 없으면 null을 반환합니다.*/
     @Override
     public Task findById(Long id) {
         return tasks.get(id);
     }
 
+    /** id와 매핑되는 할 일을 수정 후 변경 결과를 반환합니다. */
     @Override
     public Task update(Long id, Task updatedTask) {
         return tasks.replace(id, updatedTask);
     }
 
+    /** id와 매핑된 할 일을 삭제합니다. */
     @Override
     public void remove(Long id) {
         tasks.remove(id);

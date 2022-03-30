@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
+/**
+ * /tasks 경로에 매핑되는 처리를 합니다.
+ */
 @CrossOrigin
 @RequestMapping("/tasks")
 @RestController
