@@ -3,7 +3,7 @@ package com.codesoom.assignment.dto;
 import com.codesoom.assignment.domain.Task;
 
 /**
- * Task 데이터 전송 시 전송에 필요한 데이터만 보유하는 객체입니다.
+ * Task 데이터 전송에 필요한 데이터를 정의합니다.
  */
 public class TaskDto {
 

@@ -17,8 +17,8 @@ public class TaskRepository {
     private final Map<Long, Task> tasks = new HashMap<>();
 
     /**
-     * 주어진 Task 객체를 Task 저장소에 저장합니다.
-     * @param task 저장할 Task 객체
+     * Task를 저장합니다.
+     * @param task 저장할 Task
      */
     public void save(final Task task) {
         Long taskId = generateId();

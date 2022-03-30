@@ -1,7 +1,7 @@
 package com.codesoom.assignment.dto;
 
 /**
- * Task 등록에 필요한 데이터를 보유하는 객체입니다.
+ * Task 생성에 필요한 데이터를 정의합니다.
  */
 public class TaskSaveDto {
 

@@ -32,18 +32,31 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    /**
+     * 모든 Task 를 조회합니다.
+     */
     @GetMapping
     public ResponseEntity<List<TaskDto>> list() {
         List<TaskDto> tasks = taskService.getTaskDtoList();
         return ResponseEntity.ok(tasks);
     }
 
+    /**
+     * 새로운 Task를 생성합니다.
+     * @param taskSaveDto 생성에 필요한 데이터
+     * @see TaskSaveDto
+     */
     @PostMapping
     public ResponseEntity<TaskDto> save(@RequestBody TaskSaveDto taskSaveDto) {
         TaskDto taskDto = taskService.save(taskSaveDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(taskDto);
     }
 
+    /**
+     * Task를 조회합니다.
+     * @param taskId Task 아이디
+     * @see com.codesoom.assignment.dto.TaskDto
+     */
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskDto> view(@PathVariable Long taskId) {
         Optional<Task> findTask = taskService.getTask(taskId);
@@ -56,6 +69,12 @@ public class TaskController {
         return ResponseEntity.ok().body(taskDto);
     }
 
+    /**
+     * 새로운 Task로 대체 합니다.
+     * @param taskId Task 아이디
+     * @param taskEditDto 대체에 필요한 데이터
+     * @see TaskEditDto
+     */
     @PutMapping("/{taskId}")
     public ResponseEntity<TaskDto> replace(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
 
@@ -71,6 +90,12 @@ public class TaskController {
         return ResponseEntity.ok().body(taskDto);
     }
 
+    /**
+     * Task 일부를 수정 합니다.
+     * @param taskId Task 아이디
+     * @param taskEditDto 수정할 데이터
+     * @see TaskEditDto
+     */
     @PatchMapping("/{taskId}")
     public ResponseEntity<TaskDto> modify(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
 
@@ -86,6 +111,10 @@ public class TaskController {
         return ResponseEntity.ok().body(taskDto);
     }
 
+    /**
+     * Task 삭제합니다.
+     * @param taskId Task 아이디
+     */
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Object> delete(@PathVariable Long taskId) {
 
