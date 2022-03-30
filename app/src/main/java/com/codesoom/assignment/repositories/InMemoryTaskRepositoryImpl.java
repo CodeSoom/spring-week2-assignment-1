@@ -31,8 +31,8 @@ public class InMemoryTaskRepositoryImpl implements TaskRepository {
 
     /** 새로운 할 일을 저장합니다. */
     @Override
-    public Task save(Task task) {
-        return tasks.put(task.getId(), task);
+    public void save(Task task) {
+        tasks.put(task.getId(), task);
     }
 
     /** id와 매핑되는 할 일을, 없으면 null을 반환합니다.*/
@@ -43,8 +43,8 @@ public class InMemoryTaskRepositoryImpl implements TaskRepository {
 
     /** id와 매핑되는 할 일을 수정 후 변경 결과를 반환합니다. */
     @Override
-    public Task update(Long id, Task updatedTask) {
-        return tasks.replace(id, updatedTask);
+    public void update(Long id, Task updatedTask) {
+        tasks.replace(id, updatedTask);
     }
 
     /** id와 매핑된 할 일을 삭제합니다. */

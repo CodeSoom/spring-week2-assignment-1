@@ -10,11 +10,11 @@ public interface TaskRepository {
 
     Map<Long, Task> getTasks();
 
-    Task save(Task task);
+    void save(Task task);
 
     Task findById(Long id);
 
-    Task update(Long id, Task updatedTask);
+    void update(Long id, Task updatedTask);
 
     void remove(Long id);
 

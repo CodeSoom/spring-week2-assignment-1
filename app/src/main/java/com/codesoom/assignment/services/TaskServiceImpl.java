@@ -38,7 +38,8 @@ public class TaskServiceImpl implements TaskService {
         validateTaskDto(taskDto);
 
         Task newTask = taskDto.toTask(repository.generateId());
-        return repository.save(newTask);
+        repository.save(newTask);
+        return newTask;
     }
 
     /**
