@@ -2,6 +2,8 @@ package com.codesoom.assignment.services;
 
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.domains.TaskDto;
+import com.codesoom.assignment.exceptions.TaskInvalidFormatException;
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,13 +49,13 @@ public class TaskServiceImpl implements TaskService {
      *
      * @param id 요청받은 id
      * @return 요청받은 id로 찾은 할 일
-     * @throws NoSuchElementException id와 일치하는 값이 없을 때
+     * @throws TaskNotFoundException id와 일치하는 값이 없을 때
      */
     @Override
     public Task findTaskById(Long id) {
         final Task task = repository.findById(id);
         if (task == null) {
-            throw new NoSuchElementException("요청하신 id와 일치하는 값이 없습니다.");
+            throw new TaskNotFoundException(id);
         }
         return task;
     }
@@ -87,14 +89,11 @@ public class TaskServiceImpl implements TaskService {
     /**
      *  할 일을 추가하거나 수정할 때 유효성 검사를 처리합니다.
      *
-     *  @throws IllegalArgumentException 할 일이 null 이거나 제목을 입력하지 않을 경우
+     *  @throws TaskInvalidFormatException 할 일이 null 이거나 제목을 입력하지 않을 경우
      */
     private void validateTaskDto(TaskDto taskDto) {
-        if (taskDto == null) {
-            throw new IllegalArgumentException("유효하지 않은 형식입니다.");
-        }
         if (taskDto.getTitle() == null || "".equals(taskDto.getTitle())) {
-            throw new IllegalArgumentException("title은 필수로 입력해야 합니다.");
+            throw new TaskInvalidFormatException("title은 필수로 입력해야 합니다.");
         }
     }
 
