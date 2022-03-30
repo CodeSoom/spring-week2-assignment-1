@@ -1,5 +1,6 @@
 package com.codesoom.assignment.repository;
 
+import com.codesoom.assignment.exception.TaskBadRequestException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 @Repository
 public class TaskRepository {
     private List<Task> tasks = new ArrayList<>();
+    private Long newId = 0L;
 
     public List<Task> findAll() {
         return tasks;
@@ -25,6 +27,9 @@ public class TaskRepository {
         Task task = new Task();
         task.setId(generateId());
         task.setTitle(title);
+        if (!task.hasTitle()) {
+            throw new TaskBadRequestException("Title");
+        }
         tasks.add(task);
         return task;
     }
@@ -41,11 +46,8 @@ public class TaskRepository {
         return;
     }
 
-
-    private Long generateId() {
-        if (tasks.isEmpty()) {
-            return 1L;
-        }
-        return tasks.get(tasks.size() - 1).getId() + 1L;
+    private synchronized Long generateId() {
+        newId += 1;
+        return newId;
     }
 }

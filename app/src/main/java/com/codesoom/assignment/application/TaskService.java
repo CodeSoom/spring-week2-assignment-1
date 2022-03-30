@@ -28,9 +28,6 @@ public class TaskService {
     }
 
     public Task createNewTask(TaskDto taskDto) throws TaskBadRequestException {
-        if (taskDto.getTitle().isEmpty()) {
-            throw new TaskBadRequestException("Title");
-        }
         return this.taskRepository.create(taskDto.getTitle());
     }
 
@@ -42,13 +39,13 @@ public class TaskService {
         return this.taskRepository.update(task, taskDto.getTitle());
     }
 
-    public void deleteTaskById(Long id) throws TaskNotFoundException {
+    public Task deleteTaskById(Long id) throws TaskNotFoundException {
         Task task = this.taskRepository.findOneById(id)
                 .orElseThrow(() -> {
                     throw new TaskNotFoundException(id, "DELETE");
                 });
         this.taskRepository.remove(task);
-        return;
+        return task;
     }
 
 }

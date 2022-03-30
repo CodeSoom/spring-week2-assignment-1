@@ -1,16 +1,8 @@
 package com.codesoom.assignment.controllers;
 
-
-// TODO 2022-03-28
-// 1. Read Collection - GET /tasks => 완료
-// 2. Read Item - GET /tasks/{id}
-// 4. Create - POST /tasks => 완료
-// 5. DELETE - DELETE /tasks/{id}
-
 import com.codesoom.assignment.application.TaskService;
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -55,7 +49,7 @@ public class TaskController {
     }
 
     @DeleteMapping(path = "/{id}")
-    private void remove(@PathVariable("id") Long id) {
-        this.taskService.deleteTaskById(id);
+    private Task remove(@PathVariable("id") Long id) {
+        return this.taskService.deleteTaskById(id);
     }
 }

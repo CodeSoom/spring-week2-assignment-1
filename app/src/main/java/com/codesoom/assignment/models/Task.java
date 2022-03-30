@@ -33,4 +33,8 @@ public class Task {
     public String toString() {
         return String.format("{ id = %s, title = %s}", id, title);
     }
+
+    public boolean hasTitle() {
+        return title != null && !title.isEmpty() && !title.isBlank();
+    }
 }
