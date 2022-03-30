@@ -28,6 +28,19 @@ public class TaskStorage {
         return task;
     }
 
+    public Task update(Long id, String title) {
+        Task rewriteTask = new Task(id, title);
+        int index = 0;
+        for (Task task : tasks) {
+            if (task.getId().equals(id)) {
+                break;
+            }
+            index++;
+        }
+        tasks.set(index, rewriteTask);
+        return rewriteTask;
+    }
+
     /**
      * 새로운 Id를 생성하여 반환합니다.
      * @return newId
