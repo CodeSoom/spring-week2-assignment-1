@@ -7,8 +7,6 @@
 
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.common.StatusCodes;
-import com.codesoom.assignment.common.RestResponse;
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.service.TodoService;
@@ -25,7 +23,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
-import java.util.Optional;
+
+/**
+ * {@link Task}
+ * Task에 대한 목록 조회, 조회, 생성, 수정, 삭제 등의 요청들을 처리한다.
+ */
 
 @RestController
 @RequestMapping("/tasks")
