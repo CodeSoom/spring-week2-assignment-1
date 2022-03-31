@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *  할 일에 대한 클라이언트 요청 지점입니다.
+ *  할 일에 대한 HTTP 요청을 처리합니다.
  */
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/tasks")
@@ -78,7 +78,6 @@ public class TaskController {
 
     /**
      * 기존 리소스를 새로운 리소스로 대체 하고 대체된 리소스 데이터를 응답합니다.
-     * <p>대체될 리소스가 없다면 404를 응답합니다.</p>
      * @param taskId 대체 대상인 리소스의 고유 아이디
      * @param taskEditDto 대체에 필요한 데이터
      * @see TaskViewDto
@@ -100,7 +99,6 @@ public class TaskController {
 
     /**
      * 리소스 일부를 수정하고 수정된 리소스 정보를 응답합니다.
-     * <p>수정될 리소스가 없다면 404를 응답합니다.</p>
      * @param taskId 수정 대상인 리소스의 고유아이디
      * @param taskEditDto 수정에 필요한 데이터
      * @see TaskViewDto
@@ -122,7 +120,6 @@ public class TaskController {
 
     /**
      * 단일 리소스를 삭제합니다.
-     * <p>삭제될 리소스가 없다면 404를 응답합니다.</p>
      * @param taskId 삭제할 리소스의 고유 아이디
      */
     @DeleteMapping("/{taskId}")
