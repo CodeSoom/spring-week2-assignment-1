@@ -28,8 +28,8 @@ public class Tasks {
     }
 
     public Task update(Long id, String title) {
-        Task editTask = new Task(id, title);
         int index = findIndexById(id);
+        Task editTask = new Task(id, title);
         tasks.set(index, editTask);
         return editTask;
     }
