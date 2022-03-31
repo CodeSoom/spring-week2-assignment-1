@@ -13,10 +13,8 @@ public class Tasks {
     }
 
     public Task read(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElseThrow();
+        int index = findIndexById(id);
+        return tasks.get(index);
     }
 
     public Task create(Task task) {
@@ -30,17 +28,15 @@ public class Tasks {
     }
 
     public Task update(Long id, String title) {
-        int whichOne = IntStream.range(0, tasks.size())
-                .filter(i -> tasks.get(i).getId().equals(id))
-                .findFirst()
-                .orElseThrow();
         Task editTask = new Task(id, title);
-        tasks.set(whichOne, editTask);
+        int index = findIndexById(id);
+        tasks.set(index, editTask);
         return editTask;
     }
 
     public void delete(Long id) {
-        tasks.removeIf(task -> task.getId().equals(id));
+        int index = findIndexById(id);
+        tasks.remove(index);
     }
 
     /**
@@ -50,5 +46,17 @@ public class Tasks {
     private Long generateId() {
         newId += 1;
         return newId;
+    }
+
+    /**
+     * 식별자로 할 일의 인덱스를 찾습니다.
+     * @param id 식별자
+     * @return 발견된 인덱스
+     */
+    private int findIndexById(Long id) {
+        return IntStream.range(0, tasks.size())
+                .filter(i -> tasks.get(i).getId().equals(id))
+                .findFirst()
+                .orElseThrow();
     }
 }
