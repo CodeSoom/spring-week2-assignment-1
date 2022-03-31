@@ -8,32 +8,52 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.Tasks;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
+    private Tasks tasks = new Tasks();
     private Long newId = 0L;
 
     @GetMapping
     public List<Task> list() {
-        return tasks;
+        return tasks.getTasks();
     }
+
+    @GetMapping("/{id}")
+    public Task getTask(@PathVariable(name = "id") Long id) {
+        return  tasks.findTask(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Task updateTask(@PathVariable(name = "id") Long id,
+                           @RequestBody Task task) {
+        return tasks.updateTask(id, task);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable(name = "id") Long id) {
+        tasks.deleteTask(id);
+    }
+
 
     @PostMapping
     public Task create(@RequestBody Task task) {
         task.setId(generateId());
-        tasks.add(task);
+        tasks.getTasks().add(task);
 
         return task;
     }
