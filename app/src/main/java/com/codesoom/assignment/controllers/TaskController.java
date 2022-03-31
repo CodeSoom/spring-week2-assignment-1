@@ -1,7 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.models.TaskBookKeeper;
+import com.codesoom.assignment.models.Tasks;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 @RequestMapping("/tasks")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 1800)
 public class TaskController {
-    private final TaskBookKeeper taskBookKeeper = new TaskBookKeeper();
+    private final Tasks taskBookKeeper = new Tasks();
 
     @GetMapping
     public List<Task> list() {

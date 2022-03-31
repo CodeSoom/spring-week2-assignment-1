@@ -3,7 +3,7 @@ package com.codesoom.assignment.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskBookKeeper {
+public class Tasks {
     private final List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
