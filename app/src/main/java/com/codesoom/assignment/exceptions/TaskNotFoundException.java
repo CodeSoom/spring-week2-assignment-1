@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class TaskNotFoundException extends RuntimeException{
 
     private static final String MESSAGE_FORMAT = "%s에 해당하는 할 일을 찾을 수 없습니다.";
-    private String code;
+    private final String code;
 
     public TaskNotFoundException(Long id) {
         super(String.format(MESSAGE_FORMAT, id));

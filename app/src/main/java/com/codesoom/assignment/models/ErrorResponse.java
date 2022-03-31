@@ -5,11 +5,8 @@ package com.codesoom.assignment.models;
  */
 public class ErrorResponse {
 
-    private String code;
-    private String message;
-
-    public ErrorResponse() {
-    }
+    private final String code;
+    private final String message;
 
     public ErrorResponse(String code, String message) {
         this.code = code;
