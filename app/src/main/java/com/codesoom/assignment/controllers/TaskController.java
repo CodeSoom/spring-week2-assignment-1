@@ -2,7 +2,10 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.domains.TaskDto;
-import com.codesoom.assignment.services.TaskService;
+import com.codesoom.assignment.services.TaskCreateService;
+import com.codesoom.assignment.services.TaskDeleteService;
+import com.codesoom.assignment.services.TaskReadService;
+import com.codesoom.assignment.services.TaskUpdateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -30,38 +33,45 @@ public class TaskController {
 
     private final Logger log = LoggerFactory.getLogger(TaskController.class);
 
-    private final TaskService service;
+    private final TaskCreateService createService;
+    private final TaskReadService readService;
+    private final TaskUpdateService updateService;
+    private final TaskDeleteService deleteService;
 
-    public TaskController(TaskService taskService) {
-        this.service = taskService;
+    public TaskController(TaskCreateService createService, TaskReadService readService,
+                          TaskUpdateService updateService, TaskDeleteService deleteService) {
+        this.createService = createService;
+        this.readService = readService;
+        this.updateService = updateService;
+        this.deleteService = deleteService;
     }
 
     @GetMapping
     public List<Task> getTasks() {
-        return service.getTasks();
+        return readService.getTasks();
     }
 
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
     public Task addTask(@RequestBody TaskDto taskDto) {
-        return service.addTask(taskDto);
+        return createService.addTask(taskDto);
     }
 
     @GetMapping("/{id}")
     public Task getTask(@PathVariable(name = "id") Long id) {
-        return service.findTaskById(id);
+        return readService.findTaskById(id);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable(name = "id") Long id,
                            @RequestBody TaskDto taskDto) {
-        return service.updateTaskById(id, taskDto);
+        return updateService.updateTaskById(id, taskDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable(name = "id") Long id) {
-        service.deleteTaskById(id);
+        deleteService.deleteTaskById(id);
     }
 
 }
