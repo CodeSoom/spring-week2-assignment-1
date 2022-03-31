@@ -24,35 +24,35 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 @RequestMapping("/tasks")
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 1800)
 public class TaskController {
-    private final Tasks taskBookKeeper = new Tasks();
+    private final Tasks tasks = new Tasks();
 
     @GetMapping
     @ResponseStatus(OK)
     public List<Task> list() {
-        return taskBookKeeper.readAll();
+        return tasks.readAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public Task read(@PathVariable Long id) {
-        return taskBookKeeper.read(id);
+        return tasks.read(id);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
     public Task create(@RequestBody Task task) {
-        return taskBookKeeper.create(task);
+        return tasks.create(task);
     }
 
     @RequestMapping(value = "/{id}", method = { PUT, PATCH })
     @ResponseStatus(OK)
     public Task update(@PathVariable Long id, @RequestBody Task task) {
-        return taskBookKeeper.update(id, task.getTitle());
+        return tasks.update(id, task.getTitle());
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        taskBookKeeper.delete(id);
+        tasks.delete(id);
     }
 }
