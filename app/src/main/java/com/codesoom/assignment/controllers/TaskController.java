@@ -24,7 +24,7 @@ public class TaskController {
 
     @GetMapping
     public List<Task> list() {
-        return taskBookKeeper.list();
+        return taskBookKeeper.readAll();
     }
 
     @GetMapping("/{id}")

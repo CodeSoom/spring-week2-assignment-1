@@ -7,7 +7,7 @@ public class Tasks {
     private final List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
-    public List<Task> list() {
+    public List<Task> readAll() {
         return tasks;
     }
 
