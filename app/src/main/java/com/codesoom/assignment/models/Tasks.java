@@ -2,6 +2,7 @@ package com.codesoom.assignment.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Tasks {
     private final List<Task> tasks = new ArrayList<>();
@@ -29,15 +30,12 @@ public class Tasks {
     }
 
     public Task update(Long id, String title) {
+        int whichOne = IntStream.range(0, tasks.size())
+                .filter(i -> tasks.get(i).getId().equals(id))
+                .findFirst()
+                .orElseThrow();
         Task editTask = new Task(id, title);
-        int index = 0;
-        for (Task task : tasks) {
-            if (task.getId().equals(id)) {
-                break;
-            }
-            index++;
-        }
-        tasks.set(index, editTask);
+        tasks.set(whichOne, editTask);
         return editTask;
     }
 
