@@ -29,7 +29,7 @@ public class Tasks {
     }
 
     public Task update(Long id, String title) {
-        Task rewriteTask = new Task(id, title);
+        Task editTask = new Task(id, title);
         int index = 0;
         for (Task task : tasks) {
             if (task.getId().equals(id)) {
@@ -37,8 +37,8 @@ public class Tasks {
             }
             index++;
         }
-        tasks.set(index, rewriteTask);
-        return rewriteTask;
+        tasks.set(index, editTask);
+        return editTask;
     }
 
     public void delete(Long id) {
