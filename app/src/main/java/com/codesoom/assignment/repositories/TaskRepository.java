@@ -9,14 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class TaskRepository {
     private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
-    private long sequence = 0L;
+    private final AtomicLong sequence = new AtomicLong();
 
     public long incrementSequence() {
-        return ++sequence;
+        return sequence.incrementAndGet();
     }
 
     public Task save(TaskDto taskDto) {
@@ -44,7 +45,7 @@ public class TaskRepository {
 
     public void removeAll() {
         taskMap.clear();
-        sequence = 0L;
+        sequence.set(0);
     }
 
     public List<Task> findAll() {
