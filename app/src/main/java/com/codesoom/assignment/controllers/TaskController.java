@@ -10,16 +10,7 @@ import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.dtos.TaskDto;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,7 +40,7 @@ public class TaskController {
         return taskRepository.findAll();
     }
 
-    @PutMapping("/{id}")
+    @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public Task updateTask(@PathVariable long id, @RequestBody TaskDto taskDto) {
         return taskRepository.update(id, taskDto.getTitle());
     }

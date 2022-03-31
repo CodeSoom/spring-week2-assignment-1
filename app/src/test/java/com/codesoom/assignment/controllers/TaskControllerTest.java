@@ -38,7 +38,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("POST /tasks, Task 생성 확인")
+    @DisplayName("POST /tasks, Task 를 생성하는 HTTP 요청을 전송합니다. Http Status 201 과 생성된 Task 의 JSON 을 Body 로 반환합니다.")
     public void postTasks() throws Exception {
         TaskDto input = new TaskDto("할 일");
         Task output = new Task(1L, "할 일");
@@ -55,7 +55,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("GET /tasks, 모든 Task 조회 확인")
+    @DisplayName("GET /tasks, 모든 Task 를 조회하는 HTTP 요청을 전송합니다. Http Status 200 과 모든 Task 의 JSON 을 Body 로 반환합니다.")
     public void getTasks() throws Exception {
         addTask("할 일1");
         addTask("할 일2");
@@ -69,7 +69,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("GET /tasks/{id}, 단건 Task 조회 확인")
+    @DisplayName("GET /tasks/{id}, {id} 에 해당하는 Task 를 조회하는 HTTP 요청을 전송합니다. Http Status 200 과 해당 Task 의 JSON 을 Body 로 반환합니다.")
     public void getTask() throws Exception {
         addTask("할 일1");
         Task task2 = addTask("할 일2");
@@ -83,7 +83,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("PUT /tasks/{id}, Task 수정 확인")
+    @DisplayName("PUT /tasks/{id}, {id} 에 해당하는 Task 를 수정하는 HTTP 요청을 전송합니다. Http Status 200 과 해당 Task 의 JSON 을 Body 로 반환합니다.")
     public void putTask() throws Exception {
         addTask("할 일1");
         Task task2 = addTask("할 일2");
@@ -103,7 +103,7 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("PATCH /tasks/{id}, Task 수정 확인")
+    @DisplayName("PATCH /tasks/{id}, {id} 에 해당하는 Task 를 수정하는 HTTP 요청을 전송합니다. Http Status 200 과 해당 Task 의 JSON 을 Body 로 반환합니다.")
     public void patchTask() throws Exception {
         addTask("할 일1");
         Task task2 = addTask("할 일2");
@@ -115,7 +115,7 @@ class TaskControllerTest {
         String outputJson = objectMapper.writeValueAsString(task3);
 
         mockMvc.perform(
-                        put(TASKS +"/2")
+                        patch(TASKS +"/2")
                                 .content(inputJson)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -123,14 +123,14 @@ class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("DELETE /tasks/{id}, Task 삭제 확인")
+    @DisplayName("DELETE /tasks/{id}, 모든 Task 를 삭제하는 HTTP 요청을 전송합니다. Http Status 204 (NoContent) 을 반환합니다.")
     public void deleteTask() throws Exception {
         addTask("할 일1");
         addTask("할 일2");
 
         mockMvc.perform(
                         delete(TASKS +"/2"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         assertEquals(taskRepository.count(), 1);
     }
