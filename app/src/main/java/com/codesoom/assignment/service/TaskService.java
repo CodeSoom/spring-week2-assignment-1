@@ -41,7 +41,7 @@ public class TaskService {
      * @return 생성한 {@link Task}를 변환한 {@link TaskDto}
      */
     public TaskViewDto save(final TaskSaveDto taskSaveDto) {
-        Task task = new Task(taskSaveDto.getTitle());
+        Task task = taskSaveDto.toEntity();
         taskRepository.save(task);
         return TaskViewDto.from(task);
     }
