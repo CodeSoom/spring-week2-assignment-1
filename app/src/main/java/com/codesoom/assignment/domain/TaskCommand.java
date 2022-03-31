@@ -4,8 +4,8 @@ import com.codesoom.assignment.common.Builder;
 import com.codesoom.assignment.common.response.messages.error.ErrorCode;
 import org.springframework.util.Assert;
 
-/*
-    외부에서 직접적으로 엔티티 개념인 Task를 접근하지 않기 위해 작성한 인터페이스 객체입니다
+/**
+ *   클라이언트로 전달받은
  */
 public class TaskCommand {
     public static class RegisterTodoRequest implements Builder<Task> {

@@ -6,10 +6,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * task란 도메인을 개념적으로 표현한 클래스입니다.
- *
- * @author Lee Byoung Seong
- * @version 1.0
+ *  할일 도메인을 개념적으로 표현한 엔티티입니다.
  */
 public class Task {
     private String taskId;
@@ -19,11 +16,7 @@ public class Task {
     private Status status;
 
     /**
-     * Task의 상태를 그룹화한 enum입니다.
-     * <p>
-     * {@code REMOVE} 삭제된 상태
-     * {@code INCOMPLETE} 미완료 상태
-     * {@code COMPLETION} 완료 상태
+     * 할일 도메인의 상태를 그룹화한 enum입니다.
      */
     private enum Status {
         REMOVE, INCOMPLETE, COMPLETION
@@ -40,7 +33,7 @@ public class Task {
     }
 
     /**
-     * Task등록시 상태, 등록일자, 수정일자, 아이디를 초기화 시킵니다.
+     * 할일 등록시 상태, 등록일자, 수정일자, 아이디를 초기화 시킵니다.
      * 객체의 상태를 스스로 책임시키기 위해 존재합니다
      *
      * @return Task
