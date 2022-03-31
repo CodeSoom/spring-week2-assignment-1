@@ -52,7 +52,7 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskViewDto> save(@RequestBody TaskSaveDto taskSaveDto) {
 
-        Task newTask = taskService.save(taskSaveDto);
+        final Task newTask = taskService.save(taskSaveDto);
 
         TaskViewDto taskViewDto = TaskViewDto.from(newTask);
 
@@ -71,7 +71,7 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
 
-        Task task = findTask.get();
+        final Task task = findTask.get();
         TaskViewDto taskViewDto = TaskViewDto.from(task);
         return ResponseEntity.ok().body(taskViewDto);
     }
@@ -90,7 +90,7 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
 
-        Task task = findTask.get();
+        final Task task = findTask.get();
         taskService.replaceTask(task, taskEditDto);
 
         TaskViewDto taskViewDto = TaskViewDto.from(task);
@@ -111,7 +111,7 @@ public class TaskController {
             return ResponseEntity.notFound().build();
         }
 
-        Task task = findTask.get();
+        final Task task = findTask.get();
         taskService.updateTask(task, taskEditDto);
 
         TaskViewDto taskViewDto = TaskViewDto.from(task);
