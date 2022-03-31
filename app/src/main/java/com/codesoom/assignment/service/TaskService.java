@@ -43,7 +43,7 @@ public class TaskService {
      */
     public Task save(final TaskSaveDto taskSaveDto) {
         Task task = taskSaveDto.toEntity();
-        taskRepository.save(taskSaveDto.toEntity());
+        taskRepository.save(task);
         return task;
     }
 
