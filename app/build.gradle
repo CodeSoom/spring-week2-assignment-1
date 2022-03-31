@@ -38,7 +38,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // 스프링 부트 개발 도구
-    //
+    // 빠른 재시작, 라이브 리로드, 자동 재시작, 캐시 무효화 등의 기능을 제공합니다.
+    // https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.property-defaults
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // 스프링 부트 테스트 도구
