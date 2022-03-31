@@ -45,7 +45,6 @@ public class TaskController {
     /**
      * 새로운 {@link Task}를 생성합니다.
      * @param taskSaveDto 생성에 필요한 데이터
-     * @see TaskSaveDto
      */
     @PostMapping
     public ResponseEntity<TaskViewDto> save(@RequestBody TaskSaveDto taskSaveDto) {
@@ -73,7 +72,6 @@ public class TaskController {
      * 새로운 {@link Task}로 대체 합니다.
      * @param taskId {@link Task#id}
      * @param taskEditDto 대체에 필요한 데이터
-     * @see TaskEditDto
      */
     @PutMapping("/{taskId}")
     public ResponseEntity<TaskViewDto> replace(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
