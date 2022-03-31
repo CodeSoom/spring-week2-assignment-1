@@ -5,10 +5,10 @@ import com.codesoom.assignment.exception.TaskBadRequestException;
 import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 
 @Service
 public class TaskService {
@@ -31,15 +31,7 @@ public class TaskService {
         return this.taskRepository.create(taskDto.getTitle());
     }
 
-    public Task putTaskById(TaskDto taskDto) throws TaskNotFoundException {
-        Task task = this.taskRepository.findOneById(taskDto.getId())
-                .orElseThrow(() -> {
-                    throw new TaskNotFoundException(taskDto.getId(), "PUT");
-                });
-        return this.taskRepository.update(task, taskDto.getTitle());
-    }
-
-    public Task patchTaskById(TaskDto taskDto) throws TaskNotFoundException {
+    public Task updateTaskById(TaskDto taskDto) throws TaskNotFoundException {
         Task task = this.taskRepository.findOneById(taskDto.getId())
                 .orElseThrow(() -> {
                     throw new TaskNotFoundException(taskDto.getId(), "UPDATE");

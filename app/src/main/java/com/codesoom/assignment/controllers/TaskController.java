@@ -3,66 +3,103 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.application.TaskService;
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * {@link Task} 객체를 생성, 조회, 수정, 삭제 하는 Controller
+ * @see RestController
+ * @see CrossOrigin
+ * @see HttpStatus
+ * @see ResponseStatus
+ * @see PathVariable
+ * @see RequestMapping
+ * @see RequestBody
+ */
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
     private final TaskService taskService;
 
+    /**
+     * <p>Constructor based Injection</p>
+     * @param taskService {@link TaskService}
+     */
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
+    /**
+     * 모든 {@link Task} 객체를 조회하는 API
+     * @return 배열의 Task객체를 반환
+     * @see List
+     * @see java.util.ArrayList
+     */
     @GetMapping(path = "")
-    private ResponseEntity<List<Task>> readAll() {
-        List<Task> tasks = this.taskService.getTasks();
-        return ResponseEntity.status(HttpStatus.OK).body(tasks);
+    @ResponseStatus(HttpStatus.OK)
+    private List<Task> readAll() {
+        return this.taskService.getTasks();
     }
 
+    /**
+     * Param인 id에 해당하는 {@link Task} 객체 조회 API
+     * @param id Task 객체의 id
+     * @return 조회한 {@link Task} 객체 반환
+     */
     @GetMapping(path = "/{id}")
-    private ResponseEntity<Task> readOne(@PathVariable("id") Long id) {
-        Task task = this.taskService.getTask(id);
-        return ResponseEntity.ok(task);
+    @ResponseStatus(HttpStatus.OK)
+    private Task readOne(@PathVariable("id") Long id) {
+        return this.taskService.getTask(id);
     }
 
+    /**
+     * {@code Task} 객체를 생성하는 API
+     * @param taskDto RequestBody 를 통해 Request의 Body에 있는 데이터를 {@link TaskDto} 객체로 바인딩
+     * @return 생성된 {@code Task} 객체를 반환
+     * @see Valid
+     */
     @PostMapping(path = "")
-    private ResponseEntity<Task> create(@RequestBody TaskDto taskDto) {
-        Task task = this.taskService.createNewTask(taskDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(task);
+    @ResponseStatus(HttpStatus.CREATED)
+    private Task create(@Valid @RequestBody TaskDto taskDto) {
+        return this.taskService.createNewTask(taskDto);
     }
 
-    @PutMapping(path = "/{id}")
-    private ResponseEntity<Task> put(@PathVariable("id") Long id, @RequestBody TaskDto taskDto) {
+    /**
+     * Task 객체를 변경하는 API
+     * 업데이트 하는 PUT 과 PATCH RequestMethod를 하나의 API 로 통합하여 관리
+     * @param id {@link Task} 객체의 id
+     * @param taskDto RequestBody 를 통해 Request의 Body에 있는 데이터를 {@link TaskDto} 객체로 바인딩
+     * @return 업데이트 된 {@code Task} 객체를 반환
+     */
+    @RequestMapping(path = "/{id}", method = { RequestMethod.PUT, RequestMethod.PATCH })
+    @ResponseStatus(HttpStatus.OK)
+    private Task update(@PathVariable("id") Long id, @RequestBody TaskDto taskDto) {
         taskDto.setId(id);
-        Task task = this.taskService.putTaskById(taskDto);
-        return ResponseEntity.ok(task);
+        return this.taskService.updateTaskById(taskDto);
     }
 
-    @PatchMapping(path = "/{id}")
-    private ResponseEntity<Task> patch(@PathVariable("id") Long id, @RequestBody TaskDto taskDto) {
-        taskDto.setId(id);
-        Task task = this.taskService.patchTaskById(taskDto);
-        return ResponseEntity.ok(task);
-    }
-
+    /**
+     * Task 객체를 삭제하는 API
+     * @param id {@link Task} 객체의 id
+     * @return {@code void}
+     */
     @DeleteMapping(path = "/{id}")
-    private ResponseEntity<Void> remove(@PathVariable("id") Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    private void remove(@PathVariable("id") Long id) {
         this.taskService.deleteTaskById(id);
-        return ResponseEntity.noContent().build();
     }
 }
