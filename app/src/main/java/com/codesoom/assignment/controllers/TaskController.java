@@ -48,7 +48,11 @@ public class TaskController {
      */
     @PostMapping
     public ResponseEntity<TaskViewDto> save(@RequestBody TaskSaveDto taskSaveDto) {
-        TaskViewDto taskViewDto = taskService.save(taskSaveDto);
+
+        Task newTask = taskService.save(taskSaveDto);
+
+        TaskViewDto taskViewDto = TaskViewDto.from(newTask);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(taskViewDto);
     }
 

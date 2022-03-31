@@ -36,14 +36,14 @@ public class TaskService {
     }
 
     /**
-     * 새로운 {@link Task}를 저장하고 {@link TaskDto}로 변환해 리턴합니다.
-     * @param taskSaveDto 생성에 필요한 {@link Task} 데이터
-     * @return 생성한 {@link Task}를 변환한 {@link TaskDto}
+     * {@link Task}를 생성하고 생성된 엔티티를 리턴합니다.
+     * @param taskSaveDto 생성에 필요한 데이터
+     * @return 생성된 엔티티
      */
-    public TaskViewDto save(final TaskSaveDto taskSaveDto) {
+    public Task save(final TaskSaveDto taskSaveDto) {
         Task task = taskSaveDto.toEntity();
-        taskRepository.save(task);
-        return TaskViewDto.from(task);
+        taskRepository.save(taskSaveDto.toEntity());
+        return task;
     }
 
     /**
