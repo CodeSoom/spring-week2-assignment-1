@@ -1,10 +1,9 @@
 package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
-import com.codesoom.assignment.dto.TaskDto;
-import com.codesoom.assignment.dto.TaskViewDto;
 import com.codesoom.assignment.dto.TaskEditDto;
 import com.codesoom.assignment.dto.TaskSaveDto;
+import com.codesoom.assignment.dto.TaskViewDto;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -14,7 +13,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-// TODO - TaskService에 대한 Javadoc 작성
+/**
+ * 할일에 대한 요청을 처리합니다.
+ */
 @Service
 public class TaskService {
 
@@ -25,20 +26,20 @@ public class TaskService {
     }
 
     /**
-     * 모든 {@link Task}를 {@link TaskViewDto}로 변환해 {@code List}로 리턴합니다.
-     * @return 모든 {@link Task} 를 {@link TaskViewDto} 로 변환한 {@code List}
+     * 할 일 목록을 변환해 리턴합니다.
+     * @see TaskViewDto
      */
     public List<TaskViewDto> getTaskDtoList() {
         Map<Long, Task> tasks = taskRepository.findAll();
+
         return tasks.values().stream()
                 .map(TaskViewDto::from)
                 .collect(Collectors.toList());
     }
 
     /**
-     * {@link Task}를 생성하고 생성된 엔티티를 리턴합니다.
+     * 할 일을 생성하고 생성된 할 일을 리턴합니다.
      * @param taskSaveDto 생성에 필요한 데이터
-     * @return 생성된 엔티티
      */
     public Task save(final TaskSaveDto taskSaveDto) {
         Task task = taskSaveDto.toEntity();
@@ -47,10 +48,9 @@ public class TaskService {
     }
 
     /**
-     * taskId와 일치하는 {@link Task}를 리턴 하고, 일치하는게 없다면 비어있는 Optional을 리턴 합니다.
-     * </p>
-     * @param taskId {@link Task#id}
-     * @return 일치하는 {@link Task}가 있다면 Optional<{@link Task}>, 없다면 빈 {@code Optional}
+     * 주어진 아이디와 일치하는 할일 을 {@code Optional}로 래핑해서 리턴합니다.
+     * <p>일치하는게 없다면 비어있는 {@code Optional}을 리턴 합니다.</p>
+     * @param taskId 할 일의 고유 아이디
      */
     public Optional<Task> getTask(final Long taskId) {
         Task task = taskRepository.findById(taskId);
@@ -61,28 +61,27 @@ public class TaskService {
     }
 
     /**
-     * {@link Task}를 삭제 합니다.
-     * @param taskId {@link Task#id}
+     * 할 일을 삭제합니다.
+     * @param taskId 할 일의 고유 아이디
      */
     public void delete(final Long taskId) {
         taskRepository.deleteById(taskId);
     }
 
     /**
-     * {@link Task}를 대체합니다.
-     * @param task 대체 대상 {@link Task}
+     * 할 일을 대체합니다.
+     * @param task        대체 대상인 할 일
      * @param taskEditDto 대체될 데이터
-     * @see TaskEditDto
      */
     public void replaceTask(final Task task, final TaskEditDto taskEditDto) {
         task.setTitle(taskEditDto.getTitle());
     }
 
     /**
-     * {@link Task}를 부분적으로 수정합니다.
-     * @param task 수정 대상 {@link Task}
+     * 할 일을 부분적으로 수정합니다.
+     *
+     * @param task        수정될 할 일
      * @param taskEditDto 수정될 데이터
-     * @see TaskEditDto
      */
     public void updateTask(final Task task, final TaskEditDto taskEditDto) {
         if (StringUtils.hasText(taskEditDto.getTitle())) {
