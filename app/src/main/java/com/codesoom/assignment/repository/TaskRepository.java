@@ -14,6 +14,10 @@ public class TaskRepository {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
+    /**
+     * 모든 {@code Task} 객체를 반환
+     * @return {@code Task} 객체를 배열로 반환합니다
+     */
     public List<Task> findAll() {
         return tasks;
     }
