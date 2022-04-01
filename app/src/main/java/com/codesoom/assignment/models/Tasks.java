@@ -29,9 +29,9 @@ public class Tasks {
 
     public Task update(Long id, String title) {
         int index = findIndexById(id);
-        Task editTask = new Task(id, title);
-        tasks.set(index, editTask);
-        return editTask;
+        Task task = new Task(id, title);
+        tasks.set(index, task);
+        return task;
     }
 
     public void delete(Long id) {
