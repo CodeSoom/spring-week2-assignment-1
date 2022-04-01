@@ -28,7 +28,6 @@ import java.util.List;
  * {@link Task}
  * Task에 대한 목록 조회, 조회, 생성, 수정, 삭제 등의 요청들을 처리한다.
  */
-
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  *
- * @description : Controller, Service Layer 에서 발생하는 Exception들을 처리한다.
+ * Controller, Service Layer 에서 발생하는 Exception들을 처리한다.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
