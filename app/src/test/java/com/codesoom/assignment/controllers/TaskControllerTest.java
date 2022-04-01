@@ -18,12 +18,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// DONE: GET /tasks - 모든 Task 조회
-// DONE: GET /tasks/{id} - 1개의 Task 조회
-// DONE: POST /tasks - Task 1개 추가
-// DONE: PUT/PATCH /tasks/{id} - Task 수정
-// DONE: DELETE /tasks/{id} - 할 일 삭제
-
 @SpringBootTest
 @AutoConfigureUtf8MockMvc
 class TaskControllerTest {
