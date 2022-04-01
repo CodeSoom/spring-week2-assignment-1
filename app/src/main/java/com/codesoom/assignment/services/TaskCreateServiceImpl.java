@@ -17,12 +17,6 @@ public class TaskCreateServiceImpl implements TaskCreateService{
         this.repository = repository;
     }
 
-    /**
-     * 새로운 할 일을 추가한 뒤 결과를 반환한다.
-     *
-     * @param taskDto 사용자가 입력한 데이터
-     * @return 저장된 할 일
-     */
     @Override
     public Task addTask(TaskDto taskDto) {
         validateTaskDto(taskDto);
@@ -36,10 +30,11 @@ public class TaskCreateServiceImpl implements TaskCreateService{
      * 사용자가 입력한 데이터의 유효성을 검증합니다.
      *
      * @param taskDto 사용자가 입력한 데이터
-     * @throws TaskInvalidFormatException 데이터의 유효성 검증을 통과하지 못한 경우
+     * @throws TaskInvalidFormatException
+     *         데이터의 유효성 검증을 통과하지 못한 경우
      */
     private void validateTaskDto(TaskDto taskDto) {
-        if (taskDto.getTitle() == null || "".equals(taskDto.getTitle())) {
+        if (taskDto.getTitle().isBlank()) {
             throw new TaskInvalidFormatException("title은 필수로 입력해야 합니다.");
         }
     }

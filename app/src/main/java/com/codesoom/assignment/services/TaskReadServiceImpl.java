@@ -26,14 +26,6 @@ public class TaskReadServiceImpl implements TaskReadService{
         return new ArrayList<>(repository.getTasks().values());
     }
 
-
-    /**
-     * id로 할 일을 찾아 반환한다.
-     *
-     * @param id 요청받은 id
-     * @return 요청받은 id로 찾은 할 일
-     * @throws TaskNotFoundException id와 일치하는 값이 없을 때
-     */
     @Override
     public Task findTaskById(Long id) {
         final Task task = repository.findById(id);
@@ -42,4 +34,5 @@ public class TaskReadServiceImpl implements TaskReadService{
         }
         return task;
     }
+
 }

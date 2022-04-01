@@ -20,13 +20,6 @@ public class TaskUpdateServiceImpl implements TaskUpdateService{
         this.repository = repository;
     }
 
-    /**
-     * 할 일의 제목을 수정한 뒤 결과를 반환한다.
-     *
-     * @param id 요청받은 id
-     * @param taskDto 수정할 데이터를 담은 객체
-     * @return 수정이 완료된 할 일
-     */
     @Override
     public Task updateTaskById(Long id, TaskDto taskDto) {
         validateTaskDto(taskDto);
@@ -58,8 +51,9 @@ public class TaskUpdateServiceImpl implements TaskUpdateService{
      * @throws TaskInvalidFormatException 데이터의 유효성 검증을 통과하지 못한 경우
      */
     private void validateTaskDto(TaskDto taskDto) {
-        if (taskDto.getTitle() == null || "".equals(taskDto.getTitle())) {
+        if (taskDto.getTitle().isBlank()) {
             throw new TaskInvalidFormatException("title은 필수로 입력해야 합니다.");
         }
     }
+
 }

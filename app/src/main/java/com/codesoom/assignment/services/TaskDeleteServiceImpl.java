@@ -16,7 +16,6 @@ public class TaskDeleteServiceImpl implements TaskDeleteService{
         this.repository = repository;
     }
 
-    /** id로 할 일을 찾아 삭제합니다. */
     @Override
     public void deleteTaskById(Long id) {
         final Task task = findTaskById(id);
@@ -25,7 +24,8 @@ public class TaskDeleteServiceImpl implements TaskDeleteService{
 
     /**
      * id로 할 일을 찾아 반환합니다.
-     * @throws TaskNotFoundException id와 매핑되는 할 일을 찾지 못한 경우
+     * @throws TaskNotFoundException
+     *         id와 매핑되는 할 일을 찾지 못한 경우
      */
     private Task findTaskById(Long id) {
         final Task task = repository.findById(id);

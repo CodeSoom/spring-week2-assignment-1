@@ -9,11 +9,18 @@ import java.util.List;
  */
 public interface TaskReadService {
 
-    /** 모든 할 일을 반환합니다. */
+    /**
+     * 모든 할 일을 반환합니다.
+     *
+     * @return 모든 할 일
+     */
     List<Task> getTasks();
 
     /**
-     * id와 매핑되는 할 일이 있으면 해당 할 일을, 없으면 null을 반환합니다.
+     * 할 일을 찾아 반환합니다.
+     *
+     * @param id 할 일의 id
+     * @return id와 매핑되는 할 일이 있으면 해당 할 일, 없으면 null
      */
     Task findTaskById(Long id);
 

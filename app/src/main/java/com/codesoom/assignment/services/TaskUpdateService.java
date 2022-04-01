@@ -2,6 +2,7 @@ package com.codesoom.assignment.services;
 
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.domains.TaskDto;
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 
 
 /**
@@ -10,10 +11,11 @@ import com.codesoom.assignment.domains.TaskDto;
 public interface TaskUpdateService {
 
     /**
-     * id와 매핑되는 할 일의 정보를 수정합니다.
+     * 할 일의 제목을 수정한 뒤 결과를 반환한다.
      *
-     * @param id 사용자가 입력한 resource id
-     * @param taskDto 사용자가 입력한 데이터
+     * @param id 요청받은 id
+     * @param taskDto 수정할 데이터를 담은 객체
+     * @return 수정이 완료된 할 일
      */
     Task updateTaskById(Long id, TaskDto taskDto);
 
