@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * {@link Task}
+ * Task에 대한 저장, 수정, 삭제, 조회를 한다
+ */
 public class TodoRepository {
 
     private List<Task> tasks = new ArrayList<>();

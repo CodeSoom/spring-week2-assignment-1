@@ -7,6 +7,10 @@ import com.codesoom.assignment.repository.TodoRepository;
 
 import java.util.List;
 
+/**
+ * {@link Task}
+ * Controller에서 요청들을 받아서 Task에 대한 저장, 수정, 삭제, 조회 등의 작업을 수행한다.
+ */
 public class TodoService {
 
     private TodoRepository todoRepository = new TodoRepository();
