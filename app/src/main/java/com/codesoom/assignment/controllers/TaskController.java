@@ -35,21 +35,39 @@ public class TaskController {
     }
 
     @PostMapping()
-    public Task create(@RequestBody Task task) {
+    public ResponseEntity<Task> create(@RequestBody Task task) {
         task.setId(generatedId());
         tasks.add(task);
-        return task;
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Task> read(@PathVariable("id") Long id) {
         Optional<Task> task = tasks.stream().filter(t -> t.getId().equals(id))
                 .findFirst();
-        return task.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        if(task.isPresent()){
+            return new ResponseEntity<>(task.get(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PatchMapping(value = "/{id}")
     public ResponseEntity<Task> update(@RequestBody Task updateTask, @PathVariable("id") Long id) {
+        Optional<Task> task = tasks.stream().filter(t -> t.getId().equals(id))
+                .findFirst();
+        if(task.isPresent()){
+            if(updateTask != null){
+                task.get().setTitle(updateTask.getTitle());
+            }
+            return new ResponseEntity<>(task.get(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Task> partialUpdate(@RequestBody Task updateTask, @PathVariable("id") Long id) {
         Optional<Task> task = tasks.stream().filter(t -> t.getId().equals(id))
                 .findFirst();
         if(task.isPresent()){
@@ -67,12 +85,10 @@ public class TaskController {
         Optional<Task> task = tasks.stream().filter(t -> t.getId().equals(id))
                 .findFirst();
         if(task.isPresent()){
-            tasks.remove(task);
-            return new ResponseEntity<>(HttpStatus.OK);
+            tasks.remove(task.get());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
 }
