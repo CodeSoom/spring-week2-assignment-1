@@ -1,12 +1,3 @@
-/*
-# ToDo
-- 목록 얻기 - `GET /tasks`
-- 상세 조회하기 - `GET /tasks/{id}`
-- 생성하기 - `POST /tasks`
-- 제목 수정하기 - `PUT/PATCH /tasks/{id}`
-- 삭제하기 - `DELETE /tasks/{id}`
- */
-
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
