@@ -24,7 +24,7 @@ public class TaskSaveDto {
     }
 
     /**
-     * 할 일로 변환해 리턴해 줍니다.
+     * 할 일로 변환해 리턴합니다.
      */
     public Task toEntity() {
         return new Task(taskDto.getTitle());

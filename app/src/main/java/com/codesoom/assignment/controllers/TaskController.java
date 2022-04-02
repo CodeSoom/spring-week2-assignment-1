@@ -47,7 +47,6 @@ public class TaskController {
      * 새로운 리소스를 생성하고 생성된 리소스 데이터를 응답합니다.
      *
      * @param taskSaveDto 생성에 필요한 데이터
-     * @see TaskViewDto
      */
     @PostMapping
     public ResponseEntity<TaskViewDto> save(@RequestBody TaskSaveDto taskSaveDto) {
@@ -63,7 +62,6 @@ public class TaskController {
      * 단일 리소스 데이터를 응답합니다.
      *
      * @param taskId 리소스의 고유 아이디
-     * @see TaskViewDto
      */
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskViewDto> view(@PathVariable Long taskId) {
@@ -79,7 +77,6 @@ public class TaskController {
      *
      * @param taskId      대체 대상인 리소스의 고유 아이디
      * @param taskEditDto 대체에 필요한 데이터
-     * @see TaskViewDto
      */
     @PutMapping("/{taskId}")
     public ResponseEntity<TaskViewDto> replace(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
@@ -96,7 +93,6 @@ public class TaskController {
      *
      * @param taskId      수정 대상인 리소스의 고유아이디
      * @param taskEditDto 수정에 필요한 데이터
-     * @see TaskViewDto
      */
     @PatchMapping("/{taskId}")
     public ResponseEntity<TaskViewDto> update(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {

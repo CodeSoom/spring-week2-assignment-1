@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  해야할 일을 메모리에서 관리합니다.
+ *  해야할 일을 저장소에서 관리합니다.
  */
 @Repository
 public class TaskRepository {
@@ -46,9 +46,9 @@ public class TaskRepository {
 
     /**
      * 주어진 아이디와 일치하는 해야 할 일을 리턴합니다.
-     * <p>일치하는 할일이 없을 경우 {@code null} 을 리턴합니다.</p>
+     * <p>일치하는 할일이 없을 경우 null 을 리턴합니다.</p>
      * @param id 아이디
-     * @return 일치하는 아이디가 있다면 엔티티, 없다면 {@code null}
+     * @return 일치하는 아이디가 있다면 엔티티, 없다면 null
      */
     public Task findById(final Long id) {
         return tasks.get(id);
