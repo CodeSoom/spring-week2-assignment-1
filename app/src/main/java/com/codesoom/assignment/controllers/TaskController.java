@@ -1,9 +1,9 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domain.Task;
-import com.codesoom.assignment.dto.TaskViewDto;
 import com.codesoom.assignment.dto.TaskEditDto;
 import com.codesoom.assignment.dto.TaskSaveDto;
+import com.codesoom.assignment.dto.TaskViewDto;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
- *  할 일에 대한 HTTP 요청을 처리합니다.
+ * 할 일에 대한 HTTP 요청을 처리합니다.
  */
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/tasks")
@@ -46,6 +45,7 @@ public class TaskController {
 
     /**
      * 새로운 리소스를 생성하고 생성된 리소스 데이터를 응답합니다.
+     *
      * @param taskSaveDto 생성에 필요한 데이터
      * @see TaskViewDto
      */
@@ -60,37 +60,31 @@ public class TaskController {
     }
 
     /**
-     * 단일 리소스 데이터를 응답하고 매칭되는 리소스가 없다면 404 를 응답합니다
+     * 단일 리소스 데이터를 응답합니다.
+     *
      * @param taskId 리소스의 고유 아이디
      * @see TaskViewDto
      */
     @GetMapping("/{taskId}")
     public ResponseEntity<TaskViewDto> view(@PathVariable Long taskId) {
-        Optional<Task> findTask = taskService.getTask(taskId);
-        if (findTask.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        final Task task = taskService.getTask(taskId);
 
-        final Task task = findTask.get();
         TaskViewDto taskViewDto = TaskViewDto.from(task);
+
         return ResponseEntity.ok().body(taskViewDto);
     }
 
     /**
      * 기존 리소스를 새로운 리소스로 대체 하고 대체된 리소스 데이터를 응답합니다.
-     * @param taskId 대체 대상인 리소스의 고유 아이디
+     *
+     * @param taskId      대체 대상인 리소스의 고유 아이디
      * @param taskEditDto 대체에 필요한 데이터
      * @see TaskViewDto
      */
     @PutMapping("/{taskId}")
     public ResponseEntity<TaskViewDto> replace(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
 
-        Optional<Task> findTask = taskService.getTask(taskId);
-        if (findTask.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        final Task task = findTask.get();
+        final Task task = taskService.getTask(taskId);
         taskService.replaceTask(task, taskEditDto);
 
         TaskViewDto taskViewDto = TaskViewDto.from(task);
@@ -99,19 +93,15 @@ public class TaskController {
 
     /**
      * 리소스 일부를 수정하고 수정된 리소스 정보를 응답합니다.
-     * @param taskId 수정 대상인 리소스의 고유아이디
+     *
+     * @param taskId      수정 대상인 리소스의 고유아이디
      * @param taskEditDto 수정에 필요한 데이터
      * @see TaskViewDto
      */
     @PatchMapping("/{taskId}")
     public ResponseEntity<TaskViewDto> update(@PathVariable Long taskId, @RequestBody TaskEditDto taskEditDto) {
 
-        Optional<Task> findTask = taskService.getTask(taskId);
-        if (findTask.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        final Task task = findTask.get();
+        final Task task = taskService.getTask(taskId);
         taskService.updateTask(task, taskEditDto);
 
         TaskViewDto taskViewDto = TaskViewDto.from(task);
@@ -120,15 +110,13 @@ public class TaskController {
 
     /**
      * 단일 리소스를 삭제합니다.
+     *
      * @param taskId 삭제할 리소스의 고유 아이디
      */
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Object> delete(@PathVariable Long taskId) {
 
-        Optional<Task> findTask = taskService.getTask(taskId);
-        if (findTask.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        final Task task = taskService.getTask(taskId);
 
         taskService.delete(taskId);
 

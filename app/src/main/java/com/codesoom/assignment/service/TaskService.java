@@ -4,13 +4,13 @@ import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.dto.TaskEditDto;
 import com.codesoom.assignment.dto.TaskSaveDto;
 import com.codesoom.assignment.dto.TaskViewDto;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +27,7 @@ public class TaskService {
 
     /**
      * 할 일 목록을 변환해 리턴합니다.
+     *
      * @see TaskViewDto
      */
     public List<TaskViewDto> getTaskDtoList() {
@@ -39,6 +40,7 @@ public class TaskService {
 
     /**
      * 할 일을 생성하고 생성된 할 일을 리턴합니다.
+     *
      * @param taskSaveDto 생성에 필요한 데이터
      */
     public Task save(final TaskSaveDto taskSaveDto) {
@@ -48,20 +50,22 @@ public class TaskService {
     }
 
     /**
-     * 주어진 아이디와 일치하는 할일 을 {@code Optional}로 래핑해서 리턴합니다.
-     * <p>일치하는게 없다면 비어있는 {@code Optional}을 리턴 합니다.</p>
+     * 할 일을 리턴합니다.
+     *
      * @param taskId 할 일의 고유 아이디
+     * @throws TaskNotFoundException 할 일을 찾을 수 없을 때 던집니다.
      */
-    public Optional<Task> getTask(final Long taskId) {
+    public Task getTask(final Long taskId) {
         Task task = taskRepository.findById(taskId);
         if (task == null) {
-            return Optional.empty();
+            throw new TaskNotFoundException();
         }
-        return Optional.of(task);
+        return task;
     }
 
     /**
      * 할 일을 삭제합니다.
+     *
      * @param taskId 할 일의 고유 아이디
      */
     public void delete(final Long taskId) {
@@ -70,6 +74,7 @@ public class TaskService {
 
     /**
      * 할 일을 대체합니다.
+     *
      * @param task        대체 대상인 할 일
      * @param taskEditDto 대체될 데이터
      */
