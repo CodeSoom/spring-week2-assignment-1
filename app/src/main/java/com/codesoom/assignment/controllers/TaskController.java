@@ -30,7 +30,7 @@ public class TaskController {
         this.taskRepository = new TaskRepository();
     }
 
-    private Long generatedId(){
+    private synchronized Long generatedId(){
         newId += 1;
         return newId;
     }
