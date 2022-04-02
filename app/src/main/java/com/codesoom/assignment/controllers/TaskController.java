@@ -1,23 +1,24 @@
 // TODO
-// 1. Read Collection - GET /tasks
-// 2. Read Item - GET /tasks/{id}
-// 3. Create - POST /tasks
-// 4. Update - PUT/PATCH /tasks{id}
-// 5. Delete - DELETE /tasks/{id}
+// 1. Read Collection - GET /tasks => 완료
+// 2. Read Item - GET /tasks/{id} => 완료
+// 3. Create - POST /tasks => 완료
+// 4. Update - PUT/PATCH /tasks{id} => 완료
+// 5. Delete - DELETE /tasks/{id} => 완료
 
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.application.TaskService;
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.models.Tasks;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,30 +28,43 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private Tasks tasks = new Tasks();
-    private Long newId = 0L;
+    private TaskService taskService;
+
+    public TaskController() {
+        taskService = new TaskService();
+    }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public List<Task> list() {
-        return tasks.getAllTasks();
+        return taskService.getTasks();
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Task getTask(@PathVariable Long id) { return  tasks.findTask(id); }
-
-    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    @ResponseStatus(HttpStatus.OK)
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
-        return tasks.updateTask(id, task);
+    @GetMapping("{id}")
+    public Task detail(@PathVariable Long id) {
+        return taskService.getTask(id);
     }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTask(@PathVariable Long id) { tasks.deleteTask(id); }
-
-    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) { return tasks.addTask(task); }
+    @PostMapping
+    public Task create(@RequestBody Task task) {
+        return taskService.createTask(task);
+    }
+
+    @PutMapping("{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task source) {
+        return taskService.updateTask(id, source);
+
+    }
+
+    @PatchMapping("{id}")
+    public Task patch(@PathVariable Long id, @RequestBody Task source) {
+        return taskService.updateTask(id, source);
+
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
+        taskService.deleteTask(id);
+    }
 }
