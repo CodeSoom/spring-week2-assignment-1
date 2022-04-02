@@ -118,7 +118,7 @@ public class TaskController {
 
         final Task task = taskService.getTask(taskId);
 
-        taskService.delete(taskId);
+        taskService.delete(task);
 
         return ResponseEntity.noContent().build();
     }

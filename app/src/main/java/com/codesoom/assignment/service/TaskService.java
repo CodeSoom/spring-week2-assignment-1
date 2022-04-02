@@ -64,12 +64,12 @@ public class TaskService {
     }
 
     /**
-     * 할 일을 삭제합니다.
+     * 할 일을 삭제 합니다.
      *
-     * @param taskId 할 일의 고유 아이디
+     * @param task 삭제될 할 일
      */
-    public void delete(final Long taskId) {
-        taskRepository.deleteById(taskId);
+    public void delete(final Task task) {
+        taskRepository.deleteById(task.getId());
     }
 
     /**
