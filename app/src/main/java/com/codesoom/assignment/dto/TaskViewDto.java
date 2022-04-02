@@ -3,7 +3,7 @@ package com.codesoom.assignment.dto;
 import com.codesoom.assignment.domain.Task;
 
 /**
- * {@link Task} 데이터 전송에 필요한 데이터를 정의합니다.
+ * 할 일 데이터 전송에 필요한 데이터를 정의합니다.
  */
 public class TaskViewDto {
 
@@ -14,10 +14,9 @@ public class TaskViewDto {
     }
 
     /**
-     * {@link Task} 객체를 인자로 받아 {@link TaskDto} 를 리턴합니다.
+     * 할 일을 받아 전송에 필요한 데이터를 리턴합니다.
      *
-     * @param task {@link Task}
-     * @return {@link TaskDto}
+     * @param task 할 일
      */
     public static TaskViewDto from(final Task task) {
         return new TaskViewDto(task);
