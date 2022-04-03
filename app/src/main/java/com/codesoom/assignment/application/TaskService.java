@@ -32,7 +32,6 @@ public class TaskService {
         tasks.add(task);
 
         return task;
-
     }
 
     public Task updateTask(Long id, Task source) {
