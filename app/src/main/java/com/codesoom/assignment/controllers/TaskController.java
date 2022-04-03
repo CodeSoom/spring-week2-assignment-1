@@ -79,8 +79,7 @@ public class TaskController {
     }
 
     /**
-     * Task 객체를 변경하는 API
-     * 업데이트 하는 PUT 과 PATCH RequestMethod를 하나의 API 로 통합하여 관리
+     * {@code Task} 객체의 내용을 변경하는 API
      * @param id {@link Task} 객체의 id
      * @param taskDto RequestBody 를 통해 Request의 Body에 있는 데이터를 {@link TaskDto} 객체로 바인딩
      * @return 업데이트 된 {@code Task} 객체를 반환
