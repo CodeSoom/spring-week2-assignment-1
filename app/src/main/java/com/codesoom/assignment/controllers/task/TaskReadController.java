@@ -1,4 +1,4 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.controllers.task;
 
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.services.TaskReadService;
@@ -14,9 +14,7 @@ import java.util.List;
 /**
  * 힐 일 조회 요청과 매핑됩니다.
  */
-@CrossOrigin
-@RequestMapping("/tasks")
-@RestController
+@TaskController
 public class TaskReadController {
 
     private final TaskReadService service;

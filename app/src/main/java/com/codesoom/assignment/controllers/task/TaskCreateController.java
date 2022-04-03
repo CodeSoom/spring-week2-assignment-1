@@ -1,4 +1,4 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.controllers.task;
 
 import com.codesoom.assignment.domains.Task;
 import com.codesoom.assignment.domains.TaskDto;
@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 할 일 생성 요청과 매핑됩니다.
  */
-@CrossOrigin
-@RequestMapping("/tasks")
-@RestController
+
+@TaskController
 public class TaskCreateController {
 
     private final TaskCreateService service;

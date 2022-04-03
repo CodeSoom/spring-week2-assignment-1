@@ -1,4 +1,4 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.controllers.task;
 
 
 import com.codesoom.assignment.services.TaskDeleteService;
@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 할 일 삭제 요청과 매핑됩니다.
  */
-@CrossOrigin
-@RequestMapping("/tasks")
-@RestController
+@TaskController
 public class TaskDeleteController {
 
     private final TaskDeleteService service;
