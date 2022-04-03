@@ -5,6 +5,7 @@ import com.codesoom.assignment.domains.TaskDto;
 import com.codesoom.assignment.exceptions.TaskInvalidFormatException;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.repositories.TaskRepository;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 
@@ -51,7 +52,7 @@ public class TaskUpdateServiceImpl implements TaskUpdateService{
      * @throws TaskInvalidFormatException 데이터의 유효성 검증을 통과하지 못한 경우
      */
     private void validateTaskDto(TaskDto taskDto) {
-        if (taskDto.getTitle().isBlank()) {
+        if (Strings.isBlank(taskDto.getTitle())) {
             throw new TaskInvalidFormatException("title은 필수로 입력해야 합니다.");
         }
     }
