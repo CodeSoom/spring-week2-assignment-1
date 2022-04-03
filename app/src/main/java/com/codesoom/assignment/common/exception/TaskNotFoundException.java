@@ -2,7 +2,7 @@ package com.codesoom.assignment.common.exception;
 
 
 /**
- * 찾는 Task가 없을 경우 TaskNotFoundException 예외를 정의한다.
+ * 작업을 찾지 못했을 때 던집니다.
  */
 public class TaskNotFoundException extends RuntimeException {
 
