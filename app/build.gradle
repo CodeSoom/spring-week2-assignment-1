@@ -36,6 +36,16 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 스프링 부트 개발 도구
+    // 빠른 재시작, 라이브 리로드, 자동 재시작, 캐시 무효화 등의 기능을 제공합니다.
+    // https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.devtools.property-defaults
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // 스프링 부트 테스트 도구
+    // 테스트 환경에서 스프링의 컨테이너를 이용할 수 있습니다. 다양한 테스트 대역과 Mock 객체도 제공합니다.
+    // https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.3.5.RELEASE'
 }
 
 application {
