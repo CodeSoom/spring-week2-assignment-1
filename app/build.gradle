@@ -17,7 +17,14 @@ plugins {
 
 repositories {
     // Use JCenter for resolving dependencies.
-    jcenter()
+    mavenCentral()
+}
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
 }
 
 dependencies {
@@ -36,6 +43,20 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Validation
+    /**
+     * 유효성 검사를 통한 검증된 데이터를 얻기 원할때 사용합니다.
+     */
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Spring Dev Tools
+    /**
+     * Automatic Restart  파일 수정 후 저장 시, Classpath에 존재하는 파일의 변경을 감지 후 자동으로 서버를 재시작
+     * Live Reload        JS 기반 프레임워크에서의 Hot Reload역활
+     */
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
 }
 
 application {
