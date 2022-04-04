@@ -2,17 +2,13 @@ package com.codesoom.assignment.application;
 
 import com.codesoom.assignment.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TaskService {
-    // 1. list -> getTasks
-    // 2. detail -> getTask (with ID)
-    // 3. create -> createTask (with source)
-    // 4. update -> updateTask (with ID, source)
-    // 5. delete -> deleteTask (with ID)
-
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
@@ -27,8 +23,11 @@ public class TaskService {
                 .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
-    public Task createTask(Task task) {
+    public Task createTask(Task source) {
+        Task task = new Task();
         task.setId(generateId());
+        task.setTitle(source.getTitle());
+
         tasks.add(task);
 
         return task;

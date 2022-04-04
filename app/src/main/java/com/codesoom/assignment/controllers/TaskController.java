@@ -30,8 +30,8 @@ import java.util.List;
 public class TaskController {
     private TaskService taskService;
 
-    public TaskController() {
-        taskService = new TaskService();
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping
@@ -51,14 +51,14 @@ public class TaskController {
     }
 
     @PutMapping("{id}")
-    public Task update(@PathVariable Long id, @RequestBody Task source) {
-        return taskService.updateTask(id, source);
+    public Task update(@PathVariable Long id, @RequestBody Task task) {
+        return taskService.updateTask(id, task);
 
     }
 
     @PatchMapping("{id}")
-    public Task patch(@PathVariable Long id, @RequestBody Task source) {
-        return taskService.updateTask(id, source);
+    public Task patch(@PathVariable Long id, @RequestBody Task task) {
+        return taskService.updateTask(id, task);
 
     }
 
