@@ -8,7 +8,7 @@ public interface IControllerOutput {
 
     void update(TaskRequestDtoUpdating requestDto);
 
-    void deleteBy(Long id);
+    void deleteBy(long id);
 
     TaskResponseDto responseDtoCreated();
 

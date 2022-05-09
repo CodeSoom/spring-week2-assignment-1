@@ -8,7 +8,7 @@ import java.util.List;
 public interface ITaskRepository {
     List<Task> tasksAll();
 
-    Task taskBy(Long id);
+    Task taskBy(long id);
 
     RepositoryOutput output();
 }

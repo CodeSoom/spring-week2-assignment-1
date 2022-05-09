@@ -1,11 +1,11 @@
 package com.codesoom.assignment.interfaces;
 
 public interface ITask {
-    int id();
+    long id();
 
     String title();
 
-    void updateId(int id);
+    void updateId(long id);
 
     void updateTitle(String title);
 }
