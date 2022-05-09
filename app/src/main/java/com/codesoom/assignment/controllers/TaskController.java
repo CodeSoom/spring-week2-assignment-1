@@ -42,11 +42,11 @@ public class TaskController {
         taskRepository.delete(id);
     }
 
-    @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Long id, @RequestBody Task target) {
-        Task source = taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
-        source.setTitle(target.getTitle());
-        return source;
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
+    public Task updateTask(@PathVariable Long id, @RequestBody Task source) {
+        Task target = taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
+        target.setTitle(source.getTitle());
+        return target;
     }
 
 }
