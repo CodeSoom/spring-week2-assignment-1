@@ -45,7 +45,7 @@ public class TaskController {
     @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public Task updateTask(@PathVariable Long id, @RequestBody Task source) {
         Task target = taskRepository.findById(id).orElseThrow(TaskNotFoundException::new);
-        target.setTitle(source.getTitle());
+        target.update(source);
         return target;
     }
 

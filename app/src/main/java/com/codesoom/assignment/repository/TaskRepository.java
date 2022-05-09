@@ -18,12 +18,12 @@ public class TaskRepository {
         return new ArrayList<>(taskMap.values());
     }
 
-    public Task save(Task task) {
-        task.setId(sequence);
-        taskMap.put(task.getId(), task);
+    public Task save(Task source) {
+        Task target = new Task(sequence, source.getTitle());
+        taskMap.put(target.getId(), target);
 
         incrementSequence();
-        return task;
+        return target;
     }
 
     public void delete(Long id) {
