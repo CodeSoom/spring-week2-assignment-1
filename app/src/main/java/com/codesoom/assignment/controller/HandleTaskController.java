@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controller;
 
 import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.service.HandleTaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,17 +11,33 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class HandleTaskController {
-    private List<Task> tasks = new ArrayList<>();
+
+    private HandleTaskService handleTaskService;
+
+    public HandleTaskController(HandleTaskService handleTaskService) {
+        this.handleTaskService = handleTaskService;
+    }
 
     @GetMapping
     public List<Task> list() {
-        return tasks;
+        return handleTaskService.findAll();
     }
 
     @PostMapping
-    public Task save(@RequestBody Task source) {
-        Task target = new Task(source.getTitle());
-        tasks.add(target);
-        return target;
+    public Task create(@RequestBody Task task) {
+        return handleTaskService.create(task);
+    }
+
+    @PatchMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task task) {
+        task.setId(id);
+        return handleTaskService.update(task);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        Task task = new Task();
+        task.setId(id);
+        handleTaskService.delete(task);
     }
 }
