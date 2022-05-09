@@ -1,3 +1,18 @@
 node_modules
 build
 *.log
+
+# Ignore Gradle project-specific cache directory
+.gradle
+**/build/
+!src/**/build/
+caches
+daemon
+native
+notifications
+
+# Intellij IDEA
+.idea
+
+# macOS
+.DS_Store
