@@ -10,7 +10,7 @@ public interface IControllerOutput {
 
     void deleteBy(Long id);
 
-    TaskResponseDto responseDtoSaved();
+    TaskResponseDto responseDtoCreated();
 
     TaskResponseDto responseDtoUpdated();
 }
