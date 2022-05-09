@@ -4,11 +4,13 @@ import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class TaskRepository {
-    private Long sequence = 1L;
-    private final Map<Long, Task> taskMap = new HashMap<>();
+    private final AtomicLong sequence = new AtomicLong(1L);
+    private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
     public Optional<Task> findById(Long id) {
         return Optional.ofNullable(taskMap.get(id));
@@ -19,7 +21,7 @@ public class TaskRepository {
     }
 
     public Task save(Task source) {
-        Task target = new Task(sequence, source.getTitle());
+        Task target = new Task(sequence.get(), source.getTitle());
         taskMap.put(target.getId(), target);
 
         incrementSequence();
@@ -31,7 +33,8 @@ public class TaskRepository {
     }
 
     private void incrementSequence() {
-        this.sequence += 1;
+        Long next = this.sequence.get() + 1;
+        sequence.set(next);
     }
 
 }
