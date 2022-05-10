@@ -20,7 +20,7 @@ public class TaskControllerOutput implements ControllerOutput {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody TaskRequestDtoCreating requestDto) {
+    public void create(@RequestBody TaskRequestDto requestDto) {
         Task task = requestDto.toEntity();
         System.out.println(task.toString());
         repository.output().save(task);
@@ -35,7 +35,7 @@ public class TaskControllerOutput implements ControllerOutput {
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBy(Long id) {
+    public void deleteBy(@PathVariable Long id) {
         repository.output().deleteBy(id);
     }
 
