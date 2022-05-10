@@ -1,10 +1,12 @@
 package com.codesoom.assignment;
 
 import com.codesoom.assignment.interfaces.DefaultRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Repository
 public class TaskRepository implements DefaultRepository {
     static private Long sequence = 1L;
     static private Map<Long, Task> tasks;
