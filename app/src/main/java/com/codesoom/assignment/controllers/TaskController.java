@@ -64,6 +64,7 @@ public class TaskController {
             response.setStatus(404);
         }
 
+        response.setStatus(204);
         tasks.remove(task);
         return "";
     }
