@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/tasks")
 public class TaskController implements DefaultController {
     private final TaskRepository repository;
+    private final TaskControllerOutput controllerOutput;
 
     TaskController(TaskRepository repository) {
         this.repository = repository;
+        controllerOutput = new TaskControllerOutput(repository);
     }
 
     @Override
@@ -35,6 +37,6 @@ public class TaskController implements DefaultController {
 
     @Override
     public TaskControllerOutput output() {
-        return new TaskControllerOutput(repository);
+        return controllerOutput;
     }
 }

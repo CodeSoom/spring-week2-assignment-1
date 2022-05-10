@@ -8,11 +8,12 @@ import java.util.stream.Collectors;
 
 @Repository
 public class TaskRepository implements DefaultRepository {
-    static private Long sequence = 1L;
     static private Map<Long, Task> tasks;
+    static private TaskRepositoryOutput repositoryOutput;
 
     TaskRepository() {
         tasks = new HashMap<>();
+        repositoryOutput = new TaskRepositoryOutput(tasks, 1L);
     }
 
     @Override
@@ -32,6 +33,6 @@ public class TaskRepository implements DefaultRepository {
 
     @Override
     public TaskRepositoryOutput output() {
-        return new TaskRepositoryOutput(tasks, sequence);
+        return repositoryOutput;
     }
 }
