@@ -5,7 +5,7 @@ import com.codesoom.assignment.controllers.RepositoryOutput;
 
 import java.util.List;
 
-public interface ITaskRepository {
+public interface TaskRepository {
     List<Task> tasksAll();
 
     Task taskBy(Long id);

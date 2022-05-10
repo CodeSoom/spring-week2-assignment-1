@@ -2,7 +2,7 @@ package com.codesoom.assignment.interfaces;
 
 import com.codesoom.assignment.controllers.dtos.*;
 
-public interface IControllerOutput {
+public interface ControllerOutput {
 
     void create(TaskRequestDtoCreating requestDto);
 
