@@ -4,9 +4,9 @@ import com.codesoom.assignment.controllers.dtos.*;
 
 public interface ControllerOutput {
 
-    void create(TaskRequestDtoCreating requestDto);
+    void create(TaskRequestDto requestDto);
 
-    void update(TaskRequestDtoUpdating requestDto);
+    void update(Long id, TaskRequestDto requestDto);
 
     void deleteBy(Long id);
 
