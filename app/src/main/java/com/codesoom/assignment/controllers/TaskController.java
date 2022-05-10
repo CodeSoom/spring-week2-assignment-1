@@ -18,6 +18,18 @@ public class TaskController {
         return tasks;
     }
 
+    @GetMapping("{id}")
+    public Object getTaskItem(@PathVariable("id") Long id, HttpServletResponse response) {
+        Task task = findTask(id);
+
+        if (task == null) {
+            response.setStatus(404);
+            return "";
+        }
+
+        return task;
+    }
+
     @PostMapping
     public Object createTask(@RequestBody Task task, HttpServletResponse response) {
         if(task.getTitle().isBlank()) {
@@ -30,6 +42,13 @@ public class TaskController {
             response.setStatus(201);
             return task;
         }
+    }
+
+    private Task findTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
     private Long generateId() {
