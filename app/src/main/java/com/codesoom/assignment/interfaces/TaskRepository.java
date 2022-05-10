@@ -1,7 +1,7 @@
 package com.codesoom.assignment.interfaces;
 
 import com.codesoom.assignment.Task;
-import com.codesoom.assignment.controllers.RepositoryOutput;
+import com.codesoom.assignment.RepositoryOutput;
 
 import java.util.List;
 
