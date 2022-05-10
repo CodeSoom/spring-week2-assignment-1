@@ -2,8 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.Task;
 import com.codesoom.assignment.TaskRepository;
-import com.codesoom.assignment.controllers.dtos.TaskRequestDtoCreating;
-import com.codesoom.assignment.controllers.dtos.TaskRequestDtoUpdating;
+import com.codesoom.assignment.controllers.dtos.TaskRequestDto;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
 import com.codesoom.assignment.interfaces.ControllerOutput;
 import org.springframework.http.HttpStatus;
@@ -29,8 +28,8 @@ public class TaskControllerOutput implements ControllerOutput {
 
     @Override
     @PutMapping("/{id}")
-    public void update(TaskRequestDtoUpdating requestDto) {
-        repository.output().update(requestDto.getId(), requestDto.toEntity());
+    public void update(@PathVariable Long id, TaskRequestDto requestDto) {
+        repository.output().update(id, requestDto.toEntity());
     }
 
     @Override
