@@ -10,10 +10,11 @@ import java.util.stream.Collectors;
 public class TaskRepository implements DefaultRepository {
     static private Map<Long, Task> tasks;
     static private TaskRepositoryOutput repositoryOutput;
+    static private final Long SEQUENCE = 1L;
 
     TaskRepository() {
         tasks = new HashMap<>();
-        repositoryOutput = new TaskRepositoryOutput(tasks, 1L);
+        repositoryOutput = new TaskRepositoryOutput(tasks, SEQUENCE);
     }
 
     @Override
