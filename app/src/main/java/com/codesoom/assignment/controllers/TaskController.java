@@ -2,8 +2,8 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.TaskRepository;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
-import com.codesoom.assignment.interfaces.ControllerOutput;
 import com.codesoom.assignment.interfaces.DefaultController;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +20,7 @@ public class TaskController implements DefaultController {
     }
 
     @Override
+    @GetMapping
     public List<TaskResponseDto> showAll() {
         return repository.tasksAll().stream()
                 .map(TaskResponseDto::new)
@@ -27,6 +28,7 @@ public class TaskController implements DefaultController {
     }
 
     @Override
+    @GetMapping("/{id}")
     public TaskResponseDto showBy(Long id) {
         return new TaskResponseDto(repository.taskBy(id));
     }

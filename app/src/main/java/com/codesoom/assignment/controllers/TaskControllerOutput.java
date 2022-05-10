@@ -6,10 +6,8 @@ import com.codesoom.assignment.controllers.dtos.TaskRequestDtoCreating;
 import com.codesoom.assignment.controllers.dtos.TaskRequestDtoUpdating;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
 import com.codesoom.assignment.interfaces.ControllerOutput;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tasks")
@@ -22,6 +20,7 @@ public class TaskControllerOutput implements ControllerOutput {
 
     @Override
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody TaskRequestDtoCreating requestDto) {
         Task task = requestDto.toEntity();
         System.out.println(task.toString());
@@ -29,11 +28,14 @@ public class TaskControllerOutput implements ControllerOutput {
     }
 
     @Override
+    @PutMapping("/{id}")
     public void update(TaskRequestDtoUpdating requestDto) {
-        repository.output().update(requestDto.id(), requestDto.toEntity());
+        repository.output().update(requestDto.getId(), requestDto.toEntity());
     }
 
     @Override
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBy(Long id) {
         repository.output().deleteBy(id);
     }
