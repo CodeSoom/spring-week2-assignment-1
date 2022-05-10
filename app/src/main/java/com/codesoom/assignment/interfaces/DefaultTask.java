@@ -1,6 +1,6 @@
 package com.codesoom.assignment.interfaces;
 
-public interface Task {
+public interface DefaultTask {
     Long id();
 
     String title();
