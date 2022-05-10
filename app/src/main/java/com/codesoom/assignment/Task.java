@@ -3,7 +3,7 @@ package com.codesoom.assignment;
 
 import com.codesoom.assignment.interfaces.DefaultTask;
 
-public class Task implements DefaultTask {
+public class Task implements DefaultTask, Comparable<Task> {
     private Long id;
     private String title;
 
@@ -39,5 +39,13 @@ public class Task implements DefaultTask {
     @Override
     public String toString() {
         return String.format("{ id = %s, title = %s }", id, title);
+    }
+
+    @Override
+    public int compareTo(Task task) {
+        if (id() == null || task.id() == null) {
+            return 0;
+        }
+        return id().compareTo(task.id());
     }
 }
