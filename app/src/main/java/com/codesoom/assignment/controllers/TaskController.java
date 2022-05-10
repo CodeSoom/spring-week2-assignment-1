@@ -32,7 +32,7 @@ public class TaskController implements DefaultController {
     }
 
     @Override
-    public ControllerOutput output() {
-        return null;
+    public TaskControllerOutput output() {
+        return new TaskControllerOutput(repository);
     }
 }
