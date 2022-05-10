@@ -31,7 +31,7 @@ public class TaskRepository implements DefaultRepository {
     }
 
     @Override
-    public RepositoryOutput output() {
-        return null;
+    public TaskRepositoryOutput output() {
+        return new TaskRepositoryOutput(tasks, sequence);
     }
 }
