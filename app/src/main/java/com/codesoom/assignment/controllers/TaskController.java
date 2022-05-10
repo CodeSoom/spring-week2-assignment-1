@@ -44,6 +44,18 @@ public class TaskController {
         }
     }
 
+    @PutMapping("/{id}")
+    public Object updateTaskByPutMethod(@PathVariable("id") Long id,
+                                        @RequestBody Task source, HttpServletResponse response) {
+        return handleUpdate(id, source, response);
+    }
+
+    @PatchMapping("/{id}")
+    public Object updateTaskByPatchMethod(@PathVariable("id") Long id,
+                                          @RequestBody Task source, HttpServletResponse response) {
+        return handleUpdate(id, source, response);
+    }
+
     private Task findTask(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
@@ -54,5 +66,22 @@ public class TaskController {
     private Long generateId() {
         newId += 1;
         return newId;
+    }
+
+    private Object handleUpdate(Long id, Task source, HttpServletResponse response) {
+        if(source.getTitle().isBlank()) {
+            response.setStatus(400);
+            return "";
+        }
+
+        Task task = findTask(id);
+
+        if (task == null) {
+            response.setStatus(404);
+            return "";
+        }
+
+        task.setTitle(source.getTitle());
+        return task;
     }
 }
