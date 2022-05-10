@@ -1,7 +1,7 @@
 package com.codesoom.assignment.interfaces;
 
 import com.codesoom.assignment.Task;
-import com.codesoom.assignment.RepositoryOutput;
+import com.codesoom.assignment.TaskRepositoryOutput;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ public interface DefaultRepository {
 
     Task taskBy(Long id);
 
-    RepositoryOutput output();
+    TaskRepositoryOutput output();
 }
