@@ -21,11 +21,11 @@ public class TaskRepository {
     }
 
     public Task save(Task source) {
-        Task target = new Task(sequence.get(), source.getTitle());
-        taskMap.put(target.getId(), target);
+        Task newTask = new Task(sequence.get(), source.getTitle());
+        taskMap.put(newTask.getId(), newTask);
 
         incrementSequence();
-        return target;
+        return newTask;
     }
 
     public void delete(Long id) {
