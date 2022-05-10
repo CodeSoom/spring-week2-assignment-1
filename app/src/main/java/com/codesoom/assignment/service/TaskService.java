@@ -1,23 +1,24 @@
 package com.codesoom.assignment.service;
 
-import org.springframework.stereotype.Service;
-
 import com.codesoom.assignment.dto.TaskDTO;
 import com.codesoom.assignment.dto.TasksDTO;
 import com.codesoom.assignment.model.Tasks;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TaskService {
-	private Tasks tasks = new Tasks();
+    private Tasks tasks = new Tasks();
 
-	public TasksDTO createTask(TaskDTO taskDTO) {
-		tasks.add(taskDTO);
-		TasksDTO tasksDTO = new TasksDTO(tasks);
-		return tasksDTO;
-	}
+    public TasksDTO createTask(TaskDTO taskDTO) {
+        tasks.add(taskDTO);
+        return new TasksDTO(tasks);
+    }
 
-	public TasksDTO getTasks() {
-		TasksDTO tasksDTO = new TasksDTO(tasks);
-		return tasksDTO;
-	}
+    public TasksDTO getTasks() {
+        return new TasksDTO(tasks);
+    }
+
+    public TaskDTO updateTasks(long id, String title) {
+        return tasks.updateTask(id, title);
+    }
 }
