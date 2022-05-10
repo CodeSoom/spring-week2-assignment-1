@@ -12,7 +12,7 @@ public class TaskRequestDtoCreating {
         this.title = task.title();
     }
 
-    public String title() {
+    public String getTitle() {
         return title;
     }
 

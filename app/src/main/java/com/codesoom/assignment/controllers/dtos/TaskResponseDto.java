@@ -3,13 +3,16 @@ package com.codesoom.assignment.controllers.dtos;
 import com.codesoom.assignment.Task;
 
 public class TaskResponseDto {
-    private final String title;
+    private String title;
+
+    TaskResponseDto() {
+    }
 
     public TaskResponseDto(Task task) {
         this.title = task.title();
     }
 
-    public String title() {
+    public String getTitle() {
         return title;
     }
 

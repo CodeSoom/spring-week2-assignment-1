@@ -3,19 +3,26 @@ package com.codesoom.assignment.controllers.dtos;
 import com.codesoom.assignment.Task;
 
 public class TaskRequestDtoUpdating {
-    private final Long id;
-    private final String title;
+    private Long id;
+    private String title;
+
+    TaskRequestDtoUpdating() {
+    }
 
     public TaskRequestDtoUpdating(Long id, Task task) {
         this.id = id;
         this.title = task.title();
     }
 
-    public Long id() {
+    public Long getId() {
         return id;
     }
 
-    public Task toEntity(){
+    public String getTitle() {
+        return title;
+    }
+
+    public Task toEntity() {
         return new Task(title);
     }
 }
