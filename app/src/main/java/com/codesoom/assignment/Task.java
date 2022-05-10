@@ -1,4 +1,43 @@
 package com.codesoom.assignment;
 
-public class Task {
+
+import com.codesoom.assignment.interfaces.DefaultTask;
+
+public class Task implements DefaultTask {
+    private Long id;
+    private String title;
+
+    Task() {
+    }
+
+    Task(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+    @Override
+    public Long id() {
+        return id;
+    }
+
+    @Override
+    public String title() {
+        return title;
+    }
+
+    @Override
+    public void updateId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+
+    @Override
+    public String toString() {
+        return String.format("{ id = %s, title = %s }", id, title);
+    }
 }
