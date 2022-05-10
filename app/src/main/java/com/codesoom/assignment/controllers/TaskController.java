@@ -56,6 +56,18 @@ public class TaskController {
         return handleUpdate(id, source, response);
     }
 
+    @DeleteMapping("/{id}")
+    public String deleteTask(@PathVariable("id") Long id, HttpServletResponse response) {
+        Task task = findTask(id);
+
+        if(task == null) {
+            response.setStatus(404);
+        }
+
+        tasks.remove(task);
+        return "";
+    }
+
     private Task findTask(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
