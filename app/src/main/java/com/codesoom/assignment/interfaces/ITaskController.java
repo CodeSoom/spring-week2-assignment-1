@@ -7,7 +7,7 @@ import java.util.List;
 public interface ITaskController {
     List<TaskResponseDto> showAll();
 
-    TaskResponseDto showBy(long id);
+    TaskResponseDto showBy(Long id);
 
     IControllerOutput output();
 }

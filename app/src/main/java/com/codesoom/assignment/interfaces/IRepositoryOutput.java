@@ -9,9 +9,9 @@ public interface IRepositoryOutput {
 
     void save(Task task);
 
-    void update(long oldTaskId, Task newTask);
+    void update(Long oldTaskId, Task newTask);
 
-    void deleteBy(long id);
+    void deleteBy(Long id);
 
 
     Task taskSaved();
