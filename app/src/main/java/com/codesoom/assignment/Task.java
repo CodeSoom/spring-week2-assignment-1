@@ -10,6 +10,10 @@ public class Task implements DefaultTask, Comparable<Task> {
     Task() {
     }
 
+    public Task(String title) {
+        this.title = title;
+    }
+
     Task(Long id, String title) {
         this.id = id;
         this.title = title;
