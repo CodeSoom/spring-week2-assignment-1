@@ -35,9 +35,6 @@ public class Task implements DefaultTask, Comparable<Task> {
 
     @Override
     public int compareTo(Task task) {
-        if (id() == null || task.id() == null) {
-            return 0;
-        }
         return id().compareTo(task.id());
     }
 }
