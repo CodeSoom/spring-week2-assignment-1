@@ -1,7 +1,7 @@
 package com.codesoom.assignment.model;
 
 public class Task {
-	private Long id;
+	private final Long id;
 	private String title;
 
 	public Task(Long id, String title) {
@@ -24,8 +24,8 @@ public class Task {
 	@Override
 	public String toString() {
 		return "Task{" +
-				"id=" + id +
-				", title='" + title + '\'' +
-				'}';
+			"id=" + id +
+			", title='" + title + '\'' +
+			'}';
 	}
 }

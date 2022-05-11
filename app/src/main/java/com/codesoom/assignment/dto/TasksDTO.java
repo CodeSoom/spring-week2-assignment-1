@@ -1,6 +1,5 @@
 package com.codesoom.assignment.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.codesoom.assignment.model.Task;
