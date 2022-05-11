@@ -6,7 +6,7 @@ public class TaskResponseDto {
     private Long id;
     private String title;
 
-    TaskResponseDto() {
+    public TaskResponseDto() {
     }
 
     public TaskResponseDto(Task task) {

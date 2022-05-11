@@ -5,7 +5,7 @@ import com.codesoom.assignment.Task;
 public class TaskRequestDto {
     private String title;
 
-    TaskRequestDto() {
+    public TaskRequestDto() {
     }
 
     public TaskRequestDto(Task task) {

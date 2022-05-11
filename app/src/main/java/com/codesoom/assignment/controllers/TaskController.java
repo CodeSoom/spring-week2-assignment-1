@@ -16,7 +16,7 @@ public class TaskController implements DefaultController {
     private final TaskRepository repository;
     private final TaskControllerOutput controllerOutput;
 
-    TaskController(TaskRepository repository) {
+    public TaskController(TaskRepository repository) {
         this.repository = repository;
         controllerOutput = new TaskControllerOutput(repository);
     }

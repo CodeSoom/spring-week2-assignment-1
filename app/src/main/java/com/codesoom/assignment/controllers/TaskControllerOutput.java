@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class TaskControllerOutput implements ControllerOutput {
     private final TaskRepository repository;
 
-    TaskControllerOutput(TaskRepository repository) {
+    public TaskControllerOutput(TaskRepository repository) {
         this.repository = repository;
     }
 

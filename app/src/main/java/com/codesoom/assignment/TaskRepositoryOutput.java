@@ -10,7 +10,7 @@ public class TaskRepositoryOutput implements RepositoryOutput {
     private Long savedTaskId;
     private Long updatedTaskId;
 
-    TaskRepositoryOutput(Map<Long, Task> tasks, Long sequence) {
+    public TaskRepositoryOutput(Map<Long, Task> tasks, Long sequence) {
         this.tasks = tasks;
         this.sequence = sequence;
     }

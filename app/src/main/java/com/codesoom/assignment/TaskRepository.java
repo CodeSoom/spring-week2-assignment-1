@@ -12,7 +12,7 @@ public class TaskRepository implements DefaultRepository {
     private final Map<Long, Task> tasks = new HashMap<>();
     private final TaskRepositoryOutput repositoryOutput = new TaskRepositoryOutput(tasks, startingId);
 
-    TaskRepository() {
+    public TaskRepository() {
     }
 
     @Override
