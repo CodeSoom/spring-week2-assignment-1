@@ -31,13 +31,18 @@ public class TaskController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Task> task(@PathVariable int id) {
-        Optional<Task> findTask = tasks.stream().filter(x -> x.getId() == id).findFirst();
+        Optional<Task> findTask = findTask(id);
 
         if (findTask.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         return new ResponseEntity<>(findTask.get(), HttpStatus.OK);
+    }
+
+    private Optional<Task> findTask(int id) {
+        Optional<Task> findTask = tasks.stream().filter(x -> x.getId() == id).findFirst();
+        return findTask;
     }
 
     @PostMapping
@@ -50,7 +55,7 @@ public class TaskController {
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<Task> editTask(@PathVariable int id, @RequestBody Task task) {
-        Optional<Task> findTask = tasks.stream().filter(x -> x.getId() == id).findFirst();
+        Optional<Task> findTask = findTask(id);
 
         if (findTask.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -64,7 +69,7 @@ public class TaskController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity deleteTask(@PathVariable int id) {
-        Optional<Task> findTask = tasks.stream().filter(x -> x.getId() == id).findFirst();
+        Optional<Task> findTask = findTask(id);
 
         if (findTask.isEmpty()) {
             return ResponseEntity.notFound().build();
