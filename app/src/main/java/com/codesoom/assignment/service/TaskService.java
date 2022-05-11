@@ -2,6 +2,7 @@ package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.dto.TaskDTO;
 import com.codesoom.assignment.dto.TasksDTO;
+import com.codesoom.assignment.model.Task;
 import com.codesoom.assignment.model.Tasks;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class TaskService {
         return new TasksDTO(tasks);
     }
 
-    public TaskDTO updateTasks(long id, String title) {
-        return tasks.updateTask(id, title);
+    public TaskDTO updateTasks(long id, TaskDTO taskDTO) {
+        return tasks.updateTask(id, taskDTO);
     }
 }

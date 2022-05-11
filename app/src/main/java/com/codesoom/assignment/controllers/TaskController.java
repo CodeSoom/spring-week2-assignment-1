@@ -26,9 +26,8 @@ public class TaskController {
         return ResponseEntity.ok().body(taskService.getTasks());
     }
 
-    @CrossOrigin(origins = {"http://localhost:3000"},allowCredentials = "true")
     @PatchMapping("/tasks/{id}")
-    public ResponseEntity<TaskDTO> updateTask(@RequestBody String title, @PathVariable long id) {
-        return ResponseEntity.ok().body(taskService.updateTasks(id, title));
+    public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO taskDTO, @PathVariable long id) {
+        return ResponseEntity.ok().body(taskService.updateTasks(id, taskDTO));
     }
 }
