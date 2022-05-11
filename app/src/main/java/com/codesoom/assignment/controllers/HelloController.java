@@ -32,4 +32,10 @@ public class HelloController {
         Task findTask = taskRepository.findById(id);
         return findTask;
     }
+
+    @PostMapping
+    public Task createTask(@RequestBody Task task) {
+        Task savedTask = taskRepository.save(task);
+        return savedTask;
+    }
 }

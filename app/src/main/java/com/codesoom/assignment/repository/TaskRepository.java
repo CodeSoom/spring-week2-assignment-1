@@ -27,4 +27,12 @@ public class TaskRepository {
     public Task findById(Long id) {
         return store.get(id);
     }
+
+    public Task save(Task task) {
+        task.setId(sequence);
+        store.put(task.getId(), task);
+
+        sequence++;
+        return task;
+    }
 }
