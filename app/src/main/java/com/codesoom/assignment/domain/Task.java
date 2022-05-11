@@ -1,27 +1,21 @@
 package com.codesoom.assignment.domain;
 
-public class Task {
+import org.springframework.util.StringUtils;
 
-    private Long id = 0L;
+import java.util.Objects;
+
+public class Task implements Comparable<Task>{
+
+    private final int EQUAL = 0;
+    private final int NOT_EQUAL = 1;
+    private Long id;
     private String title;
 
     public Task() {}
 
-    /**
-     * Task 생성 시, id 자동으로 생성하기 위한 생성자
-     * @param title
-     */
-    public Task(String title) {
-        this.id = generateId();
+    public Task(Long id, String title) {
+        this.id = id;
         this.title = title;
-    }
-
-    /**
-     * id 자동 생성
-     * @return id
-     */
-    private Long generateId() {
-        return this.id++;
     }
 
     public Long getId() {
@@ -38,5 +32,28 @@ public class Task {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
+    }
+
+    @Override
+    public int compareTo(Task task) {
+        int result = Long.compare(this.id, task.id);
+
+        if (result == 0) {
+            result = (this.id.equals(task.title)) ? EQUAL : NOT_EQUAL;
+        }
+        return result;
     }
 }
