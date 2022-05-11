@@ -17,11 +17,6 @@ public class HelloController {
     private final List<Task> tasks = new ArrayList<>();
 
     @GetMapping
-    public String sayHello() {
-        return "Hello, world!";
-    }
-
-    @GetMapping("/")
     public List<Task> getTasks() {
         List<Task> findTasks = taskRepository.findAll();
         return findTasks;
