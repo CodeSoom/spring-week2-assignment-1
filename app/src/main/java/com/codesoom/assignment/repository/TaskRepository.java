@@ -41,4 +41,8 @@ public class TaskRepository {
         store.put(newTask.getId(), newTask);
         return newTask;
     }
+
+    public void delete(Long id) {
+        store.remove(id);
+    }
 }

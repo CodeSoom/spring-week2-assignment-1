@@ -39,4 +39,10 @@ public class HelloController {
         Task changedTask = taskRepository.update(id, task);
         return changedTask;
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteTask(@PathVariable Long id) {
+        taskRepository.delete(id);
+        return;
+    }
 }
