@@ -10,7 +10,6 @@ class {
   async loadTasks() {
     const { data } = await axios.get('http://localhost:8080/tasks');
     this.state.tasks = data.tasksDTO;
-    console.log(data)
   }
   async addTask() {
     const title = this.getEl('title').value;
@@ -32,9 +31,6 @@ class {
     } : task);
   }
   async updateTask(id) {
-    console.log("=========")
-    console.log(this.getEl(`title-${id}`).value);
-    console.log("=========")
     const title = this.getEl(`title-${id}`).value;
     await axios.patch(`http://localhost:8080/tasks/${id}`, {
       title,

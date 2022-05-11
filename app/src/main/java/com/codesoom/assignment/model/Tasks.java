@@ -19,15 +19,11 @@ public class Tasks {
 		return tasks;
 	}
 
-	public TaskDTO updateTask(long id, String title) {
-		System.out.println("==============");
-		System.out.println(title);
-		System.out.println("==============");
-
+	public TaskDTO updateTask(long id, TaskDTO taskDTO) {
 		Task task = tasks.stream()
 				.filter(t -> t.getId() == id)
 				.findAny().orElseThrow(IllegalArgumentException::new);
-		task.updateTitle(title);
+		task.updateTitle(taskDTO.getTitle());
 		return new TaskDTO(task);
 	}
 
