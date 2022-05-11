@@ -35,4 +35,10 @@ public class TaskRepository {
         sequence++;
         return task;
     }
+
+    public Task update(Long id, Task newTask) {
+        newTask.setId(id);
+        store.put(newTask.getId(), newTask);
+        return newTask;
+    }
 }

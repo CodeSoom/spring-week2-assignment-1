@@ -38,4 +38,10 @@ public class HelloController {
         Task savedTask = taskRepository.save(task);
         return savedTask;
     }
+
+    @PatchMapping("/{id}")
+    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+        Task changedTask = taskRepository.update(id, task);
+        return changedTask;
+    }
 }
