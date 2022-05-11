@@ -40,11 +40,11 @@ public class TaskControllerOutput implements ControllerOutput {
 
     @Override
     public TaskResponseDto responseDtoCreated() {
-        return null;
+        return new TaskResponseDto(repository.output().taskSaved());
     }
 
     @Override
     public TaskResponseDto responseDtoUpdated() {
-        return null;
+        return new TaskResponseDto(repository.output().taskUpdated());
     }
 }
