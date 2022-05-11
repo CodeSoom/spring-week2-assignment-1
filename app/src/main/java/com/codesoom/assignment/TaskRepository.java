@@ -31,6 +31,12 @@ public class TaskRepository implements DefaultRepository {
     }
 
     @Override
+    public boolean notPresent(Long id) {
+        return tasks.values().stream()
+                .noneMatch(task -> Objects.equals(task.id(), id));
+    }
+
+    @Override
     public TaskRepositoryOutput output() {
         return repositoryOutput;
     }

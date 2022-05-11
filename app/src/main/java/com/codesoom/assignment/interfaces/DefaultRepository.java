@@ -10,5 +10,7 @@ public interface DefaultRepository {
 
     Task taskBy(Long id);
 
+    boolean notPresent(Long id);
+
     TaskRepositoryOutput output();
 }

@@ -3,10 +3,9 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.TaskRepository;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
 import com.codesoom.assignment.interfaces.DefaultController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +32,10 @@ public class TaskController implements DefaultController {
     @Override
     @GetMapping("/{id}")
     public TaskResponseDto showBy(@PathVariable Long id) {
+        if (repository.notPresent(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task Id로 해당 Task를 찾을 수 없습니다");
+        }
+
         return new TaskResponseDto(repository.taskBy(id));
     }
 
@@ -41,3 +44,4 @@ public class TaskController implements DefaultController {
         return controllerOutput;
     }
 }
+

@@ -7,6 +7,7 @@ import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
 import com.codesoom.assignment.interfaces.ControllerOutput;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/tasks")
@@ -30,8 +31,11 @@ public class TaskControllerOutput implements ControllerOutput {
     @Override
     @PutMapping("/{id}")
     public TaskResponseDto update(@PathVariable Long id, @RequestBody TaskRequestDto requestDto) {
-        repository.output().update(id, requestDto.toEntity());
+        if (repository.notPresent(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task Id로 해당 Task를 찾을 수 없습니다");
+        }
 
+        repository.output().update(id, requestDto.toEntity());
         return new TaskResponseDto(repository.output().taskUpdated());
     }
 
@@ -39,6 +43,10 @@ public class TaskControllerOutput implements ControllerOutput {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBy(@PathVariable Long id) {
+        if (repository.notPresent(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task Id로 해당 Task를 찾을 수 없습니다");
+        }
+
         repository.output().deleteBy(id);
     }
 
