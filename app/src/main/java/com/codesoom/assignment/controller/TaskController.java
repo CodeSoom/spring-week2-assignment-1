@@ -13,6 +13,8 @@ import java.util.List;
 @CrossOrigin
 public class TaskController {
 
+    // TODO 실패시에 ResponseEntity Setting
+    // TODO ResponseEntity 객체를 드러나지 않게 사용할 수 있는 방법?
     TaskService taskService;
 
     public TaskController(TaskService taskService) {
@@ -26,6 +28,7 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody Task task) {
+        // TODO title 없을 시 저장할 수 없도록
         return new ResponseEntity<>(taskService.create(task), HttpStatus.CREATED);
     }
 

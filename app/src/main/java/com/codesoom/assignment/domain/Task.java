@@ -6,6 +6,8 @@ import java.util.Objects;
 
 public class Task implements Comparable<Task>{
 
+    // TODO getter/setter 제거할 수 있는 방법
+
     private Long id;
     private String title;
 
