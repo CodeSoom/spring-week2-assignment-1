@@ -22,7 +22,6 @@ public class TaskControllerOutput implements ControllerOutput {
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody TaskRequestDto requestDto) {
         Task task = requestDto.toEntity();
-        System.out.println(task.toString());
         repository.output().save(task);
     }
 
