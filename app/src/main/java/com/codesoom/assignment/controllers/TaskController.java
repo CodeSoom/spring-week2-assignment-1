@@ -41,11 +41,11 @@ public class TaskController {
     }
 
     @PostMapping
-    public Task addTask(@RequestBody Task task) {
+    public ResponseEntity<Task> addTask(@RequestBody Task task) {
         task.setId(getId());
         tasks.add(task);
 
-        return task;
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
