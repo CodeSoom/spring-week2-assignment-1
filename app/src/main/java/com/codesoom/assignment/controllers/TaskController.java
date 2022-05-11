@@ -14,12 +14,12 @@ public class TaskController {
     private Long newId = 0L;
 
     @GetMapping
-    public List<Task> getTaskList() {
+    public List<Task> getList() {
         return tasks;
     }
 
     @GetMapping("{id}")
-    public Object getTaskItem(@PathVariable("id") Long id, HttpServletResponse response) {
+    public Object getItem(@PathVariable("id") Long id, HttpServletResponse response) {
         Task task = findTask(id);
 
         if (task == null) {
@@ -31,7 +31,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public Object createTask(@RequestBody Task task, HttpServletResponse response) {
+    public Object create(@RequestBody Task task, HttpServletResponse response) {
         if(task.getTitle().isBlank()) {
             response.setStatus(400);
             return "";
@@ -45,19 +45,19 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Object updateTaskByPutMethod(@PathVariable("id") Long id,
-                                        @RequestBody Task source, HttpServletResponse response) {
+    public Object update(@PathVariable("id") Long id,
+                         @RequestBody Task source, HttpServletResponse response) {
         return handleUpdate(id, source, response);
     }
 
     @PatchMapping("/{id}")
-    public Object updateTaskByPatchMethod(@PathVariable("id") Long id,
-                                          @RequestBody Task source, HttpServletResponse response) {
+    public Object patch(@PathVariable("id") Long id,
+                        @RequestBody Task source, HttpServletResponse response) {
         return handleUpdate(id, source, response);
     }
 
     @DeleteMapping(value = {"", "/", "/{id}"})
-    public String deleteTask(@PathVariable(required = false) Long id, HttpServletResponse response) {
+    public String delete(@PathVariable(required = false) Long id, HttpServletResponse response) {
         if(id == null) {
             response.setStatus(404);
             return "";
