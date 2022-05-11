@@ -8,7 +8,6 @@ public class TaskDTO {
 	private String title;
 
 	public TaskDTO() {
-
 	}
 
 	public TaskDTO(Task task) {
@@ -22,5 +21,13 @@ public class TaskDTO {
 
 	public String getTitle() {
 		return title;
+	}
+
+	@Override
+	public String toString() {
+		return "TaskDTO{" +
+			"id=" + id +
+			", title='" + title + '\'' +
+			'}';
 	}
 }
