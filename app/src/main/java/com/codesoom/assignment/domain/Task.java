@@ -6,8 +6,6 @@ import java.util.Objects;
 
 public class Task implements Comparable<Task>{
 
-    private final int EQUAL = 0;
-    private final int NOT_EQUAL = 1;
     private Long id;
     private String title;
 
@@ -49,11 +47,6 @@ public class Task implements Comparable<Task>{
 
     @Override
     public int compareTo(Task task) {
-        int result = Long.compare(this.id, task.id);
-
-        if (result == 0) {
-            result = (this.id.equals(task.title)) ? EQUAL : NOT_EQUAL;
-        }
-        return result;
+        return Long.compare(this.id, task.id);
     }
 }
