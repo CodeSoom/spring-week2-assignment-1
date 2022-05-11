@@ -8,13 +8,11 @@ import java.util.stream.Collectors;
 
 @Repository
 public class TaskRepository implements DefaultRepository {
-    static private Map<Long, Task> tasks;
-    static private TaskRepositoryOutput repositoryOutput;
-    static private final Long SEQUENCE = 1L;
+    private final Long sequence = 1L;
+    private final Map<Long, Task> tasks = new HashMap<>();
+    private final TaskRepositoryOutput repositoryOutput = new TaskRepositoryOutput(tasks, sequence);
 
     TaskRepository() {
-        tasks = new HashMap<>();
-        repositoryOutput = new TaskRepositoryOutput(tasks, SEQUENCE);
     }
 
     @Override
