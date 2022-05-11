@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 
 @Repository
 public class TaskRepository implements DefaultRepository {
-    private final Long sequence = 1L;
+    private final Long startingId = 1L;
     private final Map<Long, Task> tasks = new HashMap<>();
-    private final TaskRepositoryOutput repositoryOutput = new TaskRepositoryOutput(tasks, sequence);
+    private final TaskRepositoryOutput repositoryOutput = new TaskRepositoryOutput(tasks, startingId);
 
     TaskRepository() {
     }
