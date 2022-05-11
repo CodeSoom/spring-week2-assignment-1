@@ -1,0 +1,55 @@
+import axios from 'axios'
+
+class {
+    onCreate() {
+        this.state = {
+            tasks: [],
+        };
+
+        this.loadTasks();
+    }
+
+    async loadTasks() {
+        const { data } = await axios.get('http://localhost:8080/tasks');
+        this.state.tasks = data;
+    }
+
+    async addTask() {
+        const title = this.getEl('title').value;
+        await axios.post('http://localhost:8080/tasks', {
+            title,
+        });
+        await this.loadTasks();
+    }
+
+    async deleteTask() {
+        const taskId = this.getEl('id').value;
+        const title = this.getEl('title').value;
+        console.log("삭제id: " + taskId);
+        console.log("삭제 제목: " + title);
+        await axios.delete('http://localhost:8080/tasks/' + taskId,
+        );
+        await this.loadTasks();
+    }
+}
+
+<h1>ToDo</h1>
+<ol>
+    <for|task| of=state.tasks>
+        <li>
+            ${task.title}
+            $ var taskId = task.id;
+            <input id:scoped="id" key="id" value=taskId type="hidden"/>
+            <button type="button" on-click("deleteTask")>삭제</button>
+        </li>
+    </for>
+</ol>
+<p>
+    <label for:scoped="title">
+        할 일
+    </label>
+    <input id:scoped="title" key="title" type="text" />
+    <button type="button" on-click("addTask")>
+        추가
+    </button>
+</p>
