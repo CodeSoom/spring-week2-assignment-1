@@ -17,16 +17,16 @@ public class TaskRepositoryOutput implements RepositoryOutput {
 
     @Override
     public void save(Task task) {
-        task.updateId(sequence);
-        tasks.put(sequence, task);
+        final Task savingTask = new Task(sequence, task.title());
+        tasks.put(sequence, savingTask);
         savedTaskId = sequence;
         sequence += 1;
     }
 
     @Override
     public void update(Long oldTaskId, Task newTask) {
-        newTask.updateId(oldTaskId);
-        tasks.put(oldTaskId, newTask);
+        final Task updatingTask = new Task(oldTaskId, newTask.title());
+        tasks.put(oldTaskId, updatingTask);
         updatedTaskId = oldTaskId;
     }
 

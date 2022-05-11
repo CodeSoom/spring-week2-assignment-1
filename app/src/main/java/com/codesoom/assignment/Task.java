@@ -5,10 +5,8 @@ import com.codesoom.assignment.interfaces.DefaultTask;
 
 public class Task implements DefaultTask, Comparable<Task> {
     private Long id;
-    private String title;
+    private final String title;
 
-    Task() {
-    }
 
     public Task(String title) {
         this.title = title;
@@ -27,16 +25,6 @@ public class Task implements DefaultTask, Comparable<Task> {
     @Override
     public String title() {
         return title;
-    }
-
-    @Override
-    public void updateId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public void updateTitle(String title) {
-        this.title = title;
     }
 
 
