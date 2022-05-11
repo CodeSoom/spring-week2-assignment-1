@@ -20,8 +20,7 @@ public class TaskService {
         Task task = findTask(id);
 
         if (task == null) {
-            response.setStatus(404);
-            return "";
+            return new ResponseNotFound(response).send("");
         }
 
         return task;
@@ -29,50 +28,43 @@ public class TaskService {
 
     public Object handleCreate(Task task, HttpServletResponse response) {
         if(task.getTitle().isBlank()) {
-            response.setStatus(400);
-            return "";
+            return new ResponseBadRequest(response).send("");
         }
         else {
             task.setId(generateId());
             tasks.add(task);
-            response.setStatus(201);
-            return task;
+            return new ResponseCreated(response).send(task);
         }
     }
 
     public Object handleUpdate(Long id, Task source, HttpServletResponse response) {
         if(source.getTitle().isBlank()) {
-            response.setStatus(400);
-            return "";
+            return new ResponseBadRequest(response).send("");
         }
 
         Task task = findTask(id);
 
         if (task == null) {
-            response.setStatus(404);
-            return "";
+            return new ResponseNotFound(response).send("");
         }
 
         task.setTitle(source.getTitle());
         return task;
     }
 
-    public String handleDelete(Long id, HttpServletResponse response) {
+    public Object handleDelete(Long id, HttpServletResponse response) {
         if(id == null) {
-            response.setStatus(404);
-            return "";
+            return new ResponseNotFound(response).send("");
         }
 
         Task task = findTask(id);
 
         if(task == null) {
-            response.setStatus(404);
-            return "";
+            return new ResponseNotFound(response).send("");
         }
 
-        response.setStatus(204);
         tasks.remove(task);
-        return "";
+        return new ResponseNoContent(response).send("");
     }
 
     private Task findTask(Long id) {

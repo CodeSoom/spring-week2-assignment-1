@@ -42,7 +42,7 @@ public class TaskController {
     }
 
     @DeleteMapping(value = {"", "/", "/{id}"})
-    public String delete(@PathVariable(required = false) Long id, HttpServletResponse response) {
+    public Object delete(@PathVariable(required = false) Long id, HttpServletResponse response) {
         return taskService.handleDelete(id, response);
     }
 }
