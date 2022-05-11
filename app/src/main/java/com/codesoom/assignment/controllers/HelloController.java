@@ -3,10 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +26,10 @@ public class HelloController {
         List<Task> findTasks = taskRepository.findAll();
         return findTasks;
     }
-}
 
-/*
-    GET  /tasks
-    GET  /tasks/{id}
-    POST /tasks
-    PUT/PATCH /tasks/{id}
-    DELETE /tests/{id}
- */
+    @GetMapping("/{id}")
+    public Task getTask(@PathVariable Long id) {
+        Task findTask = taskRepository.findById(id);
+        return findTask;
+    }
+}
