@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,5 +36,10 @@ public class TaskController {
 	@PatchMapping("/tasks/{id}")
 	public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO taskDTO, @PathVariable long id) {
 		return ResponseEntity.ok().body(taskService.updateTasks(id, taskDTO));
+	}
+
+	@DeleteMapping("/tasks/{id}")
+	public ResponseEntity<TasksDTO> deleteTask(@PathVariable long id) {
+		return ResponseEntity.ok().body(taskService.deleteTasks(id));
 	}
 }
