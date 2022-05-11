@@ -20,15 +20,19 @@ public class TaskControllerOutput implements ControllerOutput {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody TaskRequestDto requestDto) {
+    public TaskResponseDto create(@RequestBody TaskRequestDto requestDto) {
         Task task = requestDto.toEntity();
         repository.output().save(task);
+
+        return new TaskResponseDto(repository.output().taskSaved());
     }
 
     @Override
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, TaskRequestDto requestDto) {
+    public TaskResponseDto update(@PathVariable Long id, @RequestBody TaskRequestDto requestDto) {
         repository.output().update(id, requestDto.toEntity());
+
+        return new TaskResponseDto(repository.output().taskUpdated());
     }
 
     @Override
@@ -38,13 +42,4 @@ public class TaskControllerOutput implements ControllerOutput {
         repository.output().deleteBy(id);
     }
 
-    @Override
-    public TaskResponseDto responseDtoCreated() {
-        return new TaskResponseDto(repository.output().taskSaved());
-    }
-
-    @Override
-    public TaskResponseDto responseDtoUpdated() {
-        return new TaskResponseDto(repository.output().taskUpdated());
-    }
 }
