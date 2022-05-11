@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskControllerOutput implements ControllerOutput {
@@ -22,6 +24,11 @@ public class TaskControllerOutput implements ControllerOutput {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskResponseDto create(@RequestBody TaskRequestDto requestDto) {
+        if (requestDto.getTitle() == null || Objects.equals(requestDto.getTitle(), "")
+                || Objects.equals(requestDto.getTitle(), " ")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title에 유요한 값을 입려갷야 합니다");
+        }
+
         Task task = requestDto.toEntity();
         repository.output().save(task);
 
@@ -31,6 +38,11 @@ public class TaskControllerOutput implements ControllerOutput {
     @Override
     @PutMapping("/{id}")
     public TaskResponseDto update(@PathVariable Long id, @RequestBody TaskRequestDto requestDto) {
+        if (requestDto.getTitle() == null || Objects.equals(requestDto.getTitle(), "")
+                || Objects.equals(requestDto.getTitle(), " ")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title에 유요한 값을 입려갷야 합니다");
+        }
+
         if (repository.notPresent(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task Id로 해당 Task를 찾을 수 없습니다");
         }
