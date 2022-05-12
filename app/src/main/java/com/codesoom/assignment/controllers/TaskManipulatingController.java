@@ -33,9 +33,8 @@ public class TaskManipulatingController implements ManipulatingController {
         return new TaskResponseDto(repository.manipulator().taskSaved());
     }
 
-
     @Override
-    @PutMapping("/{id}")
+    @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public TaskResponseDto update(@PathVariable Long id, @RequestBody TaskRequestDto requestDto) {
         new RequestBodyValidation(requestDto).validate();
         new RequestParamValidation(id, repository).validate();
@@ -43,7 +42,6 @@ public class TaskManipulatingController implements ManipulatingController {
         repository.manipulator().update(id, requestDto.toEntity());
         return new TaskResponseDto(repository.manipulator().taskUpdated());
     }
-
 
     @Override
     @DeleteMapping("/{id}")
