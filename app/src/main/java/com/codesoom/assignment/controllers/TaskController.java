@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,55 +27,59 @@ public class TaskController {
     private static int id = 0;
 
     @GetMapping
-    public ResponseEntity<List<Task>> taskList() {
+    @ResponseStatus(HttpStatus.OK)
+    public List<Task> taskList() {
 
-        return new ResponseEntity<>(tasks, HttpStatus.OK);
+        return tasks;
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Task> task(@PathVariable int id) {
+    @ResponseStatus(HttpStatus.OK)
+    public Task task(@PathVariable int id) {
         Optional<Task> findTask = findTask(id);
 
         if (findTask.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new TaskNotFoundException();
         }
 
-        return new ResponseEntity<>(findTask.get(), HttpStatus.OK);
+        return findTask.get();
     }
 
     @PostMapping
-    public ResponseEntity<Task> addTask(@RequestBody Task task) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task addTask(@RequestBody Task task) {
         task.setId(getId());
         tasks.add(task);
 
-        return new ResponseEntity<>(task, HttpStatus.CREATED);
+        return task;
     }
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
-    public ResponseEntity<Task> editTask(@PathVariable int id, @RequestBody Task task) {
+    @ResponseStatus(HttpStatus.OK)
+    public Task editTask(@PathVariable int id, @RequestBody Task task) {
         Optional<Task> findTask = findTask(id);
 
         if (findTask.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new TaskNotFoundException();
         }
 
         Task newTask = findTask.get();
         newTask.setTitle(task.getTitle());
 
-        return new ResponseEntity<>(newTask, HttpStatus.OK);
+        return newTask;
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteTask(@PathVariable int id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable int id) {
         Optional<Task> findTask = findTask(id);
 
         if (findTask.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new TaskNotFoundException();
         }
 
         tasks.remove(findTask.get()); // get()으로 꼭 가져오기
 
-        return ResponseEntity.noContent().build();
     }
 
     private Optional<Task> findTask(int id) {
