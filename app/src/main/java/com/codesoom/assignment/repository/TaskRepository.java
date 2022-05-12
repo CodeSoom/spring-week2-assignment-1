@@ -2,10 +2,7 @@ package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TaskRepository {
     private static final Map<Long, Task> tasks = new HashMap<>();
@@ -25,7 +22,12 @@ public class TaskRepository {
     }
 
     public Task findById(Long id) {
-        return tasks.get(id);
+        // id 에 대한 Task 가 있다면 return tasks.get(id)
+        // id 에 대한 Task 가 없다면 return "할 일이 없습니다."
+        return tasks.values().stream()
+                .filter(task -> Objects.equals(task.getId(), id))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("TaskId(" + id + ") can not be found"));
     }
 
     public Task save(Task task) {
