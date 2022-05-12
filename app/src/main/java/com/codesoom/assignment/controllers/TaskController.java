@@ -2,42 +2,35 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
-    private TaskRepository taskRepository = TaskRepository.getInstance();
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final List<Task> tasks = new ArrayList<>();
+    private final TaskRepository taskRepository = TaskRepository.getInstance();
 
     @GetMapping
     public List<Task> getTasks() {
-        List<Task> findTasks = taskRepository.findAll();
-        return findTasks;
+        return taskRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Task getTask(@PathVariable Long id) {
-        Task findTask = taskRepository.findById(id);
-        return findTask;
+        return taskRepository.findById(id);
     }
 
     @PostMapping
     public Task createTask(@RequestBody Task task) {
-        Task savedTask = taskRepository.save(task);
-        return savedTask;
+        return taskRepository.save(task);
     }
 
-    @PatchMapping("/{id}")
-    @PutMapping("/{id}")
+    @RequestMapping(value = "/{id}",
+            method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
-        Task changedTask = taskRepository.update(id, task);
-        return changedTask;
+        return taskRepository.update(id, task);
     }
 
     @DeleteMapping("/{id}")
