@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController implements DefaultController {
     private final TaskRepository repository;
     private final TaskControllerOutput controllerOutput;

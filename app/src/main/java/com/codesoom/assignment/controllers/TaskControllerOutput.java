@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/tasks")
 @Transactional
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskControllerOutput implements ControllerOutput {
     private final TaskRepository repository;
 
