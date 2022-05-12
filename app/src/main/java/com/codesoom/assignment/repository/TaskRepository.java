@@ -32,7 +32,7 @@ public class TaskRepository {
         task.setId(sequence);
         tasks.put(task.getId(), task);
 
-        sequence++;
+        sequence += 1;
         return task;
     }
 
