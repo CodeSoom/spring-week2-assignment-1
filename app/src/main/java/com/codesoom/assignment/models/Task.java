@@ -24,6 +24,9 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task - title : " + title;
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
     }
 }
