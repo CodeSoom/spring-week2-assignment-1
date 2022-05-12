@@ -11,6 +11,7 @@ public class TaskService {
 
     private List<Task> tasks = new ArrayList<>();
     private long maxId = 0L;
+
     public List<Task> findAll() {
         return tasks;
     }
