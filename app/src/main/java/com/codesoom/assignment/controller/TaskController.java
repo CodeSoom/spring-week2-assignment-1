@@ -14,7 +14,6 @@ import java.util.List;
 public class TaskController {
 
     // TODO 실패시에 ResponseEntity Setting
-    // TODO ResponseEntity 객체를 드러나지 않게 사용할 수 있는 방법?
     TaskService taskService;
 
     public TaskController(TaskService taskService) {
@@ -22,30 +21,34 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> findAll() {
-        return new ResponseEntity<>(taskService.findAll(), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public List<Task> findAll() {
+        return taskService.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<Task> create(@RequestBody Task task) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task create(@RequestBody Task task) {
         // TODO title 없을 시 저장할 수 없도록
-        return new ResponseEntity<>(taskService.create(task), HttpStatus.CREATED);
+        return taskService.create(task);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Task> findOne(@PathVariable Long id) {
-        return new ResponseEntity<>(taskService.findOne(id), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public Task findOne(@PathVariable Long id) {
+        return taskService.findOne(id);
     }
 
     @PatchMapping("/{id}")
     @PutMapping("/{id}")
-    public ResponseEntity<Task> update(@RequestBody Task task) {
-        return new ResponseEntity<>(taskService.update(task), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public Task update(@RequestBody Task task) {
+        return taskService.update(task);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
         taskService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
