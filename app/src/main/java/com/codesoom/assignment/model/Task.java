@@ -2,7 +2,7 @@ package com.codesoom.assignment.model;
 
 public class Task {
 	private final Long id;
-	private String title;
+	private final String title;
 
 	public Task(Long id, String title) {
 		this.id = id;
@@ -17,8 +17,8 @@ public class Task {
 		return id;
 	}
 
-	public void updateTitle(String title) {
-		this.title = title;
+	public Task updateTitle(String title) {
+		return new Task(id, title);
 	}
 
 	@Override

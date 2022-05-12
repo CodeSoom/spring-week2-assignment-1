@@ -6,13 +6,14 @@ import java.util.List;
 
 import com.codesoom.assignment.dto.TaskDTO;
 import com.codesoom.assignment.dto.TasksDTO;
+import com.codesoom.assignment.dto.TitleDTO;
 
 public class Tasks {
 	List<Task> tasks = new ArrayList<>();
 	private long id = 0;
 
-	public TasksDTO add(TaskDTO taskDTO) {
-		tasks.add(new Task(id, taskDTO.getTitle()));
+	public TasksDTO add(TitleDTO titleDTO) {
+		tasks.add(new Task(id, titleDTO.getTitle()));
 		id += 1;
 		return new TasksDTO(tasks);
 	}
@@ -21,29 +22,23 @@ public class Tasks {
 		return Collections.unmodifiableList(tasks);
 	}
 
-	public TaskDTO updateTask(long id, TaskDTO taskDTO) {
-		Task task = tasks.stream()
-			.filter(t -> t.getId() == id)
-			.findAny().orElseThrow(IllegalArgumentException::new);
-		task.updateTitle(taskDTO.getTitle());
-		return new TaskDTO(task);
+	public TaskDTO updateTask(long id, TitleDTO titleDTO) {
+		Task task = tasks.stream().filter(t -> t.getId() == id).findAny().orElseThrow(IllegalArgumentException::new);
+		Task updatedTask = task.updateTitle(titleDTO.getTitle());
+		tasks.remove(task);
+		tasks.add(updatedTask);
+		return new TaskDTO(updatedTask);
 	}
 
 	public TasksDTO deleteTask(long id) {
-		Task task = tasks.stream()
-			.filter(t -> t.getId() == id)
-			.findAny()
-			.orElseThrow(IllegalArgumentException::new);
+		Task task = tasks.stream().filter(t -> t.getId() == id).findAny().orElseThrow(IllegalArgumentException::new);
 		tasks.remove(task);
 		return new TasksDTO(tasks);
 	}
 
 	@Override
 	public String toString() {
-		return "Tasks{" +
-			"id=" + id +
-			", tasks=" + tasks +
-			'}';
+		return "Tasks{" + "id=" + id + ", tasks=" + tasks + '}';
 	}
 
 }
