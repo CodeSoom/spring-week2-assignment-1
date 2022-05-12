@@ -5,6 +5,7 @@ import com.codesoom.assignment.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
@@ -16,7 +17,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public Object getList() {
+    public List<Task> getList() {
         return taskService.handleList();
     }
 
