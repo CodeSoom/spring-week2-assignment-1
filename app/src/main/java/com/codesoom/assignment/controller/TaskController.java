@@ -16,11 +16,20 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @CrossOrigin
 public class TaskController {
 
-    // TODO 실패시에 ResponseEntity Setting
     TaskService taskService;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
+    }
+
+    @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Task findOne(@PathVariable Long id) {
+        Task task = taskService.findOne(id);
+        if (task.isEmpty()) {
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+        }
+        return task;
     }
 
     @GetMapping
@@ -37,16 +46,6 @@ public class TaskController {
         }
 
         return taskService.create(task);
-    }
-
-    @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Task findOne(@PathVariable Long id) {
-        Task task = taskService.findOne(id);
-        if (task.isEmpty()) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
-        }
-        return task;
     }
 
     @PutMapping("/{id}")
@@ -71,6 +70,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * PUT/PATCH는 현재 동일한 동작으로 처리하기 위해 로직 공통화
+     * @param id
+     * @param task
+     * @return
+     */
     public Task update(Long id, Task task) {
         if (isNotExist(id) || task.hasNotTitle()) {
             throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
@@ -79,6 +84,11 @@ public class TaskController {
         return taskService.update(id, task);
     }
 
+    /**
+     * Task id가 존재하는지 조회
+     * @param id
+     * @return
+     */
     private boolean isNotExist(Long id) {
         return taskService.findOne(id).isEmpty();
     }

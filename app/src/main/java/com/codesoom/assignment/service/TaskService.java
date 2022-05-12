@@ -49,7 +49,8 @@ public class TaskService {
     /**
      * Task id로 해당되는 task를 조회함
      * @param id
-     * @return
+     * @return 존재 시, 해당 Task 객체 반환
+     *         존재하지 않을시, 빈 Task 객체 반환
      */
     private Task findTaskById(Long id) {
         return tasks.stream()
