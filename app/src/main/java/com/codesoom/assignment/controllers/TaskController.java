@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,11 +41,6 @@ public class TaskController {
         return new ResponseEntity<>(findTask.get(), HttpStatus.OK);
     }
 
-    private Optional<Task> findTask(int id) {
-        Optional<Task> findTask = tasks.stream().filter(x -> x.getId() == id).findFirst();
-        return findTask;
-    }
-
     @PostMapping
     public ResponseEntity<Task> addTask(@RequestBody Task task) {
         task.setId(getId());
@@ -80,7 +76,14 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
+    private Optional<Task> findTask(int id) {
+        Optional<Task> task = tasks.stream().filter(x -> x.getId() == id).findFirst();
+        return task;
+    }
+
     private int getId() {
-        return ++id;
+        int newId = id + 1;
+
+        return newId;
     }
 }
