@@ -6,21 +6,18 @@ import java.util.Map;
 
 public class TaskRepositoryOutput implements RepositoryOutput {
     private final Map<Long, Task> tasks;
-    private Long sequence;
     private Long savedTaskId;
     private Long updatedTaskId;
 
-    public TaskRepositoryOutput(Map<Long, Task> tasks, Long sequence) {
+    public TaskRepositoryOutput(Map<Long, Task> tasks) {
         this.tasks = tasks;
-        this.sequence = sequence;
     }
 
     @Override
     public void save(Task task) {
-        final Task savingTask = new Task(sequence, task.title());
-        tasks.put(sequence, savingTask);
-        savedTaskId = sequence;
-        sequence += 1;
+        final Task savingTask = new Task(task.title());
+        tasks.put(savingTask.id(), savingTask);
+        savedTaskId = savingTask.id();
     }
 
     @Override
