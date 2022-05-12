@@ -24,7 +24,7 @@ public class TaskControllerOutput implements ControllerOutput {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskResponseDto create(@RequestBody TaskRequestDto requestDto) {
-        validateWith(requestDto);
+        new RequestBodyValidation(requestDto).validate();
 
         Task task = requestDto.toEntity();
         repository.output().save(task);
@@ -36,8 +36,8 @@ public class TaskControllerOutput implements ControllerOutput {
     @Override
     @PutMapping("/{id}")
     public TaskResponseDto update(@PathVariable Long id, @RequestBody TaskRequestDto requestDto) {
-        validateWith(requestDto);
-        validateWith(id);
+        new RequestBodyValidation(requestDto).validate();
+        new RequestParamValidation(id, repository).validate();
 
         repository.output().update(id, requestDto.toEntity());
         return new TaskResponseDto(repository.output().taskUpdated());
@@ -48,22 +48,8 @@ public class TaskControllerOutput implements ControllerOutput {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBy(@PathVariable Long id) {
-        validateWith(id);
+        new RequestParamValidation(id, repository).validate();
 
         repository.output().deleteBy(id);
     }
-
-    private void validateWith(TaskRequestDto requestDto) {
-        if (requestDto.getTitle() == null || Objects.equals(requestDto.getTitle(), "")
-                || Objects.equals(requestDto.getTitle(), " ")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title에 유요한 값을 입려갷야 합니다");
-        }
-    }
-
-    private void validateWith(Long id) {
-        if (repository.notPresent(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task Id로 해당 Task를 찾을 수 없습니다");
-        }
-    }
-
 }

@@ -32,9 +32,7 @@ public class TaskController implements DefaultController {
     @Override
     @GetMapping("/{id}")
     public TaskResponseDto showBy(@PathVariable Long id) {
-        if (repository.notPresent(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task Id로 해당 Task를 찾을 수 없습니다");
-        }
+        new RequestParamValidation(id, repository).validate();
 
         return new TaskResponseDto(repository.taskBy(id));
     }
