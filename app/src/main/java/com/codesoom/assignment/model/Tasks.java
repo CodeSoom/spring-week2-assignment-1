@@ -7,6 +7,7 @@ import java.util.List;
 import com.codesoom.assignment.dto.TaskDTO;
 import com.codesoom.assignment.dto.TasksDTO;
 import com.codesoom.assignment.dto.TitleDTO;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 
 public class Tasks {
 	List<Task> tasks = new ArrayList<>();
@@ -23,7 +24,7 @@ public class Tasks {
 	}
 
 	public TaskDTO updateTask(long id, TitleDTO titleDTO) {
-		Task task = tasks.stream().filter(t -> t.getId() == id).findAny().orElseThrow(IllegalArgumentException::new);
+		Task task = tasks.stream().filter(t -> t.getId() == id).findAny().orElseThrow(()->new TaskNotFoundException(id));
 		Task updatedTask = task.updateTitle(titleDTO.getTitle());
 		tasks.remove(task);
 		tasks.add(updatedTask);
@@ -31,7 +32,7 @@ public class Tasks {
 	}
 
 	public TasksDTO deleteTask(long id) {
-		Task task = tasks.stream().filter(t -> t.getId() == id).findAny().orElseThrow(IllegalArgumentException::new);
+		Task task = tasks.stream().filter(t -> t.getId() == id).findAny().orElseThrow(()->new TaskNotFoundException(id));
 		tasks.remove(task);
 		return new TasksDTO(tasks);
 	}
