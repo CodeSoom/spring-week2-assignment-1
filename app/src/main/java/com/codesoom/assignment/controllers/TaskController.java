@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/tasks")
-public class HelloController {
+public class TaskController {
     private TaskRepository taskRepository = TaskRepository.getInstance();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final List<Task> tasks = new ArrayList<>();
