@@ -22,11 +22,7 @@ class {
         await this.loadTasks();
     }
 
-    async deleteTask() {
-        const taskId = this.getEl('id').value;
-        const title = this.getEl('title').value;
-        console.log("삭제id: " + taskId);
-        console.log("삭제 제목: " + title);
+    async deleteTask(taskId) {
         await axios.delete('http://localhost:8080/tasks/' + taskId,
         );
         await this.loadTasks();
@@ -38,9 +34,7 @@ class {
     <for|task| of=state.tasks>
         <li>
             ${task.title}
-            $ var taskId = task.id;
-            <input id:scoped="id" key="id" value=taskId type="hidden"/>
-            <button type="button" on-click("deleteTask")>삭제</button>
+            <button type="button" on-click("deleteTask", task.id)>삭제</button>
         </li>
     </for>
 </ol>
