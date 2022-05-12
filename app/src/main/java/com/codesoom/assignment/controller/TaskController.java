@@ -50,14 +50,15 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Task put(@PathVariable Long id, @RequestBody Task task) {
+        return update(id, task);
+    }
+
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task update(@PathVariable Long id, @RequestBody Task task) {
-        if (isNotExist(id) || task.hasNotTitle()) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
-        }
-
-        return taskService.update(id, task);
+    public Task patch(@PathVariable Long id, @RequestBody Task task) {
+        return update(id, task);
     }
 
     @DeleteMapping("/{id}")
@@ -68,6 +69,14 @@ public class TaskController {
         } else {
             taskService.delete(id);
         }
+    }
+
+    public Task update(Long id, Task task) {
+        if (isNotExist(id) || task.hasNotTitle()) {
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+        }
+
+        return taskService.update(id, task);
     }
 
     private boolean isNotExist(Long id) {
