@@ -4,6 +4,9 @@ class {
     onCreate() {
         this.state = {
             tasks: [],
+            btnclick: false,
+            curId: 0,
+            curTitle: "",
         };
 
         this.loadTasks();
@@ -22,6 +25,24 @@ class {
         await this.loadTasks();
     }
 
+    async clickUpdateButton(taskId, taskTitle) {
+        this.state.btnclick = true;
+        this.state.curId = taskId;
+        this.state.curTitle = taskTitle;
+    }
+
+    async updateTask(taskId) {
+        const newTitle = this.getEl('newTitle').value;
+        await axios.patch('http://localhost:8080/tasks/' + taskId, {
+            title: newTitle
+        });
+        window.location.reload();
+    }
+
+    async cancelUpdate() {
+        window.location.reload();
+    }
+
     async deleteTask(taskId) {
         await axios.delete('http://localhost:8080/tasks/' + taskId,
         );
@@ -33,8 +54,24 @@ class {
 <ol>
     <for|task| of=state.tasks>
         <li>
-            ${task.title}
-            <button type="button" on-click("deleteTask", task.id)>삭제</button>
+            <if(task.id == state.curId)>
+                <input id:scoped="newTitle" key="newTitle" type="text" value=state.curTitle/>&nbsp;
+                <button type="button" id="completeUpdateButton" on-click("updateTask", task.id)>
+                    확인
+                </button>&nbsp;
+                <button type="button" id="cancelUpdateButton" on-click("cancelUpdate")>
+                    취소
+                </button>
+            </if>
+            <else>
+                ${task.title}&nbsp;
+                <button type="button" id="updateButton" on-click("clickUpdateButton", task.id, task.title)>
+                    수정
+                </button>&nbsp;
+                <button type="button" id="completeButton" on-click("deleteTask", task.id)>
+                    완료
+                </button>                
+            </else>
         </li>
     </for>
 </ol>
@@ -43,7 +80,7 @@ class {
         할 일
     </label>
     <input id:scoped="title" key="title" type="text" />
-    <button type="button" on-click("addTask")>
+    <button type="button" id="addButton" on-click("addTask")>
         추가
     </button>
 </p>
