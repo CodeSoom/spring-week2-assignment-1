@@ -42,6 +42,6 @@ public class Task implements DefaultTask, Comparable<Task> {
     }
 
     private Long generatedId() {
-        return UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+        return UUID.randomUUID().getMostSignificantBits() & Integer.MAX_VALUE;
     }
 }
