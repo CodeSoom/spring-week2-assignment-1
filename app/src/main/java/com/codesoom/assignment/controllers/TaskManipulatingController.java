@@ -1,10 +1,10 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.Task;
-import com.codesoom.assignment.TaskRepository;
+import com.codesoom.assignment.TaskLoadingRepository;
 import com.codesoom.assignment.controllers.dtos.TaskRequestDto;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
-import com.codesoom.assignment.interfaces.ControllerOutput;
+import com.codesoom.assignment.interfaces.ManipulatingController;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/tasks")
 @Transactional
 @CrossOrigin(origins = "http://localhost:3000")
-public class TaskControllerOutput implements ControllerOutput {
-    private final TaskRepository repository;
+public class TaskManipulatingController implements ManipulatingController {
+    private final TaskLoadingRepository repository;
 
-    public TaskControllerOutput(TaskRepository repository) {
+    public TaskManipulatingController(TaskLoadingRepository repository) {
         this.repository = repository;
     }
 
@@ -28,9 +28,9 @@ public class TaskControllerOutput implements ControllerOutput {
         new RequestBodyValidation(requestDto).validate();
 
         Task task = requestDto.toEntity();
-        repository.output().save(task);
+        repository.manipulator().save(task);
 
-        return new TaskResponseDto(repository.output().taskSaved());
+        return new TaskResponseDto(repository.manipulator().taskSaved());
     }
 
 
@@ -40,8 +40,8 @@ public class TaskControllerOutput implements ControllerOutput {
         new RequestBodyValidation(requestDto).validate();
         new RequestParamValidation(id, repository).validate();
 
-        repository.output().update(id, requestDto.toEntity());
-        return new TaskResponseDto(repository.output().taskUpdated());
+        repository.manipulator().update(id, requestDto.toEntity());
+        return new TaskResponseDto(repository.manipulator().taskUpdated());
     }
 
 
@@ -51,6 +51,6 @@ public class TaskControllerOutput implements ControllerOutput {
     public void deleteBy(@PathVariable Long id) {
         new RequestParamValidation(id, repository).validate();
 
-        repository.output().deleteBy(id);
+        repository.manipulator().deleteBy(id);
     }
 }

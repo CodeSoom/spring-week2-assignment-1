@@ -1,11 +1,9 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.TaskRepository;
+import com.codesoom.assignment.TaskLoadingRepository;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
 import com.codesoom.assignment.interfaces.DefaultController;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,13 +11,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin(origins = "http://localhost:3000")
-public class TaskController implements DefaultController {
-    private final TaskRepository repository;
-    private final TaskControllerOutput controllerOutput;
+public class TaskShowingController implements DefaultController {
+    private final TaskLoadingRepository repository;
+    private final TaskManipulatingController manipulatingController;
 
-    public TaskController(TaskRepository repository) {
+    public TaskShowingController(TaskLoadingRepository repository) {
         this.repository = repository;
-        controllerOutput = new TaskControllerOutput(repository);
+        manipulatingController = new TaskManipulatingController(repository);
     }
 
     @Override
@@ -39,8 +37,8 @@ public class TaskController implements DefaultController {
     }
 
     @Override
-    public TaskControllerOutput output() {
-        return controllerOutput;
+    public TaskManipulatingController manipulator() {
+        return manipulatingController;
     }
 }
 

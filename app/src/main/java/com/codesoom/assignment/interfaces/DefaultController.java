@@ -9,5 +9,5 @@ public interface DefaultController {
 
     TaskResponseDto showBy(Long id);
 
-    ControllerOutput output();
+    ManipulatingController manipulator();
 }

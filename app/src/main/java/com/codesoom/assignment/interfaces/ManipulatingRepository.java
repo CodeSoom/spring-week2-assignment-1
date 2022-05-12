@@ -2,7 +2,7 @@ package com.codesoom.assignment.interfaces;
 
 import com.codesoom.assignment.Task;
 
-public interface RepositoryOutput {
+public interface ManipulatingRepository {
 
     void save(Task task);
 

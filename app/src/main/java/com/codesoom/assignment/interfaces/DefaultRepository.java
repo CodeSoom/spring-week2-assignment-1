@@ -1,7 +1,6 @@
 package com.codesoom.assignment.interfaces;
 
 import com.codesoom.assignment.Task;
-import com.codesoom.assignment.TaskRepositoryOutput;
 
 import java.util.List;
 
@@ -12,5 +11,5 @@ public interface DefaultRepository {
 
     boolean notPresent(Long id);
 
-    TaskRepositoryOutput output();
+    ManipulatingRepository manipulator();
 }

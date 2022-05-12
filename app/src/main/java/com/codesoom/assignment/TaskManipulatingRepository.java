@@ -1,15 +1,15 @@
 package com.codesoom.assignment;
 
-import com.codesoom.assignment.interfaces.RepositoryOutput;
+import com.codesoom.assignment.interfaces.ManipulatingRepository;
 
 import java.util.Map;
 
-public class TaskRepositoryOutput implements RepositoryOutput {
+public class TaskManipulatingRepository implements ManipulatingRepository {
     private final Map<Long, Task> tasks;
     private Long savedTaskId;
     private Long updatedTaskId;
 
-    public TaskRepositoryOutput(Map<Long, Task> tasks) {
+    public TaskManipulatingRepository(Map<Long, Task> tasks) {
         this.tasks = tasks;
     }
 

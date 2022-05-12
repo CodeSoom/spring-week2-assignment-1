@@ -7,11 +7,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class TaskRepository implements DefaultRepository {
+public class TaskLoadingRepository implements DefaultRepository {
     private final Map<Long, Task> tasks = new HashMap<>();
-    private final TaskRepositoryOutput repositoryOutput = new TaskRepositoryOutput(tasks);
+    private final TaskManipulatingRepository repositoryOutput = new TaskManipulatingRepository(tasks);
 
-    public TaskRepository() {
+    public TaskLoadingRepository() {
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TaskRepository implements DefaultRepository {
     }
 
     @Override
-    public TaskRepositoryOutput output() {
+    public TaskManipulatingRepository manipulator() {
         return repositoryOutput;
     }
 }
