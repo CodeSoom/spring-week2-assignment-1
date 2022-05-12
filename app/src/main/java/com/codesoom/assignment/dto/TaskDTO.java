@@ -4,10 +4,12 @@ import com.codesoom.assignment.model.Task;
 
 public class TaskDTO {
 
-	private Long id;
-	private String title;
+	private final Long id;
+	private final String title;
 
-	public TaskDTO() {
+	public TaskDTO(Long id, String title) {
+		this.id = id;
+		this.title = title;
 	}
 
 	public TaskDTO(Task task) {
@@ -25,9 +27,6 @@ public class TaskDTO {
 
 	@Override
 	public String toString() {
-		return "TaskDTO{" +
-			"id=" + id +
-			", title='" + title + '\'' +
-			'}';
+		return "TaskDTO{" + "id=" + id + ", title='" + title + '\'' + '}';
 	}
 }

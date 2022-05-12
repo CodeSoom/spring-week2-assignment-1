@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codesoom.assignment.dto.TaskDTO;
 import com.codesoom.assignment.dto.TasksDTO;
+import com.codesoom.assignment.dto.TitleDTO;
 import com.codesoom.assignment.service.TaskService;
 
 @RestController
@@ -24,8 +25,8 @@ public class TaskController {
 	}
 
 	@PostMapping("/tasks")
-	public ResponseEntity<TasksDTO> createTask(@RequestBody TaskDTO taskDTO) {
-		return ResponseEntity.ok().body(taskService.createTask(taskDTO));
+	public ResponseEntity<TasksDTO> createTask(@RequestBody TitleDTO titleDTO) {
+		return ResponseEntity.ok().body(taskService.createTask(titleDTO));
 	}
 
 	@GetMapping("/tasks")
@@ -34,8 +35,8 @@ public class TaskController {
 	}
 
 	@PatchMapping("/tasks/{id}")
-	public ResponseEntity<TaskDTO> updateTask(@RequestBody TaskDTO taskDTO, @PathVariable long id) {
-		return ResponseEntity.ok().body(taskService.updateTasks(id, taskDTO));
+	public ResponseEntity<TaskDTO> updateTask(@RequestBody TitleDTO titleDTO, @PathVariable long id) {
+		return ResponseEntity.ok().body(taskService.updateTasks(id, titleDTO));
 	}
 
 	@DeleteMapping("/tasks/{id}")
