@@ -35,6 +35,7 @@ public class HelloController {
     }
 
     @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
         Task changedTask = taskRepository.update(id, task);
         return changedTask;
@@ -43,6 +44,5 @@ public class HelloController {
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
         taskRepository.delete(id);
-        return;
     }
 }
