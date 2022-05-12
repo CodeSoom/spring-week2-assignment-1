@@ -6,13 +6,13 @@ import com.codesoom.assignment.controllers.dtos.TaskRequestDto;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
 import com.codesoom.assignment.interfaces.ControllerOutput;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/tasks")
+@Transactional
 public class TaskControllerOutput implements ControllerOutput {
     private final TaskRepository repository;
 
