@@ -16,14 +16,18 @@ public class TaskService {
         return tasks;
     }
 
+    public Task findOne(Long id) {
+        return findTaskById(id);
+    }
+
     public Task create(Task task) {
         task.setId(generateId());
         tasks.add(task);
         return task;
     }
 
-    public Task update(Task task) {
-        Task source = findTaskById(task.getId());
+    public Task update(Long id, Task task) {
+        Task source = findTaskById(id);
         source.setTitle(task.getTitle());
         return task;
     }
@@ -34,19 +38,23 @@ public class TaskService {
     }
 
     /**
-     * Task id 생성기
-     * 0번부터 시작하게 하기 위해 후위 연산자를 사용
+     * Task id 생성
      * @return id
      */
     private Long generateId() {
-        return maxId++;
+        this.maxId += 1;
+        return this.maxId;
     }
 
+    /**
+     * Task id로 해당되는 task를 조회함
+     * @param id
+     * @return
+     */
     private Task findTaskById(Long id) {
-        return tasks.stream().filter(source -> source.getId() == id).findFirst().orElse(null);
-    }
-
-    public Task findOne(Long id) {
-        return findTaskById(id);
+        return tasks.stream()
+                .filter(source -> source.getId() == id)
+                .findFirst()
+                .orElse(new Task());
     }
 }

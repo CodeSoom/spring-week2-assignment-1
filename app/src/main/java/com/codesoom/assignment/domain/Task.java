@@ -51,4 +51,20 @@ public class Task implements Comparable<Task>{
     public int compareTo(Task task) {
         return Long.compare(this.id, task.id);
     }
+
+    /**
+     * title이 존재하는지 여부를 반환함
+     * @return
+     */
+    public boolean hasNotTitle() {
+        return this.title.isEmpty();
+    }
+
+    /**
+     * 해당 task가 빈 객체인지 판단.
+     * @return
+     */
+    public boolean isEmpty() {
+        return this.id == null && this.title == null;
+    }
 }

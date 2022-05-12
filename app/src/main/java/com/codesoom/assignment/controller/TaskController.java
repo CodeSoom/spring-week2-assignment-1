@@ -3,10 +3,13 @@ package com.codesoom.assignment.controller;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequestMapping("/tasks")
@@ -29,26 +32,45 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task task) {
-        // TODO title 없을 시 저장할 수 없도록
+        if (task.hasNotTitle()) {
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+        }
+
         return taskService.create(task);
     }
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task findOne(@PathVariable Long id) {
-        return taskService.findOne(id);
+        Task task = taskService.findOne(id);
+        if (task.isEmpty()) {
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+        }
+        return task;
     }
 
-    @PatchMapping("/{id}")
     @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task update(@RequestBody Task task) {
-        return taskService.update(task);
+    public Task update(@PathVariable Long id, @RequestBody Task task) {
+        if (isNotExist(id) || task.hasNotTitle()) {
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+        }
+
+        return taskService.update(id, task);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        taskService.delete(id);
+        if (isNotExist(id)) {
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+        } else {
+            taskService.delete(id);
+        }
+    }
+
+    private boolean isNotExist(Long id) {
+        return taskService.findOne(id).isEmpty();
     }
 }
