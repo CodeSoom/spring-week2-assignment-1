@@ -36,6 +36,15 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Test
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // Spring Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Model Mapper
+    implementation 'org.modelmapper:modelmapper:3.0.0'
 }
 
 application {
