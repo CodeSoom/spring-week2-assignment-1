@@ -1,4 +1,4 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.controllers.validations;
 
 import com.codesoom.assignment.interfaces.LoadingRepository;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.controllers.validations;
 
 import com.codesoom.assignment.controllers.dtos.TaskRequestDto;
 import org.springframework.http.HttpStatus;
