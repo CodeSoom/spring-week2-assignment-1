@@ -21,7 +21,8 @@ public class TaskController {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task findOne(@PathVariable Long id) {
-        return taskService.findOne(id);
+        Task task = taskService.findOne(id);
+        return task;
     }
 
     @GetMapping

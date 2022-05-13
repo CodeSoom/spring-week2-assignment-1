@@ -25,14 +25,14 @@ public class TaskService {
     }
 
     public Task create(Task task) {
-        task.setId(generateId());
-        tasks.add(task);
-        return task;
+        Task newTask = Task.createNewTaskWithTask(generateId(), task);
+        tasks.add(newTask);
+        return newTask;
     }
 
     public Task update(Long id, Task task) {
         Task source = findTaskById(id);
-        source.setTitle(task.getTitle());
+        source.changeTitle(task);
         return task;
     }
 
@@ -58,7 +58,7 @@ public class TaskService {
      */
     private Task findTaskById(Long id) {
         return tasks.stream()
-                .filter(source -> source.getId() == id)
+                .filter(source -> source.checkMyId(id))
                 .findFirst()
                 .orElseThrow(() -> new TaskNotFoundException());
     }
