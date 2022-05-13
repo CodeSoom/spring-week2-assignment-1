@@ -14,7 +14,7 @@ public class TaskManipulatingRepository implements ManipulatingRepository {
     }
 
     @Override
-    public void save(Task task) {
+    public void save(final Task task) {
         final Task savingTask = new Task(task.title());
 
         tasks.put(savingTask.id(), savingTask);
@@ -22,7 +22,7 @@ public class TaskManipulatingRepository implements ManipulatingRepository {
     }
 
     @Override
-    public void update(Task task) {
+    public void update(final Task task) {
         final Long id = task.id();
 
         tasks.put(id, task);
@@ -30,7 +30,7 @@ public class TaskManipulatingRepository implements ManipulatingRepository {
     }
 
     @Override
-    public void deleteBy(Long id) {
+    public void deleteBy(final Long id) {
         tasks.remove(id);
     }
 

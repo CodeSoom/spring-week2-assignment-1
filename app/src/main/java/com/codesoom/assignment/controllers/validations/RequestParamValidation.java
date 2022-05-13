@@ -8,7 +8,7 @@ public class RequestParamValidation {
     private final Long pathVariable;
     private final LoadingRepository repository;
 
-    public RequestParamValidation(Long pathVariable, LoadingRepository repository) {
+    public RequestParamValidation(final Long pathVariable, final LoadingRepository repository) {
         this.pathVariable = pathVariable;
         this.repository = repository;
     }

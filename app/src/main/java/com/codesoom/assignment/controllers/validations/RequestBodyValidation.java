@@ -9,7 +9,7 @@ import java.util.Objects;
 public class RequestBodyValidation {
     private final TaskRequestDto body;
 
-    public RequestBodyValidation(TaskRequestDto body) {
+    public RequestBodyValidation(final TaskRequestDto body) {
         this.body = body;
     }
 

@@ -7,7 +7,7 @@ public class TaskResponseDto {
     private final String title;
 
 
-    public TaskResponseDto(Task task) {
+    public TaskResponseDto(final Task task) {
         this.id = task.id();
         this.title = task.title();
     }

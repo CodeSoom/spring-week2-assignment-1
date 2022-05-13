@@ -8,7 +8,7 @@ public class TaskRequestDto {
     private TaskRequestDto() {
     }
 
-    public TaskRequestDto(Task task) {
+    public TaskRequestDto(final Task task) {
         this.title = task.title();
     }
 

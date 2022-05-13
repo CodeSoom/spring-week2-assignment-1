@@ -10,12 +10,12 @@ public class Task implements DefaultTask, Comparable<Task> {
     private final String title;
 
 
-    public Task(String title) {
+    public Task(final String title) {
         this.id = generatedId();
         this.title = title;
     }
 
-    public Task(Long id, String title) {
+    public Task(final Long id, final String title) {
         this.id = id;
         this.title = title;
     }
@@ -37,7 +37,7 @@ public class Task implements DefaultTask, Comparable<Task> {
     }
 
     @Override
-    public int compareTo(Task task) {
+    public int compareTo(final Task task) {
         return id().compareTo(task.id());
     }
 

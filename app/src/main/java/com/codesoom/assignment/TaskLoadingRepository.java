@@ -22,7 +22,7 @@ public class TaskLoadingRepository implements LoadingRepository {
     }
 
     @Override
-    public Task taskBy(Long id) {
+    public Task taskBy(final Long id) {
         return tasks.values().stream()
                 .filter(task -> Objects.equals(task.id(), id))
                 .findFirst()
@@ -30,7 +30,7 @@ public class TaskLoadingRepository implements LoadingRepository {
     }
 
     @Override
-    public boolean notPresent(Long id) {
+    public boolean notPresent(final Long id) {
         return tasks.values().stream()
                 .noneMatch(task -> Objects.equals(task.id(), id));
     }
