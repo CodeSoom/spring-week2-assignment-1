@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controller;
 
 import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.exception.TaskHasNotInvalidTitleException;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public Task findOne(@PathVariable Long id) {
         Task task = taskService.findOne(id);
-        if (task.isEmpty()) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
-        }
+
         return task;
     }
 
@@ -42,7 +41,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task task) {
         if (task.hasNotTitle()) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+            throw new TaskHasNotInvalidTitleException();
         }
 
         return taskService.create(task);
@@ -63,11 +62,7 @@ public class TaskController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        if (isNotExist(id)) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
-        } else {
-            taskService.delete(id);
-        }
+        taskService.delete(id);
     }
 
     /**
@@ -77,19 +72,10 @@ public class TaskController {
      * @return
      */
     public Task update(Long id, Task task) {
-        if (isNotExist(id) || task.hasNotTitle()) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+        if (task.hasNotTitle()) {
+            throw new TaskHasNotInvalidTitleException();
         }
 
         return taskService.update(id, task);
-    }
-
-    /**
-     * Task id가 존재하는지 조회
-     * @param id
-     * @return
-     */
-    private boolean isNotExist(Long id) {
-        return taskService.findOne(id).isEmpty();
     }
 }

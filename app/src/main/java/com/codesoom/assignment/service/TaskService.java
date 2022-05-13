@@ -1,10 +1,14 @@
 package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class TaskService {
@@ -56,6 +60,6 @@ public class TaskService {
         return tasks.stream()
                 .filter(source -> source.getId() == id)
                 .findFirst()
-                .orElse(new Task());
+                .orElseThrow(() -> new TaskNotFoundException());
     }
 }
