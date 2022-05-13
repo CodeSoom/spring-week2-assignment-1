@@ -19,11 +19,13 @@ public class TaskController {
     private final static List<Task> tasks = new ArrayList<>();
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Task> getTasks() {
         return taskRepository.findAll();
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Task getTask(@PathVariable Long id) {
         Optional<Task> task = findTask(id);
 
@@ -42,14 +44,15 @@ public class TaskController {
 
     @RequestMapping(value = "/{id}",
             method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
-        Optional<Task> tasks = findTask(id);
+    @ResponseStatus(HttpStatus.OK)
+    public Task updateTask(@PathVariable Long id, @RequestBody Task newTask) {
+        Optional<Task> task = findTask(id);
 
-        if (tasks.isEmpty()) {
+        if (task.isEmpty()) {
             throw new TaskNotFoundException();
         }
 
-        return taskRepository.update(id, task);
+        return taskRepository.update(id, newTask);
     }
 
     @DeleteMapping("/{id}")
