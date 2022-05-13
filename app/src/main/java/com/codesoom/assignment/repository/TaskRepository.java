@@ -1,9 +1,11 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class TaskRepository {
     private static final Map<Long, Task> tasks = new HashMap<>();
     private static Long sequence = 1L;
