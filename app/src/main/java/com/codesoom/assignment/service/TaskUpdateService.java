@@ -1,5 +1,6 @@
 package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.dto.TaskForm;
 import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
@@ -14,10 +15,10 @@ public class TaskUpdateService {
         this.taskRepository = taskRepository;
     }
 
-    public Task update(Long id, Task source) {
-        Task target = taskRepository.findById(id)
+    public Task update(Long id, TaskForm taskForm) {
+        Task task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
-        target.update(source);
-        return target;
+        task.update(taskForm.getTitle());
+        return task;
     }
 }

@@ -18,8 +18,8 @@ public class Task {
         return title;
     }
 
-    public void update(Task task) {
-        this.title = task.getTitle();
+    public void update(String title) {
+        this.title = title;
     }
 
     @Override

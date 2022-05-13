@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.dto.TaskForm;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.service.TaskAddService;
 import com.codesoom.assignment.service.TaskFinishService;
@@ -34,8 +35,8 @@ public class TaskController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Task addTask(@RequestBody Task task) {
-        return taskAddService.add(task);
+    public Task addTask(@RequestBody TaskForm taskForm) {
+        return taskAddService.add(taskForm);
     }
 
     @GetMapping("/{id}")
@@ -50,8 +51,8 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
-        return taskUpdateService.update(id, task);
+    public Task updateTask(@PathVariable Long id, @RequestBody TaskForm taskForm) {
+        return taskUpdateService.update(id, taskForm);
     }
 
 }
