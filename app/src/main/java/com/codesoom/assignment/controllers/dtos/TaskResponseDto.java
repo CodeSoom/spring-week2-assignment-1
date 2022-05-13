@@ -3,11 +3,9 @@ package com.codesoom.assignment.controllers.dtos;
 import com.codesoom.assignment.Task;
 
 public class TaskResponseDto {
-    private Long id;
-    private String title;
+    private final Long id;
+    private final String title;
 
-    public TaskResponseDto() {
-    }
 
     public TaskResponseDto(Task task) {
         this.id = task.id();
