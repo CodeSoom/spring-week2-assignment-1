@@ -5,7 +5,7 @@ import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
 
 import java.util.List;
 
-public interface CrudController {
+public interface TaskController {
     List<TaskResponseDto> showAll();
 
     TaskResponseDto showBy(Long id);

@@ -4,7 +4,7 @@ import com.codesoom.assignment.Task;
 import com.codesoom.assignment.TaskLoadingRepository;
 import com.codesoom.assignment.controllers.dtos.TaskRequestDto;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
-import com.codesoom.assignment.interfaces.CrudController;
+import com.codesoom.assignment.interfaces.TaskController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin(origins = "http://localhost:3000")
-public class TaskController implements CrudController {
+public class TaskCrudController implements TaskController {
     private final TaskLoadingRepository repository;
 
-    public TaskController(TaskLoadingRepository repository) {
+    public TaskCrudController(TaskLoadingRepository repository) {
         this.repository = repository;
     }
 
