@@ -4,7 +4,7 @@ import com.codesoom.assignment.Task;
 
 import java.util.List;
 
-public interface DefaultRepository {
+public interface LoadingRepository {
     List<Task> tasksAll();
 
     Task taskBy(Long id);

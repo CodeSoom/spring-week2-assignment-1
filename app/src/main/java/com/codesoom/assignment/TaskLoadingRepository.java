@@ -1,13 +1,13 @@
 package com.codesoom.assignment;
 
-import com.codesoom.assignment.interfaces.DefaultRepository;
+import com.codesoom.assignment.interfaces.LoadingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public class TaskLoadingRepository implements DefaultRepository {
+public class TaskLoadingRepository implements LoadingRepository {
     private final Map<Long, Task> tasks = new HashMap<>();
     private final TaskManipulatingRepository repositoryOutput = new TaskManipulatingRepository(tasks);
 

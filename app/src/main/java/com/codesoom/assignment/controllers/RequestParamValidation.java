@@ -1,14 +1,14 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.interfaces.DefaultRepository;
+import com.codesoom.assignment.interfaces.LoadingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 public class RequestParamValidation {
     private final Long pathVariable;
-    private final DefaultRepository repository;
+    private final LoadingRepository repository;
 
-    public RequestParamValidation(Long pathVariable, DefaultRepository repository) {
+    public RequestParamValidation(Long pathVariable, LoadingRepository repository) {
         this.pathVariable = pathVariable;
         this.repository = repository;
     }
