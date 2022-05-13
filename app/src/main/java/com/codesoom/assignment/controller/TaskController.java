@@ -1,16 +1,11 @@
 package com.codesoom.assignment.controller;
 
 import com.codesoom.assignment.domain.Task;
-import com.codesoom.assignment.exception.TaskHasNotInvalidTitleException;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequestMapping("/tasks")
@@ -26,9 +21,7 @@ public class TaskController {
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task findOne(@PathVariable Long id) {
-        Task task = taskService.findOne(id);
-
-        return task;
+        return taskService.findOne(id);
     }
 
     @GetMapping
@@ -40,11 +33,7 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task task) {
-        if (task.hasNotTitle()) {
-            throw new TaskHasNotInvalidTitleException();
-        }
-
-        return taskService.create(task);
+        return taskService.create(task.hasValidTitle());
     }
 
     @PutMapping("/{id}")
@@ -72,10 +61,6 @@ public class TaskController {
      * @return
      */
     public Task update(Long id, Task task) {
-        if (task.hasNotTitle()) {
-            throw new TaskHasNotInvalidTitleException();
-        }
-
-        return taskService.update(id, task);
+        return taskService.update(id, task.hasValidTitle());
     }
 }

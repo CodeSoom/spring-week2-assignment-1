@@ -1,6 +1,6 @@
 package com.codesoom.assignment.domain;
 
-import org.springframework.util.StringUtils;
+import com.codesoom.assignment.exception.TaskHasNotInvalidTitleException;
 
 import java.util.Objects;
 
@@ -56,15 +56,19 @@ public class Task implements Comparable<Task>{
      * title이 존재하는지 여부를 반환함
      * @return
      */
-    public boolean hasNotTitle() {
+    private boolean hasNotTitle() {
         return this.title.isEmpty();
     }
 
     /**
-     * 해당 task가 빈 객체인지 판단.
-     * @return
+     * title이 현재 값을 갖고 있는지 확인
+     * @return 존재하면 객체 그대로 반환, 존재하지 않으면 예외
      */
-    public boolean isEmpty() {
-        return this.id == null && this.title == null;
+    public Task hasValidTitle() {
+        if (hasNotTitle()) {
+            throw new TaskHasNotInvalidTitleException();
+        }
+
+        return this;
     }
 }
