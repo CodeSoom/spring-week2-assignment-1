@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("TaskRepository 클래스")
 public class TaskRepositoryTest {
 
-    TaskRepository taskRepository;
+    TaskRepositoryImpl taskRepository;
 
     @BeforeEach
     void setUp() {
-        taskRepository = new TaskRepository();
+        taskRepository = new TaskRepositoryImpl();
     }
 
     @AfterEach
