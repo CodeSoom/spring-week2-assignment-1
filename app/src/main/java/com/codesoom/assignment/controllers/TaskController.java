@@ -29,17 +29,11 @@ public class TaskController {
     public Task getTask(@PathVariable Long id) {
         Optional<Task> task = findTask(id);
 
-        if (task.isEmpty()) {
-            throw new TaskNotFoundException();
+        if (task == null) {
+            throw new TaskNotFoundException(id);
         }
 
         return taskRepository.findById(id);
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Task createTask(@RequestBody Task task) {
-        return taskRepository.save(task);
     }
 
     @RequestMapping(value = "/{id}",
@@ -48,11 +42,17 @@ public class TaskController {
     public Task updateTask(@PathVariable Long id, @RequestBody Task newTask) {
         Optional<Task> task = findTask(id);
 
-        if (task.isEmpty()) {
-            throw new TaskNotFoundException();
+        if (task == null) {
+            throw new TaskNotFoundException(id);
         }
 
         return taskRepository.update(id, newTask);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Task createTask(@RequestBody Task task) {
+        return taskRepository.save(task);
     }
 
     @DeleteMapping("/{id}")
@@ -60,8 +60,8 @@ public class TaskController {
     public void deleteTask(@PathVariable Long id) {
         Optional<Task> task = findTask(id);
 
-        if (task.isEmpty()) {
-            throw new TaskNotFoundException();
+        if (task == null) {
+            throw new TaskNotFoundException(id);
         }
 
         taskRepository.delete(id);
