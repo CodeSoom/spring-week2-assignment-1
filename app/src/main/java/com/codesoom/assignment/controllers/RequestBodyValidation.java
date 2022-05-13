@@ -1,7 +1,6 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.controllers.dtos.TaskRequestDto;
-import com.codesoom.assignment.interfaces.DefaultRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 

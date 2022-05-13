@@ -4,21 +4,37 @@ import com.codesoom.assignment.Task;
 import com.codesoom.assignment.TaskLoadingRepository;
 import com.codesoom.assignment.controllers.dtos.TaskRequestDto;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
-import com.codesoom.assignment.interfaces.ManipulatingController;
+import com.codesoom.assignment.interfaces.DefaultController;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tasks")
-@Transactional
 @CrossOrigin(origins = "http://localhost:3000")
-public class TaskManipulatingController implements ManipulatingController {
+public class TaskController implements DefaultController {
     private final TaskLoadingRepository repository;
 
-    public TaskManipulatingController(TaskLoadingRepository repository) {
+    public TaskController(TaskLoadingRepository repository) {
         this.repository = repository;
+    }
+
+    @Override
+    @GetMapping
+    public List<TaskResponseDto> showAll() {
+        return repository.tasksAll().stream()
+                .map(TaskResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @GetMapping("/{id}")
+    public TaskResponseDto showBy(@PathVariable Long id) {
+        new RequestParamValidation(id, repository).validate();
+
+        return new TaskResponseDto(repository.taskBy(id));
     }
 
     @Override
@@ -52,3 +68,4 @@ public class TaskManipulatingController implements ManipulatingController {
         repository.manipulator().deleteBy(id);
     }
 }
+
