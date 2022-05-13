@@ -35,13 +35,13 @@ public class TaskController {
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task task(@PathVariable int id) {
-        Optional<Task> findTask = findTask(id);
+        Optional<Task> task = findTask(id);
 
-        if (findTask.isEmpty()) {
+        if (task.isEmpty()) {
             throw new TaskNotFoundException();
         }
 
-        return findTask.get();
+        return task.get();
     }
 
     @PostMapping
@@ -55,35 +55,34 @@ public class TaskController {
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     @ResponseStatus(HttpStatus.OK)
-    public Task editTask(@PathVariable int id, @RequestBody Task task) {
-        Optional<Task> findTask = findTask(id);
+    public Task editTask(@PathVariable int id, @RequestBody Task newTask) {
+        Optional<Task> task = findTask(id);
 
-        if (findTask.isEmpty()) {
+        if (task.isEmpty()) {
             throw new TaskNotFoundException();
         }
 
-        Task newTask = findTask.get();
-        newTask.setTitle(task.getTitle());
+        Task setNewTask = task.get();
+        setNewTask.setTitle(newTask.getTitle());
 
-        return newTask;
+        return setNewTask;
     }
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable int id) {
-        Optional<Task> findTask = findTask(id);
+        Optional<Task> task = findTask(id);
 
-        if (findTask.isEmpty()) {
+        if (task.isEmpty()) {
             throw new TaskNotFoundException();
         }
 
-        tasks.remove(findTask.get()); // get()으로 꼭 가져오기
-
+        tasks.remove(task.get()); // get()으로 꼭 가져오기
     }
 
     private Optional<Task> findTask(int id) {
-        Optional<Task> task = tasks.stream().filter(x -> x.getId() == id).findFirst();
-        return task;
+
+        return tasks.stream().filter(x -> x.getId() == id).findFirst();
     }
 
     private int getId() {
