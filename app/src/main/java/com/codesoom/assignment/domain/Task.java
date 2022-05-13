@@ -1,7 +1,7 @@
 package com.codesoom.assignment.domain;
 
 import com.codesoom.assignment.dto.TaskResponseDto;
-import com.codesoom.assignment.exception.TaskHasNotInvalidTitleException;
+import com.codesoom.assignment.exception.TaskInvalidTitleException;
 
 import java.util.Objects;
 
@@ -41,7 +41,7 @@ public class Task implements Comparable<Task>{
      */
     public Task hasValidTitle() {
         if (hasNotTitle()) {
-            throw new TaskHasNotInvalidTitleException();
+            throw new TaskInvalidTitleException();
         }
 
         return this;
