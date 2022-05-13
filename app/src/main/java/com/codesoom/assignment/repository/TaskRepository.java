@@ -25,7 +25,7 @@ public class TaskRepository {
         // id 에 대한 Task 가 있다면 return tasks.get(id)
         // id 에 대한 Task 가 없다면 return "할 일이 없습니다."
         return tasks.values().stream()
-                .filter(task -> Objects.equals(task.getId(), id))
+                .filter(task -> task.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("TaskId(" + id + ") can not be found"));
     }
