@@ -17,7 +17,7 @@ public class RequestBodyValidation {
     public void validate() {
         if (body.getTitle() == null || Objects.equals(body.getTitle(), "")
                 || Objects.equals(body.getTitle(), " ")) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title에 유요한 값을 입려갷야 합니다");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title에 입력된 값이 유효하지 않습니다. Null, '', ' '은 유효한 값이 아닙니다.");
         }
     }
 }
