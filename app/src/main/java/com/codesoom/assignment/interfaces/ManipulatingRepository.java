@@ -6,7 +6,7 @@ public interface ManipulatingRepository {
 
     void save(Task task);
 
-    void update(Long oldTaskId, Task newTask);
+    void update(Task task);
 
     void deleteBy(Long id);
 

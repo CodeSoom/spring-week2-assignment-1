@@ -55,7 +55,9 @@ public class TaskController implements CrudController {
         new RequestBodyValidation(requestDto).validate();
         new RequestParamValidation(id, repository).validate();
 
-        repository.manipulator().update(id, requestDto.toEntity());
+        Task taskUpdating = new Task(id, requestDto.getTitle());
+        repository.manipulator().update(taskUpdating);
+
         return new TaskResponseDto(repository.manipulator().taskUpdated());
     }
 

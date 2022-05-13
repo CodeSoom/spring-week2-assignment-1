@@ -16,15 +16,17 @@ public class TaskManipulatingRepository implements ManipulatingRepository {
     @Override
     public void save(Task task) {
         final Task savingTask = new Task(task.title());
+
         tasks.put(savingTask.id(), savingTask);
         savedTaskId = savingTask.id();
     }
 
     @Override
-    public void update(Long oldTaskId, Task newTask) {
-        final Task updatingTask = new Task(oldTaskId, newTask.title());
-        tasks.put(oldTaskId, updatingTask);
-        updatedTaskId = oldTaskId;
+    public void update(Task task) {
+        final Long id = task.id();
+
+        tasks.put(id, task);
+        updatedTaskId = id;
     }
 
     @Override
