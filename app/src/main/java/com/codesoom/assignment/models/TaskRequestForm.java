@@ -7,9 +7,6 @@ public class TaskRequestForm {
     @NotEmpty
     private String title;
 
-    public TaskRequestForm(){
-    }
-
     public TaskRequestForm(String title) {
         this.title = title;
     }

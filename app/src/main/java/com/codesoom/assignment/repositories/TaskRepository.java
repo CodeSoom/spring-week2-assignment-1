@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class TaskRepository {
-    private Map<Long, Task> taskMap = Collections.synchronizedMap(new LinkedHashMap<>());
+//    private Map<Long, Task> taskMap = Collections.synchronizedMap(new LinkedHashMap<>());
+    private ConcurrentHashMap<Long, Task> taskMap = new ConcurrentHashMap<>();
 
     public List<Task> findAll() {
         return new ArrayList<>(taskMap.values());
