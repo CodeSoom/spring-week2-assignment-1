@@ -1,5 +1,6 @@
 package com.codesoom.assignment.domain;
 
+import com.codesoom.assignment.dto.TaskResponseDto;
 import com.codesoom.assignment.exception.TaskHasNotInvalidTitleException;
 
 import java.util.Objects;
@@ -26,24 +27,6 @@ public class Task implements Comparable<Task>{
         return new Task(id, task.title);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(title, task.title);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title);
-    }
-
-    @Override
-    public int compareTo(Task task) {
-        return Long.compare(this.id, task.id);
-    }
-
     /**
      * title이 존재하는지 여부를 반환함
      * @return
@@ -62,5 +45,26 @@ public class Task implements Comparable<Task>{
         }
 
         return this;
+    }
+
+    public TaskResponseDto toTaskResponseDto() {
+        return new TaskResponseDto(this.id, this.title);
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
+    }
+
+    @Override
+    public int compareTo(Task task) {
+        return Long.compare(this.id, task.id);
     }
 }

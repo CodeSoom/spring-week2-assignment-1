@@ -1,11 +1,14 @@
 package com.codesoom.assignment.controller;
 
 import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.dto.TaskRequestDto;
+import com.codesoom.assignment.dto.TaskResponseDto;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tasks")
@@ -20,33 +23,34 @@ public class TaskController {
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task findOne(@PathVariable Long id) {
-        Task task = taskService.findOne(id);
-        return task;
+    public TaskResponseDto findOne(@PathVariable Long id) {
+        return toTaskResponseDto(taskService.findOne(id));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Task> findAll() {
-        return taskService.findAll();
+    public List<TaskResponseDto> findAll() {
+        return taskService.findAll().stream()
+                .map(Task::toTaskResponseDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) {
-        return taskService.create(task.hasValidTitle());
+    public TaskResponseDto create(@RequestBody TaskRequestDto taskDto) {
+        return toTaskResponseDto(taskService.create(taskDto.toTask().hasValidTitle()));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task put(@PathVariable Long id, @RequestBody Task task) {
-        return update(id, task);
+    public TaskResponseDto put(@PathVariable Long id, @RequestBody TaskRequestDto taskDto) {
+        return toTaskResponseDto(update(id, taskDto.toTask()));
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task patch(@PathVariable Long id, @RequestBody Task task) {
-        return update(id, task);
+    public TaskResponseDto patch(@PathVariable Long id, @RequestBody TaskRequestDto taskDto) {
+        return toTaskResponseDto(update(id, taskDto.toTask()));
     }
 
     @DeleteMapping("/{id}")
@@ -63,5 +67,9 @@ public class TaskController {
      */
     public Task update(Long id, Task task) {
         return taskService.update(id, task.hasValidTitle());
+    }
+
+    public TaskResponseDto toTaskResponseDto(Task task) {
+        return task.toTaskResponseDto();
     }
 }
