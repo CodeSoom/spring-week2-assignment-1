@@ -6,10 +6,8 @@ import java.util.Objects;
 
 public class Task implements Comparable<Task>{
 
-    private Long id;
+    private final Long id;
     private String title;
-
-    public Task() {}
 
     public Task(Long id, String title) {
         this.id = id;
