@@ -3,74 +3,53 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
+import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private final TaskRepository taskRepository = TaskRepository.getInstance();
-    private final static List<Task> tasks = new ArrayList<>();
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Task> getTasks() {
-        return taskRepository.findAll();
+        return taskService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Task getTask(@PathVariable Long id) {
-        Optional<Task> task = findTask(id);
-
-        if (task == null) {
-            throw new TaskNotFoundException(id);
-        }
-
-        return taskRepository.findById(id);
+        return taskService.findById(id);
     }
 
     @RequestMapping(value = "/{id}",
             method = {RequestMethod.PUT, RequestMethod.PATCH})
     @ResponseStatus(HttpStatus.OK)
     public Task updateTask(@PathVariable Long id, @RequestBody Task newTask) {
-        Optional<Task> task = findTask(id);
-
-        if (task == null) {
-            throw new TaskNotFoundException(id);
-        }
-
-        return taskRepository.update(id, newTask);
+        return taskService.update(id, newTask);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
-        return taskRepository.save(task);
+        return taskService.save(task);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long id) {
-        Optional<Task> task = findTask(id);
-
-        if (task == null) {
-            throw new TaskNotFoundException(id);
-        }
-
-        taskRepository.delete(id);
+        taskService.delete(id);
     }
-
-    private Optional<Task> findTask(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst();
-    }
-
 }
