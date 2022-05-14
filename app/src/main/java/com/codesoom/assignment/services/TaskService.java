@@ -45,7 +45,7 @@ public class TaskService {
             throw new NotFoundException();
         }
         Optional<Task> task = findTask(id);
-        return tasks.remove(task);
+        return tasks.remove(task.get());
     }
 
     private Optional<Task> findTask(Long id) {
