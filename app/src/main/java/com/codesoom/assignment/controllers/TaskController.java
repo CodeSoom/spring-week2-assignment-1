@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -24,7 +23,7 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public Optional<Task> getTaskItem(@PathVariable("id") Long id) {
+    public Task getTaskItem(@PathVariable("id") Long id) {
         return taskService.getTaskItem(id);
     }
 
@@ -35,13 +34,13 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Optional<Task> update(@PathVariable("id") Long id,
+    public Task update(@PathVariable("id") Long id,
                                  @RequestBody Task source) {
         return taskService.updateTask(id, source);
     }
 
     @PatchMapping("/{id}")
-    public Optional<Task> patch(@PathVariable("id") Long id,
+    public Task patch(@PathVariable("id") Long id,
                                 @RequestBody Task source) {
         return taskService.updateTask(id, source);
     }

@@ -18,8 +18,8 @@ public class TaskService {
         return tasks;
     }
 
-    public Optional<Task> getTaskItem(Long id) {
-        return findTask(id);
+    public Task getTaskItem(Long id) {
+        return findTask(id).get();
     }
 
     public Task addTask(Task task) {
@@ -31,13 +31,13 @@ public class TaskService {
         return task;
     }
 
-    public Optional<Task> updateTask(Long id, Task source) {
+    public Task updateTask(Long id, Task source) {
         checkTitle(source.getTitle());
 
         Optional<Task> task = findTask(id);
         task.ifPresent(t -> t.setTitle(source.getTitle()));
 
-        return task;
+        return task.get();
     }
 
     public boolean deleteTask(Long id) {
@@ -45,6 +45,7 @@ public class TaskService {
             throw new NotFoundException();
         }
         Optional<Task> task = findTask(id);
+
         return tasks.remove(task.get());
     }
 
