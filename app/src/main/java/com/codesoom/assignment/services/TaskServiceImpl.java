@@ -1,6 +1,7 @@
 package com.codesoom.assignment.services;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.TaskBuilder;
 import com.codesoom.assignment.repositories.TaskRepository;
 import com.codesoom.assignment.utils.IdGenerator;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public Task addTask(Task task) {
         Long newId = idGenerator.generateId();
-        task.setId(newId);
+        TaskBuilder taskBuilder = new TaskBuilder().setId(newId);
         return taskRepository.save(task);
     }
 
@@ -40,7 +41,7 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public Task updateTask(Long id, Task newTask) {
         Task task = taskRepository.findOne(id).orElseThrow();
-        task.update(newTask);
+        TaskBuilder taskBuilder = new TaskBuilder().setTitle(task.getTitle());
         return taskRepository.save(task);
     }
 
