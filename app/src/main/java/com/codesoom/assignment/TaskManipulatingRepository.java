@@ -11,8 +11,6 @@ import java.util.NoSuchElementException;
 public class TaskManipulatingRepository implements ManipulatingRepository {
     private final LoadingRepository loadingRepository;
     private final Map<Long, DefaultTask> tasks;
-    private Long savedTaskId;
-    private Long updatedTaskId;
 
     public TaskManipulatingRepository(LoadingRepository loadingRepository, Map<Long, DefaultTask> tasks) {
         this.loadingRepository = loadingRepository;
@@ -20,22 +18,22 @@ public class TaskManipulatingRepository implements ManipulatingRepository {
     }
 
     @Override
-    public void save(final DefaultTask task) {
+    public DefaultTask save(final DefaultTask task) {
         final DefaultTask savingTask = new DefaultTask(task.title());
 
         tasks.put(savingTask.id(), savingTask);
-        savedTaskId = savingTask.id();
+        return savingTask;
     }
 
     @Override
-    public void update(final DefaultTask task) {
+    public DefaultTask update(final DefaultTask task) {
         final Long id = task.id();
         if (loadingRepository.notPresent(id)) {
             throw new NoSuchElementException("taskId(" + id + ")에 해당하는 Task를 Repository에서 찾을 수 없습니다");
         }
 
         tasks.put(id, task);
-        updatedTaskId = id;
+        return task;
     }
 
     @Override
@@ -45,15 +43,5 @@ public class TaskManipulatingRepository implements ManipulatingRepository {
         }
 
         tasks.remove(id);
-    }
-
-    @Override
-    public DefaultTask taskSaved() {
-        return tasks.get(savedTaskId);
-    }
-
-    @Override
-    public DefaultTask taskUpdated() {
-        return tasks.get(updatedTaskId);
     }
 }

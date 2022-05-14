@@ -43,9 +43,8 @@ public class TaskCrudController implements TaskController {
         new RequestBodyValidation(requestDto).validate();
 
         final DefaultTask task = requestDto.toEntity();
-        repository.manipulator().save(task);
 
-        return new TaskResponseDto(repository.manipulator().taskSaved());
+        return new TaskResponseDto(repository.manipulator().save(task));
     }
 
     @Override
@@ -54,9 +53,8 @@ public class TaskCrudController implements TaskController {
         new RequestBodyValidation(requestDto).validate();
 
         final DefaultTask taskUpdating = new DefaultTask(id, requestDto.getTitle());
-        repository.manipulator().update(taskUpdating);
 
-        return new TaskResponseDto(repository.manipulator().taskUpdated());
+        return new TaskResponseDto(repository.manipulator().update(taskUpdating));
     }
 
     @Override

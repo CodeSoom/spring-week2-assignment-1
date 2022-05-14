@@ -17,8 +17,12 @@ public interface ManipulatingRepository {
      * Method Parameters:
      * Task task - Task 엔티티 객체
      * </p>
+     * <p>
+     * Method Returns:
+     * Task - Task 엔티티 객체
+     * </p>
      */
-    void save(DefaultTask task);
+    DefaultTask save(DefaultTask task);
 
     /**
      * Task 엔티티 객체 수정
@@ -26,8 +30,12 @@ public interface ManipulatingRepository {
      * Method Parameters:
      * Task task - Task 엔티티 객체
      * </p>
+     * <p>
+     * Method Returns:
+     * Task - Task 엔티티 객체
+     * </p>
      */
-    void update(DefaultTask task);
+    DefaultTask update(DefaultTask task);
 
     /**
      * Task 엔티티 객체 삭제
@@ -37,22 +45,4 @@ public interface ManipulatingRepository {
      * </p>
      */
     void deleteBy(Long id);
-
-    /**
-     * 생성한 Entity 객체 반환
-     * <p>
-     * Method Parameters:
-     * Task - Task 엔티티 객체
-     * </p>
-     */
-    DefaultTask taskSaved();
-
-    /**
-     * 수정한 Entity 객체 반환
-     * <p>
-     * Method Parameters:
-     * Task - Task 엔티티 객체
-     * </p>
-     */
-    DefaultTask taskUpdated();
 }
