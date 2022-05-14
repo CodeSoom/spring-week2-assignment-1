@@ -10,12 +10,6 @@ public class TaskRepository {
     private static final Map<Long, Task> tasks = new HashMap<>();
     private static Long sequence = 1L;
 
-    private static final TaskRepository instance = new TaskRepository();
-
-    public static TaskRepository getInstance() {
-        return instance;
-    }
-
     public TaskRepository() {
     }
 
@@ -23,13 +17,8 @@ public class TaskRepository {
         return new ArrayList<>(tasks.values());
     }
 
-    public Task findById(Long id) {
-        // id 에 대한 Task 가 있다면 return tasks.get(id)
-        // id 에 대한 Task 가 없다면 return "할 일이 없습니다."
-        return tasks.values().stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("TaskId(" + id + ") can not be found"));
+    public Optional<Task> findById(Long id) {
+        return Optional.ofNullable(tasks.get(id));
     }
 
     public Task save(Task task) {
