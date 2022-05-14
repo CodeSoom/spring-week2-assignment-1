@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 @Repository
 public class TaskLoadingRepository implements LoadingRepository {
     private final Map<Long, Task> tasks = new HashMap<>();
-    private final TaskManipulatingRepository repositoryOutput = new TaskManipulatingRepository(tasks);
+    private final TaskManipulatingRepository repositoryOutput = new TaskManipulatingRepository(this, tasks);
 
     public TaskLoadingRepository() {
     }
