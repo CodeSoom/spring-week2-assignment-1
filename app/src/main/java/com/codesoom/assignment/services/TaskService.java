@@ -24,7 +24,11 @@ public class TaskService {
 
     public Task handleCreate(Task task) {
         checkTitle(task.getTitle());
-        return addTask(task);
+
+        task.setId(generateId());
+        tasks.add(task);
+
+        return task;
     }
 
     public Optional<Task> handleUpdate(Long id, Task source) {
@@ -54,12 +58,6 @@ public class TaskService {
     private  Long generateId() {
         newId += 1;
         return newId;
-    }
-
-    private Task addTask(Task task) {
-        task.setId(generateId());
-        tasks.add(task);
-        return task;
     }
 
     private void checkTitle(String title) {
