@@ -3,7 +3,6 @@ package com.codesoom.assignment.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import com.codesoom.assignment.dto.TaskDTO;
 import com.codesoom.assignment.dto.TasksDTO;
 import com.codesoom.assignment.dto.TitleDTO;
@@ -19,9 +18,7 @@ public class Tasks {
 		return new TasksDTO(tasks);
 	}
 
-	public List<Task> getTasks() {
-		return Collections.unmodifiableList(tasks);
-	}
+	public List<Task> getTasks() { return Collections.unmodifiableList(new ArrayList<>(tasks)); }
 
 	public TaskDTO updateTask(long id, TitleDTO titleDTO) {
 		Task task = tasks.stream().filter(t -> t.getId() == id).findAny().orElseThrow(()->new TaskNotFoundException(id));
