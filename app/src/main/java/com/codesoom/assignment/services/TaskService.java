@@ -1,6 +1,5 @@
 package com.codesoom.assignment.services;
 
-import com.codesoom.assignment.exceptions.BadRequestException;
 import com.codesoom.assignment.exceptions.NotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class TaskService {
     }
 
     public Task addTask(Task task) {
-        checkTitle(task.getTitle());
+        task.checkTitle(task.getTitle());
 
         task.setId(generateId());
         tasks.add(task);
@@ -32,7 +31,7 @@ public class TaskService {
     }
 
     public Task updateTask(Long id, Task source) {
-        checkTitle(source.getTitle());
+        source.checkTitle(source.getTitle());
 
         Optional<Task> task = findTask(id);
         task.ifPresent(t -> t.setTitle(source.getTitle()));
@@ -59,11 +58,5 @@ public class TaskService {
     private  Long generateId() {
         newId += 1;
         return newId;
-    }
-
-    private void checkTitle(String title) {
-        if(title.isBlank()) {
-            throw new BadRequestException();
-        }
     }
 }
