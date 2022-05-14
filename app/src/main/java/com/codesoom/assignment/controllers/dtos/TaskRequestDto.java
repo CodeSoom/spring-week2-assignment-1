@@ -2,14 +2,14 @@ package com.codesoom.assignment.controllers.dtos;
 
 import com.codesoom.assignment.DefaultTask;
 
+import java.beans.ConstructorProperties;
+
 public class TaskRequestDto {
-    private String title;
+    private final String title;
 
-    private TaskRequestDto() {
-    }
-
-    public TaskRequestDto(final DefaultTask task) {
-        this.title = task.title();
+    @ConstructorProperties({"title"})
+    private TaskRequestDto(final String title) {
+        this.title = title;
     }
 
     public String getTitle() {
