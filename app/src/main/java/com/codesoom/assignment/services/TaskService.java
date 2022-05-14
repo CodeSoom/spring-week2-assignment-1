@@ -14,15 +14,15 @@ public class TaskService {
     private List<Task> tasks = new ArrayList<>();
     private Long newId = 0L;
 
-    public List<Task> handleList() {
+    public List<Task> getTaskList() {
         return tasks;
     }
 
-    public Optional<Task> handleItem(Long id) {
+    public Optional<Task> getTaskItem(Long id) {
         return findTask(id);
     }
 
-    public Task handleCreate(Task task) {
+    public Task addTask(Task task) {
         checkTitle(task.getTitle());
 
         task.setId(generateId());
@@ -31,7 +31,7 @@ public class TaskService {
         return task;
     }
 
-    public Optional<Task> handleUpdate(Long id, Task source) {
+    public Optional<Task> updateTask(Long id, Task source) {
         checkTitle(source.getTitle());
 
         Optional<Task> task = findTask(id);
@@ -40,7 +40,7 @@ public class TaskService {
         return task;
     }
 
-    public boolean handleDelete(Long id) {
+    public boolean deleteTask(Long id) {
         if(id == null) {
             throw new NotFoundException();
         }

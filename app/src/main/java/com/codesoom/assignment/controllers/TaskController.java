@@ -20,35 +20,35 @@ public class TaskController {
 
     @GetMapping
     public List<Task> getList() {
-        return taskService.handleList();
+        return taskService.getTaskList();
     }
 
     @GetMapping("{id}")
-    public Optional<Task> getItem(@PathVariable("id") Long id) {
-        return taskService.handleItem(id);
+    public Optional<Task> getTaskItem(@PathVariable("id") Long id) {
+        return taskService.getTaskItem(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Task create(@RequestBody Task task) {
-        return taskService.handleCreate(task);
+        return taskService.addTask(task);
     }
 
     @PutMapping("/{id}")
     public Optional<Task> update(@PathVariable("id") Long id,
                                  @RequestBody Task source) {
-        return taskService.handleUpdate(id, source);
+        return taskService.updateTask(id, source);
     }
 
     @PatchMapping("/{id}")
     public Optional<Task> patch(@PathVariable("id") Long id,
                                 @RequestBody Task source) {
-        return taskService.handleUpdate(id, source);
+        return taskService.updateTask(id, source);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value = {"", "/", "/{id}"})
     public boolean delete(@PathVariable(required = false) Long id) {
-        return taskService.handleDelete(id);
+        return taskService.deleteTask(id);
     }
 }
