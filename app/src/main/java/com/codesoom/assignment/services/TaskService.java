@@ -1,11 +1,13 @@
 package com.codesoom.assignment.services;
 
+import com.codesoom.assignment.exceptions.BadRequestException;
+import com.codesoom.assignment.exceptions.NotFoundException;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -16,66 +18,53 @@ public class TaskService {
         return tasks;
     }
 
-    public Object handleItem(Long id, HttpServletResponse response) {
-        Task task = findTask(id);
+    public Optional<Task> handleItem(Long id) {
+        return findTask(id);
+    }
 
-        if (task == null) {
-            return new ResponseNotFound(response).send("");
-        }
+    public Task handleCreate(Task task) {
+        checkTitle(task.getTitle());
+        return addTask(task);
+    }
+
+    public Optional<Task> handleUpdate(Long id, Task source) {
+        checkTitle(source.getTitle());
+
+        Optional<Task> task = findTask(id);
+        task.ifPresent(t -> t.setTitle(source.getTitle()));
 
         return task;
     }
 
-    public Object handleCreate(Task task, HttpServletResponse response) {
-        if(task.getTitle().isBlank()) {
-            return new ResponseBadRequest(response).send("");
-        }
-        else {
-            task.setId(generateId());
-            tasks.add(task);
-            return new ResponseCreated(response).send(task);
-        }
-    }
-
-    public Object handleUpdate(Long id, Task source, HttpServletResponse response) {
-        if(source.getTitle().isBlank()) {
-            return new ResponseBadRequest(response).send("");
-        }
-
-        Task task = findTask(id);
-
-        if (task == null) {
-            return new ResponseNotFound(response).send("");
-        }
-
-        task.setTitle(source.getTitle());
-        return task;
-    }
-
-    public Object handleDelete(Long id, HttpServletResponse response) {
+    public boolean handleDelete(Long id) {
         if(id == null) {
-            return new ResponseNotFound(response).send("");
+            throw new NotFoundException();
         }
-
-        Task task = findTask(id);
-
-        if(task == null) {
-            return new ResponseNotFound(response).send("");
-        }
-
-        tasks.remove(task);
-        return new ResponseNoContent(response).send("");
+        Optional<Task> task = findTask(id);
+        return tasks.remove(task);
     }
 
-    private Task findTask(Long id) {
-        return tasks.stream()
+    private Optional<Task> findTask(Long id) {
+        return Optional.ofNullable(tasks.stream()
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(NotFoundException::new));
     }
 
     private  Long generateId() {
         newId += 1;
         return newId;
+    }
+
+    private Task addTask(Task task) {
+        task.setId(generateId());
+        tasks.add(task);
+        return task;
+    }
+
+    private void checkTitle(String title) {
+        if(title.isBlank()) {
+            throw new BadRequestException();
+        }
     }
 }
