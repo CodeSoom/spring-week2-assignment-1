@@ -5,13 +5,10 @@ import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TaskService {
-    private final static List<Task> tasks = new ArrayList<>();
-
     private final TaskRepository taskRepository;
 
     public TaskService(TaskRepository taskRepository) {
@@ -44,12 +41,5 @@ public class TaskService {
     private void notFoundException(Long id) {
         taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
-    }
-
-//    private Task findTask(Long id) {
-//        return tasks.stream()
-//                .filter(task -> task.getId() == id)
-//                .findFirst()
-//                .orElseThrow(TaskNotFoundException::new);
     }
 }
