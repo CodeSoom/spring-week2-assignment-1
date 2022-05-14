@@ -7,7 +7,7 @@ package com.codesoom.assignment.interfaces;
  * Task
  * </p>
  */
-public interface DefaultTask {
+public interface Task {
     /**
      * Task 엔티티 객체의 멤버변수 id를 반환한다
      * <p>

@@ -8,21 +8,21 @@ import java.util.stream.Collectors;
 
 @Repository
 public class TaskLoadingRepository implements LoadingRepository {
-    private final Map<Long, Task> tasks = new HashMap<>();
+    private final Map<Long, DefaultTask> tasks = new HashMap<>();
     private final TaskManipulatingRepository repositoryOutput = new TaskManipulatingRepository(this, tasks);
 
     public TaskLoadingRepository() {
     }
 
     @Override
-    public List<Task> tasksAll() {
+    public List<DefaultTask> tasksAll() {
         return tasks.values().stream()
                 .sorted()
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Task taskBy(final Long id) {
+    public DefaultTask taskBy(final Long id) {
         return tasks.values().stream()
                 .filter(task -> Objects.equals(task.id(), id))
                 .findFirst()

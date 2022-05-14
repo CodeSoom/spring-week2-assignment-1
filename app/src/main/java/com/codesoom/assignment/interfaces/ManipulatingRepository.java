@@ -1,6 +1,6 @@
 package com.codesoom.assignment.interfaces;
 
-import com.codesoom.assignment.Task;
+import com.codesoom.assignment.DefaultTask;
 
 
 /**
@@ -18,7 +18,7 @@ public interface ManipulatingRepository {
      * Task task - Task 엔티티 객체
      * </p>
      */
-    void save(Task task);
+    void save(DefaultTask task);
 
     /**
      * Task 엔티티 객체 수정
@@ -27,7 +27,7 @@ public interface ManipulatingRepository {
      * Task task - Task 엔티티 객체
      * </p>
      */
-    void update(Task task);
+    void update(DefaultTask task);
 
     /**
      * Task 엔티티 객체 삭제
@@ -45,7 +45,7 @@ public interface ManipulatingRepository {
      * Task - Task 엔티티 객체
      * </p>
      */
-    Task taskSaved();
+    DefaultTask taskSaved();
 
     /**
      * 수정한 Entity 객체 반환
@@ -54,5 +54,5 @@ public interface ManipulatingRepository {
      * Task - Task 엔티티 객체
      * </p>
      */
-    Task taskUpdated();
+    DefaultTask taskUpdated();
 }

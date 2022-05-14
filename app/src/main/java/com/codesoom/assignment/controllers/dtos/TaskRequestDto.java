@@ -1,6 +1,6 @@
 package com.codesoom.assignment.controllers.dtos;
 
-import com.codesoom.assignment.Task;
+import com.codesoom.assignment.DefaultTask;
 
 public class TaskRequestDto {
     private String title;
@@ -8,7 +8,7 @@ public class TaskRequestDto {
     private TaskRequestDto() {
     }
 
-    public TaskRequestDto(final Task task) {
+    public TaskRequestDto(final DefaultTask task) {
         this.title = task.title();
     }
 
@@ -16,7 +16,7 @@ public class TaskRequestDto {
         return title;
     }
 
-    public Task toEntity() {
-        return new Task(title);
+    public DefaultTask toEntity() {
+        return new DefaultTask(title);
     }
 }

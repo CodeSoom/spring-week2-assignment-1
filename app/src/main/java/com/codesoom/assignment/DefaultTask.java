@@ -1,21 +1,19 @@
 package com.codesoom.assignment;
 
 
-import com.codesoom.assignment.interfaces.DefaultTask;
-
 import java.util.UUID;
 
-public class Task implements DefaultTask, Comparable<Task> {
+public class DefaultTask implements com.codesoom.assignment.interfaces.Task, Comparable<DefaultTask> {
     private final Long id;
     private final String title;
 
 
-    public Task(final String title) {
+    public DefaultTask(final String title) {
         this.id = generatedId();
         this.title = title;
     }
 
-    public Task(final Long id, final String title) {
+    public DefaultTask(final Long id, final String title) {
         this.id = id;
         this.title = title;
     }
@@ -37,7 +35,7 @@ public class Task implements DefaultTask, Comparable<Task> {
     }
 
     @Override
-    public int compareTo(final Task task) {
+    public int compareTo(final DefaultTask task) {
         return id().compareTo(task.id());
     }
 

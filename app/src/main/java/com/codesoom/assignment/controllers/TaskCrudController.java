@@ -1,6 +1,6 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.Task;
+import com.codesoom.assignment.DefaultTask;
 import com.codesoom.assignment.TaskLoadingRepository;
 import com.codesoom.assignment.controllers.dtos.TaskRequestDto;
 import com.codesoom.assignment.controllers.dtos.TaskResponseDto;
@@ -42,7 +42,7 @@ public class TaskCrudController implements TaskController {
     public TaskResponseDto create(@RequestBody final TaskRequestDto requestDto) {
         new RequestBodyValidation(requestDto).validate();
 
-        final Task task = requestDto.toEntity();
+        final DefaultTask task = requestDto.toEntity();
         repository.manipulator().save(task);
 
         return new TaskResponseDto(repository.manipulator().taskSaved());
@@ -53,7 +53,7 @@ public class TaskCrudController implements TaskController {
     public TaskResponseDto update(@PathVariable final Long id, @RequestBody final TaskRequestDto requestDto) {
         new RequestBodyValidation(requestDto).validate();
 
-        final Task taskUpdating = new Task(id, requestDto.getTitle());
+        final DefaultTask taskUpdating = new DefaultTask(id, requestDto.getTitle());
         repository.manipulator().update(taskUpdating);
 
         return new TaskResponseDto(repository.manipulator().taskUpdated());

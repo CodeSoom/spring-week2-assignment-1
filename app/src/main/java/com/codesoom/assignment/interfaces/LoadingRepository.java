@@ -1,6 +1,6 @@
 package com.codesoom.assignment.interfaces;
 
-import com.codesoom.assignment.Task;
+import com.codesoom.assignment.DefaultTask;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface LoadingRepository {
      * List<Task> - Task 엔티티 객체를 내부 요소로 하는 List Collection 객체
      * </p>
      */
-    List<Task> tasksAll();
+    List<DefaultTask> tasksAll();
 
     /**
      * 매개변수로 전달 받은 id에 해당하는 Task 객체를 불러온다
@@ -29,7 +29,7 @@ public interface LoadingRepository {
      * Task - Task 엔티티 객체
      * </p>
      */
-    Task taskBy(Long id);
+    DefaultTask taskBy(Long id);
 
     /**
      * 매개변수로 전달 받은 id에 해당하는 Task 객체의 존재 여부를 알려준다
