@@ -28,8 +28,8 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public Task addTask(Task task) {
         Long newId = idGenerator.generateId();
-        TaskBuilder taskBuilder = new TaskBuilder().setId(newId);
-        return taskRepository.save(task);
+        TaskBuilder taskBuilder = new TaskBuilder().id(newId).title(task.getTitle());
+        return taskRepository.save(taskBuilder.build());
     }
 
     @Override
@@ -41,8 +41,8 @@ public class TaskServiceImpl implements TaskService{
     @Override
     public Task updateTask(Long id, Task newTask) {
         Task task = taskRepository.findOne(id).orElseThrow();
-        TaskBuilder taskBuilder = new TaskBuilder().setTitle(task.getTitle());
-        return taskRepository.save(task);
+        TaskBuilder taskBuilder = new TaskBuilder().title(newTask.getTitle()).id(task.getId());
+        return taskRepository.save(taskBuilder.build());
     }
 
     @Override

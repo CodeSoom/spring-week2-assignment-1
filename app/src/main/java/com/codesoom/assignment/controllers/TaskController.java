@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.TaskBuilder;
 import com.codesoom.assignment.models.TaskRequestForm;
 import com.codesoom.assignment.services.TaskService;
 import org.modelmapper.ModelMapper;
@@ -40,8 +41,9 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody @Valid TaskRequestForm taskRequestForm) {
-        Task task = modelMapper.map(taskRequestForm, Task.class);
-        return taskService.addTask(task);
+        TaskRequestForm taskForm= modelMapper.map(taskRequestForm, TaskRequestForm.class);
+        TaskBuilder taskBuilder = new TaskBuilder().title(taskForm.getTitle());
+        return taskService.addTask(taskBuilder.build());
     }
 
     @GetMapping("/{id}")
@@ -51,8 +53,9 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public Task update(@PathVariable Long id, @RequestBody @Valid TaskRequestForm taskRequestForm) {
-        Task task = modelMapper.map(taskRequestForm, Task.class);
-        return taskService.updateTask(id, task);
+        TaskRequestForm taskForm= modelMapper.map(taskRequestForm, TaskRequestForm.class);
+        TaskBuilder taskBuilder = new TaskBuilder().title(taskForm.getTitle());
+        return taskService.updateTask(id, taskBuilder.build());
     }
 
     @DeleteMapping("/{id}")

@@ -10,12 +10,12 @@ public class TaskBuilder {
         return new Task(id, title);
     }
 
-    public TaskBuilder setId(Long id) {
+    public TaskBuilder id(Long id) {
         this.id = id;
         return this;
     }
 
-    public TaskBuilder setTitle(String title) {
+    public TaskBuilder title(String title) {
         this.title = title;
         return this;
     }
