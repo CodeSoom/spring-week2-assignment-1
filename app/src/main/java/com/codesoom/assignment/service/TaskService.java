@@ -20,7 +20,7 @@ public class TaskService {
 	}
 
 	public TaskDTO updateTasks(long id, TitleDTO titleDTO) {
-		return tasks.updateTask(id, titleDTO);
+		return new TaskDTO(tasks.updateTask(id, titleDTO));
 	}
 
 	public TasksDTO deleteTasks(long id) {

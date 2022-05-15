@@ -20,12 +20,12 @@ public class Tasks {
 
 	public List<Task> getTasks() { return Collections.unmodifiableList(new ArrayList<>(tasks)); }
 
-	public TaskDTO updateTask(long id, TitleDTO titleDTO) {
+	public Task updateTask(long id, TitleDTO titleDTO) {
 		Task task = tasks.stream().filter(t -> t.getId() == id).findAny().orElseThrow(()->new TaskNotFoundException(id));
 		Task updatedTask = task.updateTitle(titleDTO.getTitle());
 		tasks.remove(task);
 		tasks.add(updatedTask);
-		return new TaskDTO(updatedTask);
+		return updatedTask;
 	}
 
 	public TasksDTO deleteTask(long id) {
