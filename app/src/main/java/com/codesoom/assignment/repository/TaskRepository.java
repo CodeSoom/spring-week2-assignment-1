@@ -23,8 +23,8 @@ public class TaskRepository {
         return new ArrayList<>(taskMap.values());
     }
 
-    public Task save(Task source) {
-        Task newTask = new Task(sequence.getAndIncrement(), source.getTitle());
+    public Task save(String title) {
+        Task newTask = new Task(sequence.getAndIncrement(), title);
         taskMap.put(newTask.getId(), newTask);
         return newTask;
     }

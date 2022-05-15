@@ -26,7 +26,7 @@ public class TaskRepositorySyncTest {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                taskRepository.save(new Task(0L, "TITLE"));
+                taskRepository.save("Title");
             }));
         }
 

@@ -15,6 +15,6 @@ public class TaskAddService {
     }
 
     public Task add(TaskForm task) {
-        return taskRepository.save(new Task(null, task.getTitle()));
+        return taskRepository.save(task.getTitle());
     }
 }
