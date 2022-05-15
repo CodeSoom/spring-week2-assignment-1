@@ -3,6 +3,7 @@ package com.codesoom.assignment.controller;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.dto.TaskRequestDto;
 import com.codesoom.assignment.dto.TaskResponseDto;
+import com.codesoom.assignment.exception.TaskInvalidTitleException;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,12 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskResponseDto create(@RequestBody TaskRequestDto taskDto) {
-        return toTaskResponseDto(taskService.create(taskDto.toTask().hasValidTitle()));
+        Task task = taskDto.toTask();
+        if (task.hasNotTitle()) {
+            throw new TaskInvalidTitleException();
+        }
+
+        return toTaskResponseDto(taskService.create(task));
     }
 
     @PutMapping("/{id}")
@@ -66,7 +72,11 @@ public class TaskController {
      * @return
      */
     public Task update(Long id, Task task) {
-        return taskService.update(id, task.hasValidTitle());
+        if (task.hasNotTitle()) {
+            throw new TaskInvalidTitleException();
+        }
+
+        return taskService.update(id, task);
     }
 
     public TaskResponseDto toTaskResponseDto(Task task) {

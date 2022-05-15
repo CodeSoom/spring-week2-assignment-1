@@ -31,25 +31,14 @@ public class Task implements Comparable<Task>{
      * title이 존재하는지 여부를 반환함
      * @return
      */
-    private boolean hasNotTitle() {
+    public boolean hasNotTitle() {
         return this.title.isEmpty();
-    }
-
-    /**
-     * title이 현재 값을 갖고 있는지 확인
-     * @return 존재하면 객체 그대로 반환, 존재하지 않으면 예외
-     */
-    public Task hasValidTitle() {
-        if (hasNotTitle()) {
-            throw new TaskInvalidTitleException();
-        }
-
-        return this;
     }
 
     public TaskResponseDto toTaskResponseDto() {
         return new TaskResponseDto(this.id, this.title);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
