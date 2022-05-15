@@ -18,7 +18,7 @@ public class TaskUpdateService {
     public Task update(Long id, TaskForm taskForm) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
-        task.update(taskForm.getTitle());
+        task.updateTitle(taskForm.getTitle());
         return task;
     }
 }
