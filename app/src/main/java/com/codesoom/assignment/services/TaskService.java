@@ -24,6 +24,7 @@ public interface TaskService {
      *
      * @param id 찾고자 하는 할 일의 id
      * @return 주어진 id에 해당하는 할 일
+     * @throws java.util.NoSuchElementException id가 존재하지 않으므로 예외 발생
      */
     Task getTask(Long id);
 
@@ -32,6 +33,7 @@ public interface TaskService {
      *
      * @param id 수정하고자 하는 할 일의 id
      * @return 수정된 할 일
+     * @throws java.util.NoSuchElementException id가 존재하지 않으므로 예외 발생
      */
     Task updateTask(Long id, Task newTask);
 
@@ -39,6 +41,7 @@ public interface TaskService {
      * 주어진 id에 해당하는 할 일을 찾아 삭제하거나 찾지 못한다면 TaskNotFoundException 예외가 발생합니다.
      *
      * @param id 삭제하고자 하는 할 일의 id
+     * @throws  java.util.NoSuchElementException id가 존재하지 않으므로 예외 발생
      */
     void deleteTask(Long id);
 }
