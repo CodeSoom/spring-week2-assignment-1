@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.dto.TaskForm;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.service.TaskAddService;
@@ -29,18 +30,18 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> findTasks() {
+    public List<TaskDto> findTasks() {
         return taskQueryService.findTasks();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Task addTask(@RequestBody TaskForm taskForm) {
+    public TaskDto addTask(@RequestBody TaskForm taskForm) {
         return taskAddService.add(taskForm);
     }
 
     @GetMapping("/{id}")
-    public Task findTask(@PathVariable Long id) {
+    public TaskDto findTask(@PathVariable Long id) {
         return taskQueryService.findTask(id);
     }
 
@@ -51,7 +52,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
-    public Task updateTask(@PathVariable Long id, @RequestBody TaskForm taskForm) {
+    public TaskDto updateTask(@PathVariable Long id, @RequestBody TaskForm taskForm) {
         return taskUpdateService.update(id, taskForm);
     }
 

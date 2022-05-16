@@ -1,6 +1,7 @@
 package com.codesoom.assignment;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.Title;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
@@ -26,7 +27,7 @@ public class TaskRepositorySyncTest {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                taskRepository.save("Title");
+                taskRepository.save(new Title("TITLE"));
             }));
         }
 

@@ -3,9 +3,9 @@ package com.codesoom.assignment.models;
 public class Task {
     private Long id;
 
-    private String title;
+    private Title title;
 
-    public Task(Long id, String title) {
+    public Task(Long id, Title title) {
         this.id = id;
         this.title = title;
     }
@@ -14,11 +14,11 @@ public class Task {
         return id;
     }
 
-    public String getTitle() {
+    public Title getTitle() {
         return title;
     }
 
-    public void updateTitle(String title) {
+    public void updateTitle(Title title) {
         this.title = title;
     }
 

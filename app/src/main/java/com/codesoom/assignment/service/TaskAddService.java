@@ -1,7 +1,9 @@
 package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.dto.TaskForm;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.Title;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,8 @@ public class TaskAddService {
         this.taskRepository = taskRepository;
     }
 
-    public Task add(TaskForm task) {
-        return taskRepository.save(task.getTitle());
+    public TaskDto add(TaskForm taskForm) {
+        Task task = taskRepository.save(new Title(taskForm.getTitle()));
+        return new TaskDto(task.getId(), task.getTitle().getValue());
     }
 }

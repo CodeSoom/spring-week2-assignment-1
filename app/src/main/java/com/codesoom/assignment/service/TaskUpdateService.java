@@ -1,8 +1,10 @@
 package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.dto.TaskForm;
 import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.Title;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,10 @@ public class TaskUpdateService {
         this.taskRepository = taskRepository;
     }
 
-    public Task update(Long id, TaskForm taskForm) {
+    public TaskDto update(Long id, TaskForm taskForm) {
         Task task = taskRepository.findById(id)
                 .orElseThrow(TaskNotFoundException::new);
-        task.updateTitle(taskForm.getTitle());
-        return task;
+        task.updateTitle(new Title(taskForm.getTitle()));
+        return new TaskDto(task.getId(), task.getTitle().getValue());
     }
 }
