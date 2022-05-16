@@ -4,9 +4,6 @@ class {
     onCreate() {
         this.state = {
             tasks: [],
-            btnclick: false,
-            curId: 0,
-            curTitle: "",
         };
 
         this.loadTasks();
@@ -25,27 +22,30 @@ class {
         await this.loadTasks();
     }
 
-    async clickUpdateButton(taskId, taskTitle) {
-        this.state.btnclick = true;
-        this.state.curId = taskId;
-        this.state.curTitle = taskTitle;
+    editTask(id) {
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+            ...task,
+            editing: true
+        } : task);
     }
 
-    async updateTask(taskId) {
-        const newTitle = this.getEl('newTitle').value;
-        await axios.patch('http://localhost:8080/tasks/' + taskId, {
-            title: newTitle
+    cancelEditTask(id) {
+        this.state.tasks = this.state.tasks.map(task => task.id === id ? {
+            ...task,
+            editing: false
+        } : task);
+    }
+
+    async updateTask(id) {
+        const title = this.getEl(`title-${id}`).value;        
+        await axios.patch(`http://localhost:8080/tasks/${id}`, {
+            title,
         });
-        window.location.reload();
+        await this.loadTasks();
     }
 
-    async cancelUpdate() {
-        window.location.reload();
-    }
-
-    async deleteTask(taskId) {
-        await axios.delete('http://localhost:8080/tasks/' + taskId,
-        );
+    async deleteTask(id) {
+        await axios.delete(`http://localhost:8080/tasks/${id}`);
         await this.loadTasks();
     }
 }
@@ -54,23 +54,27 @@ class {
 <ol>
     <for|task| of=state.tasks>
         <li>
-            <if(task.id == state.curId)>
-                <input id:scoped="newTitle" key="newTitle" type="text" value=state.curTitle/>&nbsp;
-                <button type="button" id="completeUpdateButton" on-click("updateTask", task.id)>
+            <if(task.editing)>
+                <input key=`title-${task.id}` type="text" value=task.title/>
+                <span> </span>
+                <button type="button" on-click('updateTask', task.id)>
                     확인
-                </button>&nbsp;
-                <button type="button" id="cancelUpdateButton" on-click("cancelUpdate")>
-                    취소
+                </button>
+                <span> </span>
+                <button type="button" on-click('cancelEditTask', task.id)>
+                     취소
                 </button>
             </if>
             <else>
-                ${task.title}&nbsp;
-                <button type="button" id="updateButton" on-click("clickUpdateButton", task.id, task.title)>
+                ${task.title}
+                <span> </span>
+                <button type="button" on-click('editTask', task.id)>
                     수정
-                </button>&nbsp;
-                <button type="button" id="completeButton" on-click("deleteTask", task.id)>
+                </button>
+                <span> </span>
+                <button type="button" on-click('deleteTask', task.id)>
                     완료
-                </button>                
+                </button>
             </else>
         </li>
     </for>
