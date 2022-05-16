@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -18,7 +17,7 @@ public class TaskService {
     }
 
     public Task getTaskItem(Long id) {
-        return findTask(id).get();
+        return findTask(id);
     }
 
     public Task addTask(Task task) {
@@ -33,30 +32,25 @@ public class TaskService {
     public Task updateTask(Long id, Task source) {
         source.checkTitle(source.getTitle());
 
-        Optional<Task> task = findTask(id);
-        task.ifPresent(t -> t.setTitle(source.getTitle()));
-
-        return task.get();
+        Task task = findTask(id);
+        task.setTitle(source.getTitle());
+        return task;
     }
 
     public boolean deleteTask(Long id) {
-        if(id == null) {
-            throw new NotFoundException();
-        }
-        Optional<Task> task = findTask(id);
-
-        return tasks.remove(task.get());
+        Task task = findTask(id);
+        return tasks.remove(task);
     }
 
-    private Optional<Task> findTask(Long id) {
-        return Optional.ofNullable(tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElseThrow(NotFoundException::new));
-    }
-
-    private  Long generateId() {
+    private Long generateId() {
         newId += 1;
         return newId;
+    }
+
+    public Task findTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(id));
     }
 }
