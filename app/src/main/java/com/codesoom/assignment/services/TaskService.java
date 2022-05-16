@@ -16,8 +16,11 @@ public class TaskService {
         return tasks;
     }
 
-    public Task getTaskItem(Long id) {
-        return findTask(id);
+    public Task getTask(Long id) {
+        return tasks.stream()
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(id));
     }
 
     public Task addTask(Task task) {
@@ -32,25 +35,18 @@ public class TaskService {
     public Task updateTask(Long id, Task source) {
         source.checkTitle(source.getTitle());
 
-        Task task = findTask(id);
+        Task task = getTask(id);
         task.setTitle(source.getTitle());
         return task;
     }
 
     public boolean deleteTask(Long id) {
-        Task task = findTask(id);
+        Task task = getTask(id);
         return tasks.remove(task);
     }
 
     private Long generateId() {
         newId += 1;
         return newId;
-    }
-
-    public Task findTask(Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new NotFoundException(id));
     }
 }

@@ -23,8 +23,8 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public Task getTaskItem(@PathVariable("id") Long id) {
-        return taskService.getTaskItem(id);
+    public Task getTask(@PathVariable("id") Long id) {
+        return taskService.getTask(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -34,14 +34,12 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public Task update(@PathVariable("id") Long id,
-                                 @RequestBody Task source) {
+    public Task update(@PathVariable("id") Long id, @RequestBody Task source) {
         return taskService.updateTask(id, source);
     }
 
     @PatchMapping("/{id}")
-    public Task patch(@PathVariable("id") Long id,
-                                @RequestBody Task source) {
+    public Task patch(@PathVariable("id") Long id, @RequestBody Task source) {
         return taskService.updateTask(id, source);
     }
 
