@@ -1,7 +1,7 @@
-package com.codesoom.assignment.service;
+package com.codesoom.assignment.domain.service;
 
-import com.codesoom.assignment.entity.Task;
-import com.codesoom.assignment.persistences.TaskRepository;
+import com.codesoom.assignment.domain.entity.Task;
+import com.codesoom.assignment.domain.persistences.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

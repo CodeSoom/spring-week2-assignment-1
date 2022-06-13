@@ -1,7 +1,7 @@
 package com.codesoom.assignment.common.util;
 
-import com.codesoom.assignment.dtos.TaskDTO;
-import com.codesoom.assignment.entity.Task;
+import com.codesoom.assignment.domain.dtos.TaskDTO;
+import com.codesoom.assignment.domain.entity.Task;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

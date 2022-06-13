@@ -1,9 +1,9 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.domain.controllers;
 
 import com.codesoom.assignment.common.util.TaskMapper;
-import com.codesoom.assignment.dtos.TaskDTO;
-import com.codesoom.assignment.entity.Task;
-import com.codesoom.assignment.service.TaskManager;
+import com.codesoom.assignment.domain.dtos.TaskDTO;
+import com.codesoom.assignment.domain.entity.Task;
+import com.codesoom.assignment.domain.service.TaskManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

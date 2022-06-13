@@ -1,4 +1,4 @@
-package com.codesoom.assignment.entity;
+package com.codesoom.assignment.domain.entity;
 
 public class Task {
     private Long id;
