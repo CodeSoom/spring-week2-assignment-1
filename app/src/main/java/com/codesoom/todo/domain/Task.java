@@ -1,4 +1,4 @@
-package com.codesoom.todo.models;
+package com.codesoom.todo.domain;
 
 public class Task {
     private Long id;
