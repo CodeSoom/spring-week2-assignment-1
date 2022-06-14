@@ -10,20 +10,17 @@ import javax.persistence.Id;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long id;
+    private Long id;
 
     @Column(columnDefinition = "VARCHAR(255)", name="", nullable = false)
-    private final String title;
+    private String title;
 
     public Task(String title) {
         this.id = null;
         this.title = title;
     }
 
-    public Task() {
-        this.id = null;
-        this.title = null;
-    }
+    public Task() {}
 
     public String getTitle() {
         return this.title;

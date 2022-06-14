@@ -1,7 +1,9 @@
 package com.codesoom.assignment.domain.dtos;
 
 public class TaskDTO {
-    private final String title;
+    private String title;
+
+    public TaskDTO() {}
 
     public TaskDTO(String title) {
         this.title = title;
