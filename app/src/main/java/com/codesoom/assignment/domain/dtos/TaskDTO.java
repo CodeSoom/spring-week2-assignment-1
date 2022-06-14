@@ -1,13 +1,13 @@
 package com.codesoom.assignment.domain.dtos;
 
 public class TaskDTO {
-    private final String task;
+    private final String title;
 
-    public TaskDTO(String task) {
-        this.task = task;
+    public TaskDTO(String title) {
+        this.title = title;
     }
 
-    public String getTask() {
-        return task;
+    public String getTitle() {
+        return title;
     }
 }

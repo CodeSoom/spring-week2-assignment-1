@@ -13,19 +13,19 @@ public class Task {
     private final Long id;
 
     @Column(columnDefinition = "VARCHAR(255)", name="", nullable = false)
-    private final String task;
+    private final String title;
 
-    public Task(String task) {
+    public Task(String title) {
         this.id = null;
-        this.task = task;
+        this.title = title;
     }
 
     public Task() {
         this.id = null;
-        this.task = null;
+        this.title = null;
     }
 
-    public String getTask() {
-        return this.task;
+    public String getTitle() {
+        return this.title;
     }
 }
