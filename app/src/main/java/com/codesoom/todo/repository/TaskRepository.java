@@ -19,6 +19,7 @@ public class TaskRepository {
         return this.tasks.get(atomicID.longValue());
     }
 
+    // TODO: Javadoc
     public Optional<Task> edit(Task task) {
         Long id = task.getId();
         return Optional.ofNullable(this.tasks.replace(id, task));
@@ -30,11 +31,10 @@ public class TaskRepository {
      */
     public Optional<Task> delete(Task task) {
         Long id = task.getId();
-        Optional<Task> deletedTask = findById(id);
-        this.tasks.remove(id);
-        return deletedTask;
+        return Optional.ofNullable(this.tasks.remove(id));
     }
 
+    // TODO: Javadoc
     public Optional<Task> findById(Long id) {
         return Optional.ofNullable(this.tasks.get(id));
     }
