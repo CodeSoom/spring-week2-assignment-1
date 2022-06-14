@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -32,22 +33,24 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
+    @ResponseStatus(value = HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
         return taskService.addTask(task);
     }
 
     @PutMapping("/tasks/{id}")
     @PatchMapping("/tasks/{id}")
-    public ResponseEntity<Task> editTitle(@PathVariable("id") Long taskId, @RequestBody Task task) {
+    @ResponseStatus(value = HttpStatus.OK)
+    public Task editTitle(@PathVariable("id") Long taskId, @RequestBody Task task) {
         task.setId(taskId);
         return taskService.editTaskTitle(task)
-                .map(t -> ResponseEntity.status(HttpStatus.CREATED).body(t))
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
     }
 
     @DeleteMapping("/tasks/{id}")
-    public Task deleteTask(@PathVariable("id") Long taskId) {
-        return taskService.removeTask(taskId)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable("id") Long taskId) {
+        taskService.removeTask(taskId)
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
     }
 
