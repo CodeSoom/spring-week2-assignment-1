@@ -2,6 +2,7 @@ package com.codesoom.todo.controllers;
 
 import com.codesoom.todo.domain.Task;
 import com.codesoom.todo.services.TaskService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +42,7 @@ public class TaskController {
     @PutMapping("/tasks/{id}")
     @PatchMapping("/tasks/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public Task editTitle(@PathVariable("id") Long taskId, @RequestBody Task task) {
+    public Task editTitle(@PathVariable("id") Long taskId, @RequestBody @NotNull Task task) {
         task.setId(taskId);
         return taskService.editTaskTitle(task)
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
