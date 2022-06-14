@@ -25,6 +25,10 @@ public class TaskRepository {
         return id;
     }
 
+    /**
+     * @param task is target to be deleted
+     * @return deleted task if task with id exist, else, Optional object with null
+     */
     public Optional<Task> delete(Task task) {
         Long id = task.getId();
         Optional<Task> deletedTask = findById(id);
@@ -39,7 +43,4 @@ public class TaskRepository {
     public List<Task> findAll() {
         return new ArrayList<>(tasks.values());
     }
-
-    public boolean isTaskExist(Long id) {return this.tasks.containsKey(id);}
-
 }
