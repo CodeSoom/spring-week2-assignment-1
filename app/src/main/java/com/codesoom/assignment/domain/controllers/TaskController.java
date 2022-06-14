@@ -22,8 +22,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("tasks")
 public class TaskController {
-    @Autowired
-    TaskManager taskManager;
+    private final TaskManager taskManager;
+
+    TaskController(TaskManager taskManager) {
+        this.taskManager = taskManager;
+    }
 
     @GetMapping
     public List<TaskDTO> getAllTasks() {

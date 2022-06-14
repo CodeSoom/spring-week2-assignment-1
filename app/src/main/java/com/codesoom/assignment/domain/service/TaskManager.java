@@ -10,8 +10,11 @@ import java.util.Optional;
 
 @Service
 public class TaskManager {
-    @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
+
+    public TaskManager(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     public List<Task> getAllTask() {
         return this.taskRepository.findAll();
