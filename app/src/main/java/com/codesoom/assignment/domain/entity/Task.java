@@ -15,8 +15,12 @@ public class Task {
     @Column(columnDefinition = "VARCHAR(255)", name="", nullable = false)
     private String title;
 
+    public Task(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
     public Task(String title) {
-        this.id = null;
         this.title = title;
     }
 
@@ -24,5 +28,9 @@ public class Task {
 
     public String getTitle() {
         return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

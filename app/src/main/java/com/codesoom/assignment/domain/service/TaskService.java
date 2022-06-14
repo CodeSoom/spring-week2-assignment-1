@@ -27,8 +27,15 @@ public class TaskService {
         return this.taskRepository.save(task);
     }
 
-    public Task modifyTask(Long id) {
-        return null;
+    public Task modifyTask(Long id, String newTitle) {
+        Optional<Task> task = this.taskRepository.findById(id);
+        if (!task.isPresent()) {
+            return null;
+        }
+
+        Task modifiedTask = task.get();
+        modifiedTask.setTitle(newTitle);
+        return this.taskRepository.save(modifiedTask);
     }
 
     public Task deleteTask(Long id) {

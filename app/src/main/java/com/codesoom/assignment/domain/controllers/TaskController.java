@@ -52,8 +52,8 @@ public class TaskController {
 
     @PutMapping("{id}")
     @PatchMapping("{id}")
-    public TaskDTO modifyTask(@PathParam("id") Long id) {
-        return TaskMapper.toDTO(this.taskService.modifyTask(id));
+    public TaskDTO modifyTask(@PathParam("id") Long id, @RequestBody TaskDTO taskDTO) {
+        return TaskMapper.toDTO(this.taskService.modifyTask(id, taskDTO.getTitle()));
     }
 
 
