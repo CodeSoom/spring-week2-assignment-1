@@ -22,7 +22,13 @@ public class TaskRepository {
     // TODO: Javadoc
     public Optional<Task> edit(Task task) {
         Long id = task.getId();
-        return Optional.ofNullable(this.tasks.replace(id, task));
+        Optional<Task> prevTask = Optional.ofNullable(this.tasks.replace(id, task));
+        if (this.tasks.containsKey(id)){
+            this.tasks.replace(id, task);
+            return Optional.of(task);
+        } else {
+            return Optional.empty();
+        }
     }
 
     /**
