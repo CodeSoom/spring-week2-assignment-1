@@ -39,6 +39,12 @@ public class TaskService {
     }
 
     public Task deleteTask(Long id) {
-        return null;
+        Optional<Task> task =  this.taskRepository.findById(id);
+        if (!task.isPresent()) {
+            return null;
+        }
+
+        this.taskRepository.delete(task.get());
+        return task.get();
     }
 }
