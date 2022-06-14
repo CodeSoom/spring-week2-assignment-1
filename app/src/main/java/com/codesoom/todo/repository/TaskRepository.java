@@ -19,10 +19,9 @@ public class TaskRepository {
         return this.tasks.get(atomicID.longValue());
     }
 
-    public Long edit(Task task) {
+    public Optional<Task> edit(Task task) {
         Long id = task.getId();
-        this.tasks.replace(id, task);
-        return id;
+        return Optional.ofNullable(this.tasks.replace(id, task));
     }
 
     /**
