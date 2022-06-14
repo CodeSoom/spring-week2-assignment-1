@@ -3,10 +3,8 @@ package com.codesoom.todo.services;
 import com.codesoom.todo.domain.Task;
 import com.codesoom.todo.repository.TaskRepository;
 
-import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class TaskService {
     private final TaskRepository taskRepository = new TaskRepository();
@@ -17,11 +15,19 @@ public class TaskService {
         return task;
     }
 
-    public Long removeTask(Long id){
-        // TODO: add exception for not found case
-        taskRepository.findById(id).ifPresent(taskRepository::delete);
+    public Optional<Task> showTask(Long id){
+        return taskRepository.findById(id);
+    }
 
-        // TODO: think about return type of method
-        return id;
+    public List<Task> showTasks(){
+        return taskRepository.findAll();
+    }
+
+    public Optional<Task> editTaskTitle(Task newTask){
+        return taskRepository.edit(newTask);
+    }
+
+    public Optional<Task> removeTask(Long id){
+        return taskRepository.findById(id);
     }
 }
