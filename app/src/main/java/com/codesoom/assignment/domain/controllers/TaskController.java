@@ -3,8 +3,7 @@ package com.codesoom.assignment.domain.controllers;
 import com.codesoom.assignment.common.util.TaskMapper;
 import com.codesoom.assignment.domain.dtos.TaskDTO;
 import com.codesoom.assignment.domain.entity.Task;
-import com.codesoom.assignment.domain.service.TaskManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codesoom.assignment.domain.service.TaskService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,22 +21,22 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("tasks")
 public class TaskController {
-    private final TaskManager taskManager;
+    private final TaskService taskService;
 
-    TaskController(TaskManager taskManager) {
-        this.taskManager = taskManager;
+    TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping
     public List<TaskDTO> getAllTasks() {
-        return this.taskManager.getAllTask().stream()
+        return this.taskService.getAllTask().stream()
                 .map(TaskMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
     public TaskDTO getTask(@PathParam("id") Long id) {
-        Optional<Task> task = this.taskManager.getTask(id);
+        Optional<Task> task = this.taskService.getTask(id);
         if (!task.isPresent()) {
             return null; // 404 response
         }
@@ -48,19 +47,19 @@ public class TaskController {
     @PostMapping()
     public TaskDTO registerTask(@RequestBody TaskDTO taskDTO) {
         Task task = TaskMapper.toEntity(taskDTO);
-        return TaskMapper.toDTO(this.taskManager.register(task));
+        return TaskMapper.toDTO(this.taskService.register(task));
     }
 
     @PutMapping("{id}")
     @PatchMapping("{id}")
     public TaskDTO modifyTask(@PathParam("id") Long id) {
-        return TaskMapper.toDTO(this.taskManager.modifyTask(id));
+        return TaskMapper.toDTO(this.taskService.modifyTask(id));
     }
 
 
     @DeleteMapping("{id}")
     public TaskDTO deleteTask(@PathParam("id") Long id) {
-        return TaskMapper.toDTO(this.taskManager.deleteTask(id));
+        return TaskMapper.toDTO(this.taskService.deleteTask(id));
     }
 
 }

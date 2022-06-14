@@ -2,17 +2,16 @@ package com.codesoom.assignment.domain.service;
 
 import com.codesoom.assignment.domain.entity.Task;
 import com.codesoom.assignment.domain.persistences.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TaskManager {
+public class TaskService {
     private TaskRepository taskRepository;
 
-    public TaskManager(TaskRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
