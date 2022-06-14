@@ -28,7 +28,7 @@ public class TaskController {
     @GetMapping
     public List<TaskDTO> getAllTasks() {
         return this.taskManager.getAllTask().stream()
-                .map(TaskMapper.INSTANCE::toDTO)
+                .map(TaskMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -39,24 +39,25 @@ public class TaskController {
             return null; // 404 response
         }
 
-        return TaskMapper.INSTANCE.toDTO(task.get());
+        return TaskMapper.toDTO(task.get());
     }
 
     @PostMapping()
     public TaskDTO registerTask(@RequestBody TaskDTO taskDTO) {
-        Task task = TaskMapper.INSTANCE.toEntity(taskDTO);
-        return TaskMapper.INSTANCE.toDTO(this.taskManager.register(task));
+        Task task = TaskMapper.toEntity(taskDTO);
+        return TaskMapper.toDTO(this.taskManager.register(task));
     }
 
     @PutMapping("{id}")
     @PatchMapping("{id}")
     public TaskDTO modifyTask(@PathParam("id") Long id) {
-        return TaskMapper.INSTANCE.toDTO(this.taskManager.modifyTask(id));
+        return TaskMapper.toDTO(this.taskManager.modifyTask(id));
     }
 
 
     @DeleteMapping("{id}")
     public TaskDTO deleteTask(@PathParam("id") Long id) {
-        return TaskMapper.INSTANCE.toDTO(this.taskManager.deleteTask(id));
+        return TaskMapper.toDTO(this.taskManager.deleteTask(id));
     }
+
 }
