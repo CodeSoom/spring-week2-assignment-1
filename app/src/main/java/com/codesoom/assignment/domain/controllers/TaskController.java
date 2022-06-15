@@ -54,7 +54,10 @@ public class TaskController {
     @PutMapping("{id}")
     @PatchMapping("{id}")
     public TaskDTO modifyTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
-        Optional<Task> modifiedTask = Optional.ofNullable(this.taskService.modifyTask(id, taskDTO.getTitle()));
+        Optional<Task> modifiedTask = this.taskService.modifyTask(id, taskDTO.getTitle());
+        if (!modifiedTask.isPresent()) {
+            return null;
+        }
 
         return TaskDTO.from(modifiedTask.get());
     }
@@ -63,7 +66,7 @@ public class TaskController {
     @DeleteMapping("{id}")
     public TaskDTO deleteTask(@PathVariable Long id) {
         Optional<Task> deletedTask = this.taskService.deleteTask(id);
-        if (deletedTask == null) {
+        if (!deletedTask.isPresent()) {
             return null;
         }
 

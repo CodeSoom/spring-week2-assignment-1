@@ -27,21 +27,21 @@ public class TaskService {
         return this.taskRepository.save(task);
     }
 
-    public Task modifyTask(Long id, String newTitle) {
+    public Optional<Task> modifyTask(Long id, String newTitle) {
         Optional<Task> task = this.taskRepository.findById(id);
         if (!task.isPresent()) {
-            return null;
+            return Optional.ofNullable(null);
         }
 
         Task modifiedTask = task.get();
         modifiedTask.setTitle(newTitle);
-        return this.taskRepository.save(modifiedTask);
+        return Optional.of(this.taskRepository.save(modifiedTask)); // TODO - Null일 가능성이 없지만, Optional 리턴 타입을 맞추기 위해 Optional.of()로 wrapping. 이럴 필요가 있을까요?
     }
 
     public Optional<Task> deleteTask(Long id) {
-        Optional<Task> task =  this.taskRepository.findById(id);
+        Optional<Task> task = this.taskRepository.findById(id);
         if (!task.isPresent()) {
-            return null;
+            return Optional.ofNullable(null);
         }
 
         this.taskRepository.delete(task.get());
