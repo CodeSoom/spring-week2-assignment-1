@@ -38,13 +38,13 @@ public class TaskService {
         return this.taskRepository.save(modifiedTask);
     }
 
-    public Task deleteTask(Long id) {
+    public Optional<Task> deleteTask(Long id) {
         Optional<Task> task =  this.taskRepository.findById(id);
         if (!task.isPresent()) {
             return null;
         }
 
         this.taskRepository.delete(task.get());
-        return task.get();
+        return task;
     }
 }
