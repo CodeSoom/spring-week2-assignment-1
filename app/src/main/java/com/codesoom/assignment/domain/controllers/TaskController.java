@@ -1,6 +1,5 @@
 package com.codesoom.assignment.domain.controllers;
 
-import com.codesoom.assignment.common.util.TaskMapper;
 import com.codesoom.assignment.domain.dtos.TaskDTO;
 import com.codesoom.assignment.domain.entity.Task;
 import com.codesoom.assignment.domain.service.TaskService;
@@ -30,7 +29,7 @@ public class TaskController {
     @GetMapping
     public List<TaskDTO> getAllTasks() {
         return this.taskService.getAllTask().stream()
-                .map(TaskMapper::toDTO)
+                .map(TaskDTO::from)
                 .collect(Collectors.toList());
     }
 
@@ -41,25 +40,25 @@ public class TaskController {
             return null; // 404 response
         }
 
-        return TaskMapper.toDTO(task.get());
+        return TaskDTO.from(task.get());
     }
 
     @PostMapping()
     public TaskDTO registerTask(@RequestBody TaskDTO taskDTO) {
-        Task task = TaskMapper.toEntity(taskDTO);
-        return TaskMapper.toDTO(this.taskService.register(task));
+        Task task = Task.from(taskDTO);
+        return TaskDTO.from(this.taskService.register(task));
     }
 
     @PutMapping("{id}")
     @PatchMapping("{id}")
     public TaskDTO modifyTask(@PathParam("id") Long id, @RequestBody TaskDTO taskDTO) {
-        return TaskMapper.toDTO(this.taskService.modifyTask(id, taskDTO.getTitle()));
+        return TaskDTO.from(this.taskService.modifyTask(id, taskDTO.getTitle()));
     }
 
 
     @DeleteMapping("{id}")
     public TaskDTO deleteTask(@PathParam("id") Long id) {
-        return TaskMapper.toDTO(this.taskService.deleteTask(id));
+        return TaskDTO.from(this.taskService.deleteTask(id));
     }
 
 }

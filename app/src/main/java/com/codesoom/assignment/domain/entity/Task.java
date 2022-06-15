@@ -1,5 +1,7 @@
 package com.codesoom.assignment.domain.entity;
 
+import com.codesoom.assignment.domain.dtos.TaskDTO;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,10 @@ public class Task {
     }
 
     public Task() {}
+
+    public static Task from(TaskDTO dto) {
+        return new Task(dto.getTitle());
+    }
 
     public String getTitle() {
         return this.title;
