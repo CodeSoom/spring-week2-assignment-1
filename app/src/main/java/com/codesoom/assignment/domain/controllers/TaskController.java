@@ -46,19 +46,25 @@ public class TaskController {
     @PostMapping()
     public TaskDTO registerTask(@RequestBody TaskDTO taskDTO) {
         Task task = Task.from(taskDTO);
-        return TaskDTO.from(this.taskService.register(task));
+        Task registeredTask = this.taskService.register(task);
+
+        return TaskDTO.from(registeredTask);
     }
 
     @PutMapping("{id}")
     @PatchMapping("{id}")
     public TaskDTO modifyTask(@PathParam("id") Long id, @RequestBody TaskDTO taskDTO) {
-        return TaskDTO.from(this.taskService.modifyTask(id, taskDTO.getTitle()));
+        Task modifiedTask = this.taskService.modifyTask(id, taskDTO.getTitle());
+
+        return TaskDTO.from(modifiedTask);
     }
 
 
     @DeleteMapping("{id}")
     public TaskDTO deleteTask(@PathParam("id") Long id) {
-        return TaskDTO.from(this.taskService.deleteTask(id));
+        Task deletedTask = this.taskService.deleteTask(id);
+        
+        return TaskDTO.from(deletedTask);
     }
 
 }
