@@ -3,6 +3,7 @@ package com.codesoom.assignment.domain.controllers;
 import com.codesoom.assignment.domain.dtos.TaskDTO;
 import com.codesoom.assignment.domain.entity.Task;
 import com.codesoom.assignment.domain.service.TaskService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,7 +29,12 @@ public class TaskController {
 
     @GetMapping
     public List<TaskDTO> getAllTasks() {
-        return this.taskService.getAllTask().stream()
+        List<Task> tasks = this.taskService.getAllTask();
+        if (tasks.isEmpty()) {
+            return new ResponseEntity<>();
+        }
+
+        return tasks.stream()
                 .map(TaskDTO::from)
                 .collect(Collectors.toList());
     }
