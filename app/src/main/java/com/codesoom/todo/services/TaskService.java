@@ -28,7 +28,6 @@ public class TaskService {
         return taskRepository.edit(newTask);
     }
 
-    // Q: delete 의 경우는 키가 없을 수도 있기 리포지토리 단에서 Optional 을 리턴하게 됩니다. 만약 이렇게 하게 된다면 서비스에서 Nested Optional 을 사용하게 되는 문제가 발생하는데 어떻게 해결하는게 좋을까요?
     // TODO: Javadoc
     public Optional<Task> removeTask(Long id) {
         return taskRepository.findById(id).flatMap(taskRepository::delete);
