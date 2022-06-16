@@ -30,7 +30,7 @@ public class TaskService {
     public Optional<Task> modifyTask(Long id, String newTitle) {
         Optional<Task> task = this.taskRepository.findById(id);
         if (!task.isPresent()) {
-            return Optional.ofNullable(null);
+            return Optional.empty();
         }
 
         Task modifiedTask = task.get();
