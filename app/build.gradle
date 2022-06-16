@@ -42,7 +42,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'com.codesoom.assignment.App'
+    mainClass = 'com.codesoom.todo.App'
 }
 
 tasks.named('test') {
