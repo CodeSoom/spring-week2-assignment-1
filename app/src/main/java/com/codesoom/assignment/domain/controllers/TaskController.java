@@ -31,7 +31,7 @@ public class TaskController {
     public List<TaskDTO> getAllTasks() {
         List<Task> tasks = this.taskService.getAllTask();
         if (tasks.isEmpty()) {
-            return new ResponseEntity<>();
+            return null;
         }
 
         return tasks.stream()
