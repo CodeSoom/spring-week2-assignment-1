@@ -1,5 +1,6 @@
 package com.codesoom.assignment.domain.controllers;
 
+import com.codesoom.assignment.common.exception.ResourceNotFoundException;
 import com.codesoom.assignment.domain.dtos.TaskDTO;
 import com.codesoom.assignment.domain.entity.Task;
 import com.codesoom.assignment.domain.service.TaskService;
@@ -43,7 +44,7 @@ public class TaskController {
     public TaskDTO getTask(@PathVariable Long id) {
         Optional<Task> task = this.taskService.getTask(id);
         if (!task.isPresent()) {
-            return null; // 404 response
+            throw new ResourceNotFoundException("Not found task with id " + id);
         }
 
         return TaskDTO.from(task.get());
@@ -62,7 +63,7 @@ public class TaskController {
     public TaskDTO modifyTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
         Optional<Task> modifiedTask = this.taskService.modifyTask(id, taskDTO.getTitle());
         if (!modifiedTask.isPresent()) {
-            return null;
+            throw new ResourceNotFoundException("Not found task with id " + id);
         }
 
         return TaskDTO.from(modifiedTask.get());
