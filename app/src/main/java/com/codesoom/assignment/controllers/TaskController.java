@@ -71,7 +71,7 @@ public class TaskController {
     }
 
     @PatchMapping("/{taskId}")
-    public ResponseEntity modifyTask(@RequestBody Task task, @PathVariable Long taskId){
+    public ResponseEntity<Task> modifyTask(@RequestBody Task task, @PathVariable Long taskId){
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -80,14 +80,14 @@ public class TaskController {
 
         if(taskHashMap.containsKey(taskId)) {
             taskHashMap.get(taskId).setTitle(task.getTitle());
-            return new ResponseEntity<>(headers, HttpStatus.OK);
+            return new ResponseEntity<>(taskHashMap.get(taskId), headers, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
         }
 
     }
     @PutMapping("/{taskId}")
-    public ResponseEntity changeTask(@RequestBody Task task, @PathVariable Long taskId){
+    public ResponseEntity<Task> changeTask(@RequestBody Task task, @PathVariable Long taskId){
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
@@ -95,7 +95,7 @@ public class TaskController {
         if(taskHashMap.containsKey(taskId)) {
             task.setId(taskId);
             taskHashMap.replace(taskId, task);
-            return new ResponseEntity<>(headers, HttpStatus.OK);
+            return new ResponseEntity<>(task, headers, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
         }
@@ -112,7 +112,7 @@ public class TaskController {
 
         if(taskHashMap.containsKey(taskId)) {
             taskHashMap.remove(taskId);
-            return new ResponseEntity<>(headers, HttpStatus.OK);
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         }else {
             return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
         }
