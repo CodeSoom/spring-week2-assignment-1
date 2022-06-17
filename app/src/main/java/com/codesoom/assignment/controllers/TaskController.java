@@ -28,7 +28,7 @@ public class TaskController {
         return taskList;
     }
 
-    @GetMapping("/taskId")
+    @GetMapping("/{taskId}")
     public Task getTask(@PathVariable Long taskId){
 
         return taskHashMap.get(taskId);
