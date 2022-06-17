@@ -1,5 +1,6 @@
 package com.codesoom.assignment.domain.service;
 
+import com.codesoom.assignment.common.exception.ResourceNotFoundException;
 import com.codesoom.assignment.domain.entity.Task;
 import com.codesoom.assignment.domain.persistences.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -19,32 +20,36 @@ public class TaskService {
         return this.taskRepository.findAll();
     }
 
-    public Optional<Task> getTask(Long id) {
-        return this.taskRepository.findById(id);
+    public Task getTask(Long id) {
+        Optional<Task> foundTask = this.taskRepository.findById(id);
+        if (!foundTask.isPresent()) {
+            throw new ResourceNotFoundException("Not found with ID " + id);
+        }
+
+        return foundTask.get();
     }
 
     public Task register(Task task) {
         return this.taskRepository.save(task);
     }
 
-    public Optional<Task> modifyTask(Long id, String newTitle) {
+    public Task modifyTask(Long id, String newTitle) {
         Optional<Task> task = this.taskRepository.findById(id);
         if (!task.isPresent()) {
-            return Optional.empty();
+            throw new ResourceNotFoundException("Not found with ID " + id);
         }
 
         Task modifiedTask = task.get();
         modifiedTask.setTitle(newTitle);
-        return Optional.of(this.taskRepository.save(modifiedTask)); // TODO - Null일 가능성이 없지만, Optional 리턴 타입을 맞추기 위해 Optional.of()로 wrapping. 이럴 필요가 있을까요?
+        return this.taskRepository.save(modifiedTask);
     }
 
-    public Optional<Task> deleteTask(Long id) {
+    public void deleteTask(Long id) {
         Optional<Task> task = this.taskRepository.findById(id);
         if (!task.isPresent()) {
-            return Optional.ofNullable(null);
+            throw new ResourceNotFoundException("Not found with ID " + id);
         }
 
         this.taskRepository.delete(task.get());
-        return task;
     }
 }

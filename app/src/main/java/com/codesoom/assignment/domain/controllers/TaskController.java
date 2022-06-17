@@ -1,9 +1,10 @@
 package com.codesoom.assignment.domain.controllers;
 
-import com.codesoom.assignment.common.exception.ResourceNotFoundException;
 import com.codesoom.assignment.domain.dtos.TaskDTO;
 import com.codesoom.assignment.domain.entity.Task;
 import com.codesoom.assignment.domain.service.TaskService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -33,9 +33,6 @@ public class TaskController {
     @GetMapping
     public List<TaskDTO> getAllTasks() {
         List<Task> tasks = this.taskService.getAllTask();
-        if (tasks.isEmpty()) {
-            return null;
-        }
 
         return tasks.stream()
                 .map(TaskDTO::from)
@@ -44,12 +41,9 @@ public class TaskController {
 
     @GetMapping("{id}")
     public TaskDTO getTask(@PathVariable Long id) {
-        Optional<Task> task = this.taskService.getTask(id);
-        if (!task.isPresent()) {
-            throw new ResourceNotFoundException("Not found task with id " + id);
-        }
+        Task task = this.taskService.getTask(id);
 
-        return TaskDTO.from(task.get());
+        return TaskDTO.from(task);
     }
 
     @PostMapping()
@@ -63,23 +57,17 @@ public class TaskController {
     @PutMapping("{id}")
     @PatchMapping("{id}")
     public TaskDTO modifyTask(@PathVariable Long id, @RequestBody @Valid TaskDTO taskDTO) {
-        Optional<Task> modifiedTask = this.taskService.modifyTask(id, taskDTO.getTitle());
-        if (!modifiedTask.isPresent()) {
-            throw new ResourceNotFoundException("Not found task with id " + id);
-        }
+        Task modifiedTask = this.taskService.modifyTask(id, taskDTO.getTitle());
 
-        return TaskDTO.from(modifiedTask.get());
+        return TaskDTO.from(modifiedTask);
     }
 
 
     @DeleteMapping("{id}")
-    public TaskDTO deleteTask(@PathVariable Long id) {
-        Optional<Task> deletedTask = this.taskService.deleteTask(id);
-        if (!deletedTask.isPresent()) {
-            return null;
-        }
+    public ResponseEntity deleteTask(@PathVariable Long id) {
+        this.taskService.deleteTask(id);
 
-        return TaskDTO.from(deletedTask.get());
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }
