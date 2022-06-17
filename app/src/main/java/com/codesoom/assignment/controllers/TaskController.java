@@ -71,7 +71,6 @@ public class TaskController {
     }
 
     @PatchMapping("/{taskId}")
-    @PutMapping("/{taskId}")
     public ResponseEntity modifyTask(@RequestBody Task task, @PathVariable Long taskId){
 
 
@@ -87,6 +86,23 @@ public class TaskController {
         }
 
     }
+    @PutMapping("/{taskId}")
+    public ResponseEntity changeTask(@RequestBody Task task, @PathVariable Long taskId){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+
+        if(taskHashMap.containsKey(taskId)) {
+            task.setId(taskId);
+            taskHashMap.replace(taskId, task);
+            return new ResponseEntity<>(headers, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity deleteTask(@PathVariable Long taskId){
