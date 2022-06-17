@@ -2,7 +2,10 @@ package com.codesoom.assignment.domain.dtos;
 
 import com.codesoom.assignment.domain.entity.Task;
 
+import javax.validation.constraints.NotNull;
+
 public class TaskDTO {
+    @NotNull
     private String title;
 
     public TaskDTO() {}

@@ -52,6 +52,10 @@ dependencies {
 
     // Developer tools for better developing experience
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // Validator for HTTP request body, path params
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+
 }
 
 application {
