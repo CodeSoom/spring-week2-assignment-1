@@ -13,7 +13,7 @@ public class TodoRepository {
     private static Map<Long, Task> store= new HashMap<>();
     private static Long sequence = 0L;
 
-    public Task save(Task task){
+    public synchronized Task save(Task task){
         task.setId(++sequence);
         store.put(task.getId(),task);
         return task;
