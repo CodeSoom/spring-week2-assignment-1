@@ -41,8 +41,7 @@ public class TaskController {
      */
     @GetMapping("/tasks/{id}")
     public Task showTask(@PathVariable("id") Long taskId) {
-        return taskService.showTask(taskId)
-                .orElseThrow(() -> new TaskNotFoundException(taskId));
+        return taskService.showTask(taskId);
     }
 
     /**
@@ -66,8 +65,7 @@ public class TaskController {
     @ResponseStatus(value = HttpStatus.OK)
     public Task editTitle(@PathVariable("id") Long taskId, @RequestBody @NotNull Task task) {
         task.setId(taskId);
-        return taskService.editTaskTitle(task)
-                .orElseThrow(() -> new TaskNotFoundException(taskId));
+        return taskService.editTaskTitle(task);
     }
 
     /**
@@ -78,7 +76,6 @@ public class TaskController {
     @DeleteMapping("/tasks/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable("id") Long taskId) {
-        taskService.removeTask(taskId)
-                .orElseThrow(() -> new TaskNotFoundException(taskId));
+        taskService.removeTask(taskId);
     }
 }

@@ -21,17 +21,14 @@ public class TaskRepository {
 
     /**
      * 인자로 받은 task 과 같은 id 를 가진 태스크가 존재한다면, 인자로 받은 새 태스크로 기존 태스크를 수정한다
+     *
      * @param task 수정할 태스크
      * @return 수정된 태스크
      */
-    public Optional<Task> edit(Task task) {
+    public Task edit(Task task) {
         Long id = task.getId();
-        if (this.tasks.containsKey(id)) {
-            this.tasks.replace(id, task);
-            return Optional.of(task);
-        } else {
-            return Optional.empty();
-        }
+        this.tasks.replace(id, task);
+        return task;
     }
 
     /**
