@@ -39,9 +39,9 @@ public class TaskController {
     }
 
     /**
-     * @param taskId 리퀘스트 경로에서 id 를 추출해서 인자로 받는다.
-     * @return 저장되어 있는 태스크 중에서 인자로 받은 taskId 를 가지고 있는 태스크를 리턴한다. 만약 taskId 가 존재하지 않는다면, exception 을 발생시킨다.
-     * @exception TaskNotFoundException 인자로 받은 taskId 를 가지고 있는 태스크가 없다면, 발생시킨다.
+     * 인자로 받은 id를 가지고 있는 태스크를 리턴한다.
+     * @param taskId 태스크의 id
+     * @return 인자로 받은 taskId 를 가지고 있는 태스크를 리턴한다.
      */
     @GetMapping("/tasks/{id}")
     public Task showTask(@PathVariable("id") Long taskId) {
@@ -49,6 +49,7 @@ public class TaskController {
     }
 
     /**
+     * 새로운 태스크를 생성한다
      * @param task HTTP 리퀘스트의 인자로 받은 title 을 이용해 새로운 태스크를 인자로 받는다.
      * @return 새로운 태스크를 생성해서 리포지토리에 추가하고, 해당 태스크를 리턴한다.
      */
@@ -59,11 +60,10 @@ public class TaskController {
     }
 
     /**
-     * PUT, PATCH 메소드로 받은 경로에서 id 를 추출해서 해당 태스크가 존재하다면, 리퀘스트 바디의 title로 해당 태스크의 타이틀을 수정한다.
-     * @param taskId 리퀘스트 경로에서 id 를 추출해서 인자로 받는다.
-     * @param task HTTP 리퀘스트의 인자로 받은 title 을 이용해 새로운 태스크를 인자로 받는다.
+     * id를 가지는 태스크가 존재하다면, task 로 해당 태스크를 수정한다.
+     * @param taskId 수정할 태스크의 id
+     * @param task 변경할 태스크
      * @return 삭제된 태스크
-     * @exception TaskNotFoundException 인자로 받은 taskId 를 가지고 있는 태스크가 없다면, 발생시킨다.
      */
     @RequestMapping(value = "tasks/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     @ResponseStatus(value = HttpStatus.OK)
@@ -73,9 +73,8 @@ public class TaskController {
     }
 
     /**
-     * DELETE 메소드로 받은 경로에서 id 를 추출해서 해당 태스크가 존재하다면, 리퀘스트 바디의 title로 해당 태스크의 타이틀을 수정한다.
-     * @param taskId 리퀘스트 경로에서 id 를 추출해서 인자로 받는다.
-     * @exception TaskNotFoundException 인자로 받은 taskId 를 가지고 있는 태스크가 없다면, 발생시킨다.
+     * id를 가지는 태스크가 존재하다면, 해당 태스크를 삭제한다.
+     * @param taskId 삭제할 task 의 id
      */
     @DeleteMapping("/tasks/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)

@@ -21,7 +21,6 @@ public class TaskRepository {
 
     /**
      * 인자로 받은 task 과 같은 id 를 가진 태스크가 존재한다면, 인자로 받은 새 태스크로 기존 태스크를 수정한다
-     *
      * @param task 수정할 태스크
      * @return 수정된 태스크
      */
@@ -39,12 +38,19 @@ public class TaskRepository {
         return Optional.ofNullable(this.tasks.remove(id));
     }
 
-    // TODO: Javadoc
+    /**
+     * 만약 id 를 가지고 있는 태스크가 존재하다면, 해당 태스크를 리턴한다.
+     * @param id 태스크의 id
+     * @return id 를 가지고 있는 태스크, 존재하지 않다면 Optional.empty()
+     */
     public Optional<Task> findById(Long id) {
         return Optional.ofNullable(this.tasks.get(id));
     }
 
-    // TODO: Javadoc
+    /**
+     * 모든 태스크를 리턴한다.
+     * @return 태스크의 리스트
+     */
     public List<Task> findAll() {
         return new ArrayList<>(tasks.values());
     }
