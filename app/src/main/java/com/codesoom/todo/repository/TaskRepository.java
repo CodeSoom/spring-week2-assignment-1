@@ -26,8 +26,7 @@ public class TaskRepository {
      * @return 수정된 태스크
      */
     public Task edit(Task task) {
-        Long id = task.getId();
-        this.tasks.replace(id, task);
+        this.tasks.replace(task.getId(), task);
         return task;
     }
 
