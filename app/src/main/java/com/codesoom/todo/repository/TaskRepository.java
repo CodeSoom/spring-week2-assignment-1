@@ -13,6 +13,11 @@ public class TaskRepository {
     private final ConcurrentHashMap<Long, Task> tasks = new ConcurrentHashMap<>();
     private final AtomicLong atomicID = new AtomicLong(0);
 
+    /**
+     * 태스크를 받아 리포지토리에 등록한다.
+     * @param task 새로 추가할 태스크
+     * @return 새로 추가된 태스크를 리턴한다.
+     */
     public Task add(Task task) {
         task.setId(atomicID.incrementAndGet());
         this.tasks.putIfAbsent(atomicID.get(), task);
@@ -30,8 +35,8 @@ public class TaskRepository {
     }
 
     /**
-     * @param task is target to be deleted
-     * @return deleted task if task with id exist, else, Optional object with null
+     * @param task 삭제할 태스크
+     * @return 태스크가 존재했다면, 삭제된 태스크를 리턴하고, 존재하지 않는 다면 비어있는 Optional 을 리턴한다.
      */
     public Optional<Task> delete(Task task) {
         Long id = task.getId();
