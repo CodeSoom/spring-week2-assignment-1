@@ -1,6 +1,7 @@
 package com.codesoom.todo.controllers;
 
 import com.codesoom.todo.domain.Task;
+import com.codesoom.todo.repository.TaskRepository;
 import com.codesoom.todo.services.TaskService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
@@ -23,10 +24,13 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class TaskController {
-    TaskService taskService = new TaskService();
+
+    TaskRepository taskRepository = new TaskRepository();
+    TaskService taskService = new TaskService(taskRepository);
 
     /**
-     * @return 저장되어 있는 task 들을 리스트의 형태로 리턴한다.
+     * 저장되어 있는 task 들을 리스트의 형태로 리턴한다.
+     * @return List of Task, 만약 없다면, 빈 리스트를 리턴한다.
      */
     // TODO: fill skeleton mapper
     @GetMapping("/tasks")
