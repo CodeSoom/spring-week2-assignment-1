@@ -15,6 +15,13 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 }
 
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
 repositories {
     // Use JCenter for resolving dependencies.
     jcenter()
@@ -36,6 +43,19 @@ dependencies {
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // H2 database for running application locally
+    runtimeOnly 'com.h2database:h2'
+
+    // Developer tools for better developing experience
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // Validator for HTTP request body, path params
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+
 }
 
 application {
