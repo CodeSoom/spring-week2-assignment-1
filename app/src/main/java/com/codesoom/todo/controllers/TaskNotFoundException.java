@@ -10,4 +10,8 @@ public class TaskNotFoundException extends RuntimeException {
     public TaskNotFoundException(Task task) {
         super("Could not find task " + task.getId());
     }
+
+    public TaskNotFoundException(String msg) {
+        super(msg);
+    }
 }
