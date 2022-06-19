@@ -7,14 +7,14 @@ import java.time.LocalDateTime;
 public class ErrorMessage {
     private HttpStatus statusCode;
     private LocalDateTime timestamp;
-    private String message;
-    private String description;
+    private String exceptionMessage;
+    private String requestDescription;
 
-    public ErrorMessage(HttpStatus statusCode, LocalDateTime timestamp, String message, String description) {
+    public ErrorMessage(HttpStatus statusCode, LocalDateTime timestamp, String exceptionMessage, String requestDescription) {
         this.statusCode = statusCode;
         this.timestamp = timestamp;
-        this.message = message;
-        this.description = description;
+        this.exceptionMessage = exceptionMessage;
+        this.requestDescription = requestDescription;
     }
     public HttpStatus getStatusCode() {
         return statusCode;
@@ -22,10 +22,10 @@ public class ErrorMessage {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
-    public String getMessage() {
-        return message;
+    public String getExceptionMessage() {
+        return exceptionMessage;
     }
-    public String getDescription() {
-        return description;
+    public String getRequestDescription() {
+        return requestDescription;
     }
 }
