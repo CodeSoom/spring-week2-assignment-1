@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @RestControllerAdvice
 public class ControllerExceptionAdvice {
@@ -16,7 +17,7 @@ public class ControllerExceptionAdvice {
     public ErrorMessage resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.NOT_FOUND,
-                new Date(),
+                LocalDateTime.now(),
                 ex.getMessage(),
                 request.getDescription(false));
     }
@@ -26,7 +27,7 @@ public class ControllerExceptionAdvice {
     public ErrorMessage globalExceptionHandler(Exception ex, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                new Date(),
+                LocalDateTime.now(),
                 ex.getMessage(),
                 request.getDescription(false));
     }

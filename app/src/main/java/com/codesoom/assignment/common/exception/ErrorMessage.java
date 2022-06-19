@@ -2,15 +2,15 @@ package com.codesoom.assignment.common.exception;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class ErrorMessage {
     private HttpStatus statusCode;
-    private Date timestamp;
+    private LocalDateTime timestamp;
     private String message;
     private String description;
 
-    public ErrorMessage(HttpStatus statusCode, Date timestamp, String message, String description) {
+    public ErrorMessage(HttpStatus statusCode, LocalDateTime timestamp, String message, String description) {
         this.statusCode = statusCode;
         this.timestamp = timestamp;
         this.message = message;
@@ -19,7 +19,7 @@ public class ErrorMessage {
     public HttpStatus getStatusCode() {
         return statusCode;
     }
-    public Date getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
     public String getMessage() {
