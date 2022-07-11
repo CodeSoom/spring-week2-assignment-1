@@ -2,58 +2,53 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-@RestController
-@RequestMapping("/tasks")
+
 public class TaskController {
-    private HashMap<Long, String> tasks = new HashMap<>();
+    private HashMap<Long, Task> tasks = new HashMap<>();
     private Long curTaskID = 0L;
 
-    @GetMapping
-    public HashMap<Long, String> list(){
-        return tasks;
+    public List<Task> getAllTask(){
+        List<Task> AllTasks = new ArrayList<>();
+
+        for(Task item : tasks.values()){
+            AllTasks.add(item);
+        }
+        return AllTasks;
     }
 
-    @GetMapping("/{TaskID}")
-    public Task GetTask(@PathVariable("TaskID") Long id) throws IOException {
-
+    public Task getKeyTask(Long id){
         if(tasks.containsKey(id)){
-            Task task = new Task();
-            task.setId(id);
-            task.setTitle(tasks.get(id));
-            return task;
+            return tasks.get(id);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }
 
-    @PostMapping
-    public Task create(@RequestBody Task task){
+    public void addTask(Task task){
         task.setId(generateID());
-        tasks.put(task.getId(), task.getTitle());
-        return task;
+        tasks.put(task.getId(), task);
     }
 
     private Long generateID(){
         curTaskID += 1;
         return curTaskID;
     }
-    @PutMapping("/{TaskID}")
-    public Task revised(@PathVariable("TaskID") Long id, @RequestBody Task task){
 
+    public Task modifyTask(Long id, Task task){
         if(tasks.containsKey(id)){
             task.setId(id);
-            tasks.replace(id, task.getTitle());
-            return task;
+            tasks.replace(id, task);
+            return tasks.get(id);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }
-    @DeleteMapping("/{TaskID}")
-    public void delete(@PathVariable("TaskID") Long id){
+
+    public void removeTask(Long id){
         if(tasks.containsKey(id)){
             tasks.remove(id);
         }
