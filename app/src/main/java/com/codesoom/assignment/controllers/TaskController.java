@@ -28,11 +28,8 @@ public class TaskController {
             task.setTitle(tasks.get(id));
             return task;
         }
-
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }
-
-
 
     @PostMapping
     public Task create(@RequestBody Task task){
@@ -44,6 +41,17 @@ public class TaskController {
     private Long generateID(){
         curTaskID += 1;
         return curTaskID;
+    }
+    @PutMapping("/{TaskID}")
+    public Task revised(@PathVariable("TaskID") Long id, @RequestBody Task task){
+
+        if(tasks.containsKey(id)){
+            task.setId(id);
+            tasks.replace(id, task.getTitle());
+            return task;
+        }
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }
 }
 
