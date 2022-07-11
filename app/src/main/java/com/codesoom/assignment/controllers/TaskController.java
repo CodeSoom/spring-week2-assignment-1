@@ -48,8 +48,17 @@ public class TaskController {
 
     @PutMapping(path="/{taskId}")
     @PatchMapping(path="/{taskId}")
-    public void edit(@PathVariable Long taskId, @RequestParam String title) {
-        
+    public ResponseEntity<Task> edit(@PathVariable Long taskId, @RequestBody Task newTask) {
+        Optional<Task> task = repository.getTaskById(taskId);
+
+        if (task.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Task result = task.get();
+        result.update(newTask);
+
+        return ResponseEntity.ok(result);
     }
 
     private Long generateId() {
