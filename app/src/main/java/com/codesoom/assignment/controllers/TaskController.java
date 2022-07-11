@@ -50,7 +50,13 @@ public class TaskController {
             tasks.replace(id, task.getTitle());
             return task;
         }
-
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
+    }
+    @DeleteMapping("/{TaskID}")
+    public void delete(@PathVariable("TaskID") Long id){
+        if(tasks.containsKey(id)){
+            tasks.remove(id);
+        }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }
 }
