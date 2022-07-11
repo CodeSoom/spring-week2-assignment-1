@@ -31,7 +31,9 @@ public class TaskRepository {
      * @return title을 가진 Task 생성 후 리턴
      */
     public Task add(String title) {
-        return taskMap.put(id, new Task(id++, title));
+        Task task = new Task(id, title);
+        taskMap.put(id++, task);
+        return task;
     }
 
     /**
