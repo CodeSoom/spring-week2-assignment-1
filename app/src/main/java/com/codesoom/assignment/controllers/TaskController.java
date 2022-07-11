@@ -18,17 +18,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * /tasks path로 들어온 요청에 대한 응답을 보냅니다
+ */
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskRepository repository = new TaskRepository();
     private Long newId = 0L;
 
+    /**
+     * @return 저장된 task 목록
+     */
     @GetMapping
-    public List<Task> list() {
+    public List<Task> getTasks() {
         return repository.getTasks();
     }
 
+    /**
+     * @param taskId 조회할 task의 id
+     * @return task id로 조회된 task
+     */
     @GetMapping(path="/{taskId}")
     public ResponseEntity<Task> getTask(@PathVariable Long taskId) {
         return repository.getTaskById(taskId)
@@ -36,18 +46,28 @@ public class TaskController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * @param task 추가할 task
+     * @return 추가된 task
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) {
+    public Task createTask(@RequestBody Task task) {
         task.setId(generateId());
         repository.addTask(task);
 
         return task;
     }
 
+    /**
+     * @param taskId 수정할 task의 id
+     * @param newTask 업데이트할 내용이 담긴 task
+     * @return 조회되는 task가 없을 때는 notFound 반환,
+     * task 수정에 성공했을 때는 수정된 task 반환
+     */
     @PutMapping(path="/{taskId}")
     @PatchMapping(path="/{taskId}")
-    public ResponseEntity<Task> edit(@PathVariable Long taskId, @RequestBody Task newTask) {
+    public ResponseEntity<Task> editTask(@PathVariable Long taskId, @RequestBody Task newTask) {
         Optional<Task> task = repository.getTaskById(taskId);
 
         if (task.isEmpty()) {
@@ -60,6 +80,11 @@ public class TaskController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * @param taskId 삭제할 task의 id
+     * @return 조회된 task가 없을 때 notFound 반환,
+     * task 삭제에 성공했을 때 noContent 반환
+     */
     @DeleteMapping(path="/{taskId}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
         Optional<Task> task = repository.getTaskById(taskId);
