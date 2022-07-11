@@ -34,12 +34,8 @@ public class TaskControllerTest {
     @DisplayName("tasks가 등록되어 있을 떄 > task 목록을 요청하면 tasks list 반환")
     public void givenSomeTasks_whenGetTasks_thenReturnTasksList() {
         // given
-        Task task1 = new Task();
-        task1.setTitle("title1");
-        Task task2 = new Task();
-        task2.setTitle("title2");
-        controller.createTask(task1);
-        controller.createTask(task2);
+        createTask("title1");
+        createTask("title2");
 
         // when
         List<Task> tasks = controller.getTasks();
@@ -87,9 +83,7 @@ public class TaskControllerTest {
     @DisplayName("task가 등록되어 있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
     public void givenSomeTasks_whenUpdateTaskWithWrongId_thenReturnNotFound() {
         // given
-        Task task1 = new Task();
-        task1.setTitle("title1");
-        controller.createTask(task1);
+        createTask("title1");
 
         // when
         final Task task = new Task();
@@ -103,9 +97,7 @@ public class TaskControllerTest {
     @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task null인 상태로 update 요청하면 > badRequest 반환")
     public void givenSomeTasks_whenUpdateTaskWithNullNewTask_thenReturnNotFound() {
         // given
-        Task task1 = new Task();
-        task1.setTitle("title1");
-        controller.createTask(task1);
+        createTask("title1");
 
         // when
         ResponseEntity<Task> actual = controller.updateTask(1L, null);
@@ -118,9 +110,7 @@ public class TaskControllerTest {
     @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task 입력된 상태로 update 요청하면 > update 성공")
     public void givenSomeTasks_whenUpdateTaskWithExistedIdAndNewTask_thenReturnNotFound() {
         // given
-        Task task1 = new Task();
-        task1.setTitle("title1");
-        controller.createTask(task1);
+        createTask("title1");
 
         // when
         Task newTask = new Task();
@@ -149,14 +139,18 @@ public class TaskControllerTest {
     @DisplayName("task가 비어있을 때 > 존재하는 id로 delete 요청하면 > noContent 반환")
     public void givenEmptyTasks_whenDeleteTaskWithWrongId_thenReturnNoContent() {
         // given
-        Task givenTask = new Task();
-        givenTask.setTitle("title1");
-        controller.createTask(givenTask);
+        createTask("title1");
 
         // when
         ResponseEntity<Void> actual = controller.deleteTask(1L);
 
         // then
         assertEquals(ResponseEntity.noContent().build(), actual);
+    }
+
+    private void createTask(String title) {
+        Task givenTask = new Task();
+        givenTask.setTitle(title);
+        controller.createTask(givenTask);
     }
 }
