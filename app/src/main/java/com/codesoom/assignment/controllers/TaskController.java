@@ -1,7 +1,11 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.io.IOException;
 import java.util.HashMap;
 
 @RestController
@@ -14,6 +18,21 @@ public class TaskController {
     public HashMap<Long, String> list(){
         return tasks;
     }
+
+    @GetMapping("/{TaskID}")
+    public Task GetTask(@PathVariable("TaskID") Long id) throws IOException {
+
+        if(tasks.containsKey(id)){
+            Task task = new Task();
+            task.setId(id);
+            task.setTitle(tasks.get(id));
+            return task;
+        }
+
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
+    }
+
+
 
     @PostMapping
     public Task create(@RequestBody Task task){
