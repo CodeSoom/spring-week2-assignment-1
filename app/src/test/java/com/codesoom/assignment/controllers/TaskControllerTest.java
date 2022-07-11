@@ -135,4 +135,28 @@ public class TaskControllerTest {
         assertEquals("newTitle", actualBody.getTitle());
     }
 
+    @Test
+    @DisplayName("task가 비어있을 때 > 존재하지 않는 task의 id로 delete 요청하면 > notFound 반환")
+    public void givenEmptyTasks_whenDeleteTaskWithWrongId_thenReturnNotFound() {
+        // when
+        ResponseEntity<Void> actual = controller.deleteTask(0L);
+
+        // then
+        assertEquals(ResponseEntity.notFound().build(), actual);
+    }
+
+    @Test
+    @DisplayName("task가 비어있을 때 > 존재하는 id로 delete 요청하면 > noContent 반환")
+    public void givenEmptyTasks_whenDeleteTaskWithWrongId_thenReturnNoContent() {
+        // given
+        Task givenTask = new Task();
+        givenTask.setTitle("title1");
+        controller.createTask(givenTask);
+
+        // when
+        ResponseEntity<Void> actual = controller.deleteTask(1L);
+
+        // then
+        assertEquals(ResponseEntity.noContent().build(), actual);
+    }
 }
