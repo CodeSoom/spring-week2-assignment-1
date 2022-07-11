@@ -74,7 +74,7 @@ public class TaskControllerTest {
 
     @Test
     @DisplayName("task가 비어있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
-    public void givenEmptyTasks_whenUpdateTaskWithWrongId_thenReturnNot() {
+    public void givenEmptyTasks_whenUpdateTaskWithWrongId_thenReturnNotFound() {
         // when
         final Task task = new Task();
         ResponseEntity<Task> actual = controller.updateTask(0L, task);
@@ -85,7 +85,7 @@ public class TaskControllerTest {
 
     @Test
     @DisplayName("task가 등록되어 있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
-    public void givenSomeTasks_whenUpdateTaskWithWrongId_thenReturnNot() {
+    public void givenSomeTasks_whenUpdateTaskWithWrongId_thenReturnNotFound() {
         // given
         Task task1 = new Task();
         task1.setTitle("title1");
@@ -101,7 +101,7 @@ public class TaskControllerTest {
 
     @Test
     @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task null인 상태로 update 요청하면 > badRequest 반환")
-    public void givenSomeTasks_whenUpdateTaskWithNullNewTask_thenReturnNot() {
+    public void givenSomeTasks_whenUpdateTaskWithNullNewTask_thenReturnNotFound() {
         // given
         Task task1 = new Task();
         task1.setTitle("title1");
@@ -116,7 +116,7 @@ public class TaskControllerTest {
 
     @Test
     @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task 입력된 상태로 update 요청하면 > update 성공")
-    public void givenSomeTasks_whenUpdateTaskWithExistedIdAndNewTask_thenReturnNot() {
+    public void givenSomeTasks_whenUpdateTaskWithExistedIdAndNewTask_thenReturnNotFound() {
         // given
         Task task1 = new Task();
         task1.setTitle("title1");
