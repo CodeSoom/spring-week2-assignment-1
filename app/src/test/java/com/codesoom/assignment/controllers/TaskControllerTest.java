@@ -1,11 +1,12 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
@@ -47,4 +48,68 @@ public class TaskControllerTest {
         assertEquals("title1", tasks.get(0).getTitle());
         assertEquals("title2", tasks.get(1).getTitle());
     }
+
+    @Test
+    @DisplayName("task가 비어있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
+    public void givenEmptyTasks_whenUpdateTaskWithWrongId_thenReturnNot() {
+        // when
+        final Task task = new Task();
+        ResponseEntity<Task> actual = controller.updateTask(0L, task);
+
+        // then
+        assertEquals(ResponseEntity.notFound().build(), actual);
+    }
+
+    @Test
+    @DisplayName("task가 등록되어 있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
+    public void givenSomeTasks_whenUpdateTaskWithWrongId_thenReturnNot() {
+        // given
+        Task task1 = new Task();
+        task1.setTitle("title1");
+        controller.createTask(task1);
+
+        // when
+        final Task task = new Task();
+        ResponseEntity<Task> actual = controller.updateTask(0L, task);
+
+        // then
+        assertEquals(ResponseEntity.notFound().build(), actual);
+    }
+
+    @Test
+    @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task null인 상태로 update 요청하면 > notFound 반환")
+    public void givenSomeTasks_whenUpdateTaskWithNullNewTask_thenReturnNot() {
+        // given
+        Task task1 = new Task();
+        task1.setTitle("title1");
+        controller.createTask(task1);
+
+        // when
+        ResponseEntity<Task> actual = controller.updateTask(1L, null);
+
+        // then
+        assertEquals(ResponseEntity.badRequest().build(), actual);
+    }
+
+    @Test
+    @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task 입력된 상태로 update 요청하면 > update 성공")
+    public void givenSomeTasks_whenUpdateTaskWithExistedIdAndNewTask_thenReturnNot() {
+        // given
+        Task task1 = new Task();
+        task1.setTitle("title1");
+        controller.createTask(task1);
+
+        // when
+        Task newTask = new Task();
+        newTask.setTitle("newTitle");
+        ResponseEntity<Task> actual = controller.updateTask(1L, newTask);
+
+        // then
+        assertEquals(HttpStatus.OK, actual.getStatusCode());
+
+        Task actualBody = actual.getBody();
+        assertNotNull(actualBody);
+        assertEquals("newTitle", actualBody.getTitle());
+    }
+
 }
