@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class TaskController {
-    private HashMap<Long, Task> tasks = new HashMap<>();
+    private final HashMap<Long, Task> tasks = new HashMap<>();
     private Long curTaskID = 0L;
 
     public List<Task> getAllTask(){

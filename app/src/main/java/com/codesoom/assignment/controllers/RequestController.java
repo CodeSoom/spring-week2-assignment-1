@@ -8,7 +8,7 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class RequestController {
-    TaskController taskManager = new TaskController();
+    private final TaskController taskManager = new TaskController();
 
     @GetMapping
     public List<Task> GetAllTask(){
