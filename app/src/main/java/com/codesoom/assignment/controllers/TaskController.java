@@ -29,9 +29,10 @@ public class TaskController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }
 
-    public void addTask(Task task){
+    public Task addTask(Task task){
         task.setId(generateID());
         tasks.put(task.getId(), task);
+        return task;
     }
 
     private Long generateID(){
@@ -43,7 +44,7 @@ public class TaskController {
         if(tasks.containsKey(id)){
             task.setId(id);
             tasks.replace(id, task);
-            return tasks.get(id);
+            return task;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }
@@ -51,6 +52,7 @@ public class TaskController {
     public void removeTask(Long id){
         if(tasks.containsKey(id)){
             tasks.remove(id);
+            return ;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }

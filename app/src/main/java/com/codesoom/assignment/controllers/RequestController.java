@@ -22,8 +22,7 @@ public class RequestController {
 
     @PostMapping
     public Task Create(@RequestBody Task task){
-        taskManager.addTask(task);
-        return task;
+        return taskManager.addTask(task);
     }
 
     @PutMapping("/{TaskID}")
