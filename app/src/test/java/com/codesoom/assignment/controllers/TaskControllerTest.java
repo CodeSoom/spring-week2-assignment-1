@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -50,6 +51,28 @@ public class TaskControllerTest {
     }
 
     @Test
+    @DisplayName("null Task로 create 요청 > badRequest 반환")
+    public void whenCreateNullTask_thenReturnBadRequest() {
+        Exception exception = assertThrows(ResponseStatusException.class, () -> {
+            controller.createTask(null);
+        });
+    }
+
+    @Test
+    @DisplayName("task create 요청 > 생성된 task 반환")
+    public void whenCreateTask_thenCreatedTask() {
+        // when
+        Task task = new Task();
+        task.setTitle("title");
+        Task actual = controller.createTask(task);
+
+        // then
+        assertNotNull(actual);
+        assertNotNull(actual.getId());
+        assertEquals("title", actual.getTitle());
+    }
+
+    @Test
     @DisplayName("task가 비어있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
     public void givenEmptyTasks_whenUpdateTaskWithWrongId_thenReturnNot() {
         // when
@@ -77,7 +100,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task null인 상태로 update 요청하면 > notFound 반환")
+    @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task null인 상태로 update 요청하면 > badRequest 반환")
     public void givenSomeTasks_whenUpdateTaskWithNullNewTask_thenReturnNot() {
         // given
         Task task1 = new Task();
