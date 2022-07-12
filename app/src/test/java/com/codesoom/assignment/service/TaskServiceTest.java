@@ -6,6 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Service
@@ -21,5 +24,13 @@ public class TaskServiceTest {
         Task modifiedTask = taskService.modifyTask(1L, "변경됨");
 
         assertEquals(new Task(1L, "변경됨"), modifiedTask);
+    }
+
+    @Test
+    @DisplayName("빈 저장소가 주어지고 전체 조회 메서드를 수행할 때 빈 컬렉션을 리턴한다.")
+    void returnEmptyWhenEmptyRepository() {
+        List<Task> findTasks = taskService.getAll();
+
+        assertEquals(new ArrayList<>(), findTasks);
     }
 }
