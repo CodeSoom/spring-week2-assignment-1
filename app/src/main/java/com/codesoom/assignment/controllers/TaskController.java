@@ -3,11 +3,12 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("/tasks")
+import java.util.List;
+
+@RestController
+@RequestMapping("/tasks")
 public class TaskController {
     private final TaskService taskService;
 
@@ -25,5 +26,15 @@ public class TaskController {
     @GetMapping("/{taskId}")
     public Task getTask(@PathVariable Long taskId) {
         return taskService.getTask(taskId);
+    }
+
+    /**
+     * 저장소에 저장된 모든 요소들을 컬렉션 타입으로 리턴합니다.
+     *
+     * @return 저장소에 저장된 컬렉션 타입의 요소
+     */
+    @GetMapping("/all")
+    public List<Task> getAll() {
+        return taskService.getAll();
     }
 }
