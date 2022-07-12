@@ -73,14 +73,14 @@ public class TaskController {
      */
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{taskId}")
     public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task newTask) {
+        if (newTask == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Optional<Task> task = repository.getTaskById(taskId);
 
         if (task.isEmpty()) {
             return ResponseEntity.notFound().build();
-        }
-
-        if (newTask == null) {
-            return ResponseEntity.badRequest().build();
         }
 
         Task result = task.get();
