@@ -4,14 +4,14 @@ import com.codesoom.assignment.TaskRepository;
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +24,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/tasks")
+@CrossOrigin
 public class TaskController {
     private final TaskRepository repository = new TaskRepository();
     private Long newId = 0L;
@@ -70,8 +71,7 @@ public class TaskController {
      * @return 조회되는 task가 없을 때는 notFound 반환,
      * task 수정에 성공했을 때는 수정된 task 반환
      */
-    @PutMapping(path="/{taskId}")
-    @PatchMapping(path="/{taskId}")
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{taskId}")
     public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task newTask) {
         Optional<Task> task = repository.getTaskById(taskId);
 
