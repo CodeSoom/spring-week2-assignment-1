@@ -27,7 +27,7 @@ public class TaskListRepository implements TaskRepository {
     }
 
     public List<Task> getAll() {
-        return null;
+        return taskList;
     }
 
     @Override

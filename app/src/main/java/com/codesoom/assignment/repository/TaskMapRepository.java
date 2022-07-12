@@ -3,9 +3,8 @@ package com.codesoom.assignment.repository;
 import com.codesoom.assignment.domain.Task;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * TaskRepository의 Map 구현입니다.
@@ -25,8 +24,13 @@ public class TaskMapRepository implements TaskRepository {
         return taskMap.get(taskId);
     }
 
+    /**
+     * 현재 저장된 Task 저장소를 List 타입으로 변환하여 리턴한다.
+     *
+     * @return 변환된 List 타입의 Task 저장소
+     */
     public List<Task> getAll() {
-        return null;
+        return new ArrayList<>(taskMap.values());
     }
 
     /**
