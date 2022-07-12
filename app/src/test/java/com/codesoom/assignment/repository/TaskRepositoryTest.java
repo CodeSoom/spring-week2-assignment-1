@@ -4,6 +4,7 @@ import com.codesoom.assignment.domain.Task;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,5 +49,13 @@ public class TaskRepositoryTest {
         List<Task> findTasks = taskRepository.getAll();
 
         assertEquals(Arrays.asList(new Task(0L, "BJP1"), new Task(1L, "BJP2")), findTasks);
+    }
+
+    @Test
+    @DisplayName("저장소가 비어있고 getAll 메서드를 통해 저장된 Task들을 조회할 때, 빈 배열을 리턴한다.")
+    void returnEmptyListWhenGetAll() {
+        List<Task> findTasks = taskRepository.getAll();
+
+        assertEquals(new ArrayList<>(), findTasks);
     }
 }
