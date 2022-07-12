@@ -14,6 +14,10 @@ public class Task {
         this.title = title;
     }
 
+    public boolean isSame(Long id) {
+        return this.id.equals(id);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
