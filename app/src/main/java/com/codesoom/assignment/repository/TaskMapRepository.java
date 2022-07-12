@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Task를 생성, 삭제, 조회하는 저장소입니다.
+ * TaskRepository의 Map 구현입니다.
  */
 @Repository
-public class TaskMapRepository implements TaskRepository{
+public class TaskMapRepository implements TaskRepository {
     private Long id = 0L;
     private final Map<Long, Task> taskMap = new HashMap<>();
 

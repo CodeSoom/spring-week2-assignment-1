@@ -3,7 +3,7 @@ package com.codesoom.assignment.repository;
 import com.codesoom.assignment.domain.Task;
 
 /**
- * 자료구조를 저장하는 방식이 다른 저장소
+ * Task를 다루는 저장소입니다.
  * Task를 삽입, 삭제, 조회하는 기능을 가지고 있습니다.
  */
 public interface TaskRepository {
