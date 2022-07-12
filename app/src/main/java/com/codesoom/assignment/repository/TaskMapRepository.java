@@ -4,6 +4,7 @@ import com.codesoom.assignment.domain.Task;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,6 +23,10 @@ public class TaskMapRepository implements TaskRepository {
      */
     public Task get(Long taskId) {
         return taskMap.get(taskId);
+    }
+
+    public List<Task> getAll() {
+        return null;
     }
 
     /**

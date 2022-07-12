@@ -26,6 +26,10 @@ public class TaskListRepository implements TaskRepository {
                 .orElse(null);
     }
 
+    public List<Task> getAll() {
+        return null;
+    }
+
     @Override
     public Task add(String title) {
         Task task = new Task(id++, title);
