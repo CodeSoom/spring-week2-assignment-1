@@ -95,16 +95,15 @@ public class TaskController {
      * task 삭제에 성공했을 때 noContent 반환
      */
     @DeleteMapping(path="/{taskId}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long taskId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTask(@PathVariable Long taskId) {
         Optional<Task> task = repository.getTaskById(taskId);
 
         if (task.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
         repository.deleteTask(task.get());
-
-        return ResponseEntity.noContent().build();
     }
 
     private Long generateId() {
