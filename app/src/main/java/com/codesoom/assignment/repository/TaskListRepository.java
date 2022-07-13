@@ -44,6 +44,6 @@ public class TaskListRepository implements TaskRepository {
      */
     @Override
     public void remove(Long taskId) {
-        taskList.remove(get(taskId).get());
+        taskList.removeIf(t -> t.isSame(taskId));
     }
 }
