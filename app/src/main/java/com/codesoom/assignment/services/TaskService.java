@@ -1,4 +1,4 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.services;
 
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class TaskController {
+public class TaskService {
     private final HashMap<Long, Task> tasks = new HashMap<>();
     private Long curTaskID = 0L;
 
