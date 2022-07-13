@@ -14,6 +14,7 @@ import java.util.Optional;
  */
 public class TaskRepository {
     private final List<Task> tasks = Collections.synchronizedList(new ArrayList<>());
+    private Long newId = 0L;
 
     /**
      * Task Id로 Task를 조회합니다
@@ -32,6 +33,7 @@ public class TaskRepository {
      * @param task 저장소에 추가할 task
      */
     public void addTask(Task task) {
+        task.setId(generateId());
         tasks.add(task);
     }
 
@@ -49,5 +51,10 @@ public class TaskRepository {
      */
     public List<Task> getTasks() {
         return tasks;
+    }
+
+    private Long generateId() {
+        newId += 1;
+        return newId;
     }
 }

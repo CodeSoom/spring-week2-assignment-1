@@ -27,7 +27,6 @@ import java.util.Optional;
 @CrossOrigin
 public class TaskController {
     private final TaskRepository repository = new TaskRepository();
-    private Long newId = 0L;
 
     /**
      * @return 저장된 task 목록
@@ -58,7 +57,6 @@ public class TaskController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "request body에 title을 입력해주세요");
         }
 
-        task.setId(generateId());
         repository.addTask(task);
 
         return task;
@@ -103,10 +101,5 @@ public class TaskController {
         }
 
         repository.deleteTask(task.get());
-    }
-
-    private Long generateId() {
-        newId += 1;
-        return newId;
     }
 }
