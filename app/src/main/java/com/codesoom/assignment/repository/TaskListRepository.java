@@ -4,6 +4,7 @@ import com.codesoom.assignment.domain.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * TaskRepository의 List 구현입니다.
@@ -13,17 +14,16 @@ public class TaskListRepository implements TaskRepository {
     private final List<Task> taskList = new ArrayList<>();
 
     /**
-     * 입력 받은 taskId와 같은 id를 가진 Task를 순차적으로 찾아 있다면 해당 Task만 리턴하고, 아니면 null을 리턴한다.
+     * 입력 받은 taskId와 같은 id를 가진 요소를 순차적으로 찾아 존재하면 해당 요소만 리턴하고, 존재하지 않으면 null을 리턴한다.
      *
      * @param taskId 요청된 숫자 형식의 taskId
-     * @return taskId와 같은 id의 Task가 있다면 해당 Task 리턴, 없으면 null 리턴
+     * @return taskId와 같은 id의 요소가 존재하면 해당 요소 리턴, 존재하지 않으면 null 리턴
      */
     @Override
-    public Task get(Long taskId) {
+    public Optional<Task> get(Long taskId) {
         return taskList.stream()
                 .filter(t -> t.isSame(taskId))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     public List<Task> getAll() {

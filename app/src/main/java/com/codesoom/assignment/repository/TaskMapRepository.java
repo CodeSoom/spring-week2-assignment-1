@@ -20,8 +20,8 @@ public class TaskMapRepository implements TaskRepository {
      * @param taskId 요청된 숫자 형식의 taskId
      * @return taskId와 같은 id를 가진 Task 리턴
      */
-    public Task get(Long taskId) {
-        return taskMap.get(taskId);
+    public Optional<Task> get(Long taskId) {
+        return Optional.ofNullable(taskMap.get(taskId));
     }
 
     /**
