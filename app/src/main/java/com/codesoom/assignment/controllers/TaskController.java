@@ -42,10 +42,9 @@ public class TaskController {
      * @return task id로 조회된 task
      */
     @GetMapping(path="/{taskId}")
-    public ResponseEntity<Task> getTask(@PathVariable Long taskId) {
+    public Task getTask(@PathVariable Long taskId) {
         return repository.getTaskById(taskId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     /**
