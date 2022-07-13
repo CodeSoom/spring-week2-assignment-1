@@ -3,6 +3,7 @@ package com.codesoom.assignment.service;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.repository.TaskMapRepository;
+import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,10 @@ import java.util.List;
  */
 @Service
 public class TaskService {
-    private final TaskMapRepository taskRepository;
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public TaskService(TaskMapRepository taskRepository) {
+    public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
