@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Task를 추가, 삭제, 수정, 조회 합니다
@@ -14,7 +15,7 @@ import java.util.Optional;
  */
 public class TaskRepository {
     private final List<Task> tasks = Collections.synchronizedList(new ArrayList<>());
-    private Long newId = 0L;
+    private AtomicLong newId = new AtomicLong(0L);
 
     /**
      * Task Id로 Task를 조회합니다
@@ -54,7 +55,6 @@ public class TaskRepository {
     }
 
     private Long generateId() {
-        newId += 1;
-        return newId;
+        return newId.incrementAndGet();
     }
 }
