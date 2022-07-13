@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * TaskRepository의 List 구현입니다.
+ * 작업과 관련된 컬렉션 기능을 제공하는 역할을 가지고 있습니다.
+ *
+ * 사용자의 요청에 따라 작업을 생성, 조회, 삭제 기능을 수행해야 하는 책임을 가지고 있습니다.
  */
 public class TaskListRepository implements TaskRepository {
     private Long id = 0L;
