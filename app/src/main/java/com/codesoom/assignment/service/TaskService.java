@@ -2,7 +2,6 @@ package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.exception.TaskNotFoundException;
-import com.codesoom.assignment.repository.TaskMapRepository;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
