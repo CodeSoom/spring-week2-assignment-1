@@ -37,8 +37,13 @@ public class TaskListRepository implements TaskRepository {
         return task;
     }
 
+    /**
+     * 숫자 타입의 taskId가 들어오고 해당 taskId와 같은 task가 존재할 때, 해당 Task를 찾아 삭제한다.
+     *
+     * @param taskId 입력 받은 숫자 형식의 taskId
+     */
     @Override
     public void remove(Long taskId) {
-        taskList.remove(get(taskId));
+        taskList.remove(get(taskId).get());
     }
 }

@@ -15,10 +15,10 @@ public class TaskMapRepository implements TaskRepository {
     private final Map<Long, Task> taskMap = new HashMap<>();
 
     /**
-     * 요청된 숫자 형식의 taskId와 같은 id를 가진 Task를 찾아 리턴합니다.
+     * 요청된 숫자 형식의 taskId와 같은 id를 가진 요소가 존재하면 요소를 리턴하고 아니면 null을 리턴합니다.
      *
      * @param taskId 요청된 숫자 형식의 taskId
-     * @return taskId와 같은 id를 가진 Task 리턴
+     * @return taskId와 같은 id를 가진 요소가 존재하면 요소 리턴, 존재하지 않으면 null 리턴
      */
     public Optional<Task> get(Long taskId) {
         return Optional.ofNullable(taskMap.get(taskId));

@@ -41,7 +41,7 @@ public class TaskRepositoryTest {
 
         taskRepository.remove(0L);
 
-        assertNull(taskRepository.get(0L).orElse(null));
+        assertEquals(Optional.empty(), taskRepository.get(0L));
     }
 
     @Test
