@@ -14,14 +14,8 @@ public class TaskService {
     private final HashMap<Long, Task> tasks = new HashMap<>();
     private Long curTaskID = 0L;
 
-    public Collection<Task> getAllTask(){
-        List<Task> AllTasks = new ArrayList<>();
-
-        for(Task item : tasks.values()){
-            AllTasks.add(item);
-        }
-        return tasks.values();
-        //return AllTasks;
+    public List<Task> getAllTask(){
+        return new ArrayList<>(tasks.values());
     }
 
     public Task getKeyTask(Long id){
