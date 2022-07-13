@@ -5,6 +5,8 @@ import com.codesoom.assignment.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,5 +41,16 @@ public class TaskController {
     @GetMapping("/all")
     public List<Task> getAll() {
         return taskService.getAll();
+    }
+
+    /**
+     * 입력 받은 문자열 title을 가진 요소를 만들어 리턴합니다.
+     *
+     * @param title 입력 받은 문자열 title
+     * @return 생성된 요소를 리턴
+     */
+    @PostMapping
+    public Task createTask(@RequestBody String title) {
+        return taskService.createTask(title);
     }
 }

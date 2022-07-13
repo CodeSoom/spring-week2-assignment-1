@@ -14,6 +14,24 @@ public class Task {
         this.title = title;
     }
 
+    /**
+     * Jackson Binding을 위한 메서드입니다.
+     *
+     * @return 요소의 id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Jackson Binding을 위한 메서드입니다.
+     *
+     * @return 요소의 title
+     */
+    public String getTitle() {
+        return title;
+    }
+
     public boolean isSame(Long id) {
         return this.id.equals(id);
     }
