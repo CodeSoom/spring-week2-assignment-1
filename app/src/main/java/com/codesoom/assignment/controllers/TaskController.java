@@ -10,7 +10,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/tasks")
 @CrossOrigin
-public class RequestController {
+public class TaskController {
     private final TaskService taskManager = new TaskService();
 
     @GetMapping
