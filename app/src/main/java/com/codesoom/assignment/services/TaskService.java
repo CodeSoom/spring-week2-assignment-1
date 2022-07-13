@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,13 +14,14 @@ public class TaskController {
     private final HashMap<Long, Task> tasks = new HashMap<>();
     private Long curTaskID = 0L;
 
-    public List<Task> getAllTask(){
+    public Collection<Task> getAllTask(){
         List<Task> AllTasks = new ArrayList<>();
 
         for(Task item : tasks.values()){
             AllTasks.add(item);
         }
-        return AllTasks;
+        return tasks.values();
+        //return AllTasks;
     }
 
     public Task getKeyTask(Long id){
@@ -41,9 +43,9 @@ public class TaskController {
     }
 
     public Task modifyTask(Long id, Task task){
-        if(tasks.containsKey(id)){
+        if(tasks.containsKey(id)) {
             task.setId(id);
-            tasks.replace(id, task);
+            tasks.get(id).setTitle(task.getTitle());
             return task;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
