@@ -60,8 +60,7 @@ public class TaskControllerTest {
     @DisplayName("task create 요청 > 생성된 task 반환")
     public void whenCreateTask_thenCreatedTask() {
         // when
-        Task task = new Task();
-        task.setTitle("title");
+        Task task = new Task("title");
         Task actual = controller.createTask(task);
 
         // then
@@ -74,7 +73,7 @@ public class TaskControllerTest {
     @DisplayName("task가 비어있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
     public void givenEmptyTasks_whenUpdateTaskWithWrongId_thenReturnNotFound() {
         // when
-        final Task task = new Task();
+        final Task task = new Task("");
         ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
             controller.updateTask(0L, task);
         });
@@ -90,7 +89,7 @@ public class TaskControllerTest {
         createTask("title1");
 
         // when
-        final Task task = new Task();
+        final Task task = new Task("");
         ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
             controller.updateTask(0L, task);
         });
@@ -121,8 +120,7 @@ public class TaskControllerTest {
         createTask("title1");
 
         // when
-        Task newTask = new Task();
-        newTask.setTitle("newTitle");
+        Task newTask = new Task("newTitle");
         Task actual = controller.updateTask(1L, newTask);
 
         // then
@@ -155,8 +153,7 @@ public class TaskControllerTest {
     }
 
     private void createTask(String title) {
-        Task givenTask = new Task();
-        givenTask.setTitle(title);
+        Task givenTask = new Task(title);
         controller.createTask(givenTask);
     }
 }
