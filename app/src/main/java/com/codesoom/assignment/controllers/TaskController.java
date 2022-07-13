@@ -1,11 +1,13 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.domain.ChangeTaskRequest;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,5 +54,15 @@ public class TaskController {
     @PostMapping
     public Task createTask(@RequestBody String title) {
         return taskService.createTask(title);
+    }
+
+    /**
+     * 입력 받은 변경 정보를 가지고 있는 객체를 받아 작업을 변경하고 변경한 작업을 리턴합니다.
+     * @param request 입력받은 변경 정보 request
+     * @return 변경된 작업 리턴
+     */
+    @PutMapping
+    public Task changeTask(@RequestBody ChangeTaskRequest request) {
+        return taskService.modifyTask(request.getTaskId(), request.getTitle());
     }
 }
