@@ -5,6 +5,7 @@ import com.codesoom.assignment.domain.Task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 작업과 관련된 컬렉션 기능을 제공하는 역할을 가지고 있습니다.
@@ -13,7 +14,7 @@ import java.util.Optional;
  */
 public class TaskListRepository implements TaskRepository {
     private Long id = 0L;
-    private final List<Task> taskList = new ArrayList<>();
+    private final List<Task> taskList = new CopyOnWriteArrayList<>();
 
     /**
      * 입력 받은 taskId와 같은 id를 가진 요소를 순차적으로 찾아 존재하면 해당 요소만 리턴하고, 존재하지 않으면 null을 리턴한다.

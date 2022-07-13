@@ -3,8 +3,11 @@ package com.codesoom.assignment.repository;
 import com.codesoom.assignment.domain.Task;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 작업과 관련된 컬렉션 기능을 제공하는 역할을 가지고 있습니다.
@@ -14,7 +17,7 @@ import java.util.stream.Collectors;
 @Repository
 public class TaskMapRepository implements TaskRepository {
     private Long id = 0L;
-    private final Map<Long, Task> taskMap = new HashMap<>();
+    private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
     /**
      * 요청된 숫자 형식의 taskId와 같은 id를 가진 요소가 존재하면 요소를 리턴하고 아니면 null을 리턴합니다.
