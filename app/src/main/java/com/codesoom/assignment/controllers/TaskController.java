@@ -71,21 +71,21 @@ public class TaskController {
      * task 수정에 성공했을 때는 수정된 task 반환
      */
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{taskId}")
-    public ResponseEntity<Task> updateTask(@PathVariable Long taskId, @RequestBody Task newTask) {
+    public Task updateTask(@PathVariable Long taskId, @RequestBody Task newTask) {
         if (newTask == null) {
-            return ResponseEntity.badRequest().build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         Optional<Task> task = repository.getTaskById(taskId);
 
         if (task.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
         Task result = task.get();
         result.update(newTask);
 
-        return ResponseEntity.ok(result);
+        return result;
     }
 
     /**

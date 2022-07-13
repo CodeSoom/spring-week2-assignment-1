@@ -73,10 +73,12 @@ public class TaskControllerTest {
     public void givenEmptyTasks_whenUpdateTaskWithWrongId_thenReturnNotFound() {
         // when
         final Task task = new Task();
-        ResponseEntity<Task> actual = controller.updateTask(0L, task);
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
+            controller.updateTask(0L, task);
+        });
 
         // then
-        assertEquals(ResponseEntity.notFound().build(), actual);
+        assertEquals(HttpStatus.NOT_FOUND, actual.getStatus());
     }
 
     @Test
@@ -87,10 +89,12 @@ public class TaskControllerTest {
 
         // when
         final Task task = new Task();
-        ResponseEntity<Task> actual = controller.updateTask(0L, task);
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
+            controller.updateTask(0L, task);
+        });
 
         // then
-        assertEquals(ResponseEntity.notFound().build(), actual);
+        assertEquals(HttpStatus.NOT_FOUND, actual.getStatus());
     }
 
     @Test
@@ -100,10 +104,12 @@ public class TaskControllerTest {
         createTask("title1");
 
         // when
-        ResponseEntity<Task> actual = controller.updateTask(1L, null);
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
+            controller.updateTask(1L, null);
+        });
 
         // then
-        assertEquals(ResponseEntity.badRequest().build(), actual);
+        assertEquals(HttpStatus.BAD_REQUEST, actual.getStatus());
     }
 
     @Test
@@ -115,14 +121,10 @@ public class TaskControllerTest {
         // when
         Task newTask = new Task();
         newTask.setTitle("newTitle");
-        ResponseEntity<Task> actual = controller.updateTask(1L, newTask);
+        Task actual = controller.updateTask(1L, newTask);
 
         // then
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
-
-        Task actualBody = actual.getBody();
-        assertNotNull(actualBody);
-        assertEquals("newTitle", actualBody.getTitle());
+        assertEquals("newTitle", actual.getTitle());
     }
 
     @Test
