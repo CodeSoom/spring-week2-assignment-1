@@ -49,9 +49,11 @@ public class TaskControllerTest {
     @Test
     @DisplayName("null Task로 create 요청 > badRequest 반환")
     public void whenCreateNullTask_thenReturnBadRequest() {
-        Exception exception = assertThrows(ResponseStatusException.class, () -> {
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
             controller.createTask(null);
         });
+
+        assertEquals(HttpStatus.BAD_REQUEST , actual.getStatus());
     }
 
     @Test
