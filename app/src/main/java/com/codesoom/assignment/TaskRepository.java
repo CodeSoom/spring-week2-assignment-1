@@ -2,13 +2,14 @@ package com.codesoom.assignment;
 
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+@Service
 public class TaskRepository {
     private final HashMap<Long, Task> tasks = new HashMap<>();
     private Long curTaskID = 0L;
@@ -35,10 +36,9 @@ public class TaskRepository {
         return curTaskID;
     }
 
-    public Task modifyTask(Long id, Task task){
-        if(tasks.containsKey(id)) {
-            task.setId(id);
-            tasks.get(id).setTitle(task.getTitle());
+    public Task modifyTask(Task task){
+        if(tasks.containsKey(task.getId())) {
+            tasks.get(task.getId()).setTitle(task.getTitle());
             return task;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
