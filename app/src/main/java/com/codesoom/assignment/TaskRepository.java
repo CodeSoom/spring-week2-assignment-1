@@ -1,16 +1,15 @@
-package com.codesoom.assignment.services;
+package com.codesoom.assignment;
 
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class TaskService {
+public class TaskRepository {
     private final HashMap<Long, Task> tasks = new HashMap<>();
     private Long curTaskID = 0L;
 
