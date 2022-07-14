@@ -4,7 +4,6 @@ import com.codesoom.assignment.domain.ChangeTaskRequest;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,10 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/tasks")
@@ -33,15 +30,10 @@ public class TaskController {
      *
      * @param taskId 작업의 식별자
      * @return 작업
-     * @throws ResponseStatusException 작업을 찾지 못한 경우
      */
     @GetMapping("/{taskId}")
     public Task getTask(@PathVariable Long taskId) {
-        try {
-            return taskService.getTask(taskId);
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "작업이 존재하지 않습니다.", e);
-        }
+        return taskService.getTask(taskId);
     }
 
     /**
