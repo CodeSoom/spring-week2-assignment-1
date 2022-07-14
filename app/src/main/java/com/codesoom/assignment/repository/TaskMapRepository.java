@@ -20,29 +20,29 @@ public class TaskMapRepository implements TaskRepository {
     private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
     /**
-     * 요청된 숫자 형식의 taskId와 같은 id를 가진 요소가 존재하면 요소를 리턴하고 아니면 null을 리턴합니다.
+     * 요청된 받은 숫자 타입 taskId와 같은 id를 가진 작업을 리턴합니다. 이 작업은 null일 수 있습니다.
      *
-     * @param taskId 요청된 숫자 형식의 taskId
-     * @return taskId와 같은 id를 가진 요소가 존재하면 요소 리턴, 존재하지 않으면 null 리턴
+     * @param taskId 요청된 숫자 타입의 taskId
+     * @return null이 아닌 값을 포함하거나 포함하지 않을 수 있는 작업 리턴
      */
     public Optional<Task> get(Long taskId) {
         return Optional.ofNullable(taskMap.get(taskId));
     }
 
     /**
-     * 현재 저장된 Task 저장소를 List 타입으로 변환하여 리턴한다.
+     * 현재 저장된 작업 목록을 리턴합니다.
      *
-     * @return 변환된 List 타입의 Task 저장소
+     * @return 작업 목록 리턴
      */
     public List<Task> getAll() {
         return new ArrayList<>(taskMap.values());
     }
 
     /**
-     * 입력 받은 title을 가진 Task를 생성해서 리턴합니다.
+     * 입력 받은 title을 가진 작업을 생성해서 리턴합니다.
      *
      * @param title 입력 받은 title
-     * @return title을 가진 Task 생성 후 리턴
+     * @return title을 가진 작업 생성 후 리턴
      */
     public Task add(String title) {
         Task task = new Task(id, title);
@@ -51,9 +51,9 @@ public class TaskMapRepository implements TaskRepository {
     }
 
     /**
-     * 입력 받은 숫자 형식의 taskId와 같은 id를 가진 Task를 찾아 있으면 제거합니다.
+     * 입력 받은 숫자 타입의 taskId와 같은 id를 가진 작업 찾아 있으면 제거합니다.
      *
-     * @param taskId 입력 받은 숫자 형식의 taskId
+     * @param taskId 입력 받은 숫자 타입의 taskId
      */
     public void remove(Long taskId) {
         taskMap.remove(taskId);

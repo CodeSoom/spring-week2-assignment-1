@@ -1,6 +1,7 @@
 package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.repository.TaskMapRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Service
 public class TaskServiceTest {
@@ -24,6 +26,13 @@ public class TaskServiceTest {
         Task modifiedTask = taskService.modifyTask(1L, "변경됨");
 
         assertEquals(new Task(1L, "변경됨"), modifiedTask);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 식별자를 가진 작업을 조회할 때, 작업이 존재하지 않는 예외를 던집니다.")
+    void returnExceptionWhenNotExistId() {
+        assertThrows(TaskNotFoundException.class,
+                            () -> taskService.getTask(0L));
     }
 
     @Test

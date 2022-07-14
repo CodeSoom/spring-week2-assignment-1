@@ -30,10 +30,10 @@ public class TaskController {
     }
 
     /**
-     * 입력 받은 숫자 타입의 taskId와 같은 id를 가진 Task를 조회해 리턴한다.
+     * 주어진 식별자를 갖는 작업을 찾아 리턴한다.
      *
-     * @param taskId 입력 받은 숫자 타입 taskId
-     * @return 입력 받은 taskId와 같은 id를 가진 Task 리턴
+     * @param taskId 작업의 식별자
+     * @return 작업
      */
     @GetMapping("/{taskId}")
     public Task getTask(@PathVariable Long taskId) {
