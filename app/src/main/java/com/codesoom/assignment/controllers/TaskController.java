@@ -26,9 +26,9 @@ public class TaskController {
     }
 
     /**
-     * Get 요청시 path에 taskId가 포함되어 있으면 서비스에서 taskId와 id가 같은 Task를 리턴한다.
+     * 입력 받은 숫자 타입의 taskId와 같은 id를 가진 Task를 조회해 리턴한다.
      *
-     * @param taskId 입력 받은 Long 타입의 taskId
+     * @param taskId 입력 받은 숫자 타입 taskId
      * @return 입력 받은 taskId와 같은 id를 가진 Task 리턴
      */
     @GetMapping("/{taskId}")
@@ -37,9 +37,9 @@ public class TaskController {
     }
 
     /**
-     * 저장소에 저장된 모든 요소들을 컬렉션 타입으로 리턴합니다.
+     * 저장된 모든 작업 목록을 리턴합니다.
      *
-     * @return 저장소에 저장된 컬렉션 타입의 요소
+     * @return 저장된 모든 작업 목록 리턴
      */
     @GetMapping("/all")
     public List<Task> getAll() {
@@ -47,10 +47,10 @@ public class TaskController {
     }
 
     /**
-     * 입력 받은 문자열 title을 가진 요소를 만들어 리턴합니다.
+     * 입력 받은 문자열 title을 받아 작업을 생성하고 리턴합니다.
      *
      * @param title 입력 받은 문자열 title
-     * @return 생성된 요소를 리턴
+     * @return 생성한 작업을 리턴
      */
     @PostMapping
     public Task createTask(@RequestBody String title) {
@@ -58,10 +58,10 @@ public class TaskController {
     }
 
     /**
-     * 입력 받은 변경 정보를 가지고 있는 객체를 받아 작업을 변경하고 변경한 작업을 리턴합니다.
+     * 변경 정보를 담은 요청을 받아 작업을 변경하고 리턴합니다.
      *
-     * @param request 입력받은 변경 정보 request
-     * @return 변경된 작업 리턴
+     * @param request 변경 정보를 담은 request
+     * @return 변경한 작업 리턴
      */
     @PutMapping
     public Task changeTask(@RequestBody ChangeTaskRequest request) {
