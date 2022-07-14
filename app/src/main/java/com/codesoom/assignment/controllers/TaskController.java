@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * /tasks path로 들어온 요청에 대한 응답을 보냅니다
@@ -74,32 +73,25 @@ public class TaskController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Task> task = repository.getTaskById(taskId);
+        Task task = repository.getTaskById(taskId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (task.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        task.update(newTask);
 
-        Task result = task.get();
-        result.update(newTask);
-
-        return result;
+        return task;
     }
 
+
     /**
+     * 해당 id의 task를 삭제합니다
      * @param taskId 삭제할 task의 id
-     * @return 조회된 task가 없을 때 notFound 반환,
-     * task 삭제에 성공했을 때 noContent 반환
      */
     @DeleteMapping("/{taskId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long taskId) {
-        Optional<Task> task = repository.getTaskById(taskId);
+        Task task = repository.getTaskById(taskId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (task.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        repository.deleteTask(task.get());
+        repository.deleteTask(task);
     }
 }
