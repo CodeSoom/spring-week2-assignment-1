@@ -4,14 +4,8 @@ import com.codesoom.assignment.domain.ChangeTaskRequest;
 import com.codesoom.assignment.domain.Task;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,6 +50,7 @@ public class TaskController {
      * @param title 입력 받은 문자열 title
      * @return 생성한 작업을 리턴
      */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Task createTask(@RequestBody String title) {
         return taskService.createTask(title);
@@ -77,6 +72,7 @@ public class TaskController {
      *
      * @param taskId 입력 받은 숫자 형식의 taskId
      */
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{taskId}")
     public void removeTask(@PathVariable Long taskId) {
         taskService.deleteTask(taskId);

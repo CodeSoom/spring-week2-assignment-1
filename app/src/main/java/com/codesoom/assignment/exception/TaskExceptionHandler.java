@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
-public class TaskExceptionHandler extends ResponseEntityExceptionHandler {
+public class TaskExceptionHandler {
 
     @ExceptionHandler(value = NoSuchElementException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)

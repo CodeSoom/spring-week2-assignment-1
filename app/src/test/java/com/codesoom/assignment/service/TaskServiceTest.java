@@ -1,7 +1,6 @@
 package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.domain.Task;
-import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.repository.TaskMapRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -31,7 +31,7 @@ public class TaskServiceTest {
     @Test
     @DisplayName("존재하지 않는 식별자를 가진 작업을 조회할 때, 작업이 존재하지 않는 예외를 던집니다.")
     void returnExceptionWhenNotExistId() {
-        assertThrows(TaskNotFoundException.class,
+        assertThrows(NoSuchElementException.class,
                             () -> taskService.getTask(0L));
     }
 
