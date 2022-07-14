@@ -37,9 +37,12 @@ public class TaskRepository {
     }
 
     public Task modifyTask(Task task){
+
         if(tasks.containsKey(task.getId())) {
-            tasks.get(task.getId()).setTitle(task.getTitle());
-            return task;
+            Task newTask = tasks.get(task.getId());
+            newTask.setTitle(task.getTitle());
+            tasks.replace(task.getId(), newTask);
+            return newTask;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid URL");
     }
