@@ -41,7 +41,6 @@ public class TaskController {
     }
 
     @PutMapping("/{TaskID}")
-    @PatchMapping("/{TaskID}")
     @ResponseStatus(HttpStatus.OK)
     public Task Revise(@PathVariable("TaskID") Long id, @RequestBody Task task) {
         if(task.getTitle().isBlank()){
