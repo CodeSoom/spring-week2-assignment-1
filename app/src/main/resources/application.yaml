@@ -1,0 +1,3 @@
+server:
+  error: # 예외 메시지를 Http 응답에 항상 포함되도록 합니다.
+    include-message: always
