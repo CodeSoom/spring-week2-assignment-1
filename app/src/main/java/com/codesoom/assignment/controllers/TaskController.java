@@ -40,7 +40,7 @@ public class TaskController {
      * @param taskId 조회할 task의 id
      * @return task id로 조회된 task
      */
-    @GetMapping(path="/{taskId}")
+    @GetMapping("/{taskId}")
     public Task getTask(@PathVariable Long taskId) {
         return repository.getTaskById(taskId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -91,7 +91,7 @@ public class TaskController {
      * @return 조회된 task가 없을 때 notFound 반환,
      * task 삭제에 성공했을 때 noContent 반환
      */
-    @DeleteMapping(path="/{taskId}")
+    @DeleteMapping("/{taskId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable Long taskId) {
         Optional<Task> task = repository.getTaskById(taskId);
