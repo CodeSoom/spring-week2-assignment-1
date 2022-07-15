@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD) // https://stackoverflow.com/a/37246354
@@ -145,11 +145,11 @@ public class TaskControllerTest {
         // given
         createTask("title1");
 
+        // when
+        Throwable thrown = catchThrowable(() -> controller.deleteTask(1L));
+
         // then
-        assertDoesNotThrow(() -> {
-            // when
-            controller.deleteTask(1L);
-        });
+        assertThat(thrown).isNull();
     }
 
     private void createTask(String title) {
