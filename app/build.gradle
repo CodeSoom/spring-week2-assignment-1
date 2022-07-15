@@ -34,6 +34,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.11.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.3'
 
+    // XML 바인딩을 위한 Jackson 라이브러리 (jackson-databind와 버전을 맞추어야 한다.)
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.3'
+
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
