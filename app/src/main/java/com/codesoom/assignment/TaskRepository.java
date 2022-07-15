@@ -1,6 +1,7 @@
 package com.codesoom.assignment;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * 도메인 Layer와 데이터 접근 Layer 사이의 Mediator 역할을 합니다
  * 현재는 in-memory 방식으로 데이터를 관리합니다
  */
+@Repository
 public class TaskRepository {
     private final List<Task> tasks = Collections.synchronizedList(new ArrayList<>());
     private AtomicLong newId = new AtomicLong(0L);

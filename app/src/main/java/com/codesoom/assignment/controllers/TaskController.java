@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.TaskRepository;
 import com.codesoom.assignment.models.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +26,12 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private final TaskRepository repository = new TaskRepository();
+    private final TaskRepository repository;
+
+    @Autowired
+    public TaskController(TaskRepository repository) {
+        this.repository = repository;
+    }
 
     /**
      * @return 저장된 task 목록
