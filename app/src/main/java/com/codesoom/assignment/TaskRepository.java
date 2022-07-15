@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 public class TaskRepository {
     private final List<Task> tasks = Collections.synchronizedList(new ArrayList<>());
-    private AtomicLong newId = new AtomicLong(0L);
+    private final AtomicLong newId = new AtomicLong(0L);
 
     /**
      * Task Id로 Task를 조회합니다
