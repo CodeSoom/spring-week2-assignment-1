@@ -1,12 +1,9 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import Repository.TaskRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
-
 import javax.management.RuntimeErrorException;
 import java.util.Collection;
 
@@ -14,7 +11,6 @@ import java.util.Collection;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-
     private TaskRepository taskRepository;
     public TaskController(TaskRepository taskRepository){
         this.taskRepository = taskRepository;
@@ -22,7 +18,6 @@ public class TaskController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @Autowired
     public Collection<Task> GetAllTask(){
         return taskRepository.getAllTask();
     }
@@ -40,7 +35,7 @@ public class TaskController {
     }
 
     @PutMapping("/{TaskID}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Task Revise(@PathVariable("TaskID") Long id, @RequestBody Task task) {
         if(task.getTitle().isBlank()){
             throw new RuntimeErrorException(new Error(), "content is blank");
