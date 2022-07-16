@@ -1,7 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
-import Repository.TaskRepository;
+import com.codesoom.assignment.Repository.TaskRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import javax.management.RuntimeErrorException;
@@ -35,6 +35,7 @@ public class TaskController {
     }
 
     @PutMapping("/{TaskID}")
+    @PatchMapping("/{TaskID}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Task Revise(@PathVariable("TaskID") Long id, @RequestBody Task task) {
         if(task.getTitle().isBlank()){

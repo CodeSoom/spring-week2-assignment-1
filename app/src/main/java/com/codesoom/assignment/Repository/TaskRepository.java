@@ -1,4 +1,4 @@
-package Repository;
+package com.codesoom.assignment.Repository;
 
 import com.codesoom.assignment.models.Task;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,6 @@ import java.util.List;
 public class TaskRepository {
     private final HashMap<Long, Task> tasks = new HashMap<>();
     private final TaskIDRepository taskIDManager;
-
     public TaskRepository(TaskIDRepository taskIDManager){
         this.taskIDManager = taskIDManager;
     }
@@ -31,6 +30,7 @@ public class TaskRepository {
 
     public Task addTask(Task task){
         task.setId(taskIDManager.generateID());
+//        task.setId(generateID());
         tasks.put(task.getId(), task);
         return task;
     }
