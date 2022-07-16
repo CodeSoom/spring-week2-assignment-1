@@ -16,7 +16,6 @@ import java.util.Collection;
 public class TaskController {
 
     private TaskRepository taskRepository;
-    @Autowired
     public TaskController(TaskRepository taskRepository){
         this.taskRepository = taskRepository;
     }
