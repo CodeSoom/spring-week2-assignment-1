@@ -39,7 +39,7 @@ public class TaskController {
      *
      * @return 저장된 모든 작업 목록 리턴
      */
-    @GetMapping("/all")
+    @GetMapping
     public List<Task> getAll() {
         return taskService.getAll();
     }
@@ -59,12 +59,13 @@ public class TaskController {
     /**
      * 변경 정보를 담은 요청을 받아 작업을 변경하고 리턴합니다.
      *
+     * @param id 식별자
      * @param request 변경 정보를 담은 request
      * @return 변경한 작업 리턴
      */
-    @PutMapping
-    public Task changeTask(@RequestBody ChangeTaskRequest request) {
-        return taskService.modifyTask(request.getTaskId(), request.getTitle());
+    @PutMapping("/{id}")
+    public Task changeTask(@PathVariable("id") Long id, @RequestBody ChangeTaskRequest request) {
+        return taskService.modifyTask(id, request.getTitle());
     }
 
     /**
