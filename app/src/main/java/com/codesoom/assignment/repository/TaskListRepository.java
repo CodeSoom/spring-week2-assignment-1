@@ -17,10 +17,10 @@ public class TaskListRepository implements TaskRepository {
     private final List<Task> taskList = new CopyOnWriteArrayList<>();
 
     /**
-     * 입력 받은 taskId와 같은 id를 가진 요소를 순차적으로 찾아 존재하면 해당 요소만 리턴하고, 존재하지 않으면 null을 리턴한다.
+     * 주어진 식별자와 같은 작업을 리턴한다.
      *
-     * @param taskId 요청된 숫자 형식의 taskId
-     * @return taskId와 같은 id의 요소가 존재하면 해당 요소 리턴, 존재하지 않으면 null 리턴
+     * @param taskId 식별자
+     * @return 식별자와 같은 작업 리턴
      */
     @Override
     public Optional<Task> get(Long taskId) {
