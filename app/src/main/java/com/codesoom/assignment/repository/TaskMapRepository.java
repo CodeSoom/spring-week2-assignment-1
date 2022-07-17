@@ -20,10 +20,10 @@ public class TaskMapRepository implements TaskRepository {
     private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
     /**
-     * 요청된 받은 숫자 타입 taskId와 같은 id를 가진 작업을 리턴합니다. 이 작업은 null일 수 있습니다.
+     * 같은 식별자를 가진 작업을 리턴합니다.
      *
-     * @param taskId 요청된 숫자 타입의 taskId
-     * @return null이 아닌 값을 포함하거나 포함하지 않을 수 있는 작업 리턴
+     * @param taskId 식별자
+     * @return 작업 리턴
      */
     public Optional<Task> get(Long taskId) {
         return Optional.ofNullable(taskMap.get(taskId));
