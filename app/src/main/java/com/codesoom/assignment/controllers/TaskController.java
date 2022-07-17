@@ -64,8 +64,7 @@ public class TaskController {
      * @param request 변경 정보를 담은 request
      * @return 변경한 작업 리턴
      */
-    @PutMapping("/{id}")
-    @PatchMapping("/{id}")
+    @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, path = "/{id}")
     public Task changeTask(@PathVariable("id") Long id, @RequestBody ChangeTaskRequest request) {
         return taskService.modifyTask(id, request.getTitle());
     }
