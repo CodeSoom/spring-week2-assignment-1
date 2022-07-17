@@ -70,9 +70,9 @@ public class TaskController {
     }
 
     /**
-     * 입력 받은 숫자 형식의 taskId와 같은 taskId를 가진 작업을 제거합니다.
+     * 식별자와 같은 작업을 제거합니다.
      *
-     * @param taskId 입력 받은 숫자 형식의 taskId
+     * @param taskId 식별자
      */
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{taskId}")

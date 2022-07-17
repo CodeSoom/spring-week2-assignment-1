@@ -16,12 +16,6 @@ public class TaskListRepository implements TaskRepository {
     private Long id = 0L;
     private final List<Task> taskList = new CopyOnWriteArrayList<>();
 
-    /**
-     * 주어진 식별자와 같은 작업을 리턴한다.
-     *
-     * @param taskId 식별자
-     * @return 식별자와 같은 작업 리턴
-     */
     @Override
     public Optional<Task> get(Long taskId) {
         return taskList.stream()
@@ -40,11 +34,6 @@ public class TaskListRepository implements TaskRepository {
         return task;
     }
 
-    /**
-     * 작업을 삭제합니다.
-     *
-     * @param taskId 식별자
-     */
     @Override
     public void remove(Long taskId) {
         taskList.removeIf(t -> t.isSame(taskId));
