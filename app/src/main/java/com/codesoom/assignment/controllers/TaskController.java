@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * REST를 관리하며 비즈니스 로직의 인터페이스 역할을 한다.
+ * HTTP 요청을 처리하며 비즈니스 로직의 인터페이스 역할을 한다.
  * 외부에서 사용할 수 있도록 작업과 관련한 기능을 노출할 책임을 가지고 있다.
  */
 @CrossOrigin
@@ -25,7 +25,7 @@ public class TaskController {
     }
 
     /**
-     * 주어진 식별자를 갖는 작업을 찾아 리턴한다.
+     * 주어진 식별자를 갖는 작업을 찾아 리턴합니다.
      *
      * @param taskId 작업의 식별자
      * @return 작업
