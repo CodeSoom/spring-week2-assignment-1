@@ -43,7 +43,7 @@ public class TaskListRepository implements TaskRepository {
     /**
      * 작업을 삭제합니다.
      *
-     * @param taskId 입력 받은 숫자 형식의 taskId
+     * @param taskId 식별자
      */
     @Override
     public void remove(Long taskId) {
