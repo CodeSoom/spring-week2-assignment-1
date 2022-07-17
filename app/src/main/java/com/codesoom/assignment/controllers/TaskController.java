@@ -45,15 +45,15 @@ public class TaskController {
     }
 
     /**
-     * 입력 받은 문자열 title을 받아 작업을 생성하고 리턴합니다.
+     * 작업을 생성하고 리턴합니다.
      *
-     * @param title 입력 받은 문자열 title
-     * @return 생성한 작업을 리턴
+     * @param task 작업
+     * @return 작업 리턴
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Task createTask(@RequestBody String title) {
-        return taskService.createTask(title);
+    public Task createTask(@RequestBody Task task) {
+        return taskService.createTask(task.getTitle());
     }
 
     /**
