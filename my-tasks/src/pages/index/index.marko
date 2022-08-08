@@ -8,7 +8,7 @@ class {
     this.loadTasks();
   }
   async loadTasks() {
-    const { data } = await axios.post('http://localhost:8080/tasks');
+    const { data } = await axios.get('http://localhost:8080/tasks');
     this.state.tasks = data;
   }
   async addTask() {
@@ -33,7 +33,7 @@ class {
   }
   async updateTask(id) {
     const title = this.getEl(`title-${id}`).value;
-    await axios.patch(`http://localhost:8080/tasks/${id}`, {
+    await axios.put(`http://localhost:8080/tasks/${id}`, {
       title,
     });
     await this.loadTasks();
