@@ -1,8 +1,11 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -11,32 +14,40 @@ import java.util.logging.Logger;
 public class TaskController {
     Logger logger = Logger.getLogger("TaskController");
 
+    private final TaskService service;
+
+    public TaskController(TaskService service){
+        this.service = service;
+    }
+
     @GetMapping
-    public String searchTasks(){
+    public List<Task> searchTasks(){
         logger.info("[GET] 목록 얻기");
-        return "";
+        return service.getAllTask();
     }
 
     @GetMapping("/{taskId}")
-    public String searchTask(@PathVariable long taskId){
+    public Task searchTask(@PathVariable long taskId){
         logger.info("[GET] 상세 조회 : " + taskId);
-        return "";
+        return service.getTaskById(taskId);
     }
 
     @PostMapping
-    public String createTask(){
-        logger.info("[POST] 생성");
-        return "";
+    public void createTask(@RequestBody Task newTask){
+        logger.info("[POST] 생성 : " + newTask);
+        service.createTask(newTask);
     }
 
     @RequestMapping(path = "/{taskId}" , method = {RequestMethod.PUT , RequestMethod.PATCH})
-    public String updateTask(@PathVariable long taskId){
+    public void updateTask(@PathVariable long taskId ,
+                           @RequestBody Task newTask){
         logger.info("[PUT , PATCH] 상세 조회 : " + taskId);
-        return "";
+        service.updateTask(taskId , newTask);
     }
 
     @DeleteMapping(path = "/{taskId}")
     public void deleteTask(@PathVariable long taskId){
         logger.info("[DELETE] 삭제 : " + taskId);
+        service.deleteTask(taskId);
     }
 }
