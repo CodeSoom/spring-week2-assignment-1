@@ -1,0 +1,159 @@
+package com.codesoom.assignment.controllers;
+
+import com.codesoom.assignment.models.Task;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
+
+@SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD) // https://stackoverflow.com/a/37246354
+public class TaskControllerTest {
+    @Autowired
+    private TaskController controller;
+
+    @Test
+    @DisplayName("tasks가 비어있을 떄 > task 목록을 요청하면 empty list 반환")
+    public void givenEmptyTasks_whenGetTasks_thenReturnEmptyList() {
+        // when
+        List<Task> tasks = controller.getTasks();
+
+        // then
+        assertTrue(tasks.isEmpty());
+    }
+
+    @Test
+    @DisplayName("tasks가 등록되어 있을 떄 > task 목록을 요청하면 tasks list 반환")
+    public void givenSomeTasks_whenGetTasks_thenReturnTasksList() {
+        // given
+        createTask("title1");
+        createTask("title2");
+
+        // when
+        List<Task> tasks = controller.getTasks();
+
+        // then
+        assertEquals(2, tasks.size());
+        assertEquals("title1", tasks.get(0).getTitle());
+        assertEquals("title2", tasks.get(1).getTitle());
+    }
+
+    @Test
+    @DisplayName("null Task로 create 요청 > badRequest 반환")
+    public void whenCreateNullTask_thenReturnBadRequest() {
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
+            controller.createTask(null);
+        });
+
+        assertEquals(HttpStatus.BAD_REQUEST , actual.getStatus());
+    }
+
+    @Test
+    @DisplayName("task create 요청 > 생성된 task 반환")
+    public void whenCreateTask_thenCreatedTask() {
+        // when
+        Task task = new Task("title");
+        Task actual = controller.createTask(task);
+
+        // then
+        assertNotNull(actual);
+        assertNotNull(actual.getId());
+        assertEquals("title", actual.getTitle());
+    }
+
+    @Test
+    @DisplayName("task가 비어있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
+    public void givenEmptyTasks_whenUpdateTaskWithWrongId_thenReturnNotFound() {
+        // when
+        final Task task = new Task("");
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
+            controller.updateTask(0L, task);
+        });
+
+        // then
+        assertEquals(HttpStatus.NOT_FOUND, actual.getStatus());
+    }
+
+    @Test
+    @DisplayName("task가 등록되어 있을 때 > 존재하지 않는 task의 id로 update 요청하면 > notFound 반환")
+    public void givenSomeTasks_whenUpdateTaskWithWrongId_thenReturnNotFound() {
+        // given
+        createTask("title1");
+
+        // when
+        final Task task = new Task("");
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
+            controller.updateTask(0L, task);
+        });
+
+        // then
+        assertEquals(HttpStatus.NOT_FOUND, actual.getStatus());
+    }
+
+    @Test
+    @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task null인 상태로 update 요청하면 > badRequest 반환")
+    public void givenSomeTasks_whenUpdateTaskWithNullNewTask_thenReturnNotFound() {
+        // given
+        createTask("title1");
+
+        // when
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
+            controller.updateTask(1L, null);
+        });
+
+        // then
+        assertEquals(HttpStatus.BAD_REQUEST, actual.getStatus());
+    }
+
+    @Test
+    @DisplayName("task가 등록되어 있을 때 > 존재하는 task의 id, 새로운 task 입력된 상태로 update 요청하면 > update 성공")
+    public void givenSomeTasks_whenUpdateTaskWithExistedIdAndNewTask_thenReturnNotFound() {
+        // given
+        createTask("title1");
+
+        // when
+        Task newTask = new Task("newTitle");
+        Task actual = controller.updateTask(1L, newTask);
+
+        // then
+        assertEquals("newTitle", actual.getTitle());
+    }
+
+    @Test
+    @DisplayName("task가 비어있을 때 > 존재하지 않는 task의 id로 delete 요청하면 > notFound 반환")
+    public void givenEmptyTasks_whenDeleteTaskWithWrongId_thenReturnNotFound() {
+        // when
+        ResponseStatusException actual = assertThrows(ResponseStatusException.class, () -> {
+            controller.deleteTask(0L);
+        });
+
+        // then
+        assertEquals(HttpStatus.NOT_FOUND, actual.getStatus());
+    }
+
+    @Test
+    @DisplayName("task가 비어있을 때 > 존재하는 id로 delete 요청하면 > noContent 반환")
+    public void givenEmptyTasks_whenDeleteTaskWithWrongId_thenReturnNoContent() {
+        // given
+        createTask("title1");
+
+        // when
+        Throwable thrown = catchThrowable(() -> controller.deleteTask(1L));
+
+        // then
+        assertThat(thrown).isNull();
+    }
+
+    private void createTask(String title) {
+        Task givenTask = new Task(title);
+        controller.createTask(givenTask);
+    }
+}
