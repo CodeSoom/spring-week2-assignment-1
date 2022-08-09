@@ -46,6 +46,12 @@ public class TaskController {
         @PathVariable("taskId") @Valid Long taskId,
         @Valid TaskReq task
     ) {
+        Task oldTask = taskService.getTask(taskId);
+
+        if (Objects.isNull(oldTask)) {
+            throw new IllegalArgumentException("Task not found");
+        }
+
         TaskDto taskDto = TaskDto.from(null, task.getTitle());
         Task newTask = Task.from(taskDto);
         return taskService.updateTask(taskId, newTask);
