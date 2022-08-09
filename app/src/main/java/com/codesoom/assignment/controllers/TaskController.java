@@ -28,6 +28,7 @@ public class TaskController {
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<Task> getAllTask() {
         return taskService.getAllTask();
     }
@@ -35,16 +36,16 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(
-        @Valid Task task
+        @Valid TaskReq reqDto
     ) {
-        return taskService.createTask(task);
+        return taskService.createTask(reqDto.getTitle());
     }
 
     @PutMapping("/{taskId}")
     @ResponseStatus(HttpStatus.OK)
     public Task updateTask(
         @PathVariable("taskId") @Valid Long taskId,
-        @Valid TaskReq task
+        @Valid TaskReq reqDto
     ) {
         Task oldTask = taskService.getTask(taskId);
 
@@ -52,15 +53,22 @@ public class TaskController {
             throw new IllegalArgumentException("Task not found");
         }
 
-        TaskDto taskDto = TaskDto.from(null, task.getTitle());
+        TaskDto taskDto = TaskDto.from(null, reqDto.getTitle());
         Task newTask = Task.from(taskDto);
         return taskService.updateTask(taskId, newTask);
     }
 
     @DeleteMapping("/{taskId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(
         @PathVariable("taskId") @Valid Long taskId
     ) {
+        Task oldTask = taskService.getTask(taskId);
+
+        if (Objects.isNull(oldTask)) {
+            throw new IllegalArgumentException("Task not found");
+        }
+
         taskService.deleteTask(taskId);
     }
 }
