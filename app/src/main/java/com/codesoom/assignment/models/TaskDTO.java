@@ -14,4 +14,11 @@ public class TaskDTO {
         return title;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("TaskDTO{");
+        sb.append("title='").append(title).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
