@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.TaskDTO;
 import com.codesoom.assignment.services.TaskService;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,16 +34,16 @@ public class TaskController {
     }
 
     @PostMapping
-    public void createTask(@RequestBody Task newTask){
-        logger.info("[POST] 생성 : " + newTask);
-        service.createTask(newTask);
+    public void createTask(@RequestBody TaskDTO taskDTO){
+        logger.info("[POST] 생성 : " + taskDTO);
+        service.createTask(taskDTO);
     }
 
     @RequestMapping(path = "/{taskId}" , method = {RequestMethod.PUT , RequestMethod.PATCH})
     public void updateTask(@PathVariable long taskId ,
-                           @RequestBody Task newTask){
+                           @RequestBody TaskDTO taskDTO){
         logger.info("[PUT , PATCH] 상세 조회 : " + taskId);
-        service.updateTask(taskId , newTask);
+        service.updateTask(taskId , taskDTO);
     }
 
     @DeleteMapping(path = "/{taskId}")
