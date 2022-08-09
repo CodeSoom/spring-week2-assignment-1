@@ -5,11 +5,11 @@ import java.util.List;
 
 public interface ITaskService {
 
-    Task createTask(Task task);
-
     Task getTask(Long id);
 
     List<Task> getAllTask();
+
+    Task createTask(Task task);
 
     Task updateTask(Long oldTaskId, Task task);
 

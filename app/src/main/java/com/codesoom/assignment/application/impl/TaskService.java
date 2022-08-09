@@ -13,11 +13,6 @@ public class TaskService implements ITaskService {
     private final ITaskRepository taskRepository = new TaskRepository();
 
     @Override
-    public Task createTask(Task task) {
-        return taskRepository.save(task);
-    }
-
-    @Override
     public Task getTask(Long id) {
         return taskRepository.findById(id);
     }
@@ -25,6 +20,11 @@ public class TaskService implements ITaskService {
     @Override
     public List<Task> getAllTask() {
         return taskRepository.findAll();
+    }
+
+    @Override
+    public Task createTask(Task task) {
+        return taskRepository.save(task);
     }
 
     @Override
