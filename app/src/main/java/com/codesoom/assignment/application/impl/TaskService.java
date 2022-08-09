@@ -1,6 +1,7 @@
 package com.codesoom.assignment.application.impl;
 
 import com.codesoom.assignment.application.ITaskService;
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.ITaskRepository;
 import com.codesoom.assignment.repository.impl.TaskRepository;
@@ -23,7 +24,11 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public Task createTask(Task task) {
+    public Task createTask(String title) {
+        List<Task> tasks = taskRepository.findAll();
+        TaskDto taskDto = TaskDto.from((long) (tasks.size() + 1), title);
+        Task task = Task.from(taskDto);
+        System.out.println(task.toString());
         return taskRepository.save(task);
     }
 
