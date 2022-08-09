@@ -9,7 +9,7 @@ public interface ITaskService {
 
     List<Task> getAllTask();
 
-    Task createTask(Task task);
+    Task createTask(String title);
 
     Task updateTask(Long oldTaskId, Task task);
 
