@@ -11,7 +11,7 @@ public interface ITaskService {
 
     List<Task> getAllTask();
 
-    Task updateTask(Task task);
+    Task updateTask(Long oldTaskId, Task task);
 
     void deleteTask(Long id);
 }

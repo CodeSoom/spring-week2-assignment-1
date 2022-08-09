@@ -6,9 +6,15 @@ public class TaskDto {
 
     private String title;
 
-    public TaskDto(Builder builder) {
-        this.id = builder.id;
-        this.title = builder.title;
+    protected TaskDto(Builder builder) {
+        this.id = builder.id != null ? builder.id : 0L;
+        this.title = builder.title != null ? builder.title : "";
+    }
+
+    public static TaskDto from(Long id, String title) {
+        return new TaskDto(new Builder()
+                .withId(id)
+                .withTitle(title));
     }
 
     public Long getId() {
@@ -18,4 +24,5 @@ public class TaskDto {
     public String getTitle() {
         return this.title;
     }
+
 }

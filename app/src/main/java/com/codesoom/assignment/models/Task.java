@@ -9,12 +9,12 @@ public class Task {
 
     private final String title;
 
-    public Task(Long id, String title) {
+    private Task(Long id, String title) {
         this.id = Objects.requireNonNull(id);
         this.title = Objects.requireNonNull(title);
     }
 
-    public Task from(TaskDto dto) {
+    public static Task from(TaskDto dto) {
         return new Task(dto.getId(), dto.getTitle());
     }
 }

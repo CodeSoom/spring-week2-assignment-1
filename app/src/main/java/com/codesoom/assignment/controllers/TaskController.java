@@ -1,6 +1,8 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.application.ITaskService;
+import com.codesoom.assignment.dto.TaskDto;
+import com.codesoom.assignment.dto.TaskReq;
 import com.codesoom.assignment.models.Task;
 import java.util.List;
 import javax.validation.Valid;
@@ -44,9 +46,11 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public Task updateTask(
         @PathVariable("taskId") @Valid Long taskId,
-        @Valid Task task
+        @Valid TaskReq task
     ) {
-        return taskService.updateTask(task);
+        TaskDto taskDto = TaskDto.from(null, task.getTitle());
+        Task newTask = Task.from(taskDto);
+        return taskService.updateTask(taskId, newTask);
     }
 
     @DeleteMapping("/{taskId}")

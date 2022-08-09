@@ -7,7 +7,7 @@ public class Builder {
 
     protected String title;
 
-    public Builder() {
+    protected Builder() {
         this.id = null;
         this.title = null;
     }
