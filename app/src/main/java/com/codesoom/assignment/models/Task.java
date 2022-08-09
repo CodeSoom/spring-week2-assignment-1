@@ -17,4 +17,8 @@ public class Task {
     public static Task from(TaskDto dto) {
         return new Task(dto.getId(), dto.getTitle());
     }
+
+    public Long getId() {
+        return this.id;
+    }
 }
