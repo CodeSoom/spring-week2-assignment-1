@@ -4,12 +4,13 @@ import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskServiceInterface {
 
     List<Task> getAllTask();
-    Task getTaskById(Long id);
+    Optional<Task> getTaskById(Long id);
     void createTask(TaskDTO taskDTO);
-    void updateTask(Long id , TaskDTO taskDTO);
-    void deleteTask(Long id);
+    Optional<Task> updateTask(Long id , TaskDTO taskDTO);
+    Optional<Task> deleteTask(Long id);
 }
