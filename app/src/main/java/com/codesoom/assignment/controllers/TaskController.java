@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -33,14 +32,11 @@ public class TaskController {
     @GetMapping("/{taskId}")
     public ResponseEntity<Task> searchTask(@PathVariable long taskId){
         logger.info("[GET] 상세 조회 : " + taskId);
-        Optional<Task> task = service.getTaskById(taskId);
-//        if(task.isPresent()){
-//            return new ResponseEntity<>(task.get(), HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        자동완성
-        return task.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Task task = service.getTaskById(taskId);
+        if(task == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @PostMapping
@@ -54,16 +50,20 @@ public class TaskController {
     public ResponseEntity<Task> updateTask(@PathVariable long taskId ,
                            @RequestBody TaskDTO taskDTO){
         logger.info("[PUT , PATCH] 상세 조회 : " + taskId);
-        Optional<Task> task = service.updateTask(taskId , taskDTO);
-        return task.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Task task = service.updateTask(taskId , taskDTO);
+        if(task == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{taskId}")
     public ResponseEntity<Task> deleteTask(@PathVariable long taskId){
         logger.info("[DELETE] 삭제 : " + taskId);
-        Optional<Task> task = service.deleteTask(taskId);
-        return task.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Task task = service.deleteTask(taskId);
+        if(task == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -28,8 +27,8 @@ public class TaskService implements TaskServiceInterface{
     }
 
     @Override
-    public Optional<Task> getTaskById(Long id) {
-        return Optional.ofNullable(tasks.get(id));
+    public Task getTaskById(Long id) {
+        return tasks.get(id);
     }
 
     @Override
@@ -39,12 +38,12 @@ public class TaskService implements TaskServiceInterface{
     }
 
     @Override
-    public Optional<Task> updateTask(Long id, TaskDTO taskDTO) {
-        return Optional.ofNullable(tasks.replace(id , mapper.toNewTask(id , taskDTO)));
+    public Task updateTask(Long id, TaskDTO taskDTO) {
+        return tasks.replace(id , mapper.toNewTask(id , taskDTO));
     }
 
     @Override
-    public Optional<Task> deleteTask(Long id) {
-        return Optional.ofNullable(tasks.remove(id));
+    public Task deleteTask(Long id) {
+        return tasks.remove(id);
     }
 }
