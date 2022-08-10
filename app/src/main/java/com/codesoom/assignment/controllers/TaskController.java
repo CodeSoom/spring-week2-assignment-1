@@ -1,7 +1,6 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.application.ITaskService;
-import com.codesoom.assignment.application.impl.TaskService;
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.dto.TaskRequest;
 import com.codesoom.assignment.models.Task;
@@ -17,7 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class TaskController {
 
-    private final ITaskService taskService = new TaskService();
+    private final ITaskService taskService;
+
+    public TaskController(ITaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping("/{taskId}")
     @ResponseStatus(HttpStatus.OK)

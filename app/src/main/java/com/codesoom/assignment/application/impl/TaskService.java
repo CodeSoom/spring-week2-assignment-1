@@ -4,14 +4,17 @@ import com.codesoom.assignment.application.ITaskService;
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.ITaskRepository;
-import com.codesoom.assignment.repository.impl.TaskRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TaskService implements ITaskService {
 
-    private final ITaskRepository taskRepository = new TaskRepository();
+    private final ITaskRepository taskRepository;
+
+    public TaskService(ITaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @Override
     public Task getTask(Long id) {
