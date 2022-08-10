@@ -10,7 +10,7 @@ public class TaskIdGenerator implements IdGenerator{
     private AtomicLong taskId = new AtomicLong(1L);
 
     @Override
-    public Long longTypeGenerate(){
+    public Long generate(){
         return taskId.getAndIncrement();
     }
 }
