@@ -1,12 +1,13 @@
 package com.codesoom.assignment.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TaskDTO {
-    private String title;
+    private final String title;
 
-    public TaskDTO() {
-    }
-
-    public TaskDTO(String title) {
+    @JsonCreator
+    public TaskDTO(@JsonProperty("title") String title) {
         this.title = title;
     }
 
