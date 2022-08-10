@@ -3,6 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskDTO;
 import com.codesoom.assignment.services.TaskService;
+import com.codesoom.assignment.services.TaskServiceInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,9 @@ import java.util.logging.Logger;
 public class TaskController {
     Logger logger = Logger.getLogger("TaskController");
 
-    private final TaskService service;
+    private final TaskServiceInterface service;
 
-    public TaskController(TaskService service){
+    public TaskController(TaskServiceInterface service){
         this.service = service;
     }
 

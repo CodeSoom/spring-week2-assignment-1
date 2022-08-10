@@ -16,7 +16,7 @@ public class TaskService implements TaskServiceInterface{
     private TaskMapper mapper;
     private IdGenerator gen;
 
-    public TaskService(TaskMapper mapper , TaskIdGenerator gen){
+    public TaskService(TaskMapper mapper , IdGenerator gen){
         this.mapper = mapper;
         this.gen = gen;
     }
