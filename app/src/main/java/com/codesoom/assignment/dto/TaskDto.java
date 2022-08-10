@@ -6,13 +6,13 @@ public class TaskDto {
 
     private String title;
 
-    protected TaskDto(Builder builder) {
-        this.id = builder.id != null ? builder.id : 0L;
-        this.title = builder.title != null ? builder.title : "";
+    protected TaskDto(TaskDtoBuilder taskDtoBuilder) {
+        this.id = taskDtoBuilder.id != null ? taskDtoBuilder.id : 0L;
+        this.title = taskDtoBuilder.title != null ? taskDtoBuilder.title : "";
     }
 
     public static TaskDto from(Long id, String title) {
-        return new TaskDto(new Builder()
+        return new TaskDto(new TaskDtoBuilder()
                 .withId(id)
                 .withTitle(title));
     }

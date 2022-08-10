@@ -1,23 +1,23 @@
 package com.codesoom.assignment.dto;
 
 
-public class Builder {
+public class TaskDtoBuilder {
 
     protected Long id;
 
     protected String title;
 
-    protected Builder() {
+    protected TaskDtoBuilder() {
         this.id = null;
         this.title = null;
     }
 
-    public Builder withId(Long id) {
+    public TaskDtoBuilder withId(Long id) {
         this.id = id;
         return this;
     }
 
-    public Builder withTitle(String title) {
+    public TaskDtoBuilder withTitle(String title) {
         this.title = title;
         return this;
     }
