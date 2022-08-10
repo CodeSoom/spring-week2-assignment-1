@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TaskService implements TaskServiceInterface{
     private Map<Long , Task> tasks = new ConcurrentHashMap<>();
     private TaskMapper mapper;
-    private TaskIdGenerator gen;
+    private IdGenerator gen;
 
     public TaskService(TaskMapper mapper , TaskIdGenerator gen){
         this.mapper = mapper;
@@ -33,7 +33,7 @@ public class TaskService implements TaskServiceInterface{
 
     @Override
     public void createTask(TaskDTO taskDTO){
-        Long nextId = gen.getNextId();
+        Long nextId = gen.longTypeGenerate();
         tasks.put(nextId , mapper.toNewTask(nextId , taskDTO));
     }
 

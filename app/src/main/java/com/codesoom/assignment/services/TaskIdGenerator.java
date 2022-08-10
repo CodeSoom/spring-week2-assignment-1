@@ -5,11 +5,12 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
-public class TaskIdGenerator {
+public class TaskIdGenerator implements IdGenerator{
 
     private AtomicLong taskId = new AtomicLong(1L);
 
-    public Long getNextId(){
+    @Override
+    public Long longTypeGenerate(){
         return taskId.getAndIncrement();
     }
 }
