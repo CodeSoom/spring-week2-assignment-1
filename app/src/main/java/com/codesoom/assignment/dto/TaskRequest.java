@@ -1,6 +1,6 @@
 package com.codesoom.assignment.dto;
 
-public class TaskReq {
+public class TaskRequest {
 
     private String title;
 

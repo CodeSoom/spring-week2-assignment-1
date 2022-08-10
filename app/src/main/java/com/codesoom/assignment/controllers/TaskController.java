@@ -3,7 +3,7 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.application.ITaskService;
 import com.codesoom.assignment.application.impl.TaskService;
 import com.codesoom.assignment.dto.TaskDto;
-import com.codesoom.assignment.dto.TaskReq;
+import com.codesoom.assignment.dto.TaskRequest;
 import com.codesoom.assignment.models.Task;
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +36,7 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(
-        @Valid TaskReq reqDto
+        @Valid TaskRequest reqDto
     ) {
         return taskService.createTask(reqDto.getTitle());
     }
@@ -45,7 +45,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public Task updateTask(
         @PathVariable("taskId") @Valid Long taskId,
-        @Valid TaskReq reqDto
+        @Valid TaskRequest reqDto
     ) {
         Task oldTask = taskService.getTask(taskId);
 
