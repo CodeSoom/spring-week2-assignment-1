@@ -50,7 +50,7 @@ public class TaskController {
         Task oldTask = taskService.getTask(taskId);
 
         if (Objects.isNull(oldTask)) {
-            throw new IllegalArgumentException("Task not found");
+            throw new IllegalArgumentException("There is no task with id " + taskId);
         }
 
         TaskDto taskDto = TaskDto.from(null, reqDto.getTitle());
@@ -66,7 +66,7 @@ public class TaskController {
         Task oldTask = taskService.getTask(taskId);
 
         if (Objects.isNull(oldTask)) {
-            throw new IllegalArgumentException("Task not found");
+            throw new IllegalArgumentException("There is no task with id " + taskId);
         }
 
         taskService.deleteTask(taskId);
