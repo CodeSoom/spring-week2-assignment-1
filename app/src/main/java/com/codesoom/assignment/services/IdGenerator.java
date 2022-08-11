@@ -6,5 +6,8 @@ package com.codesoom.assignment.services;
  */
 public interface IdGenerator<T> {
 
+    /**
+     * @return T 타입의 id를 생성
+     */
     T generate();
 }
