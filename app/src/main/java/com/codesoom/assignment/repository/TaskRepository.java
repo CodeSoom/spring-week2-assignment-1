@@ -3,7 +3,7 @@ package com.codesoom.assignment.repository;
 import com.codesoom.assignment.models.Task;
 import java.util.List;
 
-public interface ITaskRepository {
+public interface TaskRepository {
 
     Task findById(Long id);
 

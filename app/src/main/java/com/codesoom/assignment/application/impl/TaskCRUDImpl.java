@@ -1,18 +1,18 @@
 package com.codesoom.assignment.application.impl;
 
-import com.codesoom.assignment.application.ITaskService;
+import com.codesoom.assignment.application.TaskCRUD;
 import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.repository.ITaskRepository;
+import com.codesoom.assignment.repository.TaskRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TaskService implements ITaskService {
+public class TaskCRUDImpl implements TaskCRUD {
 
-    private final ITaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
-    public TaskService(ITaskRepository taskRepository) {
+    public TaskCRUDImpl(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 

@@ -3,7 +3,7 @@ package com.codesoom.assignment.application;
 import com.codesoom.assignment.models.Task;
 import java.util.List;
 
-public interface ITaskService {
+public interface TaskCRUD {
 
     Task getTask(Long id);
 

@@ -1,12 +1,12 @@
 package com.codesoom.assignment.repository.impl;
 
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.repository.ITaskRepository;
+import com.codesoom.assignment.repository.TaskRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskRepository implements ITaskRepository {
+public class TaskRepositoryImpl implements TaskRepository {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
