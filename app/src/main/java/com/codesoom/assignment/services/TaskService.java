@@ -11,39 +11,41 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class TaskService implements TaskServiceInterface{
-    private Map<Long , Task> tasks = new ConcurrentHashMap<>();
-    private TaskMapper mapper;
-    private IdGenerator gen;
+public class TaskService implements CRUDInterface<Task>{
+    private final Map<Long , Task> tasks = new ConcurrentHashMap<>();
+    private final TaskMapper mapper;
+    private final IdGenerator<Long> gen;
 
-    public TaskService(TaskMapper mapper , IdGenerator gen){
+    public TaskService(TaskMapper mapper , IdGenerator<Long> gen){
         this.mapper = mapper;
         this.gen = gen;
     }
 
     @Override
-    public List<Task> getAllTask(){
+    public List<Task> selectAll(){
         return new ArrayList<>(tasks.values());
     }
 
     @Override
-    public Task getTaskById(Long id) {
+    public Task selectById(Long id) {
         return tasks.get(id);
     }
 
     @Override
-    public void createTask(TaskDTO taskDTO){
-        Long nextId = (Long) gen.generate();
-        tasks.put(nextId , mapper.toNewTask(nextId , taskDTO));
+    public Task insert(TaskDTO taskDTO){
+        Long nextId = gen.generate();
+        Task newTask = mapper.toNewTask(nextId , taskDTO);
+        tasks.put(nextId , newTask);
+        return newTask;
     }
 
     @Override
-    public Task updateTask(Long id, TaskDTO taskDTO) {
+    public Task update(Long id, TaskDTO taskDTO) {
         return tasks.replace(id , mapper.toNewTask(id , taskDTO));
     }
 
     @Override
-    public Task deleteTask(Long id) {
+    public Task delete(Long id) {
         return tasks.remove(id);
     }
 }
