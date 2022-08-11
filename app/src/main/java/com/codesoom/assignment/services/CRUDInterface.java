@@ -1,6 +1,6 @@
 package com.codesoom.assignment.services;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * {@link java.util.Collection}을 조작하는 클래스에 의해 구현되는 인터페이스 입니다
@@ -11,7 +11,7 @@ public interface CRUDInterface<In , Out> {
     /**
      * @return Out들을 List로 반환합니다
      */
-    List<Out> selectAll();
+    Collection<Out> selectAll();
 
     /**
      * @param id Collection에서 가져올 id 입니다

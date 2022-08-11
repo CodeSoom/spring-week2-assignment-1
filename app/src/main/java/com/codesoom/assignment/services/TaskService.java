@@ -5,8 +5,7 @@ import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,8 +21,8 @@ public class TaskService implements CRUDInterface<TaskDTO , Task>{
     }
 
     @Override
-    public List<Task> selectAll(){
-        return new ArrayList<>(tasks.values());
+    public Collection<Task> selectAll(){
+        return tasks.values();
     }
 
     @Override

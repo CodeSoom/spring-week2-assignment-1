@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.List;
+import java.util.Collection;
 import java.util.logging.Logger;
 
 @RestController
@@ -24,7 +24,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> searchTasks(){
+    public Collection<Task> searchTasks(){
         logger.info("[GET] 목록 얻기");
         return service.selectAll();
     }
