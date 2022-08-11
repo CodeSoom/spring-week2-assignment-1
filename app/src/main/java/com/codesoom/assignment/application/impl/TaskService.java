@@ -27,7 +27,7 @@ public class TaskService implements ITaskService {
     }
 
     @Override
-    public Task createTask(String title) {
+    public synchronized Task createTask(String title) {
         List<Task> tasks = taskRepository.findAll();
         TaskDto taskDto = TaskDto.from((long) (tasks.size() + 1), title);
         Task task = Task.from(taskDto);
