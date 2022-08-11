@@ -33,7 +33,7 @@ public class TaskService implements TaskServiceInterface{
 
     @Override
     public void createTask(TaskDTO taskDTO){
-        Long nextId = gen.generate();
+        Long nextId = (Long) gen.generate();
         tasks.put(nextId , mapper.toNewTask(nextId , taskDTO));
     }
 

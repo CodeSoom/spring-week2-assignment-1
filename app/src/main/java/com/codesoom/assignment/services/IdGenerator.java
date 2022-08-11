@@ -1,6 +1,6 @@
 package com.codesoom.assignment.services;
 
-public interface IdGenerator {
+public interface IdGenerator<T> {
 
-    Long generate();
+    T generate();
 }

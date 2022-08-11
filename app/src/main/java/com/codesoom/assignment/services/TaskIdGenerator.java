@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
-public class TaskIdGenerator implements IdGenerator{
+public class TaskIdGenerator implements IdGenerator<Long>{
 
     private AtomicLong taskId = new AtomicLong(1L);
 
