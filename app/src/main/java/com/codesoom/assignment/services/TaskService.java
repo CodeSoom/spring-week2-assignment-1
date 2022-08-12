@@ -1,5 +1,7 @@
 package com.codesoom.assignment.services;
 
+import com.codesoom.assignment.interfaces.CRUDInterface;
+import com.codesoom.assignment.interfaces.IdGenerator;
 import com.codesoom.assignment.mappers.TaskMapper;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskDTO;
@@ -10,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class TaskService implements CRUDInterface<TaskDTO , Task>{
+public class TaskService implements CRUDInterface<TaskDTO , Task> {
     private final Map<Long , Task> tasks = new ConcurrentHashMap<>();
     private final TaskMapper mapper;
     private final IdGenerator<Long> gen;

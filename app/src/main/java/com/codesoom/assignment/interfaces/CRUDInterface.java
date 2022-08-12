@@ -1,4 +1,4 @@
-package com.codesoom.assignment.services;
+package com.codesoom.assignment.interfaces;
 
 import java.util.Collection;
 

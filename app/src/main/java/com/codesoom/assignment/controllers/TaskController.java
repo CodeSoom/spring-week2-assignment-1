@@ -2,7 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskDTO;
-import com.codesoom.assignment.services.CRUDInterface;
+import com.codesoom.assignment.interfaces.CRUDInterface;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,9 +41,9 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createTask(@RequestBody TaskDTO taskDTO){
+    public Task createTask(@RequestBody TaskDTO taskDTO){
         logger.info("[POST] 생성 : " + taskDTO);
-        Task task = service.insert(taskDTO);
+        return service.insert(taskDTO);
     }
 
     @RequestMapping(path = "/{taskId}" , method = {RequestMethod.PUT , RequestMethod.PATCH})
