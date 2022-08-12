@@ -1,11 +1,20 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.exceptions.DataNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskDTO;
 import com.codesoom.assignment.interfaces.CRUDInterface;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.Collection;
@@ -30,13 +39,13 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<Task> searchTask(@PathVariable long taskId){
+    public Task searchTask(@PathVariable long taskId){
         logger.info("[GET] 상세 조회 : " + taskId);
         Task task = service.selectById(taskId);
         if(task == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new DataNotFoundException();
         }
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        return task;
     }
 
     @PostMapping
@@ -47,23 +56,23 @@ public class TaskController {
     }
 
     @RequestMapping(path = "/{taskId}" , method = {RequestMethod.PUT , RequestMethod.PATCH})
-    public ResponseEntity<Task> updateTask(@PathVariable long taskId ,
+    public Task updateTask(@PathVariable long taskId ,
                            @RequestBody TaskDTO taskDTO){
         logger.info("[PUT , PATCH] 상세 조회 : " + taskId);
         Task task = service.update(taskId , taskDTO);
         if(task == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new DataNotFoundException();
         }
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        return task;
     }
 
     @DeleteMapping(path = "/{taskId}")
-    public ResponseEntity<Task> deleteTask(@PathVariable long taskId){
+    public Task deleteTask(@PathVariable long taskId){
         logger.info("[DELETE] 삭제 : " + taskId);
         Task task = service.delete(taskId);
         if(task == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new DataNotFoundException();
         }
-        return new ResponseEntity<>(task, HttpStatus.OK);
+        return task;
     }
 }
