@@ -7,7 +7,7 @@ import java.util.Collection;
  * @param <In> 구현체에 전달하는 객체 타입 입니다
  * @param <Out> 구현체에서 반환하는 객체 타입 입니다
  */
-public interface CRUDInterface<In , Out> {
+public interface CRUDInterface<In , Out , K> {
     /**
      * @return Out들을 List로 반환합니다
      */
@@ -17,7 +17,7 @@ public interface CRUDInterface<In , Out> {
      * @param id Collection에서 가져올 id 입니다
      * @return id에 해당하는 Out타입의 객체를 반환합니다
      */
-    Out selectById(Long id);
+    Out selectById(K id);
 
     /**
      * @param in Collection에 넣을 객체입니다
@@ -30,11 +30,11 @@ public interface CRUDInterface<In , Out> {
      * @param in 수정할 정보가 있는 객체 입니다
      * @return 수정한 객체를 반환합니다
      */
-    Out update(Long id , In in);
+    Out update(K id , In in);
 
     /**
      * @param id Collection에서 삭제할 id입니다
      * @return 삭제한 객체를 반환합니다
      */
-    Out delete(Long id);
+    Out delete(K id);
 }

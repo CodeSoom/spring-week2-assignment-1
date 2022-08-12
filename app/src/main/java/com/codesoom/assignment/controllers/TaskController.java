@@ -17,9 +17,9 @@ import java.util.logging.Logger;
 public class TaskController {
     Logger logger = Logger.getLogger("TaskController");
 
-    private final CRUDInterface<TaskDTO , Task> service;
+    private final CRUDInterface<TaskDTO , Task , Long> service;
 
-    public TaskController(CRUDInterface<TaskDTO , Task> service){
+    public TaskController(CRUDInterface<TaskDTO , Task , Long> service){
         this.service = service;
     }
 

@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class TaskService implements CRUDInterface<TaskDTO , Task> {
+public class TaskService implements CRUDInterface<TaskDTO , Task , Long> {
     private final Map<Long , Task> tasks = new ConcurrentHashMap<>();
     private final TaskMapper mapper;
     private final IdGenerator<Long> gen;
