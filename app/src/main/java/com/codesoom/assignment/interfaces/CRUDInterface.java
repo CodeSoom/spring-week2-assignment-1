@@ -3,7 +3,7 @@ package com.codesoom.assignment.interfaces;
 import java.util.Collection;
 
 /**
- * {@link java.util.Collection}을 조작하는 클래스에 의해 구현되는 인터페이스 입니다
+ * Domain을 조작하는 클래스에 의해 구현되는 인터페이스 입니다
  * @param <In> 구현체에 전달하는 객체 타입 입니다
  * @param <Out> 구현체에서 반환하는 객체 타입 입니다
  */
