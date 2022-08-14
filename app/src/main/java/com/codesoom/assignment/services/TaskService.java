@@ -42,6 +42,9 @@ public class TaskService implements CRUDInterface<TaskDTO , Task , Long> {
 
     @Override
     public Task update(Long id, TaskDTO taskDTO) {
+        if(tasks.get(id) == null){
+            return null;
+        }
         Task newTask = mapper.toNewTask(id , taskDTO);
         tasks.replace(id , newTask);
         return newTask;
