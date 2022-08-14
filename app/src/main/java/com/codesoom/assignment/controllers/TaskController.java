@@ -5,6 +5,7 @@ import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.models.TaskDTO;
 import com.codesoom.assignment.interfaces.CRUDInterface;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class TaskController {
         logger.info("[GET] 상세 조회 : " + taskId);
         Task task = service.selectById(taskId);
         if(task == null){
-            throw new DataNotFoundException();
+            throw new DataNotFoundException(taskId);
         }
         return task;
     }
@@ -61,18 +62,15 @@ public class TaskController {
         logger.info("[PUT , PATCH] 상세 조회 : " + taskId);
         Task task = service.update(taskId , taskDTO);
         if(task == null){
-            throw new DataNotFoundException();
+            throw new DataNotFoundException(taskId);
         }
         return task;
     }
 
     @DeleteMapping(path = "/{taskId}")
-    public Task deleteTask(@PathVariable long taskId){
+    public ResponseEntity<Task> deleteTask(@PathVariable long taskId){
         logger.info("[DELETE] 삭제 : " + taskId);
-        Task task = service.delete(taskId);
-        if(task == null){
-            throw new DataNotFoundException();
-        }
-        return task;
+        service.delete(taskId);
+        return ResponseEntity.noContent().build();
     }
 }
