@@ -70,6 +70,7 @@ public class TaskRepository {
     /**
      * 아이디에 해당하는 Task를 찾아 삭제합니다.
      * @param id 삭제할 Task 아이디
+     * @return 삭제한 Task
      */
     public Optional<Task> deleteById(Long id) {
         return Optional.ofNullable(taskStorage.remove(id));
