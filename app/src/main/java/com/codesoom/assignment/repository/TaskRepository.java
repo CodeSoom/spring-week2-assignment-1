@@ -3,15 +3,16 @@ package com.codesoom.assignment.repository;
 import com.codesoom.assignment.model.Task;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskRepository {
     Task save(Task task);
 
     List<Task> findAll();
 
-    Task findById(Long id);
+    Optional<Task> findById(Long id);
 
-    Task updateTask(Task oldTask);
+    Task update(Task oldTask);
 
-    boolean deleteTask(Long id);
+    Task delete(Long id);
 }

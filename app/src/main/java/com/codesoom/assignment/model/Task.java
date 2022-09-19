@@ -35,13 +35,6 @@ public class Task {
         this.title = title;
     }
 
-    public static Task valueOf(String content) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(content, Task.class);
-    }
-
-
-
     @Override
     public String toString() {
         return "Task{" +

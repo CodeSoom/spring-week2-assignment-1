@@ -5,21 +5,22 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
-public class TaskRepository implements TaskRepository {
+public class TaskRepositoryImpl implements TaskRepository {
 
     private static final ConcurrentHashMap<Long, Task> database = new ConcurrentHashMap<>();
     private static final AtomicLong seq = new AtomicLong(0L);
-    private static final TaskRepository instance = new TaskRepository();
+    private static final TaskRepositoryImpl instance = new TaskRepositoryImpl();
 
-    public static TaskRepository getInstance() {
+    public static TaskRepositoryImpl getInstance() {
         return instance;
     }
 
-    private TaskRepository() {
+    private TaskRepositoryImpl() {
     }
 
     @Override
@@ -35,8 +36,9 @@ public class TaskRepository implements TaskRepository {
     }
 
     @Override
-    public Task findById(Long id) {
-        return database.get(id);
+    public Optional<Task> findById(Long id) {
+        Task task = database.get(id);
+        return Optional.ofNullable(task);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class TaskRepository implements TaskRepository {
     }
 
     @Override
-    public boolean delete(Long id) {
-        return database.remove(id) != null;
+    public Task delete(Long id) {
+        return database.remove(id);
     }
 }
