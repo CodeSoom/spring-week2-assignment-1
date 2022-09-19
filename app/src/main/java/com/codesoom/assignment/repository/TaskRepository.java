@@ -12,7 +12,7 @@ public interface TaskRepository {
 
     Optional<Task> findById(Long id);
 
-    Task update(Task oldTask);
+    Optional<Task> update(Long id, Task oldTask);
 
-    Task delete(Long id);
+    Optional<Task> delete(Long id);
 }

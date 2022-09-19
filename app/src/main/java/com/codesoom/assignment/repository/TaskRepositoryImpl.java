@@ -42,15 +42,15 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Task update(Task oldTask) {
-        Task task = database.get(oldTask.getId());
-        task.setTitle(oldTask.getTitle());
-
+    public Optional<Task> update(Long id, Task newTask) {
+        Optional<Task> task = Optional.ofNullable(database.get(id));
+        task.ifPresent(value -> value.setTitle(newTask.getTitle()));
         return task;
     }
 
     @Override
-    public Task delete(Long id) {
-        return database.remove(id);
+    public Optional<Task> delete(Long id) {
+        Task removedTask = database.remove(id);
+        return Optional.ofNullable(removedTask);
     }
 }
