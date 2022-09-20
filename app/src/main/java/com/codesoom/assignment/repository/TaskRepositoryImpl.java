@@ -14,14 +14,6 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     private static final ConcurrentHashMap<Long, Task> database = new ConcurrentHashMap<>();
     private static final AtomicLong seq = new AtomicLong(0L);
-    private static final TaskRepositoryImpl instance = new TaskRepositoryImpl();
-
-    public static TaskRepositoryImpl getInstance() {
-        return instance;
-    }
-
-    private TaskRepositoryImpl() {
-    }
 
     @Override
     public Task save(Task task) {
