@@ -1,18 +1,14 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.error.IdEmptyException;
+import com.codesoom.assignment.error.ResponseMessage;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.repository.TaskRepository;
+import com.codesoom.assignment.repository.TaskRepositoryImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,9 +18,8 @@ import java.util.Objects;
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
 
-    private Long newId = 0L;
+    TaskRepository taskRepository = new TaskRepositoryImpl();
 
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
     public void idEmpty(){
@@ -32,49 +27,30 @@ public class TaskController {
     }
     @GetMapping
     public List<Task> read() {
-        return tasks;
+        return taskRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Task read(@PathVariable Long id, Exception e) {
-        return taskFindId(id);
+       return taskRepository.taskFindId(id);
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task task) {
-        task.setId(generateId());
-        tasks.add(task);
-        return task;
+       return taskRepository.createTask(task);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
-    public void update(@PathVariable Long id, @RequestBody Task task) {
-        Task findTask = taskFindId(id);
-        findTask.setTitle(task.getTitle());
+    public Task update(@PathVariable Long id, @RequestBody Task task) {
+        return taskRepository.updateTask(id, task);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        tasks.remove(taskFindId(id));
+        taskRepository.deleteTask(id);
     }
-
-
-    private Task taskFindId(Long id) {
-        Task task =tasks.stream().filter(i-> Objects.equals(i.getId(), id))
-                .findFirst()
-                .orElseThrow(null);
-        return task;
-    }
-
-
-    private Long generateId() {
-        newId += 1;
-        return newId;
-    }
-
-
-
-
 
 
 }
