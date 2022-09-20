@@ -48,9 +48,14 @@ public class TaskRepository {
      */
     public Task create(Task task) {
         final Long id = generateId();
-        task.setId(id);
-        taskStorage.put(id, task);
-        return task;
+
+        Task createdTask = Task.builder()
+                .id(id)
+                .title(task.getTitle())
+                .build();
+
+        taskStorage.put(id, createdTask);
+        return createdTask;
     }
 
     /**
@@ -63,7 +68,7 @@ public class TaskRepository {
         Task foundTask = findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(id + "에 해당하는 Task가 없어 업데이트를 수행할 수 없습니다"));
 
-        foundTask.setTitle(task.getTitle());
+        foundTask.updateTitle(task.getTitle());
         return foundTask;
     }
 
