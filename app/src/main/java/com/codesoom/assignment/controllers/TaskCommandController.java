@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 /**
- * 할 일의 생성/수정/삭제 로직을 처리
+ * 할 일의 생성/수정/삭제 처리를 담당합니다.
  */
 @RestController
 @RequestMapping("/tasks")
