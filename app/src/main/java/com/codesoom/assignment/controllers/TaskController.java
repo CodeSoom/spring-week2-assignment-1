@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin("http://localhost:3000")
 public class TaskController {
-    TaskRepository taskRepository = new TaskRepository();
+    private final TaskRepository taskRepository = new TaskRepository();
 
     @GetMapping
     public List<Task> list() {
