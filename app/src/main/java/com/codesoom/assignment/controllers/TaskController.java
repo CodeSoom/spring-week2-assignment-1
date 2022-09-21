@@ -32,10 +32,11 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public Task detail(@PathVariable Long id) {
-        if (taskRepository.isExist(id)) {
-            return taskRepository.findById(id);
+        if (!taskRepository.isExist(id)) {
+            throw new TaskNotFoundException();
         }
-        throw new TaskNotFoundException();
+        return taskRepository.findById(id);
+
     }
 
     @PostMapping
@@ -46,21 +47,20 @@ public class TaskController {
 
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task update(@PathVariable Long id, @RequestBody Task task) {
-        if (taskRepository.isExist(id)) {
-            task.setId(id);
-            return taskRepository.update(task);
+        if (!taskRepository.isExist(id)) {
+            throw new TaskNotFoundException();
         }
-        throw new TaskNotFoundException();
+        task.setId(id);
+        return taskRepository.update(task);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        if (taskRepository.isExist(id)) {
-            taskRepository.delete(id);
-            return;
+        if (!taskRepository.isExist(id)) {
+            throw new TaskNotFoundException();
         }
-        throw new TaskNotFoundException();
+        taskRepository.delete(id);
     }
 
     @ExceptionHandler(TaskNotFoundException.class)
