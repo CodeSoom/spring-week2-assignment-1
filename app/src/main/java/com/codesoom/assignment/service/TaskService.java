@@ -1,6 +1,6 @@
 package com.codesoom.assignment.service;
 
-import com.codesoom.assignment.exception.TaskException;
+import com.codesoom.assignment.exception.TaskIdNotFoundException;
 import com.codesoom.assignment.model.Task;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class TaskService {
         taskRepository.delete(id).orElseThrow(throwTaskException());
     }
 
-    private Supplier<TaskException> throwTaskException() {
-        return () -> new TaskException("존재하지않는 아이디입니다.");
+    private Supplier<TaskIdNotFoundException> throwTaskException() {
+        return () -> new TaskIdNotFoundException("존재하지않는 아이디입니다.");
     }
 }
