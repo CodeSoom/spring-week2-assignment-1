@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * 예외가 발생하면 알맞은 응답을 보내도록 처리
+ * 할 일과 관련된 작업중에 발생하는 예외에 대한 응답을 처리합니다.
  */
 @RestControllerAdvice
 public class TaskExceptionHandler {
