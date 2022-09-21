@@ -15,7 +15,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     private static final ConcurrentHashMap<Long, Task> database = new ConcurrentHashMap<>();
     private static final AtomicLong seq = new AtomicLong(0L);
 
-    @Override
+     @Override
     public Task save(Task task) {
         task.setId(seq.getAndIncrement());
         database.put(task.getId(), task);
