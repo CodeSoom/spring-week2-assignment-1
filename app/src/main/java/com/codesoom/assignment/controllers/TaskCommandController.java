@@ -45,7 +45,7 @@ public class TaskCommandController {
     public void deleteTask(@PathVariable Long id) {
         Optional<Task> deletedTask = taskRepository.deleteById(id);
         if (deletedTask.isEmpty()) {
-            throw new IllegalArgumentException(id + "에 해당하는 Task가 없어 삭제하지 못했습니다");
+            throw new IllegalArgumentException(id + "에 해당하는 할 일을 찾지 못해 삭제하지 못했습니다");
         }
     }
 }

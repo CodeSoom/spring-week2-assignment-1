@@ -45,6 +45,6 @@ public class TaskQueryController {
     @GetMapping("/{id}")
     public Task getTask(@PathVariable Long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(id + "에 해당하는 Task가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException(id + "에 해당하는 할 일을 찾지 못했습니다."));
     }
 }
