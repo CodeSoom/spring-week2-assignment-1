@@ -35,9 +35,11 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Optional<Task> update(Long id, Task newTask) {
-        Optional<Task> task = Optional.ofNullable(database.get(id));
-        task.ifPresent(value -> value.setTitle(newTask.getTitle()));
-        return task;
+        return Optional.ofNullable(database.get(id))
+                .map(value -> {
+                    value.setTitle(newTask.getTitle());
+                    return value;
+                });
     }
 
     @Override
