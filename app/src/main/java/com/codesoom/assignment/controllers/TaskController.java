@@ -25,6 +25,7 @@ public class TaskController {
     public void idEmpty(){
         throw new IdEmptyException();
     }
+
     @GetMapping
     public List<Task> read() {
         return taskRepository.findAll();

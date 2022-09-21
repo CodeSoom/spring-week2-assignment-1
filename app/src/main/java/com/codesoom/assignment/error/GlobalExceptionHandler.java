@@ -9,8 +9,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<ResponseMessage> handleException(NullPointerException e){
+    @ExceptionHandler(TaskNullException.class)
+    public ResponseEntity<ResponseMessage> handleException(TaskNullException e){
         return new ResponseEntity<>(ResponseMessage.TASK_NULL, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(IdEmptyException.class)
