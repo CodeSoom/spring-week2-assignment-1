@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
-    //    private List<Task> tasks = new ArrayList<>(1000);
+
     private ConcurrentHashMap<Long, Task> tasksHash = new ConcurrentHashMap<>();
     private Long newId = 0L;
 
@@ -30,24 +30,15 @@ public class TaskController {
             return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(task, HttpStatus.OK);
-
-
-//        for (Task task : tasks) {
-//            if (task.getId() == id) {
-//                return new ResponseEntity<>(task, HttpStatus.OK);
-//            }
-//        }
-//        return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
     }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public synchronized Task create(@RequestBody Task task) {
 
         task.setId(generateId());
-//        tasks.add(task);
         tasksHash.put(task.getId(), task);
-
         return task;
     }
 
@@ -57,31 +48,21 @@ public class TaskController {
         if (tasksHash.containsKey(id)) {
             Task task = tasksHash.get(id);
             task.setTitle(body.getTitle());
-
             return new ResponseEntity<>(task, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
-
-//        for (Task task : tasks) {
-//            if (task.getId() == id) {
-//                tasks.remove(task);
-//                return new ResponseEntity<>(task, HttpStatus.NO_CONTENT);
-//            }
-//        }
 
         if (tasksHash.containsKey(id)) {
             tasksHash.remove(id);
             return new ResponseEntity<>(tasksHash.get(id), HttpStatus.NO_CONTENT);
         }
-
         return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
-
-
     }
 
     private synchronized Long generateId() {
