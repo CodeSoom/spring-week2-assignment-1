@@ -1,6 +1,8 @@
 package com.codesoom.assignment.repository;
 
+import com.codesoom.assignment.error.TaskNullException;
 import com.codesoom.assignment.models.Task;
+import lombok.Synchronized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +15,16 @@ public class TaskRepositoryImpl implements TaskRepository{
     public List<Task> findAll(){
         return new ArrayList<>(tasks);
     }
-    public Long generateId() {
+
+    public synchronized Long generateId() {
         newId += 1;
         return newId;
     }
 
     public Task taskFindId(Long id) {
-        Task task =tasks.stream().filter(i-> Objects.equals(i.getId(), id))
-                .findFirst()
-                .orElseThrow(null);
-        return task;
+        return tasks.stream().filter(i-> Objects.equals(i.getId(), id))
+                .findAny()
+                .orElseThrow(TaskNullException::new);
     }
 
     public Task createTask(Task task) {
