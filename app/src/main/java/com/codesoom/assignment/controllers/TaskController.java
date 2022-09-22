@@ -36,19 +36,18 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public synchronized Task create(@RequestBody Task task) {
-
-        task.setId(generateId());
-        tasksHash.put(task.getId(), task);
-        return task;
+        Task newTask = Task.builder().id(generateId()).title(task.getTitle()).build();
+        tasksHash.put(newTask.getId(),newTask );
+        return newTask;
     }
 
 
     @RequestMapping(value = "{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task body) {
         if (tasksHash.containsKey(id)) {
-            Task task = tasksHash.get(id);
-            task.setTitle(body.getTitle());
-            return new ResponseEntity<>(task, HttpStatus.OK);
+            Task newTask = Task.builder().id(id).title(body.getTitle()).build();
+            tasksHash.put(id, newTask);
+            return new ResponseEntity<>(newTask, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
