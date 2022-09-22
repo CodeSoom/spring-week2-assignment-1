@@ -40,6 +40,7 @@ public class TaskQueryController {
      * 요청 작업이 성공하면 200번, 실패하면 404번을 응답 코드로 함께 반환합니다.
      *
      * @param id 찾을 할 일 아이디
+     * @throws IllegalArgumentException 할 일을 찾지 못한 경우
      * @return 아이디로 찾은 할 일
      */
     @GetMapping("/{id}")

@@ -65,6 +65,7 @@ public class TaskRepository {
      * 기존의 할 일을 아이디로 찾아 수정합니다.
      * @param id 수정할 할 일 아이디
      * @param task 수정할 할 일 데이터
+     * @throws IllegalArgumentException 할 일을 찾지 못한 경우
      * @return 수정 완료된 할 일
      */
     public Task update(Long id, Task task) {
