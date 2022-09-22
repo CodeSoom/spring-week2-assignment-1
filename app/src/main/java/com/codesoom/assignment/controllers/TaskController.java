@@ -23,7 +23,11 @@ import java.util.List;
 @RequestMapping("/tasks")
 @CrossOrigin("http://localhost:3000")
 public class TaskController {
-    private final TaskRepository taskRepository = new TaskRepository();
+    private final TaskRepository taskRepository;
+
+    public TaskController(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     /**
      * GET /tasks 모든 task를 조회한다.

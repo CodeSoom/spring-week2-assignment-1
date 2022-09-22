@@ -1,6 +1,7 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Repository
 public class TaskRepository {
     public final static Map<Long, Task> tasks = new ConcurrentHashMap<>();
     private static final AtomicLong id = new AtomicLong();
