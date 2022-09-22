@@ -2,6 +2,10 @@ package com.codesoom.assignment.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.lang.NonNull;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Task {
 
@@ -9,12 +13,9 @@ public class Task {
 
     private String title;
 
-    public Task() {
-    }
-
     public Task(long id, String title) {
         this.id = id;
-        this.title = title;
+        this.title = isNullOrBlank(title) ? "No Title" : title;
     }
 
     public long getId() {
@@ -29,10 +30,12 @@ public class Task {
         return title;
     }
 
-    public void setTitle(String title) {
-        if(title == null) title = "";
+    public void initTitle(String title) {
+        this.title = isNullOrBlank(title) ? "No Title" : title;
+    }
 
-        this.title = title;
+    public boolean isNullOrBlank(String s) {
+        return s == null || s.isBlank();
     }
 
     @Override

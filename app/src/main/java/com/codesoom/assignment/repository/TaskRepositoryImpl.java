@@ -40,7 +40,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Optional<Task> update(Long id, String newTitle) {
         return Optional.ofNullable(database.get(id))
                 .map(value -> {
-                    value.setTitle(newTitle);
+                    value.initTitle(newTitle);
                     return value;
                 });
     }
