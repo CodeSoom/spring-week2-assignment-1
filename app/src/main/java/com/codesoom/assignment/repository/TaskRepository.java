@@ -32,10 +32,10 @@ public interface TaskRepository {
      * 데이터베이스에서 수정요청받은 할 일 ID의 할 일을
      * 수정된 할 일 내역으로 변경하고 변경된 할 일을 리턴한다.
      * @param id 수정요청 할 일 ID
-     * @param newTask 수정된 할 일
+     * @param newTile 수정된 할 일
      * @return 변경된 할 일
      */
-    Optional<Task> update(Long id, Task newTask);
+    Optional<Task> update(Long id, String newTile);
 
     /**
      * 데이터베이스에서 삭제요청 받은 할 일 ID의 할 일 내역을 삭제 후

@@ -30,7 +30,7 @@ public class TaskService {
     }
 
     public Task updateTask(Long id, Task newTask) {
-        return taskRepository.update(id, newTask).orElseThrow(throwTaskException());
+        return taskRepository.update(id, newTask.getTitle()).orElseThrow(throwTaskException());
 
     }
 
