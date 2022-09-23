@@ -2,70 +2,57 @@ package com.codesoom.assignment.controllers;
 
 
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.repository.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
+    private TaskService taskService;
 
-    private ConcurrentHashMap<Long, Task> tasksHash = new ConcurrentHashMap<>();
-    private Long newId = 0L;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping
     public List<Task> list() {
-        return new ArrayList<>(tasksHash.values());
+        return taskService.findAllTasks();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskId(@PathVariable Long id) {
-        Task task = tasksHash.getOrDefault(id, null);
+        return taskService.findTaskId(id);
 
-        if (task == null) {
-            return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(task, HttpStatus.OK);
     }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public synchronized Task create(@RequestBody Task task) {
-        Task newTask = Task.builder().id(generateId()).title(task.getTitle()).build();
-        tasksHash.put(newTask.getId(),newTask );
-        return newTask;
+        return taskService.createTask(task).get();
     }
-
 
     @RequestMapping(value = "{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task body) {
-        if (tasksHash.containsKey(id)) {
-            Task newTask = Task.builder().id(id).title(body.getTitle()).build();
-            tasksHash.put(id, newTask);
-            return new ResponseEntity<>(newTask, HttpStatus.OK);
-        }
+        return taskService.updateTask(id, body);
 
-        return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
-
-        if (tasksHash.containsKey(id)) {
-            tasksHash.remove(id);
-            return new ResponseEntity<>(tasksHash.get(id), HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
+        return taskService.deleteTask(id);
     }
 
-    private synchronized Long generateId() {
-        newId += 1;
-        return newId;
-    }
+
 }

@@ -1,10 +1,12 @@
 package com.codesoom.assignment.models;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
+@Builder
 public class Task {
 
     private Long id;
@@ -15,6 +17,10 @@ public class Task {
 
     public Task(Long id, String title) {
         this.id = id;
+        this.title = title;
+    }
+
+    public void updateTitle(String title) {
         this.title = title;
     }
 
@@ -43,5 +49,6 @@ public class Task {
             return new Task(this.id, this.title);
         }
     }
+
 
 }
