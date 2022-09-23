@@ -2,6 +2,7 @@ package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.exception.TaskIdNotFoundException;
 import com.codesoom.assignment.model.Task;
+import com.codesoom.assignment.model.UpdateTask;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,8 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateTask(Long id, Task newTask) {
-        return taskRepository.update(id, newTask.getTitle()).orElseThrow(throwTaskException());
+    public Task updateTask(Long id, UpdateTask newTask) {
+        return taskRepository.update(id, newTask).orElseThrow(throwTaskException());
 
     }
 

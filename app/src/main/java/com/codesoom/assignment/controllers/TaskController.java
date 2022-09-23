@@ -1,6 +1,7 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.model.Task;
+import com.codesoom.assignment.model.UpdateTask;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class TaskController {
     }
 
     @RequestMapping(path = "/tasks/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task updateTask(@PathVariable("id") Long id, @RequestBody Task task) {
+    public Task updateTask(@PathVariable("id") Long id, @RequestBody UpdateTask task) {
         return taskService.updateTask(id, task);
     }
 

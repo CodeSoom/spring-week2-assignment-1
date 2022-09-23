@@ -1,6 +1,7 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.model.Task;
+import com.codesoom.assignment.model.UpdateTask;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -37,10 +38,10 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> update(Long id, String newTitle) {
+    public Optional<Task> update(Long id, UpdateTask newTask) {
         return Optional.ofNullable(database.get(id))
                 .map(value -> {
-                    value.initTitle(newTitle);
+                    value.initTitle(newTask.getTitle());
                     return value;
                 });
     }
