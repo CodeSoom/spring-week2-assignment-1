@@ -1,6 +1,8 @@
 package com.codesoom.assignment.repository;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.web.TaskRequestDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class TaskRepository {
-    public final static Map<Long, Task> tasks = new ConcurrentHashMap<>();
+    private final static Map<Long, Task> tasks = new ConcurrentHashMap<>();
     private static final AtomicLong id = new AtomicLong();
 
     /**
@@ -30,22 +32,27 @@ public class TaskRepository {
      * @param task 새로 저장할 task
      * @return 저장한 task
      */
-    public Task save(Task task) {
-        task.setId(id.incrementAndGet());
-        tasks.put(task.getId(), task);
-        return task;
+    public Task save(TaskRequestDto task) {
+        long newId = id.incrementAndGet();
+        Task newTask = new Task(newId, task.getTitle());
+        tasks.put(newId, newTask);
+        return newTask;
     }
 
     /**
      * Task를 수정하고 수정한 task를 리턴한다.
      *
+     * @param id 수정할 task의 id
      * @param task 수정할 task
      * @return 수정한 task
      */
-    public Task update(Task task) {
-        Task findOne = findById(task.getId());
-        findOne.setTitle(task.getTitle());
-        return findOne;
+    public Task update(Long id, TaskRequestDto task) {
+        if (!isExist(id)) {
+            throw new TaskNotFoundException();
+        }
+        Task updateTask = new Task(id, task.getTitle());
+        tasks.put(id, updateTask);
+        return updateTask;
     }
 
     /**
@@ -54,6 +61,9 @@ public class TaskRepository {
      * @param id 삭제할 task의 id
      */
     public void delete(Long id) {
+        if (!isExist(id)) {
+            throw new TaskNotFoundException();
+        }
         tasks.remove(id);
     }
 
@@ -64,6 +74,9 @@ public class TaskRepository {
      * @return 찾은 task
      */
     public Task findById(Long id) {
+        if (!isExist(id)) {
+            throw new TaskNotFoundException();
+        }
         return tasks.get(id);
     }
 

@@ -1,4 +1,4 @@
-package com.codesoom.assignment.controllers;
+package com.codesoom.assignment.web;
 
 import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
@@ -66,7 +66,7 @@ public class TaskController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task createTask(@RequestBody Task task) {
+    public Task createTask(@RequestBody TaskRequestDto task) {
         return taskRepository.save(task);
     }
 
@@ -80,12 +80,11 @@ public class TaskController {
      * @throws TaskNotFoundException 조회할 Task가 존재하지 않는 경우이다.
      */
     @RequestMapping(path = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+    public Task updateTask(@PathVariable Long id, @RequestBody TaskRequestDto task) {
         if (!taskRepository.isExist(id)) {
             throw new TaskNotFoundException();
         }
-        task.setId(id);
-        return taskRepository.update(task);
+        return taskRepository.update(id,task);
     }
 
     /**
