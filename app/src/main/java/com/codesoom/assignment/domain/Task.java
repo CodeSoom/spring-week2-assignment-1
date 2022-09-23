@@ -1,5 +1,7 @@
 package com.codesoom.assignment.domain;
 
+import org.springframework.util.Assert;
+
 /** 할 일 */
 public class Task {
     private final Long id;
@@ -16,6 +18,18 @@ public class Task {
 
     public String getTitle() {
         return title;
+    }
+
+    /**
+     * title을 업데이트 합니다.
+     *
+     * @param title 업데이트할 title
+     * @throws IllegalArgumentException title이 없을 경우
+     * @return 변경된 title을 갖는 새로운 할 일
+     */
+    public Task withNewTitle(String title) {
+        Assert.notNull(this.title, "title은 빈 값일 수 없습니다");
+        return new Task(this.id, title);
     }
 
     public static TaskBuilder builder() {
@@ -39,6 +53,9 @@ public class Task {
         }
 
         public Task build() {
+            Assert.notNull(this.id, "id는 빈 값일 수 없습니다");
+            Assert.notNull(this.title, "title은 빈 값일 수 없습니다");
+
             return new Task(this.id, this.title);
         }
     }

@@ -72,11 +72,7 @@ public class TaskRepository {
         final Task foundTask = findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(id + "에 해당하는 할 일을 찾지 못해 업데이트를 수행할 수 없습니다"));
 
-        final Task updatedTask = Task.builder()
-                .id(foundTask.getId())
-                .title(task.getTitle())
-                .build();
-
+        final Task updatedTask = foundTask.withNewTitle(task.getTitle());
         taskStorage.put(id, updatedTask);
         return updatedTask;
     }
