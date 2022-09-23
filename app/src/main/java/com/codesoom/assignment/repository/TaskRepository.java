@@ -1,8 +1,6 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -23,7 +21,7 @@ public class TaskRepository {
 
     public Optional<Task> save(Task task) {
         Task newTask = new Task(IdGenerator.generateId(), task.getTitle());
-        tasksHash.put(newTask.getId(),newTask );
+        tasksHash.put(newTask.getId(), newTask);
         return Optional.ofNullable(newTask);
     }
 
@@ -34,10 +32,9 @@ public class TaskRepository {
 
     public ResponseEntity<Task> update(Long id, Task task) {
         if (tasksHash.containsKey(id)) {
-            Task getTask = tasksHash.get(id);
-            getTask.updateTitle(task.getTitle());
-
-            return new ResponseEntity<>(getTask, HttpStatus.OK);
+            Task updatedTask= tasksHash.get(id).updateTitle(task.getTitle());
+            tasksHash.put(id, updatedTask);
+            return new ResponseEntity<>(updatedTask, HttpStatus.OK);
         }
         return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
     }

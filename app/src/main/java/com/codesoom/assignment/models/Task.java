@@ -9,19 +9,21 @@ import lombok.ToString;
 @Builder
 public class Task {
 
-    private Long id;
-    private String title;
-
-    public Task() {
-    }
+    private final Long id;
+    private final String title;
 
     public Task(Long id, String title) {
         this.id = id;
         this.title = title;
     }
 
-    public void updateTitle(String title) {
-        this.title = title;
+    public Task() {
+        this.id = 0L;
+        this.title = "";
+    }
+
+    public Task updateTitle(String title) {
+        return new Task(this.id, title);
     }
 
     public static TaskBuilder builder() {
