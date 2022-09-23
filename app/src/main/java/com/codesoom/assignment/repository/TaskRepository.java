@@ -5,11 +5,11 @@ import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.web.TaskRequestDto;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Repository
 public class TaskRepository {
@@ -22,9 +22,15 @@ public class TaskRepository {
      * @return 모든 task
      */
     public List<Task> findAll() {
-        return new ArrayList<>(tasks.values());
+        return tasks.values()
+                .stream()
+                .map(this::safeTask)
+                .collect(Collectors.toList());
     }
 
+    public Task safeTask(Task task) {
+        return new Task(task.getId(), task.getTitle());
+    }
 
     /**
      * Task를 저장하고 저장한 task를 리턴한다.
