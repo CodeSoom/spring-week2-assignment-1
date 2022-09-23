@@ -28,7 +28,7 @@ public class Task {
      * @return 변경된 title을 갖는 새로운 할 일
      */
     public Task withNewTitle(String title) {
-        Assert.notNull(this.title, "title은 빈 값일 수 없습니다");
+        Assert.notNull(title, "title은 빈 값일 수 없습니다");
         return new Task(this.id, title);
     }
 
