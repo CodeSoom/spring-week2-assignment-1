@@ -13,7 +13,7 @@ public class Task {
     }
 
     public Task newTitle(String title) {
-      return new Task(this.getId(), title);
+        return new Task(this.getId(), title);
     }
 
     public Task(Long id, String title) {
@@ -25,6 +25,7 @@ public class Task {
     }
 
     public String toString() {
-        return "Task-Title: " +title;
+        return "Task-Title: " + title;
     }
+
 }
