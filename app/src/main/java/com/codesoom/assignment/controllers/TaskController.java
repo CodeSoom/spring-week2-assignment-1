@@ -4,14 +4,12 @@ import com.codesoom.assignment.error.IdEmptyException;
 import com.codesoom.assignment.error.ResponseMessage;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repository.TaskRepository;
-import com.codesoom.assignment.repository.TaskRepositoryImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 
 @RestController
@@ -19,11 +17,15 @@ import java.util.Objects;
 @CrossOrigin
 public class TaskController {
 
-    TaskRepository taskRepository = new TaskRepositoryImpl();
+    private final TaskRepository taskRepository;
+
+    public TaskController(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-    public void idEmpty(){
-        throw new IdEmptyException();
+    public ResponseEntity<ResponseMessage> idEmpty(){
+        return new ResponseEntity<>(ResponseMessage.ID_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
@@ -48,10 +50,8 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        taskRepository.deleteTask(id);
+    public ResponseEntity<Task> delete(@PathVariable Long id) {
+        return taskRepository.deleteTask(id);
     }
-
 
 }
