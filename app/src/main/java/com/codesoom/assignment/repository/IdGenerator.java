@@ -1,9 +1,18 @@
 package com.codesoom.assignment.repository;
 
+/**
+ * This class stores id for Task and manipuldates id
+ */
 public class IdGenerator {
     private static Long newId = 0L;
 
-    public static synchronized Long generateId() {
+    /**
+     * Returns a newly generated id
+     *
+     * @return newId
+     */
+
+    public static synchronized Long generateId(Long a) {
         newId += 1;
         return newId;
     }
