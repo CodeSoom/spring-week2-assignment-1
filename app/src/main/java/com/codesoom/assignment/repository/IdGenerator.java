@@ -11,7 +11,6 @@ public class IdGenerator {
      *
      * @return newId
      */
-
     public static synchronized Long generateId() {
         newId += 1;
         return newId;

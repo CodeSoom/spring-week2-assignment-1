@@ -9,5 +9,4 @@ import lombok.Setter;
 public class TaskException extends RuntimeException {
     private ErrorCode errorCode;
     private String message;
-
 }

@@ -1,13 +1,11 @@
 package com.codesoom.assignment.models;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
-@Builder
-public class Task {
+public final class Task {
 
     private final Long id;
     private final String title;
