@@ -1,45 +1,48 @@
 package com.codesoom.assignment.repository;
 
-import com.codesoom.assignment.error.TaskNullException;
 import com.codesoom.assignment.models.Task;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class TaskRepositoryImpl implements TaskRepository{
-    private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+    private final ConcurrentHashMap<Long, Task> tasks = new ConcurrentHashMap<>();
 
     public List<Task> findAll(){
-        return new ArrayList<>(tasks);
-    }
-    public synchronized Long generateId() {
-        newId += 1;
-        return newId;
+        return new ArrayList<>(tasks.values());
     }
 
-    public Task taskFindId(Long id) {
-        Task task =tasks.stream().filter(i-> Objects.equals(i.getId(), id))
-                .findAny()
-                .orElseThrow(TaskNullException::new);
-        return task;
+    public ResponseEntity<Task> readTask(Long id) {
+        return tasks.containsKey(id)?
+                new ResponseEntity<>(tasks.get(id), HttpStatus.OK) : new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
     }
 
     public Task createTask(Task task) {
-        task.setId(generateId());
-        tasks.add(task);
-        return task;
+        Task newTask = new Task(Generate.id(), task.getTitle());
+        tasks.put(newTask.getId(), newTask);
+        return newTask;
     }
 
-    public Task updateTask(Long id, Task task){
-        Task findTask = taskFindId(id);
-        findTask.setTitle(task.getTitle());
-        return findTask;
+    public ResponseEntity<Task> updateTask(Long id, Task task){
+       if(tasks.containsKey(id)){
+           Task updateTask = tasks.get(id).newTitle(task.getTitle());
+           tasks.put(id,updateTask);
+           return new ResponseEntity<>(updateTask, HttpStatus.OK);
+       }
+        return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
     }
 
-    public void deleteTask(Long id){
-        tasks.remove(taskFindId(id));
+    public ResponseEntity<Task> deleteTask(Long id){
+        if(tasks.containsKey(id)){
+            tasks.remove(id);
+            return new ResponseEntity<>(tasks.get(id), HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
     }
 
 
