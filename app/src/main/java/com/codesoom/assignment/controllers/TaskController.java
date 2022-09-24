@@ -45,8 +45,9 @@ public class TaskController {
     }
 
     @RequestMapping(path = "/tasks/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task updateTask(@PathVariable("id") Long id, @RequestBody UpdateTask task) {
-        return taskService.updateTask(id, task);
+    public Task updateTask(@PathVariable("id") Long id, @RequestBody UpdateTask newTask) {
+        System.out.println(newTask.toString());
+        return taskService.updateTask(new Task(id, newTask.getTitle()));
     }
 
     @DeleteMapping("/tasks/{id}")

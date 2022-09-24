@@ -2,7 +2,6 @@ package com.codesoom.assignment.service;
 
 import com.codesoom.assignment.exception.TaskIdNotFoundException;
 import com.codesoom.assignment.model.Task;
-import com.codesoom.assignment.model.UpdateTask;
 import com.codesoom.assignment.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -48,13 +47,12 @@ public class TaskService {
     /**
      * 수정할 할 일 ID와 수정내용을 받아서 해당 ID의 할 일을 수정내용으로 수정 후
      * 수정된 할 일을 리턴한다.
-     * @param id 수정대상 할 일 ID
-     * @param newTask 수정내용
+     * @param newTask 수정 할 일
      * @exception TaskIdNotFoundException 할 일을 못 찾을 경우 발생하는 예외
      * @return 수정된 할 일
      */
-    public Task updateTask(Long id, UpdateTask newTask) {
-        return taskRepository.update(id, newTask).orElseThrow(throwTaskException());
+    public Task updateTask(Task newTask) {
+        return taskRepository.update(newTask).orElseThrow(throwTaskException());
 
     }
 

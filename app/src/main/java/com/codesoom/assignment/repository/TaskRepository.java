@@ -1,7 +1,6 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.model.Task;
-import com.codesoom.assignment.model.UpdateTask;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,11 +31,10 @@ public interface TaskRepository {
     /**
      * 데이터베이스에서 수정요청받은 할 일 ID의 할 일을
      * 수정된 할 일 내역으로 변경하고 변경된 할 일을 리턴한다.
-     * @param id 수정요청 할 일 ID
      * @param newTask 수정된 할 일
      * @return 변경된 할 일
      */
-    Optional<Task> update(Long id, UpdateTask newTask);
+    Optional<Task> update(Task newTask);
 
     /**
      * 데이터베이스에서 삭제요청 받은 할 일 ID의 할 일 내역을 삭제 후
