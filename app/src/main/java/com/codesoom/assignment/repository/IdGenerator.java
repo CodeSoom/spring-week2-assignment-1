@@ -12,7 +12,7 @@ public class IdGenerator {
      * @return newId
      */
 
-    public static synchronized Long generateId(Long a) {
+    public static synchronized Long generateId() {
         newId += 1;
         return newId;
     }
