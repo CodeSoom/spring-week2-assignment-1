@@ -28,12 +28,8 @@ public class TaskRepository {
     public List<Task> findAll() {
         return tasks.values()
                 .stream()
-                .map(this::safeTask)
+                .map(Task::from)
                 .collect(Collectors.toList());
-    }
-
-    public Task safeTask(Task task) {
-        return new Task(task.getId(), task.getTitle());
     }
 
     /**
@@ -46,7 +42,7 @@ public class TaskRepository {
         long newId = idGenerator.generate();
         Task newTask = new Task(newId, task.getTitle());
         tasks.put(newId, newTask);
-        return newTask;
+        return Task.from(newTask);
     }
 
     /**
@@ -62,7 +58,7 @@ public class TaskRepository {
         }
         Task updateTask = new Task(id, task.getTitle());
         tasks.put(id, updateTask);
-        return updateTask;
+        return Task.from(updateTask);
     }
 
     /**
@@ -87,7 +83,7 @@ public class TaskRepository {
         if (!isExist(id)) {
             throw new TaskNotFoundException();
         }
-        return tasks.get(id);
+        return Task.from(tasks.get(id));
     }
 
     /**
