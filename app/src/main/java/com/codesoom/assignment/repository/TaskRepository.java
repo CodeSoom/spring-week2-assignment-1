@@ -51,6 +51,7 @@ public class TaskRepository {
      * @param id   수정할 task의 id
      * @param task 수정할 task
      * @return 수정한 task
+     * @throws TaskNotFoundException 수정할 Task가 존재하지 않는 경우이다.
      */
     public Task update(Long id, TaskRequestDto task) {
         if (!isExist(id)) {
@@ -65,6 +66,7 @@ public class TaskRepository {
      * Task를 삭제한다.
      *
      * @param id 삭제할 task의 id
+     * @throws TaskNotFoundException 삭제할 Task가 존재하지 않는 경우이다.
      */
     public void delete(Long id) {
         if (!isExist(id)) {
@@ -78,6 +80,7 @@ public class TaskRepository {
      *
      * @param id 찾을 task의 id
      * @return 찾은 task
+     * @throws TaskNotFoundException 조회할 Task가 존재하지 않는 경우이다.
      */
     public Task findById(Long id) {
         if (!isExist(id)) {
