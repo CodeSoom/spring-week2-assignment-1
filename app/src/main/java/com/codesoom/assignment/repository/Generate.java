@@ -1,9 +1,9 @@
 package com.codesoom.assignment.repository;
 
-public class GenerateId {
-    private Long newId;
+public class Generate {
+    private static Long newId;
 
-    public synchronized Long generateId() {
+    public static synchronized Long id() {
         newId += 1;
         return newId;
     }
