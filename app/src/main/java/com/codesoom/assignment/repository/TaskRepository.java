@@ -8,13 +8,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
 public class TaskRepository {
     private final static Map<Long, Task> tasks = new ConcurrentHashMap<>();
-    private static final AtomicLong id = new AtomicLong();
+
+    private final IdGenerator idGenerator;
+
+    public TaskRepository(IdGenerator idGenerator) {
+        this.idGenerator = idGenerator;
+    }
 
     /**
      * 모든 task를 리턴한다.
@@ -39,7 +43,7 @@ public class TaskRepository {
      * @return 저장한 task
      */
     public Task save(TaskRequestDto task) {
-        long newId = id.incrementAndGet();
+        long newId = idGenerator.generate();
         Task newTask = new Task(newId, task.getTitle());
         tasks.put(newId, newTask);
         return newTask;
@@ -48,7 +52,7 @@ public class TaskRepository {
     /**
      * Task를 수정하고 수정한 task를 리턴한다.
      *
-     * @param id 수정할 task의 id
+     * @param id   수정할 task의 id
      * @param task 수정할 task
      * @return 수정한 task
      */

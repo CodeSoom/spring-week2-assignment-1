@@ -84,7 +84,7 @@ public class TaskController {
         if (!taskRepository.isExist(id)) {
             throw new TaskNotFoundException();
         }
-        return taskRepository.update(id,task);
+        return taskRepository.update(id, task);
     }
 
     /**
