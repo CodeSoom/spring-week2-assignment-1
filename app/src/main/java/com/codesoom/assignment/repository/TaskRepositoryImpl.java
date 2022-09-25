@@ -1,5 +1,6 @@
 package com.codesoom.assignment.repository;
 
+import com.codesoom.assignment.exception.TaskIdNotFoundException;
 import com.codesoom.assignment.model.Task;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +15,9 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     private static final ConcurrentHashMap<Long, Task> database = new ConcurrentHashMap<>();
     private static final AtomicLong seq = new AtomicLong(0L);
+    public static final TaskIdNotFoundException TASK_ID_NOT_FOUND_EXCEPTION = new TaskIdNotFoundException("존재하지않는 아이디입니다.");
 
-     @Override
+    @Override
     public Task save(Task task) {
         task.setId(seq.getAndIncrement());
         database.put(task.getId(), task);
@@ -28,23 +30,22 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> findById(Long id) {
-        Task task = database.get(id);
-        return Optional.ofNullable(task);
+    public Task findById(Long id) {
+        return Optional.ofNullable(database.get(id)).orElseThrow(TASK_ID_NOT_FOUND_EXCEPTION);
     }
 
     @Override
-    public Optional<Task> update(Task newTask) {
+    public Task update(Task newTask) {
         return Optional.ofNullable(database.get(newTask.getId()))
                 .map(value -> {
                     value.setTitle(newTask.getTitle());
                     return value;
-                });
+                }).orElseThrow(TASK_ID_NOT_FOUND_EXCEPTION);
     }
 
     @Override
-    public Optional<Task> delete(Long id) {
+    public Task delete(Long id) {
         Task removedTask = database.remove(id);
-        return Optional.ofNullable(removedTask);
+        return Optional.ofNullable(removedTask).orElseThrow(TASK_ID_NOT_FOUND_EXCEPTION);
     }
 }

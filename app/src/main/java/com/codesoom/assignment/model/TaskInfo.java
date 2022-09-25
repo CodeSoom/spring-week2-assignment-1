@@ -1,7 +1,5 @@
 package com.codesoom.assignment.model;
 
-import org.apache.logging.log4j.util.Strings;
-
 public class TaskInfo {
 
     private final long id;

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 @Service
 public class TaskService {
@@ -38,7 +37,7 @@ public class TaskService {
      * @throws TaskIdNotFoundException 할 일을 못 찾을 경우 발생하는 예외
      */
     public TaskInfo findById(Long id) {
-        return new TaskInfo(taskRepository.findById(id).orElseThrow(throwTaskException()));
+        return new TaskInfo(taskRepository.findById(id));
     }
 
     /**
@@ -57,10 +56,9 @@ public class TaskService {
      *
      * @param taskParam 수정 할 일
      * @return JSON으로 리턴될 수정된 할 일
-     * @throws TaskIdNotFoundException 할 일을 못 찾을 경우 발생하는 예외
      */
     public TaskInfo updateTask(TaskDto.TaskParam taskParam) {
-        return new TaskInfo(taskRepository.update(taskParam.toEitity()).orElseThrow(throwTaskException()));
+        return new TaskInfo(taskRepository.update(taskParam.toEitity()));
 
     }
 
@@ -70,13 +68,6 @@ public class TaskService {
      * @param id 삭제할 할 일 ID
      */
     public void deleteTask(Long id) {
-        taskRepository.delete(id).orElseThrow(throwTaskException());
-    }
-
-    /**
-     * TaskNotFoundException을 발생시킨다.
-     */
-    private Supplier<TaskIdNotFoundException> throwTaskException() {
-        return () -> new TaskIdNotFoundException("존재하지않는 아이디입니다.");
+        taskRepository.delete(id);
     }
 }
