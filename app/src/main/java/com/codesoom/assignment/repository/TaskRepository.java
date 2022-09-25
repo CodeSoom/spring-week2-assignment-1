@@ -11,14 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Repository
-public class TaskRepository {
+public class TaskRepository extends AbstractRepository {
     private final static Map<Long, Task> tasks = new ConcurrentHashMap<>();
-
-    private final IdGenerator idGenerator;
-
-    public TaskRepository(IdGenerator idGenerator) {
-        this.idGenerator = idGenerator;
-    }
 
     /**
      * 모든 task를 리턴한다.
@@ -39,7 +33,7 @@ public class TaskRepository {
      * @return 저장한 task
      */
     public Task save(TaskRequestDto task) {
-        long newId = idGenerator.generate();
+        long newId = generateId();
         Task newTask = new Task(newId, task.getTitle());
         tasks.put(newId, newTask);
         return Task.from(newTask);
