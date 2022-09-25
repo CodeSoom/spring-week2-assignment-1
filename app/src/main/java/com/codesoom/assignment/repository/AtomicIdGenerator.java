@@ -6,7 +6,7 @@ public class AtomicIdGenerator implements IdGenerator {
     private final AtomicLong id = new AtomicLong();
 
     @Override
-    public Long generate() {
+    public Number generate() {
         return id.incrementAndGet();
     }
 }

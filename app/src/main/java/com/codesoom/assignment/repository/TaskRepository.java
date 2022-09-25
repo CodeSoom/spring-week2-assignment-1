@@ -33,7 +33,7 @@ public class TaskRepository extends AbstractRepository {
      * @return 저장한 task
      */
     public Task save(TaskRequestDto task) {
-        long newId = generateId();
+        long newId = generateId().longValue();
         Task newTask = new Task(newId, task.getTitle());
         tasks.put(newId, newTask);
         return Task.from(newTask);

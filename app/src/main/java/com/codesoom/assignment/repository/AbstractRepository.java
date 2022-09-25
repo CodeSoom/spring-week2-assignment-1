@@ -6,7 +6,7 @@ package com.codesoom.assignment.repository;
 public abstract class AbstractRepository {
     private final IdGenerator idGenerator = new AtomicIdGenerator();
 
-    protected Long generateId() {
+    protected Number generateId() {
         return idGenerator.generate();
     }
 }
