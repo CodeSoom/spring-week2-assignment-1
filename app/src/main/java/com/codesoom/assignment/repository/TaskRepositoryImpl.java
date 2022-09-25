@@ -15,7 +15,6 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     private static final ConcurrentHashMap<Long, Task> database = new ConcurrentHashMap<>();
     private static final AtomicLong seq = new AtomicLong(0L);
-    public static final TaskIdNotFoundException TASK_ID_NOT_FOUND_EXCEPTION = new TaskIdNotFoundException("존재하지않는 아이디입니다.");
 
     @Override
     public Task save(Task task) {
@@ -31,7 +30,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Task findById(Long id) {
-        return Optional.ofNullable(database.get(id)).orElseThrow(TASK_ID_NOT_FOUND_EXCEPTION);
+        return Optional.ofNullable(database.get(id)).orElseThrow(TaskIdNotFoundException.throwException(id));
     }
 
     @Override
@@ -40,12 +39,12 @@ public class TaskRepositoryImpl implements TaskRepository {
                 .map(value -> {
                     value.setTitle(newTask.getTitle());
                     return value;
-                }).orElseThrow(TASK_ID_NOT_FOUND_EXCEPTION);
+                }).orElseThrow(TaskIdNotFoundException.throwException(newTask.getId()));
     }
 
     @Override
     public Task delete(Long id) {
         Task removedTask = database.remove(id);
-        return Optional.ofNullable(removedTask).orElseThrow(TASK_ID_NOT_FOUND_EXCEPTION);
+        return Optional.ofNullable(removedTask).orElseThrow(TaskIdNotFoundException.throwException(id));
     }
 }
