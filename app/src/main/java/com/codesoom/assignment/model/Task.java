@@ -4,6 +4,7 @@ import org.apache.logging.log4j.util.Strings;
 
 public class Task {
 
+    public static final String NO_TITLE = "No Title";
     private long id;
 
     private String title;
@@ -29,8 +30,13 @@ public class Task {
         this.title = initTitle(title);
     }
 
+    /**
+     * 입력받은 타이틀을 검증해서 빈 값일 경우 NO_TITLE 의 문자열 값을 리턴한다
+     * @param title 할 일 제목
+     * @return 가공된 할 일 제목
+     */
     public String initTitle(String title) {
-        return Strings.isBlank(title) ? "No Title" : title;
+        return Strings.isBlank(title) ? NO_TITLE : title;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.model.Task;
-import com.codesoom.assignment.model.UpdateTask;
+import com.codesoom.assignment.dto.TaskDto;
+import com.codesoom.assignment.model.TaskInfo;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,29 +29,28 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public List<Task> list() {
+    public List<TaskInfo> list() {
         return taskService.findAll();
     }
 
     @GetMapping("/tasks/{id}")
-    public Task findTask(@PathVariable("id") Long id) {
+    public TaskInfo findTask(@PathVariable("id") Long id) {
         return taskService.findById(id);
     }
 
     @PostMapping("/tasks")
     @ResponseStatus(HttpStatus.CREATED)
-    public Task insertTask(@RequestBody Task task) {
-        return taskService.insertTask(task);
+    public TaskInfo insertTask(@RequestBody TaskDto.InsertReq request) {
+        return taskService.insertTask(new TaskDto.TaskParam(request));
     }
 
     @RequestMapping(path = "/tasks/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task updateTask(@PathVariable("id") Long id, @RequestBody UpdateTask newTask) {
-        System.out.println(newTask.toString());
-        return taskService.updateTask(new Task(id, newTask.getTitle()));
+    public TaskInfo updateTask(@PathVariable("id") Long id, @RequestBody TaskDto.UpdateReq request) {
+        return taskService.updateTask(new TaskDto.TaskParam(id, request));
     }
 
     @DeleteMapping("/tasks/{id}")
-    public ResponseEntity<Task> deleteTask(@PathVariable("id") Long id) {
+    public ResponseEntity<TaskInfo> deleteTask(@PathVariable("id") Long id) {
         taskService.deleteTask(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
