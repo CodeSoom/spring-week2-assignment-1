@@ -33,6 +33,10 @@ public class TaskDto {
             return title;
         }
 
+        public TaskParam toTaskParam(long id) {
+            return new TaskParam(id, this.title);
+        }
+
         @Override
         public String toString() {
             return "UpdateReq{" +
@@ -54,6 +58,11 @@ public class TaskDto {
         public TaskParam(long id, UpdateReq request) {
             this.id = id;
             this.title = request.getTitle();
+        }
+
+        public TaskParam(long id, String title) {
+            this.id = id;
+            this.title = title;
         }
 
         public Task toEitity() {

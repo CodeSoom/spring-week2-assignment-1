@@ -46,7 +46,7 @@ public class TaskController {
 
     @RequestMapping(path = "/tasks/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public TaskInfo updateTask(@PathVariable("id") Long id, @RequestBody TaskDto.UpdateReq request) {
-        return taskService.updateTask(new TaskDto.TaskParam(id, request));
+        return taskService.updateTask(request.toTaskParam(id));
     }
 
     @DeleteMapping("/tasks/{id}")
