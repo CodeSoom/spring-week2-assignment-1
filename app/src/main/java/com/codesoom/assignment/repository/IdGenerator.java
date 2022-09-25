@@ -1,7 +1,7 @@
 package com.codesoom.assignment.repository;
 
 /**
- * This class stores id for Task and manipuldates id
+ * Generates a new id for Task
  */
 public class IdGenerator {
     private static Long newId = 0L;

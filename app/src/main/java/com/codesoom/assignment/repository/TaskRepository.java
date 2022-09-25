@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * The class stores Task data and contains CRUD operations.
+ * Task Respository class with CRUD operations
  */
 @Repository
 public class TaskRepository {
@@ -27,7 +27,7 @@ public class TaskRepository {
     }
 
     /**
-     * stores a new task to the database and returns optional task.
+     * stores a new task  and returns optional task.
      * @param task
      * @return saved optional task; otherwise, empty optional
      */

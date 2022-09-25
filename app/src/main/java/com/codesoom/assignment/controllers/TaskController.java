@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * The class is responsible for mapping /tasks requests
+ * Task Controller mapping for /tasks
  */
 @RestController
 @RequestMapping("/tasks")
@@ -30,7 +30,7 @@ public class TaskController {
     }
 
     /**
-     * Returns all lists of tasks from the database
+     * Returns all lists of tasks from the database.
      * @return the List of tasks
      */
     @GetMapping
@@ -40,9 +40,9 @@ public class TaskController {
 
     /**
      *
-     * Returns ResponseEntity with the found task
+     * Returns ResponseEntity with the found task.
      * @param id from URI parameter
-     * @return ResponseEntity with HttpStatus.OK; otherwise, returns ResponseEntity with HttpStatus.NOTFOUND
+     * @return Search results
      */
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskId(@PathVariable Long id) {
@@ -50,9 +50,9 @@ public class TaskController {
     }
 
     /**
-     * returns a newly created Task
+     * returns a newly created Task.
      * @param task from request body
-     * @return Task with a new id and title with HttpStatus.Ok; otherwise, returns ResponseEntity with HttpStatus.NOT_FOUND
+     * @return result of the created task
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -61,10 +61,10 @@ public class TaskController {
     }
 
     /**
-     * returns ResponseEntity with the updated task in the database
+     * returns ResponseEntity with the updated task in the database.
      * @param id from URI parameter
      * @param body from request body
-     * @return ResponseEntity with a HttpStatus.OK; otherwise return ResponseEntity with a HttpStatus.NOT_FOUND
+     * @return result of the updated task
      */
     @RequestMapping(value = "{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task body) {
@@ -75,7 +75,7 @@ public class TaskController {
     /**
      * returns ResponseEntity with the deleted task in the database.
      * @param id from URI parameter
-     * @return ResponseEntity with HttpStatus.NO_CONTENT; otherwise, a ResponseEntity with HttpStatus.NOT_FOUND
+     * @return result of the deleted task
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
