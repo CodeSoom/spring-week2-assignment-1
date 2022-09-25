@@ -7,7 +7,7 @@ public class IdGenerator {
     private static Long newId = 0L;
 
     /**
-     * Returns a newly generated id
+     * Returns a newly generated id.
      *
      * @return newId
      */

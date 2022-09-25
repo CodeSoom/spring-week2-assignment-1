@@ -1,8 +1,6 @@
 package com.codesoom.assignment.repository;
 
 import com.codesoom.assignment.models.Task;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,40 +8,68 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+
+/**
+ * The class stores Task data and contains CRUD operations.
+ */
 @Repository
 public class TaskRepository {
 
     private ConcurrentHashMap<Long, Task> tasksHash = new ConcurrentHashMap<>();
 
+    /**
+     * return Optional Task.
+     * @param id from URI param
+     * @return Optional task; otherwise, empty option
+     */
     public Optional<Task> findById(Long id) {
         return Optional.ofNullable(tasksHash.getOrDefault(id, null));
     }
 
+    /**
+     * stores a new task to the database and returns optional task.
+     * @param task
+     * @return saved optional task; otherwise, empty optional
+     */
     public Optional<Task> save(Task task) {
         Task newTask = new Task(IdGenerator.generateId(), task.getTitle());
         tasksHash.put(newTask.getId(), newTask);
         return Optional.ofNullable(newTask);
     }
 
+    /**
+     * returns all the list of tasks.
+     * @return the list of all tasks
+     */
     public List<Task> findAll() {
         return new ArrayList<>(
                 tasksHash.values());
     }
 
-    public ResponseEntity<Task> update(Long id, Task task) {
+    /**
+     * updates the task and returns the optional task.
+     * @param id from URI parameter
+     * @param task from the request body
+     * @return updated optional task; otherwise, returns optional empty
+     */
+    public Optional<Task> update(Long id, Task task) {
         if (tasksHash.containsKey(id)) {
-            Task updatedTask= tasksHash.get(id).updateTitle(task.getTitle());
+            Task updatedTask = tasksHash.get(id).updateTitle(task.getTitle());
             tasksHash.put(id, updatedTask);
-            return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+            return Optional.ofNullable(updatedTask);
         }
-        return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
+        return Optional.empty();
     }
 
-    public ResponseEntity<Task> deleteById(Long id) {
+    /**
+     * deletes the task from the database.
+     * @param id from URI param
+     * @return the deleted optional task; otherwise, optional empty
+     */
+    public Optional<Task> deleteById(Long id) {
         if (tasksHash.containsKey(id)) {
-            tasksHash.remove(id);
-            return new ResponseEntity<>(tasksHash.get(id), HttpStatus.NO_CONTENT);
+            return Optional.ofNullable(tasksHash.remove(id));
         }
-        return new ResponseEntity<>(new Task(), HttpStatus.NOT_FOUND);
+        return Optional.empty();
     }
 }
