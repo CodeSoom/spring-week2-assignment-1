@@ -34,9 +34,13 @@ public class TaskRepository {
         return task;
     }
 
-    public Task changeTitle(Long id, Task tempTask) {
-        Task originalTask = taskMap.get(id);
-        originalTask.setTitle(tempTask.getTitle());
+    public Task changeTitle(Long id, String newTitle) {
+        final Task originalTask = taskMap.get(id);
+        if (originalTask == null) {
+            return null;
+        }
+
+        originalTask.setTitle(newTitle);
         return originalTask;
     }
 

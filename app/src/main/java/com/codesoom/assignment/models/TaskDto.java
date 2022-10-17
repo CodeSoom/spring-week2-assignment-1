@@ -5,6 +5,9 @@ public class TaskDto {
     private Long id;
     private String title;
 
+    public TaskDto() {
+    }
+
     public TaskDto(Task task) {
         this.id = task.getId();
         this.title = task.getTitle();

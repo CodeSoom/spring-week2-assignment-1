@@ -28,26 +28,36 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto getTask(Long id) {
-        Task task = repository.findById(id);
+        final Task task = repository.findById(id);
+        if (task == null) {
+            return null;
+        }
+
         return taskToDto(task);
     }
 
     @Override
     public TaskDto createNewTask(TaskDto dto) {
-        Task task = repository.addTask(dtoToTask(dto));
+        final Task task = repository.addTask(dtoToTask(dto));
         return taskToDto(task);
     }
 
     @Override
     public TaskDto changeTitle(TaskDto dto) {
-        Task task = dtoToTask(dto);
-        Task changed = repository.changeTitle(task.getId(), task);
+        final Task changed = repository.changeTitle(dto.getId(), dto.getTitle());
+        if (changed == null) {
+            return null;
+        }
+
         return taskToDto(changed);
     }
 
     @Override
     public TaskDto deleteTask(Long id) {
-        Task task = repository.deleteById(id);
+        final Task task = repository.deleteById(id);
+        if (task == null) {
+            return null;
+        }
         return taskToDto(task);
     }
 }
