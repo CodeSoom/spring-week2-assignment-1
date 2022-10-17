@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +22,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     public Collection<Task> findAllTasks() {
-        return taskMap.values();
+        return Collections.unmodifiableCollection(taskMap.values());
     }
 
     public Task findById(Long id) {
