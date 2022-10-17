@@ -12,10 +12,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class TaskRepositoryImpl implements TaskRepository {
 
-    @Autowired
     private final TaskIdGenerator idGenerator;
     private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
+    @Autowired
     public TaskRepositoryImpl(TaskIdGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }

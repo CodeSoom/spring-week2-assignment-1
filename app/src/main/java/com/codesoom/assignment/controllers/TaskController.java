@@ -20,14 +20,14 @@ import java.util.Collection;
 @RequestMapping("/tasks")
 public class TaskController {
 
-    @Autowired
     private final TaskService service;
 
+    @Autowired
     public TaskController(TaskService service) {
         this.service = service;
     }
 
-    @GetMapping()
+    @GetMapping
     public Collection<TaskDto> getTasks() {
         return service.getAllTasks();
     }
@@ -42,7 +42,7 @@ public class TaskController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<TaskDto> postTask(@RequestBody TaskDto dto) {
         final TaskDto dtoCreated = service.createNewTask(dto);
         return new ResponseEntity<>(dtoCreated, HttpStatus.CREATED);

@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
     private final TaskRepository repository;
 
+    @Autowired
     public TaskServiceImpl(TaskRepository repository) {
         this.repository = repository;
     }
