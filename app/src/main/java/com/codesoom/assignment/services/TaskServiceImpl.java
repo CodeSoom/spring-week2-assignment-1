@@ -39,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto createNewTask(TaskDto dto) {
-        final Task task = repository.addTask(dtoToTask(dto));
+        final Task task = repository.addTask(dto.getTitle());
         return taskToDto(task);
     }
 

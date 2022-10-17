@@ -31,8 +31,8 @@ public class TaskRepositoryImpl implements TaskRepository {
         return Optional.ofNullable(task);
     }
 
-    public Task addTask(Task task) {
-        task.setId(idGenerator.allocateId());
+    public Task addTask(String title) {
+        final Task task = new Task(idGenerator.allocateId(), title);
         taskMap.put(task.getId(), task);
         return task;
     }

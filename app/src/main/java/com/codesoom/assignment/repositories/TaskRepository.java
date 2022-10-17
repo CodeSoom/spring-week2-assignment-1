@@ -11,7 +11,7 @@ public interface TaskRepository {
 
     Optional<Task> findById(Long id);
 
-    Task addTask(Task task);
+    Task addTask(String title);
 
     Optional<Task> changeTitle(Long id, String newTitle);
 
