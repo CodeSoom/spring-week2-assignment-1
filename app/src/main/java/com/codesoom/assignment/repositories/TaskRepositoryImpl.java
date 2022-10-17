@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -25,8 +26,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         return Collections.unmodifiableCollection(taskMap.values());
     }
 
-    public Task findById(Long id) {
-        return taskMap.get(id);
+    public Optional<Task> findById(Long id) {
+        final Task task = taskMap.get(id);
+        return Optional.ofNullable(task);
     }
 
     public Task addTask(Task task) {
@@ -35,17 +37,18 @@ public class TaskRepositoryImpl implements TaskRepository {
         return task;
     }
 
-    public Task changeTitle(Long id, String newTitle) {
-        final Task originalTask = taskMap.get(id);
-        if (originalTask == null) {
-            return null;
+    public Optional<Task> changeTitle(Long id, String newTitle) {
+        if (!taskMap.containsKey(id)) {
+            return Optional.empty();
         }
 
-        originalTask.setTitle(newTitle);
-        return originalTask;
+        final Task changedTask = new Task(id, newTitle);
+        taskMap.put(changedTask.getId(), changedTask);
+        return Optional.of(changedTask);
     }
 
-    public Task deleteById(Long id) {
-        return taskMap.remove(id);
+    public Optional<Task> deleteById(Long id) {
+        final Task removedTask = taskMap.remove(id);
+        return Optional.ofNullable(removedTask);
     }
 }

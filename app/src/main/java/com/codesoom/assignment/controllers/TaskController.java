@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -37,12 +38,12 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskDto> getTask(@PathVariable Long id) {
-        final TaskDto dto = service.getTask(id);
-        if (dto == null) {
+        final Optional<TaskDto> optionalTaskDto = service.getTask(id);
+        if (optionalTaskDto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(optionalTaskDto.get());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -54,18 +55,18 @@ public class TaskController {
     @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<TaskDto> editTask(@PathVariable Long id, @RequestBody TaskDto dto) {
         dto.setId(id);
-        final TaskDto dtoChanged = service.changeTitle(dto);
-        if (dtoChanged == null) {
+        final Optional<TaskDto> optionalTaskDto = service.changeTitle(dto);
+        if (optionalTaskDto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(dtoChanged);
+        return ResponseEntity.ok(optionalTaskDto.get());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable Long id) {
-        TaskDto dto = service.deleteTask(id);
-        if (dto == null) {
+        final Optional<TaskDto> optionalTaskDto = service.deleteTask(id);
+        if (optionalTaskDto.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 

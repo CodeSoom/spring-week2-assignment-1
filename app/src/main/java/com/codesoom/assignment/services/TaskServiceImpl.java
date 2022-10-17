@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,13 +28,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDto getTask(Long id) {
-        final Task task = repository.findById(id);
-        if (task == null) {
-            return null;
+    public Optional<TaskDto> getTask(Long id) {
+        final Optional<Task> optionalTask = repository.findById(id);
+        if (optionalTask.isEmpty()) {
+            return Optional.empty();
         }
 
-        return taskToDto(task);
+        return optionalTask.map(this::taskToDto);
     }
 
     @Override
@@ -43,21 +44,22 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDto changeTitle(TaskDto dto) {
-        final Task changed = repository.changeTitle(dto.getId(), dto.getTitle());
-        if (changed == null) {
-            return null;
+    public Optional<TaskDto> changeTitle(TaskDto dto) {
+        final Optional<Task> optionalTask = repository.changeTitle(dto.getId(), dto.getTitle());
+        if (optionalTask.isEmpty()) {
+            return Optional.empty();
         }
 
-        return taskToDto(changed);
+        return optionalTask.map(this::taskToDto);
     }
 
     @Override
-    public TaskDto deleteTask(Long id) {
-        final Task task = repository.deleteById(id);
-        if (task == null) {
-            return null;
+    public Optional<TaskDto> deleteTask(Long id) {
+        final Optional<Task> optionalTask = repository.deleteById(id);
+        if (optionalTask.isEmpty()) {
+            return Optional.empty();
         }
-        return taskToDto(task);
+
+        return optionalTask.map(this::taskToDto);
     }
 }
