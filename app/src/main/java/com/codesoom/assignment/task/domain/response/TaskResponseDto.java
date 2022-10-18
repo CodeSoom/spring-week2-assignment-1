@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 @Builder
 public class TaskResponseDto {
-    private Long id;
-    private String title;
+    private final Long id;
+    private final String title;
 
     public static TaskResponseDto from(Task task) {
         return TaskResponseDto.builder()

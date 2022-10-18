@@ -10,7 +10,7 @@ import java.util.List;
 public class TaskRepository {
     private static final List<Task> tasks = new ArrayList<>();
 
-    public List<Task> getTasks() {
+    public List<Task> findAll() {
         return tasks;
     }
 
@@ -26,5 +26,9 @@ public class TaskRepository {
                 .filter(task -> task.getTitle().equals(title))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public boolean create(Task task) {
+        return tasks.add(task);
     }
 }
