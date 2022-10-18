@@ -1,14 +1,30 @@
 package com.codesoom.assignment.task.domain;
 
-public class Task {
-    private Long id;
-    private String title;
+import lombok.Builder;
+import lombok.Getter;
 
-    public Long getId() {
-        return id;
+import java.util.Objects;
+
+@Getter
+@Builder
+public class Task {
+    private final Long id;
+    private final String title;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Task task = (Task) o;
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title);
     }
 
-    public String getTitle() {
-        return title;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
     }
 }
