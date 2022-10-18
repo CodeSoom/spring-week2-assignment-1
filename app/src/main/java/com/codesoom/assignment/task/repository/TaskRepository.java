@@ -31,4 +31,16 @@ public class TaskRepository {
     public boolean create(Task task) {
         return tasks.add(task);
     }
+
+    public Task update(Task task) {
+        Task originTask = findById(task.getId());
+
+        if (originTask == null) {
+            // Not Found 에러
+        }
+
+        tasks.set(tasks.indexOf(originTask), task);
+
+        return task;
+    }
 }

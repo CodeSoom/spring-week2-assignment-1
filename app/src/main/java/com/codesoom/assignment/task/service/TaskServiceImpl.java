@@ -45,4 +45,11 @@ public class TaskServiceImpl implements TaskService {
 
         return task;
     }
+
+    @Override
+    public Task updateTask(Long id, TaskRequestDto taskRequestDto) {
+        Task task = taskRequestDto.toEntity(id);
+
+        return taskRepository.update(task);
+    }
 }
