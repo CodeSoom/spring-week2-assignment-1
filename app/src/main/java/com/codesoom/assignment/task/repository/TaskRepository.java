@@ -1,7 +1,6 @@
 package com.codesoom.assignment.task.repository;
 
 import com.codesoom.assignment.task.domain.Task;
-import com.codesoom.assignment.task.domain.request.TaskSearchDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -15,13 +14,16 @@ public class TaskRepository {
         return tasks;
     }
 
-    public Task getTaskById(TaskSearchDto taskSearchDto) {
-        if (taskSearchDto.getId() == null) {
-            return null;
-        }
-
+    public Task findById(Long id) {
         return tasks.stream()
-                .filter(task -> task.getId().equals(taskSearchDto.getId()))
+                .filter(task -> task.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Task findByTitle(String title) {
+        return tasks.stream()
+                .filter(task -> task.getTitle().equals(title))
                 .findFirst()
                 .orElse(null);
     }

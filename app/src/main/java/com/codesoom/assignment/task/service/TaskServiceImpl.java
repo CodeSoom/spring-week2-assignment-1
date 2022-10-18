@@ -1,7 +1,6 @@
 package com.codesoom.assignment.task.service;
 
 import com.codesoom.assignment.task.domain.Task;
-import com.codesoom.assignment.task.domain.request.TaskSearchDto;
 import com.codesoom.assignment.task.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +17,12 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public List<Task> gets() {
+    public List<Task> getTasks() {
         return taskRepository.getTasks();
     }
 
     @Override
-    public Task getById(TaskSearchDto taskSearchDto) {
-        return taskRepository.getTaskById(taskSearchDto);
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id);
     }
 }
