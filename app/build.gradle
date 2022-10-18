@@ -46,6 +46,10 @@ dependencies {
 
     // Spring devTool
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // Lombok
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor('org.projectlombok:lombok')
 }
 
 application {
