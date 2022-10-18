@@ -13,7 +13,5 @@ public interface TaskRepository {
 
     Task addTask(Task task);
 
-    Optional<Task> changeTitle(Task task);
-
     Optional<Task> deleteById(Long id);
 }

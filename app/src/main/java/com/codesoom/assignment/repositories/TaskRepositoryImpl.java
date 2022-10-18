@@ -28,15 +28,6 @@ public class TaskRepositoryImpl implements TaskRepository {
         return task;
     }
 
-    public Optional<Task> changeTitle(Task task) {
-        if (!taskMap.containsKey(task.getId())) {
-            return Optional.empty();
-        }
-
-        taskMap.put(task.getId(), task);
-        return Optional.of(task);
-    }
-
     public Optional<Task> deleteById(Long id) {
         final Task removedTask = taskMap.remove(id);
         return Optional.ofNullable(removedTask);

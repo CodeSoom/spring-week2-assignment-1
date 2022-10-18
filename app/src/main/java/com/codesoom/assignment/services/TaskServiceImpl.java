@@ -36,15 +36,22 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto createNewTask(TaskDto dto) {
-        final Task task = taskGenerator.generateTask(dto);
+        final Task task = taskGenerator.generateNewTask(dto);
         final Task addedTask = repository.addTask(task);
         return new TaskDto(addedTask);
     }
 
     @Override
     public Optional<TaskDto> changeTitle(TaskDto dto) {
-        final Optional<Task> task = repository.changeTitle(dto.getTask());
-        return task.map(TaskDto::new);
+        final Optional<Task> optionalTask = repository.findById(dto.getId());
+        if (optionalTask.isEmpty()) {
+            return Optional.empty();
+        }
+
+        final Task originalTask = optionalTask.get();
+        final Task taskWithTitleChanged = taskGenerator.changeTitle(originalTask, dto.getTitle());
+        final Task addedTask = repository.addTask(taskWithTitleChanged);
+        return Optional.of(new TaskDto(addedTask));
     }
 
     @Override
