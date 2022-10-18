@@ -1,6 +1,6 @@
 package com.codesoom.assignment.models;
 
-public class TaskDto {
+public class TaskDto extends Decorator {
 
     private Long id;
     private String title;
@@ -8,24 +8,31 @@ public class TaskDto {
     public TaskDto() {
     }
 
-    public TaskDto(Task task) {
-        this.id = task.getId();
-        this.title = task.getTitle();
-    }
-
+    @Override
     public Long getId() {
-        return id;
+        return !super.hasBaskTask() ? super.getId() : this.id;
     }
 
     public void setId(Long id) {
         this.id = id;
+        if (this.title != null) {
+            super.setBaseTask(new Task(id, title));
+        }
     }
 
+    @Override
     public String getTitle() {
-        return title;
+        return !super.hasBaskTask() ? super.getTitle() : this.title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+        if (this.id != null) {
+            super.setBaseTask(new Task(id, title));
+        }
+    }
+
+    public BaseTask toTask() {
+        return super.getBaseTask();
     }
 }
