@@ -27,11 +27,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Optional<BaseTask> getTask(Long id) {
         final Optional<BaseTask> task = repository.findById(id);
-        if (task.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return task;
+        return task.or(Optional::empty);
     }
 
     @Override
@@ -42,20 +38,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Optional<BaseTask> changeTitle(TaskDto dto) {
         final Optional<BaseTask> task = repository.changeTitle(dto.toTask());
-        if (task.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return task;
+        return task.or(Optional::empty);
     }
 
     @Override
     public Optional<BaseTask> deleteTask(Long id) {
         final Optional<BaseTask> task = repository.deleteById(id);
-        if (task.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return task;
+        return task.or(Optional::empty);
     }
 }
