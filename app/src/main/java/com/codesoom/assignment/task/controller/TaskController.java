@@ -5,6 +5,7 @@ import com.codesoom.assignment.task.domain.request.TaskRequestDto;
 import com.codesoom.assignment.task.domain.response.TaskResponseDto;
 import com.codesoom.assignment.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -58,7 +59,7 @@ public class TaskController {
     public ResponseEntity<TaskResponseDto> create(@RequestBody TaskRequestDto taskRequestDto) {
         Task task = taskService.createTask(taskRequestDto);
 
-        return ResponseEntity.ok().body(TaskResponseDto.from(task));
+        return ResponseEntity.status(HttpStatus.CREATED).body(TaskResponseDto.from(task));
     }
 
     @PutMapping("/{id}")
