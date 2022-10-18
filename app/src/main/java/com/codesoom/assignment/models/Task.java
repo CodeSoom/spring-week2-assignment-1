@@ -1,6 +1,6 @@
 package com.codesoom.assignment.models;
 
-public class Task extends BaseTask {
+public class Task {
 
     private final Long id;
     private final String title;
