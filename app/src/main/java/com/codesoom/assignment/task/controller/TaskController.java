@@ -7,6 +7,7 @@ import com.codesoom.assignment.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -61,8 +62,16 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponseDto> update(@PathVariable Long id,
-                                                  @RequestBody TaskRequestDto taskRequestDto) {
+    public ResponseEntity<TaskResponseDto> put(@PathVariable Long id,
+                                               @RequestBody TaskRequestDto taskRequestDto) {
+        Task task = taskService.updateTask(id, taskRequestDto);
+
+        return ResponseEntity.ok().body(TaskResponseDto.from(task));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<TaskResponseDto> patch(@PathVariable Long id,
+                                                 @RequestBody TaskRequestDto taskRequestDto) {
         Task task = taskService.updateTask(id, taskRequestDto);
 
         return ResponseEntity.ok().body(TaskResponseDto.from(task));
