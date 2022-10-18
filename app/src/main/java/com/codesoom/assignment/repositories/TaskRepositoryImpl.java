@@ -1,7 +1,8 @@
 package com.codesoom.assignment.repositories;
 
+import com.codesoom.assignment.models.BaseTask;
+import com.codesoom.assignment.models.TaskDto;
 import com.codesoom.assignment.utils.TaskIdGenerator;
-import com.codesoom.assignment.models.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,40 +16,40 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TaskRepositoryImpl implements TaskRepository {
 
     private final TaskIdGenerator idGenerator;
-    private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
+    private final Map<Long, BaseTask> taskMap = new ConcurrentHashMap<>();
 
     @Autowired
     public TaskRepositoryImpl(TaskIdGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }
 
-    public Collection<Task> findAllTasks() {
+    public Collection<BaseTask> findAllTasks() {
         return Collections.unmodifiableCollection(taskMap.values());
     }
 
-    public Optional<Task> findById(Long id) {
-        final Task task = taskMap.get(id);
+    public Optional<BaseTask> findById(Long id) {
+        final BaseTask task = taskMap.get(id);
         return Optional.ofNullable(task);
     }
 
-    public Task addTask(String title) {
-        final Task task = new Task(idGenerator.allocateId(), title);
+    public BaseTask addTask(TaskDto dto) {
+        dto.setId(idGenerator.allocateId());
+        final BaseTask task = dto.toTask();
         taskMap.put(task.getId(), task);
         return task;
     }
 
-    public Optional<Task> changeTitle(Long id, String newTitle) {
-        if (!taskMap.containsKey(id)) {
+    public Optional<BaseTask> changeTitle(BaseTask task) {
+        if (!taskMap.containsKey(task.getId())) {
             return Optional.empty();
         }
 
-        final Task changedTask = new Task(id, newTitle);
-        taskMap.put(changedTask.getId(), changedTask);
-        return Optional.of(changedTask);
+        taskMap.put(task.getId(), task);
+        return Optional.of(task);
     }
 
-    public Optional<Task> deleteById(Long id) {
-        final Task removedTask = taskMap.remove(id);
+    public Optional<BaseTask> deleteById(Long id) {
+        final BaseTask removedTask = taskMap.remove(id);
         return Optional.ofNullable(removedTask);
     }
 }

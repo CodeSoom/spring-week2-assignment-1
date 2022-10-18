@@ -1,6 +1,6 @@
 package com.codesoom.assignment.services;
 
-import com.codesoom.assignment.models.Task;
+import com.codesoom.assignment.models.BaseTask;
 import com.codesoom.assignment.models.TaskDto;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -21,45 +20,42 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Collection<TaskDto> getAllTasks() {
-        return repository.findAllTasks().stream()
-                .map(this::taskToDto)
-                .collect(Collectors.toList());
+    public Collection<BaseTask> getAllTasks() {
+        return repository.findAllTasks();
     }
 
     @Override
-    public Optional<TaskDto> getTask(Long id) {
-        final Optional<Task> optionalTask = repository.findById(id);
-        if (optionalTask.isEmpty()) {
+    public Optional<BaseTask> getTask(Long id) {
+        final Optional<BaseTask> task = repository.findById(id);
+        if (task.isEmpty()) {
             return Optional.empty();
         }
 
-        return optionalTask.map(this::taskToDto);
+        return task;
     }
 
     @Override
-    public TaskDto createNewTask(TaskDto dto) {
-        final Task task = repository.addTask(dto.getTitle());
-        return taskToDto(task);
+    public BaseTask createNewTask(TaskDto dto) {
+        return repository.addTask(dto);
     }
 
     @Override
-    public Optional<TaskDto> changeTitle(TaskDto dto) {
-        final Optional<Task> optionalTask = repository.changeTitle(dto.getId(), dto.getTitle());
-        if (optionalTask.isEmpty()) {
+    public Optional<BaseTask> changeTitle(TaskDto dto) {
+        final Optional<BaseTask> task = repository.changeTitle(dto.toTask());
+        if (task.isEmpty()) {
             return Optional.empty();
         }
 
-        return optionalTask.map(this::taskToDto);
+        return task;
     }
 
     @Override
-    public Optional<TaskDto> deleteTask(Long id) {
-        final Optional<Task> optionalTask = repository.deleteById(id);
-        if (optionalTask.isEmpty()) {
+    public Optional<BaseTask> deleteTask(Long id) {
+        final Optional<BaseTask> task = repository.deleteById(id);
+        if (task.isEmpty()) {
             return Optional.empty();
         }
 
-        return optionalTask.map(this::taskToDto);
+        return task;
     }
 }

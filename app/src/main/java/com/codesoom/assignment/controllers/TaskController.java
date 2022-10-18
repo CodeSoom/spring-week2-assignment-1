@@ -1,5 +1,6 @@
 package com.codesoom.assignment.controllers;
 
+import com.codesoom.assignment.models.BaseTask;
 import com.codesoom.assignment.models.TaskDto;
 import com.codesoom.assignment.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,41 +33,41 @@ public class TaskController {
     }
 
     @GetMapping
-    public Collection<TaskDto> getTasks() {
+    public Collection<BaseTask> getTasks() {
         return service.getAllTasks();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskDto> getTask(@PathVariable Long id) {
-        final Optional<TaskDto> optionalTaskDto = service.getTask(id);
-        if (optionalTaskDto.isEmpty()) {
+    public ResponseEntity<BaseTask> getTask(@PathVariable Long id) {
+        final Optional<BaseTask> task = service.getTask(id);
+        if (task.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(optionalTaskDto.get());
+        return ResponseEntity.ok(task.get());
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public TaskDto postTask(@RequestBody TaskDto dto) {
+    public BaseTask postTask(@RequestBody TaskDto dto) {
         return service.createNewTask(dto);
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PATCH, RequestMethod.PUT})
-    public ResponseEntity<TaskDto> editTask(@PathVariable Long id, @RequestBody TaskDto dto) {
+    public ResponseEntity<BaseTask> editTask(@PathVariable Long id, @RequestBody TaskDto dto) {
         dto.setId(id);
-        final Optional<TaskDto> optionalTaskDto = service.changeTitle(dto);
-        if (optionalTaskDto.isEmpty()) {
+        final Optional<BaseTask> task = service.changeTitle(dto);
+        if (task.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(optionalTaskDto.get());
+        return ResponseEntity.ok(task.get());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable Long id) {
-        final Optional<TaskDto> optionalTaskDto = service.deleteTask(id);
-        if (optionalTaskDto.isEmpty()) {
+        final Optional<BaseTask> task = service.deleteTask(id);
+        if (task.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
