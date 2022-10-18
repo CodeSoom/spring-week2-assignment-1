@@ -3,7 +3,6 @@ package com.codesoom.assignment.repositories;
 import com.codesoom.assignment.models.BaseTask;
 import com.codesoom.assignment.models.TaskDto;
 import com.codesoom.assignment.utils.TaskIdGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -18,7 +17,6 @@ public class TaskRepositoryImpl implements TaskRepository {
     private final TaskIdGenerator idGenerator;
     private final Map<Long, BaseTask> taskMap = new ConcurrentHashMap<>();
 
-    @Autowired
     public TaskRepositoryImpl(TaskIdGenerator idGenerator) {
         this.idGenerator = idGenerator;
     }

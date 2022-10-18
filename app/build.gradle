@@ -34,10 +34,10 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.11.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.3'
 
-    // Spring Web
+    // Spring Dev tools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    // Spring Dev tools
+    // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 

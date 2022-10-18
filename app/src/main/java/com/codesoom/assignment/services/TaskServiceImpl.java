@@ -3,7 +3,6 @@ package com.codesoom.assignment.services;
 import com.codesoom.assignment.models.BaseTask;
 import com.codesoom.assignment.models.TaskDto;
 import com.codesoom.assignment.repositories.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -14,7 +13,6 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository repository;
 
-    @Autowired
     public TaskServiceImpl(TaskRepository repository) {
         this.repository = repository;
     }
