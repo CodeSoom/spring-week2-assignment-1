@@ -1,20 +1,19 @@
 package com.codesoom.assignment.repositories;
 
-import com.codesoom.assignment.models.BaseTask;
-import com.codesoom.assignment.models.TaskDto;
+import com.codesoom.assignment.models.Task;
 
 import java.util.Collection;
 import java.util.Optional;
 
 public interface TaskRepository {
 
-    Collection<BaseTask> findAllTasks();
+    Collection<Task> findAllTasks();
 
-    Optional<BaseTask> findById(Long id);
+    Optional<Task> findById(Long id);
 
-    BaseTask addTask(TaskDto dto);
+    Task addTask(Task task);
 
-    Optional<BaseTask> changeTitle(BaseTask task);
+    Optional<Task> changeTitle(Task task);
 
-    Optional<BaseTask> deleteById(Long id);
+    Optional<Task> deleteById(Long id);
 }

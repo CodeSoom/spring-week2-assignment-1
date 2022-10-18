@@ -1,6 +1,5 @@
 package com.codesoom.assignment.services;
 
-import com.codesoom.assignment.models.BaseTask;
 import com.codesoom.assignment.models.TaskDto;
 
 import java.util.Collection;
@@ -8,13 +7,13 @@ import java.util.Optional;
 
 public interface TaskService {
 
-    Collection<BaseTask> getAllTasks();
+    Collection<TaskDto> getAllTasks();
 
-    Optional<BaseTask> getTask(Long id);
+    Optional<TaskDto> getTask(Long id);
 
-    BaseTask createNewTask(TaskDto dto);
+    TaskDto createNewTask(TaskDto dto);
 
-    Optional<BaseTask> changeTitle(TaskDto dto);
+    Optional<TaskDto> changeTitle(TaskDto dto);
 
-    Optional<BaseTask> deleteTask(Long id);
+    Optional<TaskDto> deleteTask(Long id);
 }

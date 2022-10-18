@@ -1,8 +1,6 @@
 package com.codesoom.assignment.repositories;
 
-import com.codesoom.assignment.models.BaseTask;
-import com.codesoom.assignment.models.TaskDto;
-import com.codesoom.assignment.utils.TaskIdGenerator;
+import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -14,30 +12,23 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class TaskRepositoryImpl implements TaskRepository {
 
-    private final TaskIdGenerator idGenerator;
-    private final Map<Long, BaseTask> taskMap = new ConcurrentHashMap<>();
+    private final Map<Long, Task> taskMap = new ConcurrentHashMap<>();
 
-    public TaskRepositoryImpl(TaskIdGenerator idGenerator) {
-        this.idGenerator = idGenerator;
-    }
-
-    public Collection<BaseTask> findAllTasks() {
+    public Collection<Task> findAllTasks() {
         return Collections.unmodifiableCollection(taskMap.values());
     }
 
-    public Optional<BaseTask> findById(Long id) {
-        final BaseTask task = taskMap.get(id);
+    public Optional<Task> findById(Long id) {
+        final Task task = taskMap.get(id);
         return Optional.ofNullable(task);
     }
 
-    public BaseTask addTask(TaskDto dto) {
-        dto.setId(idGenerator.allocateId());
-        final BaseTask task = dto.toTask();
+    public Task addTask(Task task) {
         taskMap.put(task.getId(), task);
         return task;
     }
 
-    public Optional<BaseTask> changeTitle(BaseTask task) {
+    public Optional<Task> changeTitle(Task task) {
         if (!taskMap.containsKey(task.getId())) {
             return Optional.empty();
         }
@@ -46,8 +37,8 @@ public class TaskRepositoryImpl implements TaskRepository {
         return Optional.of(task);
     }
 
-    public Optional<BaseTask> deleteById(Long id) {
-        final BaseTask removedTask = taskMap.remove(id);
+    public Optional<Task> deleteById(Long id) {
+        final Task removedTask = taskMap.remove(id);
         return Optional.ofNullable(removedTask);
     }
 }
