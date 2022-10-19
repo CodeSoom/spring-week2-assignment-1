@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +58,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponseDto> create(@RequestBody TaskRequestDto taskRequestDto) {
+    public ResponseEntity<TaskResponseDto> create(@RequestBody @Valid TaskRequestDto taskRequestDto) {
         Task task = taskService.createTask(taskRequestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(TaskResponseDto.from(task));
@@ -65,7 +66,7 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<TaskResponseDto> put(@PathVariable Long id,
-                                               @RequestBody TaskRequestDto taskRequestDto) {
+                                               @RequestBody @Valid TaskRequestDto taskRequestDto) {
         Task task = taskService.updateTask(id, taskRequestDto);
 
         return ResponseEntity.ok().body(TaskResponseDto.from(task));
@@ -73,7 +74,7 @@ public class TaskController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<TaskResponseDto> patch(@PathVariable Long id,
-                                                 @RequestBody TaskRequestDto taskRequestDto) {
+                                                 @RequestBody @Valid TaskRequestDto taskRequestDto) {
         Task task = taskService.updateTask(id, taskRequestDto);
 
         return ResponseEntity.ok().body(TaskResponseDto.from(task));
