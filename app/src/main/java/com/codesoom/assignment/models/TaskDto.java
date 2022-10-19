@@ -37,4 +37,8 @@ public class TaskDto {
         this.title = title;
     }
 
+    public Task createNewTask() {
+        this.task = new Task(id, title);
+        return this.task;
+    }
 }

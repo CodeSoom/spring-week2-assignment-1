@@ -9,33 +9,29 @@ public class Task {
     private final LocalDateTime regDate;
     private final LocalDateTime modDate;
 
-    public Task(Long id, String title, LocalDateTime regDate) {
+    Task(Long id, String title) {
         this.id = id;
         this.title = title;
-        this.regDate = regDate;
-        this.modDate = regDate;
+        this.regDate = LocalDateTime.now();
+        this.modDate = this.regDate;
     }
 
-    public Task(Long id, String title, LocalDateTime regDate, LocalDateTime modDate) {
+    private Task(Long id, String title, LocalDateTime regDate, LocalDateTime modDate) {
         this.id = id;
         this.title = title;
         this.regDate = regDate;
         this.modDate = modDate;
     }
 
-    public Long getId() {
+    Long getId() {
         return id;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public LocalDateTime getRegDate() {
-        return regDate;
-    }
-
-    public LocalDateTime getModDate() {
-        return modDate;
+    public Task changeTitle(String title) {
+        return new Task(this.id, title, this.regDate, LocalDateTime.now());
     }
 }
