@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 public class TaskRequestDto {
-    @NotBlank
+    @NotBlank(message = "title을 입력해주세요")
     private String title;
 
     public Task toEntity(Long id) {

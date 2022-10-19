@@ -21,13 +21,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*
-    1. Read Collection - GET /tasks => 완료
-    2. Read Item - GET /tasks/{id}  => 완료
-    3. Create - POST /tasks => 완료
-    4. Update - PUT/PATCH /tasks/{id}
-    5. Delete - DELETE /tasks/{id}
-*/
 
 @RestController
 @RequestMapping("/tasks")
