@@ -23,11 +23,11 @@ public class Task {
         this.modDate = modDate;
     }
 
-    Long getId() {
+    public Long getId() {
         return id;
     }
 
-    String getTitle() {
+    public String getTitle() {
         return title;
     }
 
