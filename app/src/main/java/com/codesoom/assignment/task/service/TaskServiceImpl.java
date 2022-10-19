@@ -46,13 +46,18 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task updateTask(Long id, TaskRequestDto taskRequestDto) {
         Task task = taskRequestDto.toEntity(id);
+        Task originTask = taskRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(ErrorCode.NOT_FOUND));
 
-        return taskRepository.update(task);
+        return taskRepository.update(originTask, task);
     }
 
     @Override
     public void deleteTask(Long id) {
-        boolean result = taskRepository.delete(id);
+        Task originTask = taskRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(ErrorCode.NOT_FOUND));
+
+        boolean result = taskRepository.delete(originTask);
 
         if (!result) {
             throw new RestApiException(ErrorCode.CONFLICT);
