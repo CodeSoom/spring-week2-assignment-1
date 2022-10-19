@@ -1,5 +1,7 @@
 package com.codesoom.assignment.task.repository;
 
+import com.codesoom.assignment.common.exception.ErrorCode;
+import com.codesoom.assignment.common.exception.RestApiException;
 import com.codesoom.assignment.task.domain.Task;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +38,7 @@ public class TaskRepository {
         Task originTask = findById(task.getId());
 
         if (originTask == null) {
-            // Not Found 에러
+            throw new RestApiException(ErrorCode.NOT_FOUND);
         }
 
         tasks.set(tasks.indexOf(originTask), task);
@@ -48,7 +50,7 @@ public class TaskRepository {
         Task originTask = findById(id);
 
         if (originTask == null) {
-            // Not Found 에러
+            throw new RestApiException(ErrorCode.NOT_FOUND);
         }
 
         return tasks.remove(originTask);

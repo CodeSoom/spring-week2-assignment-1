@@ -1,6 +1,8 @@
 package com.codesoom.assignment.task.service;
 
 import com.codesoom.assignment.IdGenerator;
+import com.codesoom.assignment.common.exception.RestApiException;
+import com.codesoom.assignment.common.exception.ErrorCode;
 import com.codesoom.assignment.task.domain.Task;
 import com.codesoom.assignment.task.domain.request.TaskRequestDto;
 import com.codesoom.assignment.task.repository.TaskRepository;
@@ -28,7 +30,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.findById(id);
 
         if (task == null) {
-            // Not Found 에러
+            throw new RestApiException(ErrorCode.NOT_FOUND);
         }
 
         return task;
@@ -40,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
         boolean result = taskRepository.create(task);
 
         if (!result) {
-            // 실패 에러
+            throw new RestApiException(ErrorCode.CONFLICT);
         }
 
         return task;
@@ -58,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
         boolean result = taskRepository.delete(id);
 
         if (!result) {
-            // 실패 에러
+            throw new RestApiException(ErrorCode.CONFLICT);
         }
     }
 }
