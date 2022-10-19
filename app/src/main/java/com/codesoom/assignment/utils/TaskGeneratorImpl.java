@@ -22,6 +22,6 @@ public class TaskGeneratorImpl implements TaskGenerator {
 
     @Override
     public Task changeTitle(Task originalTask, String title) {
-        return new Task(originalTask.getId(), title, originalTask.getRegDate(), originalTask.getModDate());
+        return new Task(originalTask.getId(), title, originalTask.getRegDate(), LocalDateTime.now());
     }
 }

@@ -3,7 +3,6 @@ package com.codesoom.assignment.repositories;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -20,21 +19,25 @@ public class TaskRepositoryImpl implements TaskRepository {
         return Collections.unmodifiableCollection(taskMap.values());
     }
 
+    @Override
     public Optional<Task> findById(Long id) {
         final Task task = taskMap.get(id);
         return Optional.ofNullable(task);
     }
 
+    @Override
     public Task addTask(Task task) {
         taskMap.put(task.getId(), task);
         return task;
     }
 
+    @Override
     public Optional<Task> deleteById(Long id) {
         final Task removedTask = taskMap.remove(id);
         return Optional.ofNullable(removedTask);
     }
 
+    @Override
     public Map<Long, Task> deleteTasks(List<Long> idList) {
         final Map<Long, Task> removedTasks = new ConcurrentHashMap<>();
 

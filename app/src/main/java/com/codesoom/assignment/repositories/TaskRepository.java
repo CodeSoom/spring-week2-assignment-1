@@ -3,6 +3,8 @@ package com.codesoom.assignment.repositories;
 import com.codesoom.assignment.models.Task;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface TaskRepository {
@@ -14,4 +16,6 @@ public interface TaskRepository {
     Task addTask(Task task);
 
     Optional<Task> deleteById(Long id);
+
+    Map<Long, Task> deleteTasks(List<Long> idList);
 }
