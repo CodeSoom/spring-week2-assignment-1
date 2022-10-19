@@ -5,9 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -38,11 +38,14 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Map<Long, Task> deleteTasks(List<Long> idList) {
+    public Map<Long, Task> deleteTasks(Set<Long> idSet) {
         final Map<Long, Task> removedTasks = new ConcurrentHashMap<>();
 
-        for (Long id : idList) {
+        for (Long id : idSet) {
             Task removedTask = taskMap.remove(id);
+            if (removedTask == null) {
+                continue;
+            }
             removedTasks.put(id, removedTask);
         }
 
