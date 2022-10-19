@@ -17,24 +17,25 @@ public class TaskDto {
         if (task == null) {
             return;
         }
-        setId(task.getId());
-        setTitle(task.getTitle());
+        setId(task.getId()).setTitle(task.getTitle());
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public TaskDto setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public TaskDto setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public Task createNewTask() {

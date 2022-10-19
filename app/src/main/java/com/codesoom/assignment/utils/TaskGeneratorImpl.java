@@ -15,8 +15,7 @@ public class TaskGeneratorImpl implements TaskGenerator {
 
     @Override
     public Task generateNewTask(TaskDto dto) {
-        dto.setId(idGenerator.allocateId());
-        return dto.createNewTask();
+        return dto.setId(idGenerator.allocateId()).createNewTask();
     }
 
     @Override
