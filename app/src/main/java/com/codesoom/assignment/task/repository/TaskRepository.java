@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TaskRepository {
@@ -16,18 +17,16 @@ public class TaskRepository {
         return tasks;
     }
 
-    public Task findById(Long id) {
+    public Optional<Task> findById(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
-    public Task findByTitle(String title) {
+    public Optional<Task> findByTitle(String title) {
         return tasks.stream()
                 .filter(task -> task.getTitle().equals(title))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     public boolean create(Task task) {
@@ -35,24 +34,24 @@ public class TaskRepository {
     }
 
     public Task update(Task task) {
-        Task originTask = findById(task.getId());
+        Optional<Task> originTask = findById(task.getId());
 
-        if (originTask == null) {
+        if (originTask.isEmpty()) {
             throw new RestApiException(ErrorCode.NOT_FOUND);
         }
 
-        tasks.set(tasks.indexOf(originTask), task);
+        tasks.set(tasks.indexOf(originTask.get()), task);
 
         return task;
     }
 
     public boolean delete(Long id) {
-        Task originTask = findById(id);
+        Optional<Task> originTask = findById(id);
 
-        if (originTask == null) {
+        if (originTask.isEmpty()) {
             throw new RestApiException(ErrorCode.NOT_FOUND);
         }
 
-        return tasks.remove(originTask);
+        return tasks.remove(originTask.get());
     }
 }

@@ -1,8 +1,8 @@
 package com.codesoom.assignment.task.service;
 
 import com.codesoom.assignment.IdGenerator;
-import com.codesoom.assignment.common.exception.RestApiException;
 import com.codesoom.assignment.common.exception.ErrorCode;
+import com.codesoom.assignment.common.exception.RestApiException;
 import com.codesoom.assignment.task.domain.Task;
 import com.codesoom.assignment.task.domain.request.TaskRequestDto;
 import com.codesoom.assignment.task.repository.TaskRepository;
@@ -27,13 +27,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task getTaskById(Long id) {
-        Task task = taskRepository.findById(id);
-
-        if (task == null) {
-            throw new RestApiException(ErrorCode.NOT_FOUND);
-        }
-
-        return task;
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new RestApiException(ErrorCode.NOT_FOUND));
     }
 
     @Override
