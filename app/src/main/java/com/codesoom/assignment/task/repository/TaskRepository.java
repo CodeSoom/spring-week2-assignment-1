@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class TaskRepository {
@@ -14,33 +15,28 @@ public class TaskRepository {
         return tasks;
     }
 
-    public Task findById(Long id) {
+    public Optional<Task> findById(Long id) {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
-    public Task findByTitle(String title) {
+    public Optional<Task> findByTitle(String title) {
         return tasks.stream()
                 .filter(task -> task.getTitle().equals(title))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     public boolean create(Task task) {
         return tasks.add(task);
     }
 
-    public Task update(Task task) {
-        Task originTask = findById(task.getId());
-
-        if (originTask == null) {
-            // Not Found 에러
-        }
-
+    public Task update(Task originTask, Task task) {
         tasks.set(tasks.indexOf(originTask), task);
-
         return task;
+    }
+
+    public boolean delete(Task task) {
+        return tasks.remove(task);
     }
 }
