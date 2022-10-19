@@ -52,4 +52,13 @@ public class TaskServiceImpl implements TaskService {
 
         return taskRepository.update(task);
     }
+
+    @Override
+    public void deleteTask(Long id) {
+        boolean result = taskRepository.delete(id);
+
+        if (!result) {
+            // 실패 에러
+        }
+    }
 }

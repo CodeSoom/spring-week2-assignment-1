@@ -43,4 +43,14 @@ public class TaskRepository {
 
         return task;
     }
+
+    public boolean delete(Long id) {
+        Task originTask = findById(id);
+
+        if (originTask == null) {
+            // Not Found 에러
+        }
+
+        return tasks.remove(originTask);
+    }
 }
