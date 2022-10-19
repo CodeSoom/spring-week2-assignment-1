@@ -7,6 +7,7 @@ import com.codesoom.assignment.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("/tasks")
+@Validated
 public class TaskController {
     private final TaskService taskService;
 
@@ -44,7 +47,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskResponseDto> get(@PathVariable Long id) {
+    public ResponseEntity<TaskResponseDto> get(@PathVariable @Min(0) Long id) {
         Task task = taskService.getTaskById(id);
 
         return ResponseEntity.ok().body(TaskResponseDto.from(task));
@@ -58,7 +61,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponseDto> put(@PathVariable Long id,
+    public ResponseEntity<TaskResponseDto> put(@PathVariable @Min(0) Long id,
                                                @RequestBody @Valid TaskRequestDto taskRequestDto) {
         Task task = taskService.updateTask(id, taskRequestDto);
 
@@ -74,7 +77,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable @Min(0) Long id) {
         taskService.deleteTask(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
