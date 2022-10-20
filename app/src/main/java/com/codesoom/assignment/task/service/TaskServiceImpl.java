@@ -34,10 +34,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task createTask(TaskRequestDto taskRequestDto) {
         Task task = taskRequestDto.toEntity(IdGenerator.createId());
-        boolean result = taskRepository.create(task);
+        boolean isSuccessCreated = taskRepository.create(task);
 
-        if (!result) {
-            throw new RestApiException(ErrorCode.CONFLICT);
+        if (!isSuccessCreated) {
+            throw new RestApiException(ErrorCode.PROCESSING_FAIL);
         }
 
         return task;
@@ -57,10 +57,10 @@ public class TaskServiceImpl implements TaskService {
         Task originTask = taskRepository.findById(id)
                 .orElseThrow(() -> new RestApiException(ErrorCode.NOT_FOUND));
 
-        boolean result = taskRepository.delete(originTask);
+        boolean isSuccessDeleted = taskRepository.delete(originTask);
 
-        if (!result) {
-            throw new RestApiException(ErrorCode.CONFLICT);
+        if (!isSuccessDeleted) {
+            throw new RestApiException(ErrorCode.PROCESSING_FAIL);
         }
     }
 }
