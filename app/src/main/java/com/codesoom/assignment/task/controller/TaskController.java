@@ -38,39 +38,43 @@ public class TaskController {
     public ResponseEntity<List<TaskResponseDto>> getTasks() {
         List<Task> tasks = taskService.getTasks();
 
-        return ResponseEntity.ok().body(
-                tasks.stream()
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(tasks.stream()
                         .map(TaskResponseDto::from)
                         .collect(Collectors.toList())
-        );
+                );
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskResponseDto> getTask(@PathVariable @Min(0) Long id) {
         Task task = taskService.getTaskById(id);
 
-        return ResponseEntity.ok().body(TaskResponseDto.from(task));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(TaskResponseDto.from(task));
     }
 
     @PostMapping
     public ResponseEntity<TaskResponseDto> createTask(@RequestBody @Valid TaskRequestDto taskRequestDto) {
         Task task = taskService.createTask(taskRequestDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(TaskResponseDto.from(task));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(TaskResponseDto.from(task));
     }
 
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public ResponseEntity<TaskResponseDto> updateTask(@PathVariable @Min(0) Long id,
-                                               @RequestBody @Valid TaskRequestDto taskRequestDto) {
+                                                      @RequestBody @Valid TaskRequestDto taskRequestDto) {
         Task task = taskService.updateTask(id, taskRequestDto);
 
-        return ResponseEntity.ok().body(TaskResponseDto.from(task));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(TaskResponseDto.from(task));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTask(@PathVariable @Min(0) Long id) {
         taskService.deleteTask(id);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .build();
     }
 }
