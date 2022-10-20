@@ -6,7 +6,8 @@ public class IdGenerator {
     private IdGenerator() {
     }
 
-    public static Long createId() {
-        return ++id;
+    public static synchronized Long createId() {
+        id = id + 1;
+        return id;
     }
 }
