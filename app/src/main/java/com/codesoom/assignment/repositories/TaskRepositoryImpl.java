@@ -6,14 +6,12 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Repository
@@ -21,29 +19,33 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     private final Map<Long, Task> taskMap = Collections.synchronizedMap(new TreeMap<>(Collections.reverseOrder()));
 
+    @Override
     public Collection<Task> findAllTasks() {
         return Collections.unmodifiableCollection(taskMap.values());
     }
 
     @Override
-    public List<Task> findRecentlyAddedTasks() {
+    public List<Task> findRecentlyAddedTasks(int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("0 또는 음수는 허용되지 않습니다.");
+        }
+
         final List<Task> recentlyAddedTaskList = new ArrayList<>();
 
         for (Task task : taskMap.values()) {
-            if (recentlyAddedTaskList.size() >= 100) {
+            recentlyAddedTaskList.add(task);
+
+            if (recentlyAddedTaskList.size() >= quantity) {
                 break;
             }
-
-            recentlyAddedTaskList.add(task);
         }
 
-        return recentlyAddedTaskList;
+        return Collections.unmodifiableList(recentlyAddedTaskList);
     }
 
     @Override
     public Optional<Task> findById(Long id) {
-        final Task task = taskMap.get(id);
-        return Optional.ofNullable(task);
+        return Optional.ofNullable(taskMap.get(id));
     }
 
     @Override
@@ -60,8 +62,6 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Map<Long, Task> deleteTasks(Set<Long> idSet) {
-        final Map<Long, Task> removedTasks = new ConcurrentHashMap<>();
-
         return idSet.stream()
                 .map(taskMap::remove)
                 .filter(Objects::nonNull)

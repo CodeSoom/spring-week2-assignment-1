@@ -24,7 +24,7 @@ class TaskRepositoryImplTest {
                 .map(id -> new TaskDto().setId(id).setTitle("play").createNewTask())
                 .forEach(taskRepository::addTask);
 
-        List<Task> recentlyAddedTasks = taskRepository.findRecentlyAddedTasks();
+        List<Task> recentlyAddedTasks = taskRepository.findRecentlyAddedTasks(100);
         assertEquals(7L, recentlyAddedTasks.get(0).getId());
         assertEquals(5L, recentlyAddedTasks.get(1).getId());
         assertEquals(3L, recentlyAddedTasks.get(2).getId());

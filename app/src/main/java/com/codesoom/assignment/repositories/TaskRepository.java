@@ -12,7 +12,7 @@ public interface TaskRepository {
 
     Collection<Task> findAllTasks();
 
-    List<Task> findRecentlyAddedTasks();
+    List<Task> findRecentlyAddedTasks(int quantity);
 
     Optional<Task> findById(Long id);
 
