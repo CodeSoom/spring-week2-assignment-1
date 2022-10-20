@@ -5,6 +5,7 @@ import com.codesoom.assignment.models.TaskDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,23 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskRepositoryImplTest {
+
+    @Test
+    void findRecentlyAddedTasks() {
+        TaskRepository taskRepository = new TaskRepositoryImpl();
+
+        Long[] idList = new Long[]{1L, 3L, 5L, 7L};
+
+        Arrays.stream(idList)
+                .map(id -> new TaskDto().setId(id).setTitle("play").createNewTask())
+                .forEach(taskRepository::addTask);
+
+        List<Task> recentlyAddedTasks = taskRepository.findRecentlyAddedTasks();
+        assertEquals(7L, recentlyAddedTasks.get(0).getId());
+        assertEquals(5L, recentlyAddedTasks.get(1).getId());
+        assertEquals(3L, recentlyAddedTasks.get(2).getId());
+        assertEquals(1L, recentlyAddedTasks.get(3).getId());
+    }
 
     @Test
     void deleteTasks() {
