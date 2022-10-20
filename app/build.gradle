@@ -45,7 +45,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
 /*  Spring Boot Validation
-    - Spring 2.3 부터는 spring-boot-starter-web 의존성 내부에 있던 validation이 사라짐
+    - Spring Boot 2.3 버전부터는 spring-boot-starter-web 의존성 내부에 있던 validation이 사라짐
     - @Valid 관련 검증 어노테이션 기능 제공
 */
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
