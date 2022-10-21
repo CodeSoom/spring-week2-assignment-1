@@ -4,6 +4,9 @@ import com.codesoom.assignment.task.domain.Task;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Builder
 public class TaskResponseDto {
@@ -15,5 +18,11 @@ public class TaskResponseDto {
                 .id(task.getId())
                 .title(task.getTitle())
                 .build();
+    }
+
+    public static List<TaskResponseDto> from(List<Task> tasks) {
+        return tasks.stream()
+                .map(TaskResponseDto::from)
+                .collect(Collectors.toList());
     }
 }

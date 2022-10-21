@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tasks")
@@ -40,10 +39,7 @@ public class TaskController {
         List<Task> tasks = taskService.getTasks();
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(tasks.stream()
-                        .map(TaskResponseDto::from)
-                        .collect(Collectors.toList())
-                );
+                .body(TaskResponseDto.from(tasks));
     }
 
     @GetMapping("/{id}")
