@@ -28,10 +28,10 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<Task> findRecentlyAddedTasks(int quantity) {
         if (quantity <= 0) {
-            throw new IllegalArgumentException("0 또는 음수는 허용되지 않습니다.");
+            throw new IllegalArgumentException(String.format("quantity: %d\n0 또는 음수는 허용되지 않습니다.", quantity));
         }
 
-        final List<Task> recentlyAddedTaskList = new ArrayList<>();
+        final List<Task> recentlyAddedTaskList = new ArrayList<>(quantity);
 
         synchronized (taskMap) {
             Iterator<Task> iterator = taskMap.values().iterator();
