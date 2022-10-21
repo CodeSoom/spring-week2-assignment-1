@@ -1,10 +1,10 @@
 package com.codesoom.assignment.task.service;
 
-import com.codesoom.assignment.IdGenerator;
-import com.codesoom.assignment.common.exception.ErrorCode;
-import com.codesoom.assignment.common.exception.RestApiException;
-import com.codesoom.assignment.task.domain.Task;
+import com.codesoom.assignment.exception.DataProcessingFailException;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.task.controller.dto.request.TaskRequestDto;
+import com.codesoom.assignment.task.domain.IdGenerator;
+import com.codesoom.assignment.task.domain.Task;
 import com.codesoom.assignment.task.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task getTaskById(Long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new RestApiException(ErrorCode.NOT_FOUND));
+                .orElseThrow(TaskNotFoundException::new);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TaskServiceImpl implements TaskService {
         boolean isSuccessCreated = taskRepository.create(task);
 
         if (!isSuccessCreated) {
-            throw new RestApiException(ErrorCode.PROCESSING_FAIL);
+            throw new DataProcessingFailException();
         }
 
         return task;
@@ -47,7 +47,7 @@ public class TaskServiceImpl implements TaskService {
     public Task updateTask(Long id, TaskRequestDto taskRequestDto) {
         Task task = taskRequestDto.toEntity(id);
         Task originTask = taskRepository.findById(id)
-                .orElseThrow(() -> new RestApiException(ErrorCode.NOT_FOUND));
+                .orElseThrow(TaskNotFoundException::new);
 
         return taskRepository.update(originTask, task);
     }
@@ -55,12 +55,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(Long id) {
         Task originTask = taskRepository.findById(id)
-                .orElseThrow(() -> new RestApiException(ErrorCode.NOT_FOUND));
+                .orElseThrow(TaskNotFoundException::new);
 
         boolean isSuccessDeleted = taskRepository.delete(originTask);
 
         if (!isSuccessDeleted) {
-            throw new RestApiException(ErrorCode.PROCESSING_FAIL);
+            throw new DataProcessingFailException();
         }
     }
 }

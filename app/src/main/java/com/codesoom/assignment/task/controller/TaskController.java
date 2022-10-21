@@ -1,8 +1,8 @@
 package com.codesoom.assignment.task.controller;
 
-import com.codesoom.assignment.task.domain.Task;
 import com.codesoom.assignment.task.controller.dto.request.TaskRequestDto;
 import com.codesoom.assignment.task.controller.dto.response.TaskResponseDto;
+import com.codesoom.assignment.task.domain.Task;
 import com.codesoom.assignment.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
