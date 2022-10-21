@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,11 +33,11 @@ public class TaskRepositoryImpl implements TaskRepository {
 
         final List<Task> recentlyAddedTaskList = new ArrayList<>();
 
-        for (Task task : taskMap.values()) {
-            recentlyAddedTaskList.add(task);
+        synchronized (taskMap) {
+            Iterator<Task> iterator = taskMap.values().iterator();
 
-            if (recentlyAddedTaskList.size() >= quantity) {
-                break;
+            while (recentlyAddedTaskList.size() < quantity) {
+                recentlyAddedTaskList.add(iterator.next());
             }
         }
 
@@ -61,10 +62,10 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Map<Long, Task> deleteTasks(Set<Long> idSet) {
+    public Set<Task> deleteTasks(Set<Long> idSet) {
         return idSet.stream()
                 .map(taskMap::remove)
                 .filter(Objects::nonNull)
-                .collect(Collectors.toMap(Task::getId, task -> task));
+                .collect(Collectors.toSet());
     }
 }

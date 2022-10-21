@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,14 +46,11 @@ class TaskRepositoryImplTest {
         idList.add(1L);
         idList.add(3L);
 
-        Map<Long, Task> removedTasks = taskRepository.deleteTasks(new HashSet<>(idList));
+        Set<Task> removedTasks = taskRepository.deleteTasks(new HashSet<>(idList));
 
         assertEquals(2, removedTasks.size());
-        assertTrue(removedTasks.containsKey(1L));
-        assertTrue(removedTasks.containsKey(2L));
-        assertFalse(removedTasks.containsKey(3L));
-        assertEquals("study", removedTasks.get(1L).getTitle());
-        assertEquals("play", removedTasks.get(2L).getTitle());
-        assertNull(removedTasks.get(3L));
+        assertTrue(removedTasks.contains(task1));
+        assertTrue(removedTasks.contains(task2));
+        assertFalse(removedTasks.contains(null));
     }
 }
