@@ -1,7 +1,7 @@
 package com.codesoom.assignment.task.service;
 
 import com.codesoom.assignment.task.domain.Task;
-import com.codesoom.assignment.task.domain.request.TaskRequestDto;
+import com.codesoom.assignment.task.controller.dto.request.TaskRequestDto;
 
 import java.util.List;
 

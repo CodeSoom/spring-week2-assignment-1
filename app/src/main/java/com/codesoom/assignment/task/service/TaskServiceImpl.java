@@ -4,7 +4,7 @@ import com.codesoom.assignment.IdGenerator;
 import com.codesoom.assignment.common.exception.ErrorCode;
 import com.codesoom.assignment.common.exception.RestApiException;
 import com.codesoom.assignment.task.domain.Task;
-import com.codesoom.assignment.task.domain.request.TaskRequestDto;
+import com.codesoom.assignment.task.controller.dto.request.TaskRequestDto;
 import com.codesoom.assignment.task.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
