@@ -1,4 +1,4 @@
-package com.codesoom.assignment;
+package com.codesoom.assignment.task.domain;
 
 public class IdGenerator {
     private static Long id = 0L;

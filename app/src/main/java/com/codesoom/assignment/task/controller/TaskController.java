@@ -1,8 +1,8 @@
 package com.codesoom.assignment.task.controller;
 
+import com.codesoom.assignment.task.controller.dto.request.TaskRequestDto;
+import com.codesoom.assignment.task.controller.dto.response.TaskResponseDto;
 import com.codesoom.assignment.task.domain.Task;
-import com.codesoom.assignment.task.domain.request.TaskRequestDto;
-import com.codesoom.assignment.task.domain.response.TaskResponseDto;
 import com.codesoom.assignment.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tasks")
@@ -40,10 +39,7 @@ public class TaskController {
         List<Task> tasks = taskService.getTasks();
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(tasks.stream()
-                        .map(TaskResponseDto::from)
-                        .collect(Collectors.toList())
-                );
+                .body(TaskResponseDto.from(tasks));
     }
 
     @GetMapping("/{id}")

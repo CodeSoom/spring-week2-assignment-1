@@ -1,4 +1,4 @@
-package com.codesoom.assignment.task.domain.request;
+package com.codesoom.assignment.task.controller.dto.request;
 
 import com.codesoom.assignment.task.domain.Task;
 import lombok.Getter;
