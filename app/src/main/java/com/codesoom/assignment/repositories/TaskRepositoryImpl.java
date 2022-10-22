@@ -3,12 +3,10 @@ package com.codesoom.assignment.repositories;
 import com.codesoom.assignment.models.Task;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -19,6 +17,7 @@ import java.util.stream.Collectors;
 public class TaskRepositoryImpl implements TaskRepository {
 
     private final Map<Long, Task> taskMap = Collections.synchronizedMap(new TreeMap<>(Collections.reverseOrder()));
+    private final RecentlyAddedTasksFinder recentTasksFinder = new RecentlyAddedTasksFinder((NavigableMap<Long, Task>) taskMap);
 
     @Override
     public Collection<Task> findAllTasks() {
@@ -26,22 +25,12 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public List<Task> findRecentlyAddedTasks(int quantity) {
+    public Collection<Task> findRecentlyAddedTasks(int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException(String.format("quantity: %d\n0 또는 음수는 허용되지 않습니다.", quantity));
         }
 
-        final List<Task> recentlyAddedTaskList = new ArrayList<>(quantity);
-
-        synchronized (taskMap) {
-            Iterator<Task> iterator = taskMap.values().iterator();
-
-            while (recentlyAddedTaskList.size() < quantity) {
-                recentlyAddedTaskList.add(iterator.next());
-            }
-        }
-
-        return Collections.unmodifiableList(recentlyAddedTaskList);
+        return recentTasksFinder.findTasks(quantity);
     }
 
     @Override
