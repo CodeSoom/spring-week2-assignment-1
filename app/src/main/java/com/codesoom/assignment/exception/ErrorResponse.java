@@ -15,24 +15,24 @@ import java.util.stream.Collectors;
 @Builder
 @Slf4j
 public class ErrorResponse {
-    private final LocalDateTime timestamp = LocalDateTime.now();
-    private final String message;
+    private final LocalDateTime ERROR_OCCURED_TIME = LocalDateTime.now();
+    private final String ERROR_MESSAGE;
 
     public static ErrorResponse from(final CommonException exception) {
         return ErrorResponse.builder()
-                .message(exception.getMessage())
+                .ERROR_MESSAGE(exception.getMessage())
                 .build();
     }
 
     public static ErrorResponse from(final ConstraintViolationException exception) {
         return ErrorResponse.builder()
-                .message(exception.getMessage())
+                .ERROR_MESSAGE(exception.getMessage())
                 .build();
     }
 
     public static ErrorResponse from(final MethodArgumentNotValidException exception) {
         return ErrorResponse.builder()
-                .message(exception.getBindingResult().getFieldErrors()
+                .ERROR_MESSAGE(exception.getBindingResult().getFieldErrors()
                         .stream()
                         .map(DefaultMessageSourceResolvable::getDefaultMessage)
                         .collect(Collectors.toList()).toString()
@@ -45,7 +45,7 @@ public class ErrorResponse {
         log.error("{}", exception.getStackTrace());
 
         return ErrorResponse.builder()
-                .message(exception.getMessage())
+                .ERROR_MESSAGE(exception.getMessage())
                 .build();
     }
 }
