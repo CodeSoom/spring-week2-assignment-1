@@ -3,7 +3,7 @@ package com.codesoom.assignment.task.service;
 import com.codesoom.assignment.exception.DataProcessingFailException;
 import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.task.controller.dto.request.TaskRequestDto;
-import com.codesoom.assignment.task.domain.IdGenerator;
+import com.codesoom.assignment.task.domain.TaskIdGenerator;
 import com.codesoom.assignment.task.domain.Task;
 import com.codesoom.assignment.task.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task createTask(TaskRequestDto taskRequestDto) {
-        Task task = taskRequestDto.toEntity(IdGenerator.createId());
+        Task task = taskRequestDto.toEntity(TaskIdGenerator.createId());
         boolean isSuccessCreated = taskRepository.create(task);
 
         if (!isSuccessCreated) {
