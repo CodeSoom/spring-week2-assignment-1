@@ -17,7 +17,7 @@ plugins {
 
 repositories {
     // Use JCenter for resolving dependencies.
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -33,6 +33,9 @@ dependencies {
     // Jackson for JSON.
     implementation 'com.fasterxml.jackson.core:jackson-core:2.11.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.3'
+
+    // Spring Dev tools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
