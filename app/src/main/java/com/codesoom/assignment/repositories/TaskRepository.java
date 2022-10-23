@@ -10,8 +10,6 @@ public interface TaskRepository {
 
     Collection<Task> findAllTasks();
 
-    Collection<Task> findRecentlyAddedTasks(int quantity);
-
     Optional<Task> findById(Long id);
 
     Task addTask(Task task);
@@ -19,4 +17,8 @@ public interface TaskRepository {
     Optional<Task> deleteById(Long id);
 
     Set<Task> deleteTasks(Set<Long> idList);
+
+    Collection<Task> findRecentlyAddedTasks(int quantity);
+
+    int getQuantityStored();
 }
