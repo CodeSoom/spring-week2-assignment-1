@@ -2,13 +2,13 @@ package com.codesoom.assignment.repositories;
 
 import com.codesoom.assignment.models.Task;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface TaskRepository {
 
-    Collection<Task> findAllTasks();
+    List<Task> findAllTasks();
 
     Optional<Task> findById(Long id);
 
@@ -18,7 +18,7 @@ public interface TaskRepository {
 
     Set<Task> deleteTasks(Set<Long> idList);
 
-    Collection<Task> findRecentlyAddedTasks(int quantity);
+    List<Task> findRecentlyAddedTasks(int quantity);
 
     int getQuantityStored();
 }

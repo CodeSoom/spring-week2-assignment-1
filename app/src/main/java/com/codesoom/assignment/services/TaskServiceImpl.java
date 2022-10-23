@@ -6,7 +6,7 @@ import com.codesoom.assignment.repositories.TaskRepository;
 import com.codesoom.assignment.utils.TaskGenerator;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -22,7 +22,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Collection<TaskDto> getAllTasks() {
+    public List<TaskDto> getAllTasks() {
         return repository.findAllTasks().stream()
                 .map(TaskDto::new)
                 .collect(Collectors.toList());

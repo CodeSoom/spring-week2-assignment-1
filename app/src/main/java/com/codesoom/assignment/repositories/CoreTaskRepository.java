@@ -2,8 +2,8 @@ package com.codesoom.assignment.repositories;
 
 import com.codesoom.assignment.models.Task;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.Optional;
@@ -13,16 +13,16 @@ import java.util.stream.Collectors;
 
 public abstract class CoreTaskRepository implements TaskRepository {
 
-    private final NavigableMap<Long, Task> taskMap = Collections.synchronizedNavigableMap(new TreeMap<>(Collections.reverseOrder()));
+    protected final NavigableMap<Long, Task> taskMap = Collections.synchronizedNavigableMap(new TreeMap<>(Collections.reverseOrder()));
 
     @Override
-    public Collection<Task> findAllTasks() {
-        return Collections.unmodifiableCollection(taskMap.values());
+    public List<Task> findAllTasks() {
+        return List.copyOf(taskMap.values());
     }
 
     @Override
     public Optional<Task> findById(Long id) {
-        if (id <= 0) {
+        if (id < 0) {
             throw new IllegalArgumentException(String.format("%d: 0 또는 음수는 허용되지 않습니다.", id));
         }
         return Optional.ofNullable(taskMap.get(id));
@@ -51,9 +51,5 @@ public abstract class CoreTaskRepository implements TaskRepository {
     @Override
     public int getQuantityStored() {
         return taskMap.size();
-    }
-
-    Long getLowerKey(Long id) {
-        return taskMap.lowerKey(id);
     }
 }
