@@ -5,10 +5,13 @@ import com.codesoom.assignment.models.TaskDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,17 +21,24 @@ class TaskRepositoryImplTest {
     void findRecentlyAddedTasks() {
         TaskRepository taskRepository = new TaskRepositoryImpl();
 
-        Long[] idList = new Long[]{1L, 3L, 5L, 7L};
-
-        Arrays.stream(idList)
-                .map(id -> new TaskDto().setId(id).setTitle("play").createNewTask())
+        LongStream.rangeClosed(1L, 300L).boxed()
+                .map(id -> new TaskDto().setId(id).setTitle("To Do" + id).createNewTask())
                 .forEach(taskRepository::addTask);
 
-        List<Task> recentlyAddedTasks = taskRepository.findRecentlyAddedTasks(100);
-        assertEquals(7L, recentlyAddedTasks.get(0).getId());
-        assertEquals(5L, recentlyAddedTasks.get(1).getId());
-        assertEquals(3L, recentlyAddedTasks.get(2).getId());
-        assertEquals(1L, recentlyAddedTasks.get(3).getId());
+        assertDoesNotThrow(() -> taskRepository.findRecentlyAddedTasks(250));
+        assertDoesNotThrow(() -> taskRepository.findRecentlyAddedTasks(300));
+        assertThrows(IllegalArgumentException.class, () -> taskRepository.findRecentlyAddedTasks(400));
+
+        Set<Long> idSet = new Random().longs(10, 1L, 301L)
+                .boxed()
+                .collect(Collectors.toSet());
+
+        idSet.forEach(taskRepository::deleteById);
+
+        Collection<Task> recentlyAddedTasks = taskRepository.findRecentlyAddedTasks(taskRepository.getQuantityStored() - idSet.size());
+        recentlyAddedTasks.stream()
+                .map(Task::getId)
+                .forEach(id -> assertFalse(idSet.contains(id)));
     }
 
     @Test
