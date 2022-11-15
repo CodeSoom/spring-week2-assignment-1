@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException.BadRequest;
@@ -86,15 +87,14 @@ public class TaskController {
         return task;
     }
 
-    //TODO PUT, PATCH 코드 동일함. 어떻게 처리?
     /**
-     * PUT /tasks/{id}
+     * PUT/PATCH /tasks/{id}
      * @param id
      * @param task
      * @return task
      */
-    @PutMapping("/{id}")
-    public Task putTask(@PathVariable(name = "id") Long id, @RequestBody Task task) {
+    @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
+    public Task updateTask(@PathVariable(name = "id") Long id, @RequestBody Task task) {
 
         Task filteredTask = tasks.stream()
                             .filter(t -> t.getId().equals(id))
@@ -103,24 +103,6 @@ public class TaskController {
         //NPE 발생 가능
         if (task.getTitle().isEmpty()) throw new NullPointerException("Title을 입력해주세요.");
 
-        filteredTask.setTitle(task.getTitle());
-
-        return filteredTask;
-    }
-
-    /**
-     * PATCH /tasks/{id}
-     * @param id
-     * @param task
-     * @return task
-     */
-    @PatchMapping("/{id}")
-    public Task patchTask(@PathVariable(name = "id") Long id, @RequestBody Task task) {
-
-        Task filteredTask = tasks.stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst()
-                .orElse(null);
         filteredTask.setTitle(task.getTitle());
 
         return filteredTask;
