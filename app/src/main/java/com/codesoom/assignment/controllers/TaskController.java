@@ -22,7 +22,7 @@ import java.util.List;
 @CrossOrigin
 public class TaskController {
 
-    private List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks = new ArrayList<>();
     private Long id = 0L;
 
     /**
