@@ -36,7 +36,6 @@ public class TaskController {
 
     /**
      * GET /tasks/{id}
-     * TODO 찾고자 하는 task가 없을 경우 404에러
      * @param id
      * @return task
      */
@@ -72,14 +71,15 @@ public class TaskController {
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable(name = "id") Long id, @RequestBody Task task) {
 
-        Task filteredTask = tasks.stream()
-                            .filter(t -> t.getId().equals(id))
-                            .findFirst()
-                            .orElseThrow(() -> new NullPointerException("ID를 다시 한 번 확인해주세요."));
         //NPE 발생 가능
         if (task.getTitle().isEmpty()) {
             throw new NullPointerException("Title을 입력해주세요.");
         }
+
+        Task filteredTask = tasks.stream()
+                            .filter(t -> t.getId().equals(id))
+                            .findFirst()
+                            .orElseThrow(TaskNotFoundException::new);
 
         filteredTask.setTitle(task.getTitle());
 
