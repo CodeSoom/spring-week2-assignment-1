@@ -4,6 +4,7 @@ import com.codesoom.assignment.handler.ErrorHandler;
 import com.codesoom.assignment.model.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,24 +31,6 @@ public class TaskController {
     private List<Task> tasks = new ArrayList<>();
     private Long id = 0L;
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NullPointerException.class)
-    public ErrorHandler NPEHandler(NullPointerException ne) {
-        return new ErrorHandler("Not Found", ne.getMessage());
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BadRequest.class)
-    public ErrorHandler BadRequestHandler(BadRequest badRequest) {
-        return new ErrorHandler("Bad Request", "다시 한 번 확인해주세요.");
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ErrorHandler notReadableHandler(HttpMessageNotReadableException he) {
-        return new ErrorHandler("Not Readable", "title이 존재하지 않습니다. 다시 한 번 확인해주세요.");
-    }
-
     /**
      * GET /tasks
      * @return tasks
@@ -65,11 +48,10 @@ public class TaskController {
      */
     @GetMapping("/{id}")
     public Task getTask(@PathVariable(name = "id") Long id) {
-
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new NullPointerException("Task가 존재하지 않습니다. ID를 다시 한 번 확인해주세요. id="+id));
+                .orElseThrow(() -> new NullPointerException("Task가 존재하지 않습니다. ID를 다시 한 번 확인해주세요."));
     }
 
     /**
@@ -99,9 +81,11 @@ public class TaskController {
         Task filteredTask = tasks.stream()
                             .filter(t -> t.getId().equals(id))
                             .findFirst()
-                            .orElseThrow(() -> new NullPointerException("ID를 다시 한 번 확인해주세요. ID="+id));
+                            .orElseThrow(() -> new NullPointerException("ID를 다시 한 번 확인해주세요."));
         //NPE 발생 가능
-        if (task.getTitle().isEmpty()) throw new NullPointerException("Title을 입력해주세요.");
+        if (task.getTitle().isEmpty()) {
+            throw new NullPointerException("Title을 입력해주세요.");
+        }
 
         filteredTask.setTitle(task.getTitle());
 
@@ -119,7 +103,7 @@ public class TaskController {
         Task filteredTask = tasks.stream()
                 .filter(t -> t.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new NullPointerException("Task가 존재하지 않습니다. ID를 다시 한 번 확인해주세요. id="+id));
+                .orElseThrow(() -> new NullPointerException("Task가 존재하지 않습니다. ID를 다시 한 번 확인해주세요."));
 
         tasks.remove(filteredTask);
     }
