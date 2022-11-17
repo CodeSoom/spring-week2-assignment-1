@@ -1,24 +1,18 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.handler.ErrorHandler;
+import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +45,7 @@ public class TaskController {
         return tasks.stream()
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new NullPointerException("Task가 존재하지 않습니다. ID를 다시 한 번 확인해주세요."));
+                .orElseThrow(TaskNotFoundException::new);
     }
 
     /**
@@ -103,7 +97,7 @@ public class TaskController {
         Task filteredTask = tasks.stream()
                 .filter(t -> t.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new NullPointerException("Task가 존재하지 않습니다. ID를 다시 한 번 확인해주세요."));
+                .orElseThrow(TaskNotFoundException::new); // = () -> new TaskNotFoundException()
 
         tasks.remove(filteredTask);
     }
