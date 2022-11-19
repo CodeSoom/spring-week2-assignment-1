@@ -1,7 +1,8 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.exception.TaskNotFoundException;
+import com.codesoom.assignment.application.TaskService;
 import com.codesoom.assignment.model.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,9 +22,8 @@ import java.util.List;
 @CrossOrigin
 public class TaskController {
 
-    private final List<Task> tasks = new ArrayList<>();
-    private Long id = 0L;
-    private Object lock = new Object(); //synchronized를 위한 객체 선언
+    @Autowired
+    private TaskService taskService;
 
     /**
      * GET /tasks
@@ -32,7 +31,7 @@ public class TaskController {
      */
     @GetMapping
     public List<Task> getLists() {
-        return tasks;
+        return taskService.getTasks();
     }
 
     /**
@@ -42,10 +41,7 @@ public class TaskController {
      */
     @GetMapping("/{id}")
     public Task getTask(@PathVariable(name = "id") Long id) {
-        return tasks.stream()
-                .filter(task -> task.getId().equals(id))
-                .findFirst()
-                .orElseThrow(TaskNotFoundException::new);
+        return taskService.getTask(id);
     }
 
     /**
@@ -56,11 +52,7 @@ public class TaskController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createList(@RequestBody Task task) {
-        task.setTitle(task.getTitle());
-        task.setId(generateId());
-        tasks.add(task);
-
-        return task;
+        return taskService.createTask(task);
     }
 
     /**
@@ -71,20 +63,7 @@ public class TaskController {
      */
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable(name = "id") Long id, @RequestBody Task task) {
-
-        //NPE 발생 가능
-        if (task.getTitle().isEmpty()) {
-            throw new NullPointerException("Title을 입력해주세요.");
-        }
-
-        Task filteredTask = tasks.stream()
-                            .filter(t -> t.getId().equals(id))
-                            .findFirst()
-                            .orElseThrow(TaskNotFoundException::new);
-
-        filteredTask.setTitle(task.getTitle());
-
-        return filteredTask;
+        return taskService.updateTask(id, task);
     }
 
     /**
@@ -95,22 +74,6 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable(name = "id") Long id) {
-        Task filteredTask = tasks.stream()
-                .filter(t -> t.getId().equals(id))
-                .findFirst()
-                .orElseThrow(TaskNotFoundException::new); // = () -> new TaskNotFoundException()
-
-        tasks.remove(filteredTask);
-    }
-
-    /**
-     * id 1씩 증가
-     * @return 1 증가된 id
-     */
-    private Long generateId() {
-        synchronized(lock) {
-            id += 1;
-        }
-        return id;
+        taskService.deleteTask(id);
     }
 }
