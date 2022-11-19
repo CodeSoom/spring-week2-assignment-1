@@ -24,6 +24,7 @@ public class TaskController {
 
     private final List<Task> tasks = new ArrayList<>();
     private Long id = 0L;
+    private Object lock = new Object(); //synchronized를 위한 객체 선언
 
     /**
      * GET /tasks
@@ -107,7 +108,9 @@ public class TaskController {
      * @return 1 증가된 id
      */
     private Long generateId() {
-        id += 1;
+        synchronized(lock) {
+            id += 1;
+        }
         return id;
     }
 }
