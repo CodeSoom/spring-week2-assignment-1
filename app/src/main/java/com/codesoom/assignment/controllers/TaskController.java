@@ -30,7 +30,7 @@ public class TaskController {
      * @return tasks
      */
     @GetMapping
-    public List<Task> getLists() {
+    public List<Task> getTasks() {
         return taskService.getTasks();
     }
 
@@ -51,7 +51,7 @@ public class TaskController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task createList(@RequestBody Task task) {
+    public Task createTask(@RequestBody Task task) {
         return taskService.createTask(task);
     }
 
