@@ -57,12 +57,17 @@ public class TaskController {
 
     /**
      * PUT/PATCH /tasks/{id}
+     * title을 보내지 않을 경우 notReadableExHandler이 반환되고, isEmpty일 경우 NullPointerException을 던집니다.
      * @param id
      * @param task
      * @return task
      */
     @RequestMapping(value = "/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
     public Task updateTask(@PathVariable(name = "id") Long id, @RequestBody Task task) {
+        //NPE 발생 가능
+        if (task.getTitle().isEmpty()) {
+            throw new NullPointerException("title은 한 글자 이상 작성이 필수입니다.");
+        }
         return taskService.updateTask(id, task);
     }
 

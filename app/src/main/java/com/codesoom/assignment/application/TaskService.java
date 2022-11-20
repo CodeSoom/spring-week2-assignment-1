@@ -54,11 +54,6 @@ public class TaskService {
      * @return id에 해당하는 Task가 있다면 수정된 Task를 리턴하고, 없다면 TaskNotFoundExcetion을 던집니다.
      */
     public Task updateTask(Long id, Task task) {
-        //NPE 발생 가능
-        if (task.getTitle().isEmpty()) {
-            throw new NullPointerException("Title을 입력해주세요.");
-        }
-
         Task filteredTask = tasks.stream()
                 .filter(t -> t.getId().equals(id))
                 .findFirst()
