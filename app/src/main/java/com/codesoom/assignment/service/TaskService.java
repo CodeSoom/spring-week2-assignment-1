@@ -1,5 +1,6 @@
 package com.codesoom.assignment.service;
 
+import com.codesoom.assignment.exceptions.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -44,6 +46,11 @@ public class TaskService {
     }
 
     public Task findTask(Long id){
-        return tasks.stream().filter(t -> t.getId().equals(id)).findFirst().orElse(null);;
+        return Optional.ofNullable(
+                tasks.stream()
+                     .filter(t -> t.getId().equals(id))
+                     .findFirst()
+                     .orElse(null))
+                     .orElseThrow(TaskNotFoundException::new);
     }
 }
