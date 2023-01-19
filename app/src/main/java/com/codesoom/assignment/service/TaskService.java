@@ -24,7 +24,7 @@ public class TaskService {
         return task;
     }
 
-    public Task createTask(Task task){
+    public synchronized Task createTask(Task task){
         task.setId(id++);
         tasks.add(task);
 
