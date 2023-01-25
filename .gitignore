@@ -24,3 +24,8 @@ Thumbs.db
 Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
+
+# STS
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/

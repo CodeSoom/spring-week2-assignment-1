@@ -9,10 +9,11 @@ exports.config = {
   tests: './e2e/*_test.js',
   output: './output',
   helpers: {
-    Puppeteer: {
+    Playwright: {
       url: 'http://localhost:3000',
       show: true,
       windowSize: '1200x900',
+      browser: 'chromium',
     },
   },
   include: {
