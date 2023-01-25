@@ -113,7 +113,7 @@ describe('tasks', () => {
       });
 
       it('responses updated task', async () => {
-        const res = await frisby.put(`/tasks/${id}`, { title: '밥 먹기' })
+        const res = await frisby.patch(`/tasks/${id}`, { title: '밥 먹기' })
           .expect('status', 200);
         const task = JSON.parse(res.body);
 

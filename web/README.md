@@ -1,4 +1,4 @@
-# Marko Webpack Example
+# Svelte Example
 
 ## 설치
 
@@ -14,5 +14,4 @@ npm run dev
 
 ## Sources
 
-* https://markojs.com/
-* https://markojs.com/docs/webpack/
+* <https://svelte.dev/>
