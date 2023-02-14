@@ -1,6 +1,7 @@
-package com.codesoom.assignment.model;
+package com.codesoom.assignment.domain;
 
 public class Task {
+
     private Long id;
     private String title;
 

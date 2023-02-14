@@ -1,6 +1,15 @@
 import axios from 'axios';
 
+
 class {
+        updateBtn(){
+        const title = this.getEl('updateText').value;
+        alert(title)
+
+        
+
+        }
+
         onCreate(){
             this.state = {
               tasks: [],
@@ -26,14 +35,22 @@ class {
             });
             await this.loadTasks();
         }
+
+        async deleteTask(id){
+            await axios.delete(`http://localhost:8888/tasks/${id}`);
+            await this.loadTasks();
+        }
     }
 
 
 <h1>ToDo</h1>
 <ol>
-    <for|task| of=state.tasks>
+    <for|item| of=state.tasks>
          <li>
-            ${task.title} &nbsp;<button type="button" style="color: blue">수정</button><button type="button" style="color: red">삭제</button>
+            ${item.title} &nbsp;
+            <input type="text"  key="updateText" value=`${item.title}` style="display: none"/>
+            <button type="button" id = "upBtn" style="color: blue" onclick('updateBtn') >수정</button>
+            <button type="button" style="color: red" on-click('deleteTask', item.id) >삭제</button>
          </li>
     </for>
 </ol>
@@ -45,5 +62,6 @@ class {
         추가
     </button>
     </label>
+
 </p>
 

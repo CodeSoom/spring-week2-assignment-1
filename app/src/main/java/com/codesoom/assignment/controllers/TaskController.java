@@ -1,9 +1,9 @@
 package com.codesoom.assignment.controllers;
 
-import com.codesoom.assignment.model.Task;
+import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.service.TodoService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -17,23 +17,28 @@ TODO
 @RequestMapping("/tasks")
 @CrossOrigin
 public class TaskController {
-    private List<Task> tasks = new ArrayList<>();
-    private Long newId = 0L;
+
+    private final TodoService todoService = new TodoService();
 
     @GetMapping
     public List<Task> list() {
-        return tasks;
+        return todoService.readAllTask();
     }
 
     @PostMapping
     public Task create(@RequestBody Task task) {
-        task.setId(generateId());
-        tasks.add(task);
-        return task;
+        return todoService.createTask(task);
     }
 
-    private Long generateId() {
-        newId += 1;
-        return newId;
+    @PutMapping
+    public void update() {
+
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        todoService.deleteOneTask(id);
+    }
+
 }
+

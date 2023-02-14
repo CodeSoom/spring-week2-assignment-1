@@ -50,6 +50,9 @@ dependencies {
 
     // Spring devtool
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    //lombok
+    implementation 'org.projectlombok:lombok'
 }
 
 application {
