@@ -17,7 +17,14 @@ public class TodoService {
     }
 
     public Task createTask(Task task) {
+        blankRedundantExceptionHandling(task);
+        task.setId(idService.generateId());
+        tasks.add(task);
+        return task;
 
+    }
+
+    private void blankRedundantExceptionHandling(Task task) {
         if (task.getTitle().isBlank()) {
             throw new IllegalStateException("Please Input task text");
         }
@@ -27,11 +34,6 @@ public class TodoService {
                 throw new IllegalStateException("같은 할 일이 있습니다.");
             }
         }
-
-        task.setId(idService.generateId());
-        tasks.add(task);
-        return task;
-
     }
 
     public void deleteOneTask(Long id) {
