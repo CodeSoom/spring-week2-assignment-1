@@ -17,14 +17,14 @@ public class TodoService {
     }
 
     public Task createTask(Task task) {
-        blankRedundantExceptionHandling(task);
+        blankDuplicateExceptionHandling(task);
         task.setId(idService.generateId());
         tasks.add(task);
         return task;
 
     }
 
-    private void blankRedundantExceptionHandling(Task task) {
+    private void blankDuplicateExceptionHandling(Task task) {
         if (task.getTitle().isBlank()) {
             throw new IllegalStateException("Please Input task text");
         }
