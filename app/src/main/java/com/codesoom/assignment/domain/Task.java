@@ -1,5 +1,7 @@
 package com.codesoom.assignment.domain;
 
+import lombok.Data;
+
 public class Task {
 
     private Long id;
@@ -9,17 +11,12 @@ public class Task {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTasks(Long id, String title) {
-        this.id = id;
-        this.title = title;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {

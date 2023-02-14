@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class TodoService {
-    private final AutoIdService autoIdService = new AutoIdService();
+    private final IdService idService = new IdService();
+
     private final List<Task> tasks = new ArrayList<>();
 
 
@@ -16,15 +17,26 @@ public class TodoService {
     }
 
     public Task createTask(Task task) {
-        task.setId(autoIdService.generateId());
+
+        if (task.getTitle().isBlank()) {
+            throw new IllegalStateException("Please Input task text");
+        }
+
+        for (Task task1 : tasks) {
+            if (task1.getTitle().equals(task.getTitle())) {
+                throw new IllegalStateException("같은 할 일이 있습니다.");
+            }
+        }
+
+        task.setId(idService.generateId());
         tasks.add(task);
         return task;
+
     }
 
     public void deleteOneTask(Long id) {
         tasks.remove(findById(id));
     }
-
 
     private int findById(Long id) {
         return IntStream.range(0, tasks.size())
@@ -32,6 +44,6 @@ public class TodoService {
                 .findFirst()
                 .orElseThrow();
     }
-
 }
+
 

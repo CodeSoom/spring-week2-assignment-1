@@ -5,9 +5,36 @@ class {
         updateBtn(){
         const title = this.getEl('updateText').value;
         alert(title)
+        let elementById = document.getElementById("updateTxt");
 
-        
+        let upBtn = document.getElementById("upBtn");
+        let comBtn = document.getElementById("comBtn");
 
+        let upBtn2 = document.getElementById("upBtn2");
+        let comBtn2 = document.getElementById("comBtn2");
+
+        elementById.style.display="block";
+        upBtn.style.display="none";
+        comBtn.style.display="none";
+
+        upBtn2.style.display="block";
+        comBtn2.style.display="block";
+        }
+
+        cancelTask(){
+        let elementById = document.getElementById("updateTxt");
+
+        let upBtn = document.getElementById("upBtn");
+        let comBtn = document.getElementById("comBtn");
+
+        let upBtn2 = document.getElementById("upBtn2");
+        let comBtn2 = document.getElementById("comBtn2");
+
+        upBtn.style.display="block";
+        comBtn.style.display="block";
+        elementById.style.display="none";
+        upBtn2.style.display="none";
+        comBtn2.style.display="none";
         }
 
         onCreate(){
@@ -48,9 +75,13 @@ class {
     <for|item| of=state.tasks>
          <li>
             ${item.title} &nbsp;
-            <input type="text"  key="updateText" value=`${item.title}` style="display: none"/>
+            <input type="text" id="updateTxt"  key="updateText" value=`${item.title}` style="display: none"/>
             <button type="button" id = "upBtn" style="color: blue" onclick('updateBtn') >수정</button>
-            <button type="button" style="color: red" on-click('deleteTask', item.id) >삭제</button>
+            <button type="button" id = "comBtn" style="color: red" on-click('deleteTask', item.id) >완료</button>
+            <span>
+            <input type="button" id="upBtn2"  key="updateText" value=`확인` style="display: none"/>
+            <input type="button" id="comBtn2"  key="updateText" value=`취소` on-click('cancelTask') style="display: none"/>
+            </span>
          </li>
     </for>
 </ol>
