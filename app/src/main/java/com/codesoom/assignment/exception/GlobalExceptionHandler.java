@@ -15,6 +15,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoDataException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleEmailDuplicateException(NoDataException e){
-        return "data is null!";
+        return "존재하지 않는 ID 입니다. TO-DO List에 등록된 ID인지 확인해주세요.";
     }
 }
