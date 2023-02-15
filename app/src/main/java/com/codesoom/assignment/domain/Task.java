@@ -1,8 +1,6 @@
 package com.codesoom.assignment.domain;
 
 public class Task {
-
-
     private Long id;
     private String title;
 
@@ -14,8 +12,12 @@ public class Task {
         return title;
     }
 
-    public void setId(Long id) {
+    public void changeId(Long id) {
         this.id = id;
+    }
+
+    public void changeTitle(String title) {
+        this.title = title;
     }
 
     @Override

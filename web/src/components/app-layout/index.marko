@@ -2,51 +2,19 @@ import axios from 'axios';
 
 
 class {
-        updateBtn(){
-        const title = this.getEl('updateText').value;
-        alert(title)
-        let elementById = document.getElementById("updateTxt");
 
-        let upBtn = document.getElementById("upBtn");
-        let comBtn = document.getElementById("comBtn");
+    onCreate(){
+        this.state = {
+          tasks: [],
+        };
+        this.loadTasks();
+    }
 
-        let upBtn2 = document.getElementById("upBtn2");
-        let comBtn2 = document.getElementById("comBtn2");
+    async loadTasks(){
+        const { data } = await axios.get('http://localhost:8888/tasks');
+        this.state.tasks = data;
+    }
 
-        elementById.style.display="block";
-        upBtn.style.display="none";
-        comBtn.style.display="none";
-
-        upBtn2.style.display="block";
-        comBtn2.style.display="block";
-        }
-
-        cancelTask(){
-        let elementById = document.getElementById("updateTxt");
-
-        let upBtn = document.getElementById("upBtn");
-        let comBtn = document.getElementById("comBtn");
-
-        let upBtn2 = document.getElementById("upBtn2");
-        let comBtn2 = document.getElementById("comBtn2");
-
-        upBtn.style.display="block";
-        comBtn.style.display="block";
-        elementById.style.display="none";
-        upBtn2.style.display="none";
-        comBtn2.style.display="none";
-        }
-
-        onCreate(){
-            this.state = {
-              tasks: [],
-            };
-            this.loadTasks();
-        }
-        async loadTasks(){
-            const { data } = await axios.get('http://localhost:8888/tasks');
-            this.state.tasks = data;
-        }
     async addTask(){
         const title = this.getEl('title').value;
         await axios.post('http://localhost:8888/tasks',{
@@ -55,33 +23,43 @@ class {
         await this.loadTasks();
     }
 
-        async addTask(){
-            const title = this.getEl('title').value;
-            await axios.post('http://localhost:8888/tasks',{
-                title,
-            });
-            await this.loadTasks();
-        }
-
-        async deleteTask(id){
-            await axios.delete(`http://localhost:8888/tasks/${id}`);
-            await this.loadTasks();
-        }
+    async deleteTask(id){
+        await axios.delete(`http://localhost:8888/tasks/${id}`);
+        await this.loadTasks();
     }
+
+    modifyBtn(index){
+        console.log("index:"+index);
+        let elementById = document.getElementById(`updateTxt`+index);
+        elementById.style.display = `block`;
+
+        let upBtn = document.getElementById(`upBtn`+index);
+        upBtn.style.display = "none";
+
+        let updateBtn = document.getElementById(`updateBtn`+index);
+        updateBtn.style.display = "block";
+    }
+
+    async updateBtn(index){
+        const elementById = document.getElementById(`updateTxt`+index).value;
+        console.log("index:"+`${index+1}`);
+        console.log("content:"+elementById);
+        await axios.put(`http://localhost:8888/tasks/${index+1}`,{ elementById,
+        });
+        await this.loadTasks();
+    }
+}
 
 
 <h1>ToDo</h1>
 <ol>
-    <for|item| of=state.tasks>
+    <for|item , index| of=state.tasks>
          <li>
             ${item.title} &nbsp;
-            <input type="text" id="updateTxt"  key="updateText" value=`${item.title}` style="display: none"/>
-            <button type="button" id = "upBtn" style="color: blue" onclick('updateBtn') >수정</button>
+            <input type="text" id=`updateTxt${index}`  value=`${item.title}` style="display: none"/>
+            <input type = "button" id = `upBtn${index}` style="color: blue" onclick('modifyBtn' , index) value="수정"/>
+            <input type = "button" id = `updateBtn${index}`  value="확인" onclick('updateBtn' , index)  style="display: none"/>
             <button type="button" id = "comBtn" style="color: red" on-click('deleteTask', item.id) >완료</button>
-            <span>
-            <input type="button" id="upBtn2"  key="updateText" value=`확인` style="display: none"/>
-            <input type="button" id="comBtn2"  key="updateText" value=`취소` on-click('cancelTask') style="display: none"/>
-            </span>
          </li>
     </for>
 </ol>
