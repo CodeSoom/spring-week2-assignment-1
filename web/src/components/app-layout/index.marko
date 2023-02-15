@@ -31,7 +31,7 @@ class {
     modifyBtn(index){
         console.log("index:"+index);
         let elementById = document.getElementById(`updateTxt`+index);
-        elementById.style.display = `block`;
+        elementById.style.display = `none`;
 
         let upBtn = document.getElementById(`upBtn`+index);
         upBtn.style.display = "none";
@@ -42,9 +42,10 @@ class {
 
     async updateBtn(index){
         const elementById = document.getElementById(`updateTxt`+index).value;
+        const title = this.getEl('title').value;
         console.log("index:"+`${index+1}`);
         console.log("content:"+elementById);
-        await axios.put(`http://localhost:8888/tasks/${index+1}`,{ elementById,
+        await axios.patch(`http://localhost:8888/tasks/${index+1}`,{ title,
         });
         await this.loadTasks();
     }
@@ -55,7 +56,7 @@ class {
 <ol>
     <for|item , index| of=state.tasks>
          <li>
-            ${item.title} &nbsp;
+            ${item.title}(${index}) &nbsp;
             <input type="text" id=`updateTxt${index}`  value=`${item.title}` style="display: none"/>
             <input type = "button" id = `upBtn${index}` style="color: blue" onclick('modifyBtn' , index) value="수정"/>
             <input type = "button" id = `updateBtn${index}`  value="확인" onclick('updateBtn' , index)  style="display: none"/>
