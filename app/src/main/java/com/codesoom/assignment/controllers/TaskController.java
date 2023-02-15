@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 @RestController
 @RequestMapping("/tasks")
@@ -76,7 +75,7 @@ public class TaskController {
     }
 
     private Task generateTask(Task task){
-        rowId += 1;
+        increaseTaskId();
         task.setId(rowId);
         tasks.add(task);
 
@@ -93,5 +92,9 @@ public class TaskController {
     private void deleteTask(Long id){
         Task task = findTask(id);
         tasks.remove(task);
+    }
+
+    synchronized private void increaseTaskId(){
+        rowId += 1;
     }
 }
