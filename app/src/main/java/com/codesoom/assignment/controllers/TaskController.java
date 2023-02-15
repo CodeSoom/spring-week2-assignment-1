@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @RestController
 @RequestMapping("/tasks")
@@ -51,19 +52,27 @@ public class TaskController {
      * findFirst() : Stream 에서 가장 먼저 탐색되는 요소를 Optional로 리턴\
      * Optional : null이 올 수 있는 값을 감싸는 Wrapper 클래스. 멤버필드가 null이라도 NPE가 발생하지 않도록 도와준다.
      * orElse(null) : Optional 클래스의 value 값이 null이 아닐 경우 해당 value(객체)를 리턴하고, null일 경우 null을 리턴한다.
+     * orElse(exception) : Optional 클래스의 값이 null이 아닐 경우 해당 value(객체)를 리턴하고, null일 경우 exception을 던진다.
+     *
+     *
+     * NoDataException::new :
+     *  1) Supplier 인터페이스는 FunctionalInterface이므로 익명클래스를 구현하여 사용한다.
+     *   new Supplier<NoDataException>() {
+     *            @Override
+     *            public NoDataException get() {
+     *                return new NoDataException();
+     *            }
+     *       }
+     *
+     *  2) 이를 람다식으로 표현하면 () ->new NoDataException() 로 나타낼 수 있다.
+     *  3) 이를 더블콜론으로 표현하면 NoDataException::new로 나타낼 수 있다.
      */
     private Task findTask(Long id){
 
-        Task findTask = tasks.stream()
+        return tasks.stream()
                 .filter(task -> task.getId().equals(id))
                 .findFirst()
-                .orElse(null);
-
-        if(findTask == null){
-            throw new NoDataException();
-        }
-
-        return findTask;
+                .orElseThrow(NoDataException::new);
     }
 
     private Task generateTask(Task task){
