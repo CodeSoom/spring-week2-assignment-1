@@ -21,7 +21,6 @@ public class TodoService {
     }
 
     public Task createTask(Task task) {
-//        blankDuplicateExceptionHandling(task);
         task.changeId(idService.generateId());
         tasks.add(task);
         return task;
@@ -37,26 +36,23 @@ public class TodoService {
         return task;
     }
 
-//    private void blankDuplicateExceptionHandling(Task task) {
-//        if (task.getTitle().isBlank()) {
-//            throw new NotEnoughException("Please Input task text");
-//        }
-//
-//        for (Task taskList : tasks) {
-//            if (taskList.getTitle().equals(task.getTitle())) {
-//                throw new DuplicateException("같은 할 일이 있습니다.");
-//            }
-//        }
-//    }
-
-
     private int findById(Long id) {
         return IntStream.range(0, tasks.size())
                 .filter(i -> tasks.get(i).getId().equals(id))
                 .findFirst()
                 .orElseThrow();
     }
+    public void checkParam(Task task) {
+        if (task.getTitle().isBlank()) {
+            throw new NotEnoughException("Please Input task text");
+        }
 
+        for (Task taskList : tasks) {
+            if (taskList.getTitle().equals(task.getTitle())) {
+                throw new DuplicateException("같은 할 일이 있습니다.");
+            }
+        }
+    }
 }
 
 
