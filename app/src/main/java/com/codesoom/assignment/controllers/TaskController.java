@@ -1,21 +1,20 @@
 package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.domain.Task;
+import com.codesoom.assignment.dto.TaskDto;
 import com.codesoom.assignment.service.TodoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
-@RestController
+@Slf4j
 @CrossOrigin
+@RestController
 @RequestMapping("/tasks")
 public class TaskController {
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     private final TodoService todoService = new TodoService();
 
@@ -27,24 +26,24 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Task create(@RequestBody Task task) {
-        todoService.checkParam(task);
-        log.info("task:{}", task.getTitle());
-        return todoService.createTask(task);
+    public Task create(@RequestBody TaskDto task) {
+        todoService.checkParam(task.getTask());
+        log.info("task:{}", task.getTask().getTitle());
+        return todoService.createTask(task.getTask());
     }
 
 
     @RequestMapping(method = {RequestMethod.PUT, RequestMethod.PATCH}, value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Task update(@RequestBody Task task, @PathVariable Long id) {
+    public Task update(@RequestBody TaskDto task, @PathVariable TaskDto id) {
         log.info("task:{}", task);
-        return todoService.updateTask(task, id);
+        return todoService.updateTask(task.getTask(), id.getId());
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable Long id) {
-        todoService.deleteOneTask(id);
+    public void delete(@PathVariable TaskDto id) {
+        todoService.deleteOneTask(id.getId());
     }
 
 }

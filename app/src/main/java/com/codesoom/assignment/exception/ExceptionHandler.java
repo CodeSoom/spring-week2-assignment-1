@@ -15,50 +15,50 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class ExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         logger.warn("MethodArgumentNotValidException : ", e);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleMethodArgumentNotValidException(MethodArgumentTypeMismatchException e) {
         logger.warn("MethodArgumentTypeMismatchException : ", e);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(ConversionFailedException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleConversionFailedException(ConversionFailedException e) {
         logger.warn("ConversionFailedException : ", e);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(HttpMessageNotReadableException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         logger.warn("HttpMessageNotReadableException : ", e);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(NumberFormatException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleNumberFormatException(NumberFormatException e) {
         logger.warn("NumberFormatException : ", e);
     }
 
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(IllegalArgumentException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleIllegalArgumentException(IllegalArgumentException e) {
         logger.warn("IllegalArgumentException : ", e);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(BeanInstantiationException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleBeanInstantiationException(BeanInstantiationException e) {
         logger.warn("BeanInstantiationException : ", e);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(DuplicateException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleInvalidDataAccessApiUsageException(DuplicateException e) {
         logger.warn("DuplicateException : ", e);
