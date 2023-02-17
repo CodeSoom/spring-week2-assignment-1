@@ -21,7 +21,7 @@ public class TaskController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Task> list() {
-        return todoService.readAllTask();
+        return todoService.readAllTasks();
     }
 
     @PostMapping

@@ -16,7 +16,7 @@ public class TodoService {
     public final List<Task> tasks = new ArrayList<>();
 
 
-    public List<Task> readAllTask() {
+    public List<Task> readAllTasks() {
         return tasks;
     }
 
