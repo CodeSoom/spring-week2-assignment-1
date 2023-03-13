@@ -2,7 +2,6 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.config.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
-import com.codesoom.assignment.models.TaskList;
 import com.codesoom.assignment.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +29,8 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public void update(@PathVariable Integer id, @RequestBody String title) throws TaskNotFoundException {
-         taskService.update(id, title);
+    public void update(@PathVariable Integer id, @RequestBody Task task) throws TaskNotFoundException {
+         taskService.update(id, task.getTitle());
     }
 
     @DeleteMapping("/{id}")
