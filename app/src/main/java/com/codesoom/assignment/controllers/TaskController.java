@@ -3,6 +3,8 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.config.TaskNotFoundException;
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.service.TaskService;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Task create(@RequestBody Task task) {
         return taskService.create(task);
     }
@@ -34,6 +37,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Integer id) throws TaskNotFoundException {
         taskService.delete(id);
     }
