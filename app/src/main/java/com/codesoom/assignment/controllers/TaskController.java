@@ -36,13 +36,13 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public void PatchTask(@PathVariable Integer id, @RequestBody Task task) throws TaskNotFoundException {
-        taskService.update(id, task.getTitle());
+    public Task PatchTask(@PathVariable Integer id, @RequestBody Task task) throws TaskNotFoundException {
+        return taskService.update(id, task.getTitle());
     }
 
     @PutMapping("/{id}")
-    public void PutTask(@PathVariable Integer id, @RequestBody Task task) throws TaskNotFoundException {
-        taskService.update(id, task.getTitle());
+    public Task PutTask(@PathVariable Integer id, @RequestBody Task task) throws TaskNotFoundException {
+        return taskService.update(id, task.getTitle());
     }
 
     @DeleteMapping("/{id}")
