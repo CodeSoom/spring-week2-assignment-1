@@ -4,10 +4,11 @@ import com.codesoom.assignment.config.TaskNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TaskList {
     private final List<Task> taskList = new ArrayList<>();
-    private int newId = 0;
+    private AtomicInteger newId = new AtomicInteger();
 
 
     public void add(Task task) {
@@ -16,16 +17,16 @@ public class TaskList {
     }
 
     private int generatedId() {
-        return newId += 1;
+        return newId.addAndGet(1);
     }
 
     public List<Task> getItems() {
         return this.taskList;
     }
 
-    public Task get(int idx) throws TaskNotFoundException {
+    public Task get(int id) throws TaskNotFoundException {
         return taskList.stream()
-                .filter(task -> task.getId() == idx)
+                .filter(task -> task.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new TaskNotFoundException("not found"));
     }
