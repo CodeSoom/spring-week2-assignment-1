@@ -32,4 +32,8 @@ public class TaskService {
     public void delete(Integer id) throws TaskNotFoundException {
         taskList.delete(id);
     }
+
+    public Task getTask(Integer id) throws TaskNotFoundException {
+        return taskList.get(id);
+    }
 }
