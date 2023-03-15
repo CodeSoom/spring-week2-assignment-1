@@ -10,8 +10,11 @@ public class TaskList {
     private final List<Task> taskList = new ArrayList<>();
     private AtomicInteger newId = new AtomicInteger();
 
+    public int getId() {
+        return newId.get();
+    }
 
-    public void add(Task task) {
+    public synchronized void add(Task task) {
         task.updateId(generatedId());
         taskList.add(task);
     }
@@ -28,7 +31,7 @@ public class TaskList {
         return taskList.stream()
                 .filter(task -> task.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new TaskNotFoundException("not found"));
+                .orElseThrow(() -> new TaskNotFoundException("Not Found"));
     }
 
     public void update(int taskId, String title) throws TaskNotFoundException {
@@ -38,9 +41,5 @@ public class TaskList {
 
     public boolean delete(int taskId) throws TaskNotFoundException {
         return this.taskList.remove(get(taskId));
-    }
-
-    public int size() {
-        return this.taskList.size();
     }
 }
