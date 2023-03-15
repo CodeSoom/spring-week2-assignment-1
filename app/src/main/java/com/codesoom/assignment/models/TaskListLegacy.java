@@ -10,6 +10,7 @@ public class TaskListLegacy {
     public int getId() {
         return newId;
     }
+
     public void add(Task task) {
         task.updateId(generatedId());
         taskList.add(task);
@@ -17,5 +18,9 @@ public class TaskListLegacy {
 
     private int generatedId() {
         return newId += 1;
+    }
+
+    public List<Task> getItems() {
+        return this.taskList;
     }
 }

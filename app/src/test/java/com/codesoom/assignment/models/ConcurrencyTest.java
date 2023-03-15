@@ -36,21 +36,23 @@ class ConcurrencyTest {
         //given
         TaskList taskList = new TaskList();
         TaskListLegacy taskListLegacy = new TaskListLegacy();
+        List<ThreadTest> threadList = createThreadList(taskList, taskListLegacy);
 
         ExecutorService executorService = Executors.newFixedThreadPool(3);
 
-        List<ThreadTest> threadList = createThreadList(taskList, taskListLegacy);
         //when
         for (int i = 0; i < 300000; i++) {
             executorService.invokeAll(threadList);
         }
 
-        int nonThreadSafe = taskListLegacy.getId();
-        int threadSafe = taskList.getId();
+        int intValue = taskListLegacy.getId();
+        int atomicInteger = taskList.getId();
 
-
-        Assertions.assertEquals(threadSafe, 900000);
-        Assertions.assertNotEquals(nonThreadSafe, 900000);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(atomicInteger, 900000, "아이디값이 90만개 일치"),
+                () -> Assertions.assertNotEquals(intValue, 900000, "아이디값이 90만개 불일치"),
+                () -> Assertions.assertEquals(taskList.getItems().size(), 900000, "리스트 사이즈가 90만개 일치"),
+                () -> Assertions.assertNotEquals(taskListLegacy.getItems().size(), 900000, "리스트 사이즈가 90만개 불일치"));
     }
 
     public List<ThreadTest> createThreadList(TaskList taskList, TaskListLegacy taskListLegacy) {
