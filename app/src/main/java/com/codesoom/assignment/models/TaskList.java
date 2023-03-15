@@ -8,10 +8,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TaskList {
     private final List<Task> taskList = new ArrayList<>();
-    private AtomicInteger newId = new AtomicInteger();
+    private int newId = 0;
 
     public int getId() {
-        return newId.get();
+        return newId;
     }
 
     public synchronized void add(Task task) {
@@ -20,7 +20,7 @@ public class TaskList {
     }
 
     private int generatedId() {
-        return newId.addAndGet(1);
+        return newId += 1;
     }
 
     public List<Task> getItems() {
