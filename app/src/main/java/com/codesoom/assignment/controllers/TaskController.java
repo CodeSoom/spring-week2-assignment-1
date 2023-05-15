@@ -3,8 +3,12 @@ package com.codesoom.assignment.controllers;
 import com.codesoom.assignment.exception.TaskNotFoundException;
 import com.codesoom.assignment.model.Task;
 import com.codesoom.assignment.task.TaskService;
+
+import java.net.URI;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,22 +28,36 @@ public class TaskController {
 	}
 
 	@GetMapping("/{id}")
-	public Task getTask(@PathVariable int id) throws TaskNotFoundException {
-		return taskService.findTask(id);
+	public ResponseEntity<Task> getTask(@PathVariable int id) {
+		try {
+			return ResponseEntity.ok(taskService.findTask(id));
+		} catch (TaskNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PostMapping("")
-	public Task createTask(@RequestBody Task task) throws TaskNotFoundException {
-		return taskService.create(task);
+	public ResponseEntity<Task> createTask(@RequestBody Task task) throws TaskNotFoundException {
+		Task created = taskService.create(task);
+		return ResponseEntity.status(HttpStatus.CREATED).body(created);
 	}
 
 	@PutMapping("{id}")
-	public Task updateTaskTitle(@PathVariable int id, @RequestBody Task task) throws TaskNotFoundException {
-		return taskService.putTask(id, task);
+	public ResponseEntity<Task> updateTaskTitle(@PathVariable int id, @RequestBody Task task) {
+		try {
+			return ResponseEntity.ok(taskService.putTask(id, task));
+		} catch (TaskNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@DeleteMapping("/{id}")
-	public void deleteTask(@PathVariable int id) throws TaskNotFoundException {
-		taskService.deleteTask(id);
+	public ResponseEntity<Task> deleteTask(@PathVariable int id) {
+		try {
+			taskService.deleteTask(id);
+			return ResponseEntity.noContent().build();
+		} catch (TaskNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 }
