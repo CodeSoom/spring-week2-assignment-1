@@ -28,36 +28,24 @@ public class TaskController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Task> getTask(@PathVariable int id) {
-		try {
-			return ResponseEntity.ok(taskService.findTask(id));
-		} catch (TaskNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+	public Task getTask(@PathVariable int id) throws TaskNotFoundException {
+		return taskService.findTask(id);
 	}
 
+	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("")
-	public ResponseEntity<Task> createTask(@RequestBody Task task) throws TaskNotFoundException {
-		Task created = taskService.create(task);
-		return ResponseEntity.status(HttpStatus.CREATED).body(created);
+	public Task createTask(@RequestBody Task task) throws TaskNotFoundException {
+		return taskService.create(task);
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<Task> updateTaskTitle(@PathVariable int id, @RequestBody Task task) {
-		try {
-			return ResponseEntity.ok(taskService.putTask(id, task));
-		} catch (TaskNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+	public Task updateTaskTitle(@PathVariable int id, @RequestBody Task task) throws TaskNotFoundException {
+		return taskService.putTask(id, task);
 	}
 
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Task> deleteTask(@PathVariable int id) {
-		try {
-			taskService.deleteTask(id);
-			return ResponseEntity.noContent().build();
-		} catch (TaskNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+	public void deleteTask(@PathVariable int id) throws TaskNotFoundException {
+		taskService.deleteTask(id);
 	}
 }
