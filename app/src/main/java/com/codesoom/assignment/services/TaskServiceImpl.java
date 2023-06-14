@@ -5,7 +5,10 @@ import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -25,7 +28,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task getTaskById(Long id) {
-        return taskRepository.select(id);
+        return findTaskById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 아이디"));
     }
 
     @Override
@@ -36,13 +39,23 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task updateTask(Task task) {
-       return taskRepository.update(task);
+        getTaskById(task.getId());
+        return taskRepository.update(task);
     }
 
 
     @Override
     public void deleteTask(Long id) {
+        getTaskById(id);
         taskRepository.delete(id);
     }
+
+
+    public Optional<Task> findTaskById(Long id){
+        return Optional.ofNullable(taskRepository.select(id));
+    }
+
+
+
 
 }
