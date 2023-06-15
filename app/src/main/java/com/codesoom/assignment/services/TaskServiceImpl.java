@@ -13,13 +13,11 @@ import java.util.Optional;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-
     private final TaskRepository taskRepository;
 
     public TaskServiceImpl(TaskRepository taskRepository){
         this.taskRepository = taskRepository;
     }
-
 
     @Override
     public Task createTask(Task task) {
@@ -33,9 +31,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> getTaskList() {
-        return taskRepository.selectList();
+        return taskRepository.selectAll();
     }
-
 
     @Override
     public Task updateTask(Task task) {
@@ -43,19 +40,14 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.update(task);
     }
 
-
     @Override
     public void deleteTask(Long id) {
         getTaskById(id);
         taskRepository.delete(id);
     }
 
-
     public Optional<Task> findTaskById(Long id){
         return Optional.ofNullable(taskRepository.select(id));
     }
-
-
-
 
 }

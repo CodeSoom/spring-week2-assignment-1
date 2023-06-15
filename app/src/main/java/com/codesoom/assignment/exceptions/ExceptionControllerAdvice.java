@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice
-public class ExceptionControlerAdvice {
-
-
+public class ExceptionControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
@@ -30,7 +28,5 @@ public class ExceptionControlerAdvice {
     public String exHandler(Exception ex){
         return ex.getMessage();
     }
-
-
 
 }

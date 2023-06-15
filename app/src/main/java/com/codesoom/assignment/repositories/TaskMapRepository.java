@@ -22,18 +22,15 @@ public class TaskMapRepository implements TaskRepository{
         return task;
     }
 
-
     @Override
     public Task select(Long id) {
         return taskMap.get(id);
     }
 
-
     @Override
-    public List<Task> selectList() {
+    public List<Task> selectAll() {
         return new ArrayList<>(taskMap.values());
     }
-
 
     @Override
     public Task update(Task source) {
@@ -42,17 +39,14 @@ public class TaskMapRepository implements TaskRepository{
         return task;
     }
 
-
     @Override
     public void delete(Long id) {
         taskMap.remove(id);
     }
 
-
     public Long generateId() {
         newId += 1;
         return newId;
     }
-
 
 }
