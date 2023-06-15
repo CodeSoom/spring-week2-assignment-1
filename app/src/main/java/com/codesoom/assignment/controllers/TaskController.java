@@ -2,6 +2,7 @@ package com.codesoom.assignment.controllers;
 
 import com.codesoom.assignment.models.Task;
 import com.codesoom.assignment.services.TaskService;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,14 +36,8 @@ public class TaskController {
         return taskService.getTaskList();
     }
 
-    @PutMapping("/{id}")
+    @RequestMapping(value="/{id}", method = { RequestMethod.PUT, RequestMethod.PATCH} )
     public Task putTask(@PathVariable Long id, @RequestBody Task task) {
-        task.setId(id);
-        return taskService.updateTask(task);
-    }
-
-    @PatchMapping("/{id}")
-    public Task patchTask(@PathVariable Long id, @RequestBody Task task) {
         task.setId(id);
         return taskService.updateTask(task);
     }
