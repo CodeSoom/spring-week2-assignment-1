@@ -16,9 +16,21 @@ public class ExceptionController {
     @ExceptionHandler(CustomBaseException.class)
     @ResponseBody
     public ResponseEntity<ErrorResponse> CustomBaseExceptionHandler(CustomBaseException e) {
+        return sendError(e);
+    }
+
+    private ResponseEntity<ErrorResponse> sendError(CustomBaseException e) {
+        ErrorResponse errorResponse = parseErrorResponse(e);
+        return  parseErrorResponseEntity(e, errorResponse);
+    }
+
+    private ResponseEntity<ErrorResponse> parseErrorResponseEntity(CustomBaseException e, ErrorResponse errorResponse) {
+        return ResponseEntity.status(e.getStatusCode()).body(errorResponse);
+    }
+
+    private ErrorResponse parseErrorResponse(CustomBaseException e) {
         ErrorResponse errorResponse = new ErrorResponse(String.valueOf(e.getStatusCode()), e.getMessage(), e.validation);
-        ResponseEntity<ErrorResponse> response = ResponseEntity.status(e.getStatusCode()).body(errorResponse);
-        return response;
+        return errorResponse;
     }
 
 }
