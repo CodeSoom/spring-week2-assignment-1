@@ -1,6 +1,5 @@
 package com.codesoom.assignment.models.request;
 
-import com.codesoom.assignment.exception.custom.InvalidTaskRequest;
 import com.codesoom.assignment.models.domain.Task;
 
 public class TaskEdit {
@@ -29,11 +28,6 @@ public class TaskEdit {
         this.title = title;
     }
 
-    public void validate() {
-        if (this.id == null) {
-            throw new InvalidTaskRequest("id","id 은 필수값 입니다.");
-        }
-    }
     public Task toTask() {
         return new Task(this.id,this.title);
     }
