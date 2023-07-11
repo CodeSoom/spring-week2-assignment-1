@@ -8,11 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class TaskListRepositoryImpl implements TaskRepository {
     private ArrayList<Task> taskList = new ArrayList<>();
-    private Long taskId = 0L;
+    private AtomicLong taskId = new AtomicLong(0L);
 
     @Override
     public Task save(Task task) {
@@ -50,7 +51,7 @@ public class TaskListRepositoryImpl implements TaskRepository {
     }
 
     private Long generateId() {
-        return ++taskId;
+        return taskId.getAndIncrement();
     }
 
 }
