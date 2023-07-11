@@ -30,7 +30,7 @@ public class TaskService {
     }
 
     public void deleteTask(Long id) {
-        Task task = taskRepository.findById(id).orElseThrow(TaskNotFound::new);
+        Task task = getTask(id);
         taskRepository.delete(task);
     }
 
