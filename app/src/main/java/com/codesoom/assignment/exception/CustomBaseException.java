@@ -1,5 +1,7 @@
 package com.codesoom.assignment.exception;
 
+import com.codesoom.assignment.models.response.ErrorResponse;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,5 +22,13 @@ public abstract class CustomBaseException extends RuntimeException {
 
     public void addValidation(String fieldName, String message) {
         validation.put(fieldName, message);
+    }
+
+    public ErrorResponse toErrorResponse() {
+        return new ErrorResponse(
+                String.valueOf(getStatusCode()),
+                getMessage(),
+                validation
+        );
     }
 }

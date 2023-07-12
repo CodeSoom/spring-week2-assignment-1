@@ -1,6 +1,5 @@
 package com.codesoom.assignment.application;
 
-import com.codesoom.assignment.exception.custom.TaskNotFound;
 import com.codesoom.assignment.models.domain.Task;
 import com.codesoom.assignment.models.request.TaskCreate;
 import com.codesoom.assignment.models.request.TaskEdit;
@@ -26,7 +25,7 @@ public class TaskService {
     }
 
     public Task getTask(Long id) {
-        return taskRepository.findById(id).orElseThrow(TaskNotFound::new);
+        return taskRepository.findById(id);
     }
 
     public void deleteTask(Long id) {

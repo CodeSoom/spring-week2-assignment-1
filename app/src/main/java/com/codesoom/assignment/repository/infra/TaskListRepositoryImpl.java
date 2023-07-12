@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
@@ -28,10 +27,11 @@ public class TaskListRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> findById(Long id) {
+    public Task findById(Long id) {
         return taskList.stream()
                 .filter(t -> t.getId().equals(id))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(TaskNotFound::new);
     }
 
     @Override
@@ -41,12 +41,12 @@ public class TaskListRepositoryImpl implements TaskRepository {
 
     @Override
     public Task update(Task task) {
-        Task findedTask = findById(task.getId()).orElseThrow(TaskNotFound::new);
-        changeTask(findedTask,task.getTitle());
+        Task findedTask = findById(task.getId());
+        changeTask(findedTask, task.getTitle());
         return findedTask;
     }
 
-    private void changeTask(Task task,String title) {
+    private void changeTask(Task task, String title) {
         task.changeTitle(title);
     }
 
