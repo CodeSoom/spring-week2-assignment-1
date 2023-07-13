@@ -5,7 +5,6 @@ import com.codesoom.assignment.models.domain.Task;
 import com.codesoom.assignment.models.request.TaskCreate;
 import com.codesoom.assignment.models.request.TaskEdit;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,22 +28,22 @@ public class TaskController {
         return taskService.getTask(id);
     }
 
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("/tasks")
-    public ResponseEntity<Task> create(@RequestBody TaskCreate taskCreate) {
+    public Task create(@RequestBody TaskCreate taskCreate) {
         taskCreate.validate();
-        Task task = taskService.createTask(taskCreate);
-        return ResponseEntity.status(HttpStatus.CREATED).body(task);
+        return taskService.createTask(taskCreate);
     }
 
     @RequestMapping(value = "/tasks/{id}", method = {RequestMethod.PUT, RequestMethod.PATCH})
-    public Task update(@PathVariable Long id,@RequestBody TaskEdit task) {
+    public Task update(@PathVariable Long id, @RequestBody TaskEdit task) {
         task.setId(id);
         return taskService.updateTask(task);
     }
 
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping("/tasks/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         taskService.deleteTask(id);
-        return ResponseEntity.noContent().build();
     }
 }
