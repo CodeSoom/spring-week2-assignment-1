@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ExceptionController {
 
     @ExceptionHandler(TaskNotFound.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
     public ErrorResponse TaskNotFoundExceptionHandler(TaskNotFound e) {
         return e.toErrorResponse();
     }
 
     @ExceptionHandler(InvalidTaskRequest.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse InvalidTaskExceptionHandler(InvalidTaskRequest e) {
         return e.toErrorResponse();

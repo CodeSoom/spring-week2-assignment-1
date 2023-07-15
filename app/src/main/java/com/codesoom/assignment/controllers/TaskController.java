@@ -28,7 +28,7 @@ public class TaskController {
         return taskService.getTask(id);
     }
 
-    @ResponseStatus(value = HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/tasks")
     public Task create(@RequestBody TaskCreate taskCreate) {
         taskCreate.validate();
@@ -41,7 +41,7 @@ public class TaskController {
         return taskService.updateTask(task);
     }
 
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/tasks/{id}")
     public void delete(@PathVariable Long id) {
         taskService.deleteTask(id);
